@@ -1,0 +1,129 @@
+# Notes:
+# 1. Please save this configuration file with UTF-8 encoding without BOM, codepage 65001.
+# 2. Numeric values in 'layout' section can appear in 2 forms, integer (interpreted as pixels)
+# or percentage (calculated based on window size).
+
+metadata:
+  version: 1 # format version
+game:
+  difficulty: mm # 2m, 2m+, 4m, 6m, mm; number of tracks is set accordingly
+  title: "Blue Symphony"
+  scoreobj: game/scoreobj.unity3d # .unity3d (raw format from MLTD), .json
+media:
+  bgm: game/bgm.wav # path to background music (BGM)
+  #bga: F:\TEMP\DelesteSimulator_x64 2017-05-30 00-51-33-148.mp4 # path to background animation (BGA), a video
+  #bga: F:\Independent Software\JiJiDown\Download\4.【ミリシタMLTD】偶像大师百万现场Theater Days初始曲目Million Mix难度谱面-4.Blue Symphony(Av11726668,P4).flv
+  bga: F:\Independent Software\JiJiDown\Download\4.【ミリシタMLTD】偶像大师百万现场Theater Days初始曲目Million Mix难度谱面-4.Blue Symphony(Av11726668,P4).mp4
+  bgi: D:\Pictures\912721fae6cd7b8930e4d2db0e2442a7d8330efa.jpg.png # path to background image (BGI)
+  # Note: if BGA and BGI are both set, BGA will be used.
+  bgm_volume: 100 # volume of BGM (0 - 100)
+  bga_volume: 100 # volume of BGA (0 - 100)
+  sfx_volume: 100 # volume of sound effects (0 - 100)
+window:
+  orientation: landscape # "landscape" or "portrait"
+  width: 960 # width of the window's client area, in pixels
+  height: 540 # height of the window's client area, in pixels
+  fonts:
+    ui: res/fonts/MSYH.TTC
+    song_title: res/fonts/MSYH.TTC
+style:
+  sync_line: yes # true, yes, y, on, 1
+  flick_ribbon: no # false, no, n, off, 0
+system_ui:
+  debug_overlay:
+    use: yes # displays debug info overlay
+    font_size: 15
+    text_fill: '#ffff00'
+    # text_stroke: # (ignored)
+  fps_overlay:
+    use: yes # displays FPS overlay
+    font_size: 15
+    text_fill: '#ffff'
+images:
+  tap_points: res/images/ui/tap_points.png
+  hp_gauge:
+    base: res/images/ui/hp_gauge_base.png
+    progress: res/images/ui/hp_gauge_progress.png
+  avatars:
+    mask: res/images/ui/avatars_mask.png
+    icons:
+      - res/images/avatars/1.png
+      - res/images/avatars/2.png
+      - res/images/avatars/3.png
+      - res/images/avatars/4.png
+      - res/images/avatars/5.png
+  score_rank:
+    base: res/images/ui/score_rank.png
+    icons: res/images/ui/score_rank_icons.png
+  combo_counter: res/images/ui/combo_counter.png
+  full_combo:
+    file: res/images/ui/full_combo.png
+    count: 10
+  live_clear:
+    file: res/images/ui/live_clear.png
+    count: 10
+  score_numbers: res/images/numbers/score.png # 0-9
+  combo_numbers: res/images/numbers/combo.png # 0-9
+  hit_rank:
+    file: res/images/ui/hit_rank.png # perfect, great, good, fast, slow, miss; left to right
+    count: 10 # top to bottom
+  notes: # notes: tap (small, large), hold (small, large), flick (left, right, up), slide (ends, middle)
+    - res/images/notes/default.png # style=0
+    - res/images/notes/style1.png # style=1
+    - res/images/notes/style2.png # style=2
+  sync_line: res/images/sync_line.png
+  difficulty_badges:
+    file: res/images/difficulty_badges.png
+    count: 6
+localization:
+  press_space_to_start: Press space key to play #スペースで再生
+layout:
+  tap_points:
+    x: 50% # x position (anchor: center)
+    y: 80% # y position (anchor: middle)
+  hp_gauge:
+    x: 5% # x position (anchor: left)
+    y: 5% # y position (anchor: top)
+  avatars:
+    x: 5% # x position (anchor: left)
+    y: 10% # y position (anchor: top)
+  score_rank:
+    x: 80% # x position (anchor: left)
+    y: 10% # y position (anchor: top)
+  combo_counter:
+    x: 80% # x position (anchor: left)
+    y: 20% # y position (anchor: top)
+  note_area:
+    top: 20%
+    # the rest follow configuration in 'tap_points'
+  title:
+    x: 5% # x position (anchor: left)
+    y: 30% # y position (anchor: top)
+  hit_rank:
+    x: 50% # x position (anchor: center)
+    y: 70% # y position (anchor: middle)
+sfx: # sound effect files
+  tap:
+    perfect:
+    great:
+    nice:
+    bad:
+    miss:
+  hold:
+    perfect:
+    great:
+    nice:
+    bad:
+    miss:
+  flick:
+    perfect:
+    great:
+    nice:
+    bad:
+    miss:
+  slide:
+    perfect:
+    great:
+    nice:
+    bad:
+    miss:  

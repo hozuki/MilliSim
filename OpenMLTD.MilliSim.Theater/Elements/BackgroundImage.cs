@@ -1,0 +1,57 @@
+﻿using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Rendering;
+using OpenMLTD.MilliSim.Rendering.Drawing;
+using OpenMLTD.MilliSim.Rendering.Extensions;
+
+namespace OpenMLTD.MilliSim.Theater.Elements {
+    public sealed class BackgroundImage : BackgroundBase {
+
+        public void Load([NotNull] string path) {
+            _filePath = path;
+        }
+
+        public void Unload() {
+            _filePath = null;
+        }
+
+        protected override void OnDraw(GameTime gameTime, RenderContext context) {
+            base.OnDraw(gameTime, context);
+
+            if (_filePath != null) {
+                if (_bitmap == null) {
+                    OnGotContext(context);
+                }
+            } else {
+                if (_bitmap != null) {
+                    OnLostContext(context);
+                }
+            }
+
+            if (_bitmap != null) {
+                var location = Location;
+                context.Begin2D();
+                context.DrawBitmap(_bitmap, location.X, location.Y);
+                context.End2D();
+            }
+        }
+
+        protected override void OnGotContext(RenderContext context) {
+            base.OnGotContext(context);
+            if (_filePath != null) {
+                var bitmap = D2DHelper.LoadBitmap(_filePath, context.RenderTarget.Direct2DRenderTarget);
+                _bitmap = new D2DBitmap(bitmap);
+            }
+        }
+
+        protected override void OnLostContext(RenderContext context) {
+            base.OnLostContext(context);
+            _bitmap?.Dispose();
+            _bitmap = null;
+        }
+
+        private string _filePath;
+        private D2DBitmap _bitmap;
+
+    }
+}

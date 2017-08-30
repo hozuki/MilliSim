@@ -1,0 +1,13 @@
+.vs/
+.idea/
+_Re[Ss]harper*
+*.sln.iml
+
+[Bb]in/
+[Oo]bj/
+
+packages/
+node_modules/
+package-lock.json
+
+*.DotSettings.user

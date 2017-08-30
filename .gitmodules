@@ -1,0 +1,3 @@
+[submodule "MimeTypeMap"]
+	path = thirdparty/MimeTypeMap
+	url = https://github.com/samuelneff/MimeTypeMap.git
