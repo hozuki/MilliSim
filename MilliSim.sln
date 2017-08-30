@@ -23,7 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".dir", ".dir", "{9D3D7DAF-5
 		.gitignore = .gitignore
 		.gitmodules = .gitmodules
 		.travis.yml = .travis.yml
-		appveyor.yml = appveyor.yml
 		assembly_info_patch.js = assembly_info_patch.js
 		CONTRIBUTING.md = CONTRIBUTING.md
 		LICENSE.txt = LICENSE.txt

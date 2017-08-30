@@ -2,6 +2,12 @@
 
 A simulator for [THE iDOLM@STER Million Live Theater Days](https://millionlive.idolmaster.jp/theaterdays/).
 
+
+[![AppVeyor](https://img.shields.io/travis/hozuki/MilliSim.svg)](https://travis-ci.org/hozuki/MilliSim)
+[![GitHub contributors](https://img.shields.io/github/contributors/hozuki/MilliSimu.svg)](https://github.com/hozuki/MilliSim/graphs/contributors)
+[![Libraries.io for GitHub](https://img.shields.io/librariesio/github/hozuki/MilliSim.svg)](https://github.com/hozuki/MilliSim)
+[![Github All Releases](https://img.shields.io/github/downloads/hozuki/MilliSim/total.svg)](https://github.com/hozuki/MilliSim/releases)
+
 **Stage:** pre-alpha
 
 ## Usage
