@@ -77,16 +77,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Drawing\Advanced\D2DFontPathData.cs" />
-    <Compile Include="D2DHelper.cs" />
+    <Compile Include="Direct2DHelper.cs" />
     <Compile Include="DirectWriteHelper.cs" />
     <Compile Include="Drawing\D2DArcSegment.cs" />
     <Compile Include="Drawing\D2DArcSize.cs" />
     <Compile Include="Drawing\D2DBezierSegment.cs" />
     <Compile Include="Drawing\D2DBitmap.cs" />
-    <Compile Include="Drawing\D2DBrush.cs" />
+    <Compile Include="Drawing\D2DBrushBase.cs" />
     <Compile Include="Drawing\D2DEffect.cs" />
     <Compile Include="Drawing\D2DFont.cs" />
     <Compile Include="Drawing\D2DImage.cs" />
+    <Compile Include="Drawing\D2DImageBase.cs" />
+    <Compile Include="Drawing\D2DImageBrush.cs" />
     <Compile Include="Drawing\D2DLinearGradientBrush.cs" />
     <Compile Include="Drawing\D2DMesh.cs" />
     <Compile Include="Drawing\D2DPathData.cs" />
@@ -99,6 +101,7 @@
     <Compile Include="Drawing\Effects\D2DFloodEffect.cs" />
     <Compile Include="Drawing\Effects\D2DShadowEffect.cs" />
     <Compile Include="Drawing\ID2DBrush.cs" />
+    <Compile Include="Drawing\ID2DImage.cs" />
     <Compile Include="Drawing\ID2DPen.cs" />
     <Compile Include="Drawing\NativeBrushWrapper.cs" />
     <Compile Include="Element2D.cs" />
@@ -109,6 +112,7 @@
     <Compile Include="Extensions\PointExtensions.cs" />
     <Compile Include="Extensions\PointFExtensions.cs" />
     <Compile Include="Extensions\RawColorExtensions.cs" />
+    <Compile Include="Extensions\RectangleFExtensions.cs" />
     <Compile Include="Extensions\RenderContextExtensions.cs" />
     <Compile Include="Extensions\RenderContextExtensions.Native.cs" />
     <Compile Include="Extensions\SizeExtensions.cs" />

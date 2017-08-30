@@ -1,12 +1,11 @@
-﻿using System.Drawing;
+using System.Drawing;
 using OpenMLTD.MilliSim.Core;
-using SharpDX.Direct2D1;
 using SharpDX.WIC;
 using Bitmap = SharpDX.Direct2D1.Bitmap;
 using PixelFormat = SharpDX.WIC.PixelFormat;
 
 namespace OpenMLTD.MilliSim.Rendering {
-    public static class D2DHelper {
+    public static class Direct2DHelper {
 
         public static BitmapSource LoadBitmapAsWic(string fileName) {
             using (var factory = new ImagingFactory()) {

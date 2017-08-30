@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using OpenMLTD.MilliSim.Rendering.Drawing;
 using OpenMLTD.MilliSim.Rendering.Drawing.Advanced;
 using SharpDX.Direct2D1;
@@ -47,7 +47,7 @@ namespace OpenMLTD.MilliSim.Rendering.Extensions {
         /// Fills a <see cref="D2DFontPathData"/> to current <see cref="RenderContext"/>.
         /// </summary>
         /// <param name="context">The <see cref="RenderContext"/> to fill to.</param>
-        /// <param name="brush">The <see cref="D2DBrush"/> to use.</param>
+        /// <param name="brush">The <see cref="D2DBrushBase"/> to use.</param>
         /// <param name="path">The <see cref="D2DFontPathData"/> to fill.</param>
         /// <param name="offsetX">The X offset on target <see cref="RenderContext"/>.</param>
         /// <param name="offsetY">The Y offset on target <see cref="RenderContext"/>.</param>
@@ -178,19 +178,19 @@ namespace OpenMLTD.MilliSim.Rendering.Extensions {
             context.DrawPath(pen, path, offset, true);
         }
 
-        public static void DrawImage(this RenderContext context, D2DImage image, float destX, float destY) {
+        public static void DrawImage(this RenderContext context, ID2DImage image, float destX, float destY) {
             context.Direct2DDeviceContext.DrawImage(image, destX, destY);
         }
 
-        public static void DrawImage(this RenderContext context, D2DImage image, float destX, float destY, InterpolationMode interpolationMode, CompositeMode compositeMode) {
+        public static void DrawImage(this RenderContext context, ID2DImage image, float destX, float destY, InterpolationMode interpolationMode, CompositeMode compositeMode) {
             context.Direct2DDeviceContext.DrawImage(image, destX, destY, interpolationMode, compositeMode);
         }
 
-        public static void DrawImage(this RenderContext context, D2DImage image, float destX, float destY, float srcX, float srcY, float srcWidth, float srcHeight) {
+        public static void DrawImage(this RenderContext context, ID2DImage image, float destX, float destY, float srcX, float srcY, float srcWidth, float srcHeight) {
             context.Direct2DDeviceContext.DrawImage(image, destX, destY, srcX, srcY, srcWidth, srcHeight);
         }
 
-        public static void DrawImage(this RenderContext context, D2DImage image, float destX, float destY, float srcX, float srcY, float srcWidth, float srcHeight, InterpolationMode interpolationMode, CompositeMode compositeMode) {
+        public static void DrawImage(this RenderContext context, ID2DImage image, float destX, float destY, float srcX, float srcY, float srcWidth, float srcHeight, InterpolationMode interpolationMode, CompositeMode compositeMode) {
             context.Direct2DDeviceContext.DrawImage(image, destX, destY, srcX, srcY, srcWidth, srcHeight, interpolationMode, compositeMode);
         }
 

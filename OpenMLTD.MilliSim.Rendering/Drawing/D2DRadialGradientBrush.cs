@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Linq;
 using OpenMLTD.MilliSim.Rendering.Extensions;
 using SharpDX.Direct2D1;
 
 namespace OpenMLTD.MilliSim.Rendering.Drawing {
-    public sealed class D2DRadialGradientBrush : D2DBrush, ID2DBrush {
+    public sealed class D2DRadialGradientBrush : D2DBrushBase, ID2DBrush {
 
         public D2DRadialGradientBrush(RenderContext context, PointF center, float radiusX, float radiusY, params Color[] gradientColors)
             : this(context, center, PointF.Empty, radiusX, radiusY, gradientColors) {
@@ -165,7 +165,6 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
                 NativeBrush.Dispose();
                 _collection.Dispose();
             }
-            base.Dispose(disposing);
         }
 
         private readonly GradientStopCollection _collection;

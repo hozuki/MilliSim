@@ -1,7 +1,7 @@
-﻿using SharpDX.Direct2D1;
+using SharpDX.Direct2D1;
 
 namespace OpenMLTD.MilliSim.Rendering.Drawing {
-    internal sealed class NativeBrushWrapper : D2DBrush, ID2DBrush {
+    internal sealed class NativeBrushWrapper : D2DBrushBase, ID2DBrush {
 
         // Should only expose to D2DPen.
         internal NativeBrushWrapper(Brush nativeBrush)
@@ -23,7 +23,6 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
                     NativeBrush?.Dispose();
                 }
             }
-            base.Dispose(disposing);
         }
 
         private readonly bool _autoDispose;

@@ -39,7 +39,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         protected override void OnGotContext(RenderContext context) {
             base.OnGotContext(context);
             if (_filePath != null) {
-                var bitmap = D2DHelper.LoadBitmap(_filePath, context.RenderTarget.Direct2DRenderTarget);
+                var bitmap = Direct2DHelper.LoadBitmap(_filePath, context.RenderTarget.Direct2DRenderTarget);
                 _bitmap = new D2DBitmap(bitmap);
             }
         }

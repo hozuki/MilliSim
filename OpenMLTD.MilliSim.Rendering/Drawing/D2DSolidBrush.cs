@@ -1,10 +1,10 @@
-﻿using System.Drawing;
+using System.Drawing;
 using OpenMLTD.MilliSim.Rendering.Extensions;
 using SharpDX.Direct2D1;
 using SharpDX.Mathematics.Interop;
 
 namespace OpenMLTD.MilliSim.Rendering.Drawing {
-    public sealed class D2DSolidBrush : D2DBrush, ID2DBrush {
+    public sealed class D2DSolidBrush : D2DBrushBase, ID2DBrush {
 
         public D2DSolidBrush(RenderContext context, Color color) {
             NativeBrush = new SolidColorBrush(context.RenderTarget.Direct2DRenderTarget, color.ToRC4());
@@ -35,7 +35,6 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
             if (disposing) {
                 NativeBrush.Dispose();
             }
-            base.Dispose(disposing);
         }
 
     }
