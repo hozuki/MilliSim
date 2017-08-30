@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using JetBrains.Annotations;
+using SharpDX.Direct2D1;
 
 namespace OpenMLTD.MilliSim.Rendering {
     /// <inheritdoc cref="IDisposable"/>
@@ -7,21 +9,39 @@ namespace OpenMLTD.MilliSim.Rendering {
     /// </summary>
     public struct TargetSwitcher : IDisposable {
 
-        public static TargetSwitcher Begin(RenderContext context, RenderTarget usingTarget) {
+        public static IDisposable Begin(RenderContext context, [NotNull] RenderTarget usingTarget) {
             var t = new TargetSwitcher {
                 _context = context,
-                _originalTarget = context.RenderTarget
+                _originalTarget = context.RenderTarget,
+                _isWrapped = true
             };
             context.SetRenderTarget(usingTarget);
             return t;
         }
 
+        public static IDisposable Begin(RenderContext context, [NotNull] Image buffer) {
+            var t = new TargetSwitcher {
+                _context = context,
+                _originalTargetImage = context.RenderTarget.DeviceContext.Target,
+                _isWrapped = false
+            };
+            context.RenderTarget.DeviceContext.Target = buffer;
+            return t;
+        }
+
         void IDisposable.Dispose() {
-            _context.SetRenderTarget(_originalTarget);
+            if (_isWrapped) {
+                _context.SetRenderTarget(_originalTarget);
+            } else {
+                _context.RenderTarget.DeviceContext.Target = _originalTargetImage;
+            }
         }
 
         private RenderContext _context;
         private RenderTarget _originalTarget;
+        private Image _originalTargetImage;
+
+        private bool _isWrapped;
 
     }
 }

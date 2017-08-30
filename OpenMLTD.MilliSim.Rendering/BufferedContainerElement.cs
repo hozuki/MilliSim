@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Rendering {
-    public abstract class ContainerElement : Element2D {
+    public abstract class BufferedContainerElement : Element2D, IContainerElement {
 
-        public ContainerElement([CanBeNull, ItemNotNull] IReadOnlyList<Element> elements) {
-            Elements = elements ?? new Element[0];
+        protected BufferedContainerElement(IReadOnlyList<IElement> elements) {
+            Elements = elements;
         }
 
         public IReadOnlyList<IElement> Elements { get; }

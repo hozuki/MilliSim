@@ -76,7 +76,7 @@ namespace OpenMLTD.MilliSim.Rendering {
                 }
             }
 
-            context.Clear();
+            context.ClearAll();
 
             foreach (var drawable in drawables) {
                 drawable.Draw(gameTime, context);

@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Rendering;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
-    public class Stage : ContainerElement, I2DElement {
+    public class Stage : ContainerElement, IElement2D {
 
         public Stage([CanBeNull] [ItemNotNull] IReadOnlyList<Element> elements)
             : base(elements) {

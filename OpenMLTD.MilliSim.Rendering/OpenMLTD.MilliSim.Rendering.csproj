@@ -76,6 +76,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BufferedContainerElement.cs" />
+    <Compile Include="BufferedElement2D.cs" />
     <Compile Include="Drawing\Advanced\D2DFontPathData.cs" />
     <Compile Include="Direct2DHelper.cs" />
     <Compile Include="DirectWriteHelper.cs" />
@@ -120,7 +122,8 @@
     <Compile Include="Extensions\SizeFExtensions.cs" />
     <Compile Include="FillMode.cs" />
     <Compile Include="FontStyle.cs" />
-    <Compile Include="I2DElement.cs" />
+    <Compile Include="IElement2D.cs" />
+    <Compile Include="IBufferedElement.cs" />
     <Compile Include="IContainerElement.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="IElement.cs" />

@@ -1,7 +1,7 @@
 using System.Drawing;
 
 namespace OpenMLTD.MilliSim.Rendering {
-    public interface I2DElement : IElement {
+    public interface IElement2D : IElement {
 
         Point Location { get; set; }
 

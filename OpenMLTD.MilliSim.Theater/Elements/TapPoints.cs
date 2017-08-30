@@ -12,11 +12,9 @@ using SharpDX.Mathematics.Interop;
 using RectangleF = System.Drawing.RectangleF;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
-    public class TapPoints : Element2D {
+    public class TapPoints : BufferedElement2D {
 
-        protected override void OnDraw(GameTime gameTime, RenderContext context) {
-            base.OnDraw(gameTime, context);
-
+        protected override void OnDrawBuffer(GameTime gameTime, RenderContext context) {
             var settings = Program.Settings;
             var clientSize = context.ClientSize;
             var difficulty = settings.Game.Difficulty;

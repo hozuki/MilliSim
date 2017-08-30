@@ -45,22 +45,38 @@ namespace OpenMLTD.MilliSim.Rendering {
 
         private SwapChainDescription SwapChainDescription { get; }
 
-        public void Clear() {
-            Clear(RenderTarget);
+        public void ClearAll() {
+            ClearAll(RenderTarget);
         }
 
-        public void Clear(Color clearColor) {
-            Clear(RenderTarget, Renderer.ClearColor);
+        public void ClearAll(Color clearColor) {
+            ClearAll(RenderTarget, clearColor);
         }
 
-        public void Clear(RenderTarget target) {
-            Clear(target, Renderer.ClearColor);
+        public void ClearAll(RenderTarget target) {
+            ClearAll(target, Renderer.ClearColor);
         }
 
-        public void Clear(RenderTarget target, Color clearColor) {
+        public void ClearAll(RenderTarget target, Color clearColor) {
             var immediateContext = Direct3DDevice.ImmediateContext;
             immediateContext.ClearDepthStencilView(target.DepthView, DepthStencilClearFlags.Depth, 1.0f, 0);
             immediateContext.ClearRenderTargetView(target.RenderTargetView, clearColor.ToRC4());
+        }
+
+        public void Clear2D() {
+            Clear2D(RenderTarget);
+        }
+
+        public void Clear2D(Color clearColor) {
+            Clear2D(RenderTarget, clearColor);
+        }
+
+        public void Clear2D(RenderTarget target) {
+            Clear2D(target, Renderer.ClearColor);
+        }
+
+        public void Clear2D(RenderTarget target, Color clearColor) {
+            target.DeviceContext.Clear(clearColor.ToRC4());
         }
 
         public void SetRenderTarget([CanBeNull] RenderTarget target) {

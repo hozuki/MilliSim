@@ -23,5 +23,19 @@ namespace OpenMLTD.MilliSim.Rendering.Extensions {
             context.RenderTarget.DeviceContext.DrawImage(image, dstOffset, srcRect, interpolationMode, compositeMode);
         }
 
+        public static void DrawBitmap(this RenderContext context, Bitmap bitmap) {
+            context.DrawBitmap(bitmap, 1f);
+        }
+
+        public static void DrawBitmap(this RenderContext context, Bitmap bitmap, float opacity) {
+            context.RenderTarget.DeviceContext.DrawBitmap(bitmap, opacity, BitmapInterpolationMode.Linear);
+        }
+
+        public static void DrawBitmap(this RenderContext context, Bitmap bitmap, float destX, float destY, float opacity) {
+            var size = bitmap.PixelSize;
+            var destRect = new RawRectangleF(destX, destY, destX + size.Width, destY + size.Height);
+            context.RenderTarget.DeviceContext.DrawBitmap(bitmap, destRect, opacity, BitmapInterpolationMode.Linear);
+        }
+
     }
 }
