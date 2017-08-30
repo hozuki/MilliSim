@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -21,6 +22,16 @@ namespace OpenMLTD.MilliSim.Rendering {
         }
 
         public Game Game { get; }
+
+        public event EventHandler<EventArgs> StageReady;
+
+        internal void RaiseStageReady(EventArgs e) {
+            StageReady?.Invoke(this, e);
+        }
+
+        internal void RaiseStageReadyAsync(EventArgs e) {
+            StageReady?.BeginInvoke(this, e, null, null);
+        }
 
         #region Windows Form Designer generated code
 

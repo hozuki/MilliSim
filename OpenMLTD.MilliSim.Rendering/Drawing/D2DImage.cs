@@ -7,7 +7,9 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
             NativeImage = image;
         }
 
-        public Image NativeImage { get; }
+        internal Image NativeImage { get; }
+
+        Image ID2DImage.NativeImage => NativeImage;
 
         protected override void Dispose(bool disposing) {
             if (disposing) {

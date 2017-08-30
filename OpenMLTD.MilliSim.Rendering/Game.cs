@@ -16,7 +16,7 @@ namespace OpenMLTD.MilliSim.Rendering {
             _shouldContinue = true;
 
             var visualElements = Elements.OfType<VisualElement>().ToArray();
-            Stage = new Stage(visualElements);
+            Stage = new StageView(visualElements);
 
             _timeLock = new SimpleUsingLock();
             _suspensionLock = new SimpleUsingLock();
@@ -138,7 +138,7 @@ namespace OpenMLTD.MilliSim.Rendering {
 
         public virtual string Title { get; } = "Game";
 
-        public Stage Stage { get; }
+        public StageView Stage { get; }
 
         /// <summary>
         /// Invoke an <see cref="Action"/> on worker thread.

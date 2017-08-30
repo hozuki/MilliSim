@@ -99,6 +99,7 @@
     <Compile Include="Drawing\D2DTriangle.cs" />
     <Compile Include="Drawing\Effects\D2DAffineTransform2DEffect.cs" />
     <Compile Include="Drawing\Effects\D2DFloodEffect.cs" />
+    <Compile Include="Drawing\Effects\D2DScaleEffect.cs" />
     <Compile Include="Drawing\Effects\D2DShadowEffect.cs" />
     <Compile Include="Drawing\ID2DBrush.cs" />
     <Compile Include="Drawing\ID2DImage.cs" />
@@ -120,12 +121,13 @@
     <Compile Include="FillMode.cs" />
     <Compile Include="FontStyle.cs" />
     <Compile Include="I2DElement.cs" />
+    <Compile Include="IContainerElement.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="IElement.cs" />
     <Compile Include="IUpdateable.cs" />
     <Compile Include="Extensions\Matrix3x2Extensions.cs" />
     <Compile Include="RenderTarget.cs" />
-    <Compile Include="Stage.cs" />
+    <Compile Include="StageView.cs" />
     <Compile Include="ControlStageRenderer.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="ContainerElement.cs" />

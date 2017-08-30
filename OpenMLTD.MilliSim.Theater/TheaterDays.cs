@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+using System.Collections.Generic;
 using System.IO;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Rendering;
@@ -24,6 +23,16 @@ namespace OpenMLTD.MilliSim.Theater {
             } else if (!string.IsNullOrEmpty(settings.Media.BackgroundImage) && File.Exists(settings.Media.BackgroundImage)) {
                 elements.Add(new BackgroundImage());
             }
+
+            // ** Stage ** //
+
+            var stageElements = new List<Element>();
+            stageElements.Add(new TapPoints());
+
+            var stage = new Stage(stageElements.ToArray());
+            elements.Add(stage);
+
+            // Overlays
 
             elements.Add(new HelpOverlay {
                 Text = settings.LocalStrings.PressSpaceToStart,

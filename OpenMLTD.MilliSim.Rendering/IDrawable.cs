@@ -1,4 +1,4 @@
-﻿using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Rendering {
     public interface IDrawable {
@@ -6,10 +6,12 @@ namespace OpenMLTD.MilliSim.Rendering {
         void Draw(GameTime gameTime, RenderContext context);
 
         bool Visible { get; set; }
-        
+
         void OnGotContext(RenderContext context);
 
         void OnLostContext(RenderContext context);
+
+        void OnStageReady(RenderContext context);
 
     }
 }

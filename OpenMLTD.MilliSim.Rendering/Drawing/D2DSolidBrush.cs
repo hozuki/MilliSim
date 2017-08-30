@@ -7,11 +7,11 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
     public sealed class D2DSolidBrush : D2DBrushBase, ID2DBrush {
 
         public D2DSolidBrush(RenderContext context, Color color) {
-            NativeBrush = new SolidColorBrush(context.RenderTarget.Direct2DRenderTarget, color.ToRC4());
+            NativeBrush = new SolidColorBrush(context.RenderTarget.DeviceContext, color.ToRC4());
         }
 
         public D2DSolidBrush(RenderContext context, RawColor4 color) {
-            NativeBrush = new SolidColorBrush(context.RenderTarget.Direct2DRenderTarget, color);
+            NativeBrush = new SolidColorBrush(context.RenderTarget.DeviceContext, color);
         }
 
         public D2DSolidBrush(SharpDX.Direct2D1.RenderTarget target, Color color) {

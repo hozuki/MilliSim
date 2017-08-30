@@ -1,11 +1,11 @@
-﻿using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Core;
 using SharpDX.Direct2D1;
 
 namespace OpenMLTD.MilliSim.Rendering.Drawing {
     public sealed class D2DMesh : DisposableBase {
 
         public D2DMesh(RenderContext context) {
-            _mesh = new Mesh(context.RenderTarget.Direct2DRenderTarget);
+            _mesh = new Mesh(context.RenderTarget.DeviceContext);
         }
 
         public D2DMesh(RenderContext context, D2DTriangle[] triangles) {
@@ -13,7 +13,7 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
             for (var i = 0; i < triangles.Length; ++i) {
                 t[i] = triangles[i].ToNative();
             }
-            _mesh = new Mesh(context.RenderTarget.Direct2DRenderTarget, t);
+            _mesh = new Mesh(context.RenderTarget.DeviceContext, t);
         }
 
         public Mesh Native => _mesh;

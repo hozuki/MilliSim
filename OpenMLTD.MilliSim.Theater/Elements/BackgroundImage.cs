@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Rendering;
 using OpenMLTD.MilliSim.Rendering.Drawing;
@@ -39,8 +39,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         protected override void OnGotContext(RenderContext context) {
             base.OnGotContext(context);
             if (_filePath != null) {
-                var bitmap = Direct2DHelper.LoadBitmap(_filePath, context.RenderTarget.Direct2DRenderTarget);
-                _bitmap = new D2DBitmap(bitmap);
+                _bitmap = Direct2DHelper.LoadBitmap(_filePath, context);
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Rendering {
     public abstract class VisualElement : Element, IDrawable {
@@ -29,12 +29,19 @@ namespace OpenMLTD.MilliSim.Rendering {
         protected virtual void OnLostContext(RenderContext context) {
         }
 
+        protected virtual void OnStageReady(RenderContext context) {
+        }
+
         void IDrawable.OnGotContext(RenderContext context) {
             OnGotContext(context);
         }
 
         void IDrawable.OnLostContext(RenderContext context) {
             OnLostContext(context);
+        }
+
+        void IDrawable.OnStageReady(RenderContext context) {
+            OnStageReady(context);
         }
 
     }

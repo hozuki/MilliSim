@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Rendering {
-    public abstract class ContainerElement : VisualElement {
+    public abstract class ContainerElement : VisualElement, IContainerElement {
 
         public ContainerElement([CanBeNull, ItemNotNull] IReadOnlyList<Element> elements) {
             Elements = elements ?? new Element[0];
         }
 
-        [NotNull, ItemNotNull]
-        public IReadOnlyList<Element> Elements { get; }
+        public IReadOnlyList<IElement> Elements { get; }
 
         protected override void OnInitialize() {
             base.OnInitialize();

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using OpenMLTD.MilliSim.Core;
 using SharpDX;
@@ -36,8 +37,8 @@ namespace OpenMLTD.MilliSim.Rendering {
                     _dxgiFactory?.Dispose();
                     _swapChain?.Dispose();
                     _direct3DDevice?.Dispose();
-                    _direct2DDevice?.Dispose();
-                    _direct2DContext?.Dispose();
+                    //_direct2DDevice?.Dispose();
+                    //_direct2DContext?.Dispose();
                     _dxgiDeviceManager?.Dispose();
 
                     _swapChainDescription.ModeDescription.Width = _newSize.Width;
@@ -46,9 +47,6 @@ namespace OpenMLTD.MilliSim.Rendering {
                     SharpDX.Direct3D11.Device.CreateWithSwapChain(DriverType.Hardware, D3DDeviceCreationFlags, _swapChainDescription, out _direct3DDevice, out _swapChain);
                     _dxgiDevice = _direct3DDevice.QueryInterface<SharpDX.DXGI.Device>();
                     _dxgiFactory = _swapChain.GetParent<Factory>();
-
-                    _direct2DDevice = new SharpDX.Direct2D1.Device(_dxgiDevice);
-                    _direct2DContext = new SharpDX.Direct2D1.DeviceContext(_direct2DDevice, DeviceContextOptions.None);
 
                     // Video (EVR) initialization.
                     var multithread = _direct3DDevice.QueryInterface<DeviceMultithread>();
@@ -64,6 +62,17 @@ namespace OpenMLTD.MilliSim.Rendering {
                     }
 
                     _isSizeChanged = false;
+
+                    ++_controlResizeCounter;
+                    if (_controlResizeCounter == StartupControlResizeCount) {
+                        // WTF...
+                        // Look into MediaEngine and DXGIDeviceManager?
+                        Game.Window.Invoke(new Action(() => Game.Window.RaiseStageReady(EventArgs.Empty)));
+
+                        foreach (var element in drawables) {
+                            element.OnStageReady(context);
+                        }
+                    }
                 }
             }
 
@@ -82,13 +91,7 @@ namespace OpenMLTD.MilliSim.Rendering {
 
         internal SharpDX.DXGI.Device DxgiDevice => _dxgiDevice;
 
-        internal SharpDX.Direct2D1.Device Direct2DDevice => _direct2DDevice;
-
-        internal SharpDX.Direct2D1.DeviceContext Direct2DDeviceContext => _direct2DContext;
-
         internal Factory DxgiFactory => _dxgiFactory;
-
-        internal SharpDX.Direct2D1.Factory Direct2DFactory => _direct2DFactory;
 
         internal SharpDX.DirectWrite.Factory DirectWriteFactory => _directWriteFactory;
 
@@ -102,9 +105,6 @@ namespace OpenMLTD.MilliSim.Rendering {
             if (!disposing) {
                 return;
             }
-            _direct2DFactory.Dispose();
-            _direct2DDevice.Dispose();
-            _direct2DContext.Dispose();
             _directWriteFactory.Dispose();
             _dxgiFactory.Dispose();
             _swapChain.Dispose();
@@ -125,10 +125,7 @@ namespace OpenMLTD.MilliSim.Rendering {
             _dxgiFactory = _swapChain.GetParent<Factory>();
 
             // Direct2D initialization.
-            _direct2DFactory = new SharpDX.Direct2D1.Factory();
             _directWriteFactory = new SharpDX.DirectWrite.Factory();
-            _direct2DDevice = new SharpDX.Direct2D1.Device(_dxgiDevice);
-            _direct2DContext = new SharpDX.Direct2D1.DeviceContext(_direct2DDevice, DeviceContextOptions.None);
 
             // Video (EVR) initialization.
             var multithread = _direct3DDevice.QueryInterface<DeviceMultithread>();
@@ -137,28 +134,13 @@ namespace OpenMLTD.MilliSim.Rendering {
             _dxgiDeviceManager.ResetDevice(_direct3DDevice);
 
             var context = new RenderContext(this, ClientSize);
+            _renderContext = context;
             foreach (var element in Game.Elements) {
                 (element as IDrawable)?.OnGotContext(context);
             }
-            _renderContext = context;
 
             OnAfterInitialization();
         }
-
-        private SharpDX.Direct3D11.Device _direct3DDevice;
-        private SharpDX.Direct2D1.Device _direct2DDevice;
-        private SharpDX.Direct2D1.DeviceContext _direct2DContext;
-        private SharpDX.DXGI.Device _dxgiDevice;
-        private SwapChainDescription _swapChainDescription;
-        private SwapChain _swapChain;
-        private Factory _dxgiFactory;
-        private SharpDX.Direct2D1.Factory _direct2DFactory;
-        private SharpDX.DirectWrite.Factory _directWriteFactory;
-        private DXGIDeviceManager _dxgiDeviceManager;
-
-        protected static readonly Rational DefaultRefreshRate = new Rational(60, 1);
-
-        private RenderContext _renderContext;
 
         protected bool _isSizeChanged;
         protected Size2 _newSize;
@@ -166,6 +148,27 @@ namespace OpenMLTD.MilliSim.Rendering {
 
         // For D2D interop, and video output.
         protected const DeviceCreationFlags D3DDeviceCreationFlags = DeviceCreationFlags.BgraSupport | DeviceCreationFlags.VideoSupport;
+
+        private SharpDX.Direct3D11.Device _direct3DDevice;
+        private SharpDX.DXGI.Device _dxgiDevice;
+        private SwapChainDescription _swapChainDescription;
+        private SwapChain _swapChain;
+        private Factory _dxgiFactory;
+        private SharpDX.DirectWrite.Factory _directWriteFactory;
+        private DXGIDeviceManager _dxgiDeviceManager;
+
+        protected static readonly Rational DefaultRefreshRate = new Rational(60, 1);
+
+        private RenderContext _renderContext;
+
+        // These two counters work as follows.
+        // We assume that the stage is resized only for a certain number of times. During each size change,
+        // increase the counter. And finally, all resizing actions are complete and the size will never
+        // change in the future.
+        // In current model, the size changes 1 time. One for window creation (by WinForms), one for setting
+        // ClientSize on GameWindow (by user's config entry).
+        private int _controlResizeCounter;
+        private static int StartupControlResizeCount = 1;
 
     }
 }

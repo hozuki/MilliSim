@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Rendering.Extensions;
@@ -21,10 +21,7 @@ namespace OpenMLTD.MilliSim.Rendering {
             DxgiFactory = renderer.DxgiFactory;
             SwapChain = renderer.SwapChain;
             SwapChainDescription = renderer.SwapChainDescription;
-            Direct2DFactory = renderer.Direct2DFactory;
             DirectWriteFactory = renderer.DirectWriteFactory;
-            Direct2DDevice = renderer.Direct2DDevice;
-            Direct2DDeviceContext = renderer.Direct2DDeviceContext;
             DxgiDeviceManager = renderer.DxgiDeviceManager;
 
             Initialize();
@@ -40,13 +37,7 @@ namespace OpenMLTD.MilliSim.Rendering {
 
         public SharpDX.DXGI.Device DxgiDevice { get; }
 
-        public SharpDX.Direct2D1.Device Direct2DDevice { get; }
-
-        public SharpDX.Direct2D1.DeviceContext Direct2DDeviceContext { get; }
-
         public Factory DxgiFactory { get; }
-
-        public SharpDX.Direct2D1.Factory Direct2DFactory { get; }
 
         public SharpDX.DirectWrite.Factory DirectWriteFactory { get; }
 
@@ -95,11 +86,11 @@ namespace OpenMLTD.MilliSim.Rendering {
         }
 
         public void Begin2D() {
-            RenderTarget.Direct2DRenderTarget.BeginDraw();
+            RenderTarget.DeviceContext.BeginDraw();
         }
 
         public void End2D() {
-            RenderTarget.Direct2DRenderTarget.EndDraw();
+            RenderTarget.DeviceContext.EndDraw();
         }
 
         public void Present() {

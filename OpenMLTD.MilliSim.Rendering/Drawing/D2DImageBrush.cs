@@ -14,7 +14,7 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
                 InterpolationMode = interpolationMode,
                 SourceRectangle = new RawRectangleF(0, 0, bitmap.Width, bitmap.Height)
             };
-            NativeBrush = new ImageBrush(context.Direct2DDeviceContext, bitmap.NativeImage, brushProperties);
+            NativeBrush = new ImageBrush(context.RenderTarget.DeviceContext, bitmap.NativeImage, brushProperties);
         }
 
         public D2DImageBrush(RenderContext context, ID2DImage image, ExtendMode extendModeX, ExtendMode extendModeY, InterpolationMode interpolationMode, RectangleF sourceRectangle) {
@@ -24,11 +24,11 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
                 InterpolationMode = interpolationMode,
                 SourceRectangle = sourceRectangle.ToD2DRectF()
             };
-            NativeBrush = new ImageBrush(context.Direct2DDeviceContext, image.NativeImage, brushProperties);
+            NativeBrush = new ImageBrush(context.RenderTarget.DeviceContext, image.NativeImage, brushProperties);
         }
 
         public D2DImageBrush(RenderContext context, ID2DImage image, ImageBrushProperties brushProperties) {
-            NativeBrush = new ImageBrush(context.Direct2DDeviceContext, image.NativeImage, brushProperties);
+            NativeBrush = new ImageBrush(context.RenderTarget.DeviceContext, image.NativeImage, brushProperties);
         }
 
         internal ImageBrush NativeBrush { get; }

@@ -1,4 +1,4 @@
-﻿using SharpDX;
+using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.Mathematics.Interop;
 
@@ -9,8 +9,12 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing.Effects {
             : base(effect) {
         }
 
-        public D2DAffineTransform2DEffect(DeviceContext deviceContext)
-            : base(new Effect(deviceContext, Effect.AffineTransform2D)) {
+        public D2DAffineTransform2DEffect(RenderContext context)
+            : this(context.RenderTarget.DeviceContext) {
+        }
+
+        public D2DAffineTransform2DEffect(DeviceContext context)
+            : base(new Effect(context, Effect.AffineTransform2D)) {
         }
 
         public AffineTransform2DInterpolationMode InterpolationMode {

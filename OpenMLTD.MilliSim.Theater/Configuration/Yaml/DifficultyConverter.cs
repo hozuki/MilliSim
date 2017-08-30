@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using OpenMLTD.MilliSim.Core.Entities;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
@@ -16,7 +16,12 @@ namespace OpenMLTD.MilliSim.Theater.Configuration.Yaml {
                 return null;
             }
             var scalar = (Scalar)parser.Current;
-            var str = scalar.Value.Trim().ToLowerInvariant();
+            var str = scalar.Value;
+            if (string.IsNullOrWhiteSpace(str)) {
+                return default(Difficulty);
+            }
+
+            str = str.Trim().ToLowerInvariant();
             Difficulty ret;
             switch (str) {
                 case "2m":

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Threading;
@@ -6,8 +6,6 @@ using JetBrains.Annotations;
 using MimeTypes;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Rendering;
-using OpenMLTD.MilliSim.Rendering.Drawing;
-using OpenMLTD.MilliSim.Rendering.Extensions;
 using SharpDX.DXGI;
 using SharpDX.MediaFoundation;
 
@@ -26,17 +24,19 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             if (_fileStream != null) {
                 CloseFile();
             }
-            _fileStream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            _fileDataStream = new ByteStream(_fileStream);
+
             var fullPath = Path.GetFullPath(path);
+            _fileStream = File.Open(fullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            _fileDataStream = new ByteStream(_fileStream);
+
             var absoluteUri = new Uri(fullPath);
             _mediaEngineEx.SetSourceFromByteStream(_fileDataStream, absoluteUri.AbsoluteUri);
 
             var fileExtension = Path.GetExtension(fullPath);
             var mimeType = MimeTypeMap.GetMimeType(fileExtension);
             _mediaEngine.CanPlayType(mimeType, out var answer);
-            _canPlay = answer != MediaEngineCanPlay.NotSupported;
-            if (!_canPlay) {
+            CanPlay = answer != MediaEngineCanPlay.NotSupported;
+            if (!CanPlay) {
                 // If MediaEngine cannot play this file, set the event to Set state to avoid clients waiting infinitely.
                 // (See BackgroundVideoElement)
                 _readyToPlayEvent.Set();
@@ -48,51 +48,52 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 return;
             }
             _readyToPlayEvent.Reset();
+            IsReadyToPlay = false;
             Stop();
             _mediaEngineEx.SetSourceFromByteStream(NullSource, string.Empty);
-            _fileDataStream.Dispose();
+            _fileDataStream?.Dispose();
             _fileStream.Dispose();
             _fileStream = null;
             _fileDataStream = null;
         }
 
         public void Play() {
-            if (!_canPlay) {
+            if (!CanPlay) {
                 return;
             }
             _mediaEngine.Play();
-            _isVideoPaused = false;
-            _isVideoStopped = false;
+            IsPaused = false;
+            IsStopped = false;
         }
 
         public void Pause() {
-            if (!_canPlay) {
+            if (!CanPlay) {
                 return;
             }
             _mediaEngine.Pause();
-            _isVideoPaused = true;
+            IsPaused = true;
             // Doesn't change the stopped status.
         }
 
         public void Stop() {
-            if (!_canPlay) {
+            if (!CanPlay) {
                 return;
             }
             _mediaEngine.Pause();
             _mediaEngine.CurrentTime = 0;
-            _isVideoStopped = true;
-            _isVideoPaused = false;
+            IsStopped = true;
+            IsPaused = false;
         }
 
         public double Volume {
             get {
-                if (!_canPlay) {
+                if (!CanPlay) {
                     return 0;
                 }
                 return _mediaEngine.Volume;
             }
             set {
-                if (!_canPlay) {
+                if (!CanPlay) {
                     return;
                 }
                 _mediaEngine.Volume = value;
@@ -100,15 +101,17 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         }
 
         public void PauseOnFirstFrame() {
-            if (!_canPlay) {
+            if (!CanPlay) {
                 return;
             }
-            _mediaEngine.CurrentTime = 0;
+            // Force changing 'stopped' status.
+            IsStopped = false;
             Pause();
+            _mediaEngine.CurrentTime = 0;
         }
 
         public void TogglePause() {
-            if (!_canPlay) {
+            if (!CanPlay) {
                 return;
             }
             if (IsStopped) {
@@ -121,15 +124,21 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             }
         }
 
-        public bool IsStopped => _isVideoStopped;
+        public void WaitUntilReady() {
+            _readyToPlayEvent.WaitOne();
+        }
 
-        public bool IsPaused => _isVideoPaused;
+        public MediaError GetError() {
+            return _mediaEngine.Error;
+        }
 
-        public bool IsReadyToPlay => _readyToPlay;
+        public bool IsStopped { get; private set; }
 
-        public bool CanPlay => _canPlay;
+        public bool IsPaused { get; private set; }
 
-        public ManualResetEvent ReadyToPlayEvent => _readyToPlayEvent;
+        public bool CanPlay { get; private set; }
+
+        public bool IsEnded { get; private set; }
 
         protected override void OnDraw(GameTime gameTime, RenderContext context) {
             base.OnDraw(gameTime, context);
@@ -138,7 +147,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             var mediaEngine = _mediaEngine;
 
-            if (_readyToPlay && !_isVideoStopped) {
+            if (IsReadyToPlay && !IsStopped) {
                 if (_videoSize == null) {
                     mediaEngine.GetNativeVideoSize(out var w, out var h);
                     _videoSize = new Size(w, h);
@@ -183,32 +192,48 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             MediaManager.Shutdown();
 
-            _readyToPlay = false;
+            IsReadyToPlay = false;
 
             base.OnLostContext(context);
         }
 
+        protected override void OnStageReady(RenderContext context) {
+            base.OnStageReady(context);
+            _isStageReady = true;
+        }
+
+        private bool IsReadyToPlay { get; set; }
+
         private void OnPlaybackCallback(MediaEngineEvent playEvent, long param1, int param2) {
             switch (playEvent) {
                 case MediaEngineEvent.CanPlay:
-                    _readyToPlay = true;
-                    _readyToPlayEvent.Set();
+                    if (_isStageReady) {
+                        _readyToPlayEvent.Set();
+                        IsReadyToPlay = true;
+                        IsEnded = false;
+                        IsStopped = true;
+                    }
                     break;
                 case MediaEngineEvent.Pause:
-                    _isVideoPaused = true;
+                    IsPaused = true;
                     break;
                 case MediaEngineEvent.Play:
                 case MediaEngineEvent.Playing:
-                    _isVideoPaused = false;
+                    IsPaused = false;
                     break;
                 case MediaEngineEvent.TimeUpdate:
                     break;
+                case MediaEngineEvent.Ended:
+                    IsStopped = true;
+                    IsPaused = false;
+                    IsEnded = true;
+                    break;
                 case MediaEngineEvent.Error:
                 case MediaEngineEvent.Abort:
-                case MediaEngineEvent.Ended:
-                    _isVideoStopped = true;
-                    _isVideoPaused = false;
-                    _isVideoEnded = true;
+                    IsStopped = true;
+                    IsPaused = true;
+                    IsEnded = true;
+                    _readyToPlayEvent.Reset();
                     break;
             }
             VideoStateChanged?.Invoke(this, new VideoStateChangedEventArgs(playEvent));
@@ -221,16 +246,14 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         private FileStream _fileStream;
 
         // Is the video ready to play?
-        private bool _readyToPlay;
         // No need to call its Dispose().
-        private readonly ManualResetEvent _readyToPlayEvent = new ManualResetEvent(false);
         // Native size of the video.
         private Size? _videoSize;
-        private bool _isVideoStopped;
-        private bool _isVideoPaused;
-        private bool _isVideoEnded;
 
-        private bool _canPlay;
+        private bool _isStageReady;
+
+        // Warning: Not disposed...
+        private readonly ManualResetEvent _readyToPlayEvent = new ManualResetEvent(false);
 
         private static readonly ByteStream NullSource = new ByteStream(new byte[0]);
 

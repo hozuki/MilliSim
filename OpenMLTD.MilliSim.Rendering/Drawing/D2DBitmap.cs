@@ -7,11 +7,20 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
             NativeImage = bitmap;
         }
 
-        public Bitmap NativeImage { get; }
-
         public float Width => NativeImage.Size.Width;
 
         public float Height => NativeImage.Size.Height;
+
+        public D2DBitmap ShareWith(RenderContext context) {
+            return ShareWith(context.RenderTarget.DeviceContext);
+        }
+
+        public D2DBitmap ShareWith(DeviceContext context) {
+            var bitmap = new Bitmap(context, NativeImage);
+            return new D2DBitmap(bitmap);
+        }
+
+        internal Bitmap NativeImage { get; }
 
         Image ID2DImage.NativeImage => NativeImage;
 

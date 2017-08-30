@@ -1,4 +1,4 @@
-﻿using OpenMLTD.MilliSim.Core.Entities;
+using OpenMLTD.MilliSim.Core.Entities;
 using OpenMLTD.MilliSim.Theater.Configuration;
 using System.Drawing;
 using YamlDotNet.Serialization;
@@ -27,6 +27,8 @@ namespace OpenMLTD.MilliSim.Theater {
 
         [YamlMember(Alias = "localization")]
         public LocalStringsClass LocalStrings { get; set; }
+
+        public ScalingClass Scaling { get; set; }
 
         public sealed class MetadataClass {
 
@@ -57,7 +59,11 @@ namespace OpenMLTD.MilliSim.Theater {
 
         public sealed class ImagesClass {
 
-            public string TapPoints { get; set; }
+            public string TapPoint { get; set; }
+
+            public string TapBar { get; set; }
+
+            public string TapBarNode { get; set; }
 
             public HpGaugeClass HpGauge { get; set; }
 
@@ -199,6 +205,18 @@ namespace OpenMLTD.MilliSim.Theater {
         public sealed class LocalStringsClass {
 
             public string PressSpaceToStart { get; set; }
+
+        }
+
+        public sealed class ScalingClass {
+
+            public SizeF Base { get; set; }
+
+            public SizeF TapPoint { get; set; }
+
+            public SizeF TapBar { get; set; }
+
+            public SizeF TapBarNode { get; set; }
 
         }
 

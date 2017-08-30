@@ -20,7 +20,7 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
                 ArcSize = (ArcSize)ArcSize,
                 Point = Point.ToD2DVector(),
                 RotationAngle = RotationAngle,
-                Size = Size.ToD2DSize(),
+                Size = Size.ToD2DSizeF(),
                 SweepDirection = (SharpDX.Direct2D1.SweepDirection)SweepDirection
             };
         }

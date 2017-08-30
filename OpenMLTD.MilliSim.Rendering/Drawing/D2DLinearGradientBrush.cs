@@ -24,8 +24,8 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
                     Position = (float)i / (colorCount - 1)
                 };
             }
-            var collection = new GradientStopCollection(context.RenderTarget.Direct2DRenderTarget, gradientStops);
-            NativeBrush = new LinearGradientBrush(context.RenderTarget.Direct2DRenderTarget, properties, collection);
+            var collection = new GradientStopCollection(context.RenderTarget.DeviceContext, gradientStops);
+            NativeBrush = new LinearGradientBrush(context.RenderTarget.DeviceContext, properties, collection);
             _collection = collection;
         }
 
@@ -45,8 +45,8 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
                     Position = (float)i / (colorCount - 1)
                 };
             }
-            var collection = new GradientStopCollection(context.RenderTarget.Direct2DRenderTarget, gradientStops);
-            NativeBrush = new LinearGradientBrush(context.RenderTarget.Direct2DRenderTarget, properties, collection);
+            var collection = new GradientStopCollection(context.RenderTarget.DeviceContext, gradientStops);
+            NativeBrush = new LinearGradientBrush(context.RenderTarget.DeviceContext, properties, collection);
             _collection = collection;
         }
 
@@ -55,11 +55,11 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
                 StartPoint = new RawVector2(startPoint.X, startPoint.Y),
                 EndPoint = new RawVector2(endPoint.X, endPoint.Y)
             };
-            var collection = new GradientStopCollection(context.RenderTarget.Direct2DRenderTarget, gradientStops.Select(t => new GradientStop {
+            var collection = new GradientStopCollection(context.RenderTarget.DeviceContext, gradientStops.Select(t => new GradientStop {
                 Color = t.Color.ToRC4(),
                 Position = t.Position
             }).ToArray());
-            NativeBrush = new LinearGradientBrush(context.RenderTarget.Direct2DRenderTarget, properties, collection);
+            NativeBrush = new LinearGradientBrush(context.RenderTarget.DeviceContext, properties, collection);
             _collection = collection;
         }
 
@@ -68,11 +68,11 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
                 StartPoint = new RawVector2(startPoint.X, startPoint.Y),
                 EndPoint = new RawVector2(endPoint.X, endPoint.Y)
             };
-            var collection = new GradientStopCollection(context.RenderTarget.Direct2DRenderTarget, gradientStops.Select(t => new GradientStop {
+            var collection = new GradientStopCollection(context.RenderTarget.DeviceContext, gradientStops.Select(t => new GradientStop {
                 Color = t.Color.ToRC4(),
                 Position = t.Position
             }).ToArray());
-            NativeBrush = new LinearGradientBrush(context.RenderTarget.Direct2DRenderTarget, properties, collection);
+            NativeBrush = new LinearGradientBrush(context.RenderTarget.DeviceContext, properties, collection);
             _collection = collection;
         }
 
@@ -81,8 +81,8 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
                 StartPoint = new RawVector2(startPoint.X, startPoint.Y),
                 EndPoint = new RawVector2(endPoint.X, endPoint.Y)
             };
-            var collection = new GradientStopCollection(context.RenderTarget.Direct2DRenderTarget, gradientStops);
-            NativeBrush = new LinearGradientBrush(context.RenderTarget.Direct2DRenderTarget, properties, collection);
+            var collection = new GradientStopCollection(context.RenderTarget.DeviceContext, gradientStops);
+            NativeBrush = new LinearGradientBrush(context.RenderTarget.DeviceContext, properties, collection);
             _collection = collection;
         }
 
@@ -91,8 +91,8 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
                 StartPoint = new RawVector2(startPoint.X, startPoint.Y),
                 EndPoint = new RawVector2(endPoint.X, endPoint.Y)
             };
-            var collection = new GradientStopCollection(context.RenderTarget.Direct2DRenderTarget, gradientStops);
-            NativeBrush = new LinearGradientBrush(context.RenderTarget.Direct2DRenderTarget, properties, collection);
+            var collection = new GradientStopCollection(context.RenderTarget.DeviceContext, gradientStops);
+            NativeBrush = new LinearGradientBrush(context.RenderTarget.DeviceContext, properties, collection);
             _collection = collection;
         }
 
@@ -101,7 +101,7 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
                 StartPoint = new RawVector2(startPoint.X, startPoint.Y),
                 EndPoint = new RawVector2(endPoint.X, endPoint.Y)
             };
-            NativeBrush = new LinearGradientBrush(context.RenderTarget.Direct2DRenderTarget, properties, collection);
+            NativeBrush = new LinearGradientBrush(context.RenderTarget.DeviceContext, properties, collection);
             _collection = collection;
         }
 
@@ -110,12 +110,12 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
                 StartPoint = new RawVector2(startPoint.X, startPoint.Y),
                 EndPoint = new RawVector2(endPoint.X, endPoint.Y)
             };
-            NativeBrush = new LinearGradientBrush(context.RenderTarget.Direct2DRenderTarget, properties, collection);
+            NativeBrush = new LinearGradientBrush(context.RenderTarget.DeviceContext, properties, collection);
             _collection = collection;
         }
 
         public D2DLinearGradientBrush(RenderContext context, LinearGradientBrushProperties properties, GradientStopCollection collection) {
-            NativeBrush = new LinearGradientBrush(context.RenderTarget.Direct2DRenderTarget, properties, collection);
+            NativeBrush = new LinearGradientBrush(context.RenderTarget.DeviceContext, properties, collection);
             _collection = collection;
         }
 

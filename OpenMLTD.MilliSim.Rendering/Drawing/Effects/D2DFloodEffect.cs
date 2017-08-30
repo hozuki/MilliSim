@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using OpenMLTD.MilliSim.Rendering.Extensions;
 using SharpDX.Direct2D1;
 
@@ -9,8 +9,12 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing.Effects {
             : base(effect) {
         }
 
-        public D2DFloodEffect(DeviceContext deviceContext)
-            : base(new Effect(deviceContext, Effect.Flood)) {
+        public D2DFloodEffect(RenderContext context)
+            : this(context.RenderTarget.DeviceContext) {
+        }
+
+        public D2DFloodEffect(DeviceContext context)
+            : base(new Effect(context, Effect.Flood)) {
         }
 
         public Color Color {

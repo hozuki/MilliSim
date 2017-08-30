@@ -1,5 +1,6 @@
 using System.Drawing;
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Rendering.Drawing;
 using SharpDX.WIC;
 using Bitmap = SharpDX.Direct2D1.Bitmap;
 using PixelFormat = SharpDX.WIC.PixelFormat;
@@ -15,6 +16,15 @@ namespace OpenMLTD.MilliSim.Rendering {
                     return converter;
                 }
             }
+        }
+
+        public static D2DBitmap LoadBitmap(string fileName, RenderContext context) {
+            return LoadBitmap(fileName, context.RenderTarget);
+        }
+
+        public static D2DBitmap LoadBitmap(string fileName, RenderTarget target) {
+            var bitmap = LoadBitmap(fileName, target.DeviceContext);
+            return new D2DBitmap(bitmap);
         }
 
         public static Bitmap LoadBitmap(string fileName, SharpDX.Direct2D1.RenderTarget target) {

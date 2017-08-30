@@ -1,4 +1,4 @@
-﻿using SharpDX.Direct2D1;
+using SharpDX.Direct2D1;
 using SharpDX.Mathematics.Interop;
 
 namespace OpenMLTD.MilliSim.Rendering.Extensions {
@@ -10,7 +10,7 @@ namespace OpenMLTD.MilliSim.Rendering.Extensions {
 
         public static void DrawImage(this RenderContext context, Image image, float destX, float destY, InterpolationMode interpolationMode, CompositeMode compositeMode) {
             var dstOffset = new RawVector2(destX, destY);
-            context.Direct2DDeviceContext.DrawImage(image, dstOffset, null, interpolationMode, compositeMode);
+            context.RenderTarget.DeviceContext.DrawImage(image, dstOffset, null, interpolationMode, compositeMode);
         }
 
         public static void DrawImage(this RenderContext context, Image image, float destX, float destY, float srcX, float srcY, float srcWidth, float srcHeight) {
@@ -20,7 +20,7 @@ namespace OpenMLTD.MilliSim.Rendering.Extensions {
         public static void DrawImage(this RenderContext context, Image image, float destX, float destY, float srcX, float srcY, float srcWidth, float srcHeight, InterpolationMode interpolationMode, CompositeMode compositeMode) {
             var dstOffset = new RawVector2(destX, destY);
             var srcRect = new RawRectangleF(srcX, srcY, srcX + srcWidth, srcY + srcHeight);
-            context.Direct2DDeviceContext.DrawImage(image, dstOffset, srcRect, interpolationMode, compositeMode);
+            context.RenderTarget.DeviceContext.DrawImage(image, dstOffset, srcRect, interpolationMode, compositeMode);
         }
 
     }

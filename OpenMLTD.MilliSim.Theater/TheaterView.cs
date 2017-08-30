@@ -1,10 +1,7 @@
-﻿using System.Drawing;
-using System.IO;
+using System.Windows.Forms;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Rendering;
-using OpenMLTD.MilliSim.Rendering.Extensions;
-using OpenMLTD.MilliSim.Theater.Elements;
-using OpenMLTD.MilliSim.Theater.Properties;
+using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater {
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]
@@ -27,13 +24,22 @@ namespace OpenMLTD.MilliSim.Theater {
             base.Dispose(disposing);
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+            if (keyData == Keys.Escape) {
+                Close();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private void UnregisterEventHandlers() {
             KeyDown -= TheaterStage_KeyDown;
+            StageReady -= TheaterStage_StageReady;
             Load -= TheaterStage_Load;
 
             var theaterDays = GetTypedGame();
 
-            var video = theaterDays.Elements.FindOrNull<BackgroundVideo>();
+            var video = theaterDays.GetBackgroundVideo();
             if (video != null) {
                 video.VideoStateChanged -= Video_VideoStateChanged;
             }
@@ -41,53 +47,14 @@ namespace OpenMLTD.MilliSim.Theater {
 
         private void RegisterEventHandlers() {
             KeyDown += TheaterStage_KeyDown;
+            StageReady += TheaterStage_StageReady;
             Load += TheaterStage_Load;
 
             var theaterDays = GetTypedGame();
 
-            var video = theaterDays.Elements.FindOrNull<BackgroundVideo>();
+            var video = theaterDays.GetBackgroundVideo();
             if (video != null) {
                 video.VideoStateChanged += Video_VideoStateChanged;
-            }
-        }
-
-        private void InitializeSettings() {
-            var settings = Program.Settings;
-
-            Text = string.Format(TitleTemplate, settings.Game.Title);
-
-            Icon = Resources.MLTD_Icon;
-
-            ClientSize = new Size(settings.Window.Width, settings.Window.Height);
-            CenterToScreen();
-        }
-
-        private void InitializeElements() {
-            var settings = Program.Settings;
-            var theaterDays = GetTypedGame();
-
-            var video = theaterDays.Elements.FindOrNull<BackgroundVideo>();
-            if (video != null) {
-                var animFileName = Path.GetFileName(settings.Media.BackgroundAnimation);
-                var debugOverlay = theaterDays.Elements.Find<DebugOverlay>();
-                debugOverlay.Text = $"Background animation:\n{animFileName}";
-
-                theaterDays.Invoke(() => {
-                    video.OpenFile(settings.Media.BackgroundAnimation);
-                    if (!video.IsReadyToPlay) {
-                        video.ReadyToPlayEvent.WaitOne();
-                    }
-                    if (!video.CanPlay) {
-                        debugOverlay.Text = $"Error:\nunable to play <{animFileName}>.";
-                        debugOverlay.Show();
-                    }
-                    video.PauseOnFirstFrame();
-                });
-            }
-
-            var image = theaterDays.Elements.FindOrNull<BackgroundImage>();
-            if (image != null) {
-                image.Load(settings.Media.BackgroundImage);
             }
         }
 

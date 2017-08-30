@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Rendering.Extensions;
 using SharpDX.Direct2D1;
@@ -11,7 +11,7 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing {
         }
 
         public D2DPen(RenderContext context, Color color, float strokeWidth) {
-            var nativeBrush = new SolidColorBrush(context.RenderTarget.Direct2DRenderTarget, color.ToRC4());
+            var nativeBrush = new SolidColorBrush(context.RenderTarget.DeviceContext, color.ToRC4());
             Brush = new NativeBrushWrapper(nativeBrush);
             StrokeStyle = null;
             StrokeWidth = strokeWidth;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Windows.Forms;
 using OpenMLTD.MilliSim.Theater.Configuration.Yaml;
@@ -24,7 +24,8 @@ namespace OpenMLTD.MilliSim.Theater {
                 .IgnoreUnmatchedProperties()
                 .WithTypeConverter(new LayoutValueConverter())
                 .WithTypeConverter(new DifficultyConverter())
-                .WithTypeConverter(new ColorConverter());
+                .WithTypeConverter(new ColorConverter())
+                .WithTypeConverter(new SizeFConverter());
             var s = b.Build();
 
             using (var fileStream = File.Open(ConfigFilePath, FileMode.Open, FileAccess.Read, FileShare.Read)) {

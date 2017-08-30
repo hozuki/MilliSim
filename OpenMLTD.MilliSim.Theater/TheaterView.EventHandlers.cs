@@ -1,32 +1,105 @@
-﻿using System;
+using System;
+using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
-using OpenMLTD.MilliSim.Rendering.Extensions;
 using OpenMLTD.MilliSim.Theater.Elements;
+using OpenMLTD.MilliSim.Theater.Extensions;
+using OpenMLTD.MilliSim.Theater.Properties;
 using SharpDX.MediaFoundation;
 
 namespace OpenMLTD.MilliSim.Theater {
     partial class TheaterView {
 
         private void TheaterStage_Load(object sender, EventArgs e) {
-            InitializeSettings();
-            InitializeElements();
+            var settings = Program.Settings;
+
+            Text = string.Format(TitleTemplate, settings.Game.Title);
+
+            Icon = Resources.MLTD_Icon;
+
+            ClientSize = new Size(settings.Window.Width, settings.Window.Height);
+            CenterToScreen();
+        }
+
+        private void TheaterStage_StageReady(object sender, EventArgs e) {
+            var settings = Program.Settings;
+            var theaterDays = GetTypedGame();
+
+            var video = theaterDays.GetBackgroundVideo();
+            if (video != null) {
+                var animFileName = Path.GetFileName(settings.Media.BackgroundAnimation);
+                var debugOverlay = theaterDays.GetDebugOverlay();
+                if (debugOverlay != null) {
+                    debugOverlay.Text = $"Background animation:\n{animFileName}";
+                }
+
+                theaterDays.Invoke(() => {
+                    video.OpenFile(settings.Media.BackgroundAnimation);
+                    if (!video.CanPlay) {
+                        if (debugOverlay != null) {
+                            debugOverlay.Text = $"Error:\nunable to play <{animFileName}>. File type is not supported.";
+                            debugOverlay.Show();
+                        }
+                    } else {
+                        // Omitting these 2 lines will result in a black screen.
+                        // (When the video is stopped, it renders nothing.)
+                        video.WaitUntilReady();
+                        video.PauseOnFirstFrame();
+                    }
+                });
+            }
+
+            var image = theaterDays.GetBackgroundImage();
+            if (image != null) {
+                image.Load(settings.Media.BackgroundImage);
+            }
         }
 
         private void Video_VideoStateChanged(object sender, VideoStateChangedEventArgs e) {
             var theaterDays = GetTypedGame();
-            var helpOverlay = theaterDays.Elements.Find<HelpOverlay>();
+            var helpOverlay = theaterDays.GetHelpOverlay();
+            var debugOverlay = theaterDays.GetDebugOverlay();
+            var video = theaterDays.GetBackgroundVideo();
 
             switch (e.Event) {
                 case MediaEngineEvent.Play:
                 case MediaEngineEvent.Playing:
-                    helpOverlay.Visible = false;
+                    if (helpOverlay != null) {
+                        helpOverlay.Hide();
+                    }
                     break;
                 case MediaEngineEvent.CanPlay:
                 case MediaEngineEvent.Pause:
                 case MediaEngineEvent.Ended:
+                    if (helpOverlay != null) {
+                        helpOverlay.Show();
+                    }
+                    break;
                 case MediaEngineEvent.Error:
+                    if (debugOverlay != null) {
+                        if (video != null) {
+                            var error = video.GetError();
+                            var errCode = (MediaEngineErr)error.GetErrorCode();
+                            var hr = error.ExtendedErrorCode;
+                            debugOverlay.Text = $"Error: MediaEngine reported an error.\nType: {errCode}\nExtended: {hr}";
+                        } else {
+                            // Not reachable.
+                            debugOverlay.Text = "Error: MediaEngine reported an error.";
+                        }
+                        debugOverlay.Show();
+                    }
+                    if (helpOverlay != null) {
+                        helpOverlay.Hide();
+                    }
+                    break;
                 case MediaEngineEvent.Abort:
-                    helpOverlay.Visible = true;
+                    if (debugOverlay != null) {
+                        debugOverlay.Text = "Warning: MediaEngine aborted.";
+                        debugOverlay.Show();
+                    }
+                    if (helpOverlay != null) {
+                        helpOverlay.Hide();
+                    }
                     break;
             }
         }
@@ -36,7 +109,7 @@ namespace OpenMLTD.MilliSim.Theater {
 
             switch (e.KeyCode) {
                 case Keys.Space: {
-                        var video = theaterDays.Elements.FindOrNull<BackgroundVideo>();
+                        var video = theaterDays.GetBackgroundVideo();
                         if (video != null) {
                             if (video.IsStopped) {
                                 video.Play();
@@ -47,7 +120,7 @@ namespace OpenMLTD.MilliSim.Theater {
                         break;
                     }
                 case Keys.F2: {
-                        var video = theaterDays.Elements.FindOrNull<BackgroundVideo>();
+                        var video = theaterDays.GetBackgroundVideo();
                         if (video != null) {
                             video.PauseOnFirstFrame();
                         }

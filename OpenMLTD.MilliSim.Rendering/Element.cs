@@ -1,9 +1,9 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Rendering {
     // Hmm... no IDisposable.
-    public abstract class Element : IElement, IUpdateable {
+    public abstract class Element : IElement {
 
         [NotNull]
         public virtual string Name { get; set; } = string.Empty;

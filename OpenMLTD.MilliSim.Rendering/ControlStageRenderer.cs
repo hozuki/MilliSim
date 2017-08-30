@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SharpDX;
@@ -59,6 +59,8 @@ namespace OpenMLTD.MilliSim.Rendering {
                 _newSize = new Size2(clientSize.Width, clientSize.Height);
             }
         }
+
+
 
     }
 }

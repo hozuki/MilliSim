@@ -3,9 +3,9 @@ using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Rendering {
-    public sealed class Stage {
+    public sealed class StageView {
 
-        public Stage([NotNull, ItemNotNull] IReadOnlyList<VisualElement> visualElements) {
+        public StageView([NotNull, ItemNotNull] IReadOnlyList<VisualElement> visualElements) {
             VisualElements = visualElements;
         }
 

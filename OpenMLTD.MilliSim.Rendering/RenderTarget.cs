@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using OpenMLTD.MilliSim.Core;
 using SharpDX;
 using SharpDX.Direct2D1;
@@ -9,8 +9,6 @@ namespace OpenMLTD.MilliSim.Rendering {
     public sealed class RenderTarget : DisposableBase {
 
         internal RenderTarget(RenderContext context, bool isRoot) {
-            RenderContext = context;
-
             if (isRoot) {
                 _backBuffer = context.SwapChain.GetBackBuffer<Texture2D>(0);
             } else {
@@ -49,10 +47,9 @@ namespace OpenMLTD.MilliSim.Rendering {
             // Create the depth buffer view.
             _depthView = new DepthStencilView(context.Direct3DDevice, _depthBuffer);
 
-            Initialize2D(context);
+            var createProps = new CreationProperties();
+            _deviceContext = new SharpDX.Direct2D1.DeviceContext(_backBufferSurface, createProps);
         }
-
-        internal RenderContext RenderContext { get; }
 
         public Surface BackBufferSurface => _backBufferSurface;
 
@@ -64,17 +61,17 @@ namespace OpenMLTD.MilliSim.Rendering {
 
         public DepthStencilView DepthView => _depthView;
 
-        public SharpDX.Direct2D1.RenderTarget Direct2DRenderTarget => _d2dRenderTarget;
+        public SharpDX.Direct2D1.DeviceContext DeviceContext => _deviceContext;
 
         public void PushTransform() {
-            var transform = _d2dRenderTarget.Transform;
+            var transform = _deviceContext.Transform;
             _transformHistory.Push(transform);
         }
 
         public Matrix3x2 PopTransform() {
-            var currentTransform = _d2dRenderTarget.Transform;
+            var currentTransform = _deviceContext.Transform;
             var transform = _transformHistory.Pop();
-            _d2dRenderTarget.Transform = transform;
+            _deviceContext.Transform = transform;
             return currentTransform;
         }
 
@@ -82,21 +79,11 @@ namespace OpenMLTD.MilliSim.Rendering {
             if (!disposing) {
                 return;
             }
-            _d2dRenderTarget.Dispose();
+            _deviceContext.Dispose();
             _depthView.Dispose();
             _depthBuffer.Dispose();
             _backBuffer.Dispose();
             _renderView.Dispose();
-        }
-
-        private void Initialize2D(RenderContext context) {
-            var desktopDpi = context.Direct2DFactory.DesktopDpi;
-            var renderProps = new RenderTargetProperties(new PixelFormat(Format.Unknown, SharpDX.Direct2D1.AlphaMode.Premultiplied)) {
-                Type = RenderTargetType.Default,
-                DpiX = desktopDpi.Width,
-                DpiY = desktopDpi.Height
-            };
-            _d2dRenderTarget = new SharpDX.Direct2D1.RenderTarget(context.Direct2DFactory, _backBufferSurface, renderProps);
         }
 
         private readonly Stack<Matrix3x2> _transformHistory = new Stack<Matrix3x2>();
@@ -106,7 +93,7 @@ namespace OpenMLTD.MilliSim.Rendering {
         private readonly RenderTargetView _renderView;
         private readonly Texture2D _depthBuffer;
         private readonly DepthStencilView _depthView;
-        private SharpDX.Direct2D1.RenderTarget _d2dRenderTarget;
+        private SharpDX.Direct2D1.DeviceContext _deviceContext;
 
     }
 }

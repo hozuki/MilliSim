@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using OpenMLTD.MilliSim.Rendering.Extensions;
 using SharpDX.Direct2D1;
 
@@ -9,8 +9,12 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing.Effects {
             : base(effect) {
         }
 
-        public D2DShadowEffect(DeviceContext deviceContext)
-            : base(new Effect(deviceContext, Effect.Shadow)) {
+        public D2DShadowEffect(RenderContext context)
+            : this(context.RenderTarget.DeviceContext) {
+        }
+
+        public D2DShadowEffect(DeviceContext context)
+            : base(new Effect(context, Effect.Shadow)) {
         }
 
         public Color Color {

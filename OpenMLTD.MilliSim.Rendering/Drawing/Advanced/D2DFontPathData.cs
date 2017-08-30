@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
@@ -117,7 +117,7 @@ namespace OpenMLTD.MilliSim.Rendering.Drawing.Advanced {
 
         // Warning: this function seems to have serious memory leak...
         private static D2DPathData GetPathData(RenderContext context, string text, FontFace fontFace, float fontSizeInEm) {
-            var pathData = new D2DPathData(context.Direct2DFactory);
+            var pathData = new D2DPathData(context.RenderTarget.DeviceContext.Factory);
 
             pathData.BeginDraw();
 
