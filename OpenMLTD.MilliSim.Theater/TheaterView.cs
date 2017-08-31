@@ -1,6 +1,6 @@
 using System.Windows.Forms;
 using JetBrains.Annotations;
-using OpenMLTD.MilliSim.Rendering;
+using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater {
@@ -8,7 +8,7 @@ namespace OpenMLTD.MilliSim.Theater {
     public sealed partial class TheaterView : GameWindow {
 
         [UsedImplicitly(ImplicitUseKindFlags.Access)]
-        public TheaterView(Game game)
+        public TheaterView(GameBase game)
             : base(game) {
             RegisterEventHandlers();
         }

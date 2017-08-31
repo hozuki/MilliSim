@@ -22,7 +22,7 @@ namespace OpenMLTD.MilliSim.Theater {
             var b = new DeserializerBuilder()
                 .WithNamingConvention(new UnderscoredNamingConvention())
                 .IgnoreUnmatchedProperties()
-                .WithTypeConverter(new LayoutValueConverter())
+                .WithTypeConverter(new PercentOrRealValueConverter())
                 .WithTypeConverter(new DifficultyConverter())
                 .WithTypeConverter(new ColorConverter())
                 .WithTypeConverter(new SizeFConverter());

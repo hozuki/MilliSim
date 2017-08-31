@@ -1,4 +1,5 @@
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Foundation;
 
 namespace OpenMLTD.MilliSim.Rendering {
     public abstract class VisualElement : Element, IDrawable {

@@ -31,6 +31,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".dir", ".dir", "{9D3D7DAF-5
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Foundation", "OpenMLTD.MilliSim.Foundation\OpenMLTD.MilliSim.Foundation.csproj", "{BF644701-DFD5-49B6-90E8-A54C1BB331AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{D54FB6F6-9042-4925-BFC5-947A363F0849}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D54FB6F6-9042-4925-BFC5-947A363F0849}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D54FB6F6-9042-4925-BFC5-947A363F0849}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF644701-DFD5-49B6-90E8-A54C1BB331AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF644701-DFD5-49B6-90E8-A54C1BB331AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF644701-DFD5-49B6-90E8-A54C1BB331AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF644701-DFD5-49B6-90E8-A54C1BB331AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{78C104E2-B11B-4574-974A-0248C2323286} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 		{8CDFB26B-8D82-4D66-A850-0A1686C29E28} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 		{D54FB6F6-9042-4925-BFC5-947A363F0849} = {700A876B-F712-44FC-9513-CC1B6096D5FF}
+		{BF644701-DFD5-49B6-90E8-A54C1BB331AE} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {27A82ED7-C1EE-4F03-B3AD-02534ACDB2B1}

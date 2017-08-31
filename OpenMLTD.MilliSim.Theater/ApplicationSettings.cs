@@ -14,7 +14,8 @@ namespace OpenMLTD.MilliSim.Theater {
 
         public MediaClass Media { get; set; }
 
-        public LayoutClass Layout { get; set; }
+        [YamlMember(Alias = "ui")]
+        public UIClass UI { get; set; }
 
         public StyleClass Style { get; set; }
 
@@ -30,6 +31,7 @@ namespace OpenMLTD.MilliSim.Theater {
 
         public ScalingClass Scaling { get; set; }
 
+        #region Setting types
         public sealed class MetadataClass {
 
             public int Version { get; set; }
@@ -59,11 +61,11 @@ namespace OpenMLTD.MilliSim.Theater {
 
         public sealed class ImagesClass {
 
-            public string TapPoint { get; set; }
+            public ImageWithBlankEdge TapPoint { get; set; }
 
-            public string TapBar { get; set; }
+            public ImageWithBlankEdge TapBarChain { get; set; }
 
-            public string TapBarNode { get; set; }
+            public ImageWithBlankEdge TapBarNode { get; set; }
 
             public HpGaugeClass HpGauge { get; set; }
 
@@ -71,71 +73,73 @@ namespace OpenMLTD.MilliSim.Theater {
 
             public ScoreRankClass ScoreRank { get; set; }
 
-            public string ComboCounter { get; set; }
+            public ImageWithBlankEdge ComboCounter { get; set; }
 
             public ImageStrip FullCombo { get; set; }
 
             public ImageStrip LiveClear { get; set; }
 
-            public string ScoreNumbers { get; set; }
+            public ImageWithBlankEdge ScoreNumbers { get; set; }
 
-            public string ComboNumbers { get; set; }
+            public ImageWithBlankEdge ComboNumbers { get; set; }
 
             public ImageStrip HitRank { get; set; }
 
-            public string[] Notes { get; set; }
+            public ImageWithBlankEdge[] Notes { get; set; }
 
-            public string SyncLine { get; set; }
+            public ImageWithBlankEdge SyncLine { get; set; }
 
             public ImageStrip DifficultyBadges { get; set; }
 
             public sealed class HpGaugeClass {
 
-                public string Base { get; set; }
+                public ImageWithBlankEdge Base { get; set; }
 
-                public string Progress { get; set; }
+                public ImageWithBlankEdge Progress { get; set; }
 
             }
 
             public sealed class AvatarsClass {
 
-                public string Mask { get; set; }
+                public ImageWithBlankEdge Mask { get; set; }
 
-                public string[] Icons { get; set; }
+                public ImageWithBlankEdge[] Icons { get; set; }
 
             }
 
             public sealed class ScoreRankClass {
 
-                public string Base { get; set; }
+                public ImageWithBlankEdge Base { get; set; }
 
-                public string Icons { get; set; }
+                public ImageWithBlankEdge Icons { get; set; }
 
             }
 
         }
 
-        public sealed class LayoutClass {
+        public sealed class UIClass {
 
-            public LayoutCoordinate2D TapPoints { get; set; }
+            public UICommonConfig TapPoints { get; set; }
 
-            public LayoutCoordinate2D HpGauge { get; set; }
+            public UICommonConfig HpGauge { get; set; }
 
-            public LayoutCoordinate2D Avatars { get; set; }
+            public UICommonConfig Avatars { get; set; }
 
-            public LayoutCoordinate2D ScoreRank { get; set; }
+            public UICommonConfig ScoreRank { get; set; }
 
-            public LayoutCoordinate2D ComboCounter { get; set; }
+            public UICommonConfig ComboCounter { get; set; }
 
-            public NoteAreaClass NoteArea { get; set; }
+            public UICommonConfig NoteArea { get; set; }
 
-            public LayoutCoordinate2D Title { get; set; }
+            public UICommonConfig Title { get; set; }
 
-            public LayoutCoordinate2D HitRank { get; set; }
+            public UICommonConfig HitRank { get; set; }
 
-            public sealed class NoteAreaClass {
+            public sealed class UICommonConfig {
 
-                public LayoutValue Top { get; set; }
+                public LayoutCoordinate2D Layout { get; set; }
+
+                public PercentOrRealValue Opacity { get; set; }
 
             }
 
@@ -214,12 +218,14 @@ namespace OpenMLTD.MilliSim.Theater {
 
             public SizeF TapPoint { get; set; }
 
-            public SizeF TapBar { get; set; }
+            public SizeF TapBarChain { get; set; }
 
             public SizeF TapBarNode { get; set; }
 
         }
+        #endregion
 
+        #region Setting base types
         public sealed class ImageStrip {
 
             public string File { get; set; }
@@ -228,11 +234,11 @@ namespace OpenMLTD.MilliSim.Theater {
 
         }
 
-        public sealed class LayoutCoordinate2D {
+        public struct LayoutCoordinate2D {
 
-            public LayoutValue X { get; set; }
+            public PercentOrRealValue X { get; set; }
 
-            public LayoutValue Y { get; set; }
+            public PercentOrRealValue Y { get; set; }
 
         }
 
@@ -261,6 +267,28 @@ namespace OpenMLTD.MilliSim.Theater {
             public Color TextStroke { get; set; }
 
         }
+
+        public sealed class ImageWithBlankEdge {
+
+            [YamlMember(Alias = "file")]
+            public string FileName { get; set; }
+
+            public SimpleRectangleF BlankEdge { get; set; }
+
+        }
+
+        public struct SimpleRectangleF {
+
+            public float Left { get; set; }
+
+            public float Top { get; set; }
+
+            public float Right { get; set; }
+
+            public float Bottom { get; set; }
+
+        }
+        #endregion
 
     }
 }

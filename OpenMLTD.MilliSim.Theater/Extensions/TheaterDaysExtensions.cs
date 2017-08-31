@@ -1,5 +1,5 @@
-﻿using JetBrains.Annotations;
-using OpenMLTD.MilliSim.Rendering.Extensions;
+using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Foundation.Extensions;
 using OpenMLTD.MilliSim.Theater.Elements;
 
 namespace OpenMLTD.MilliSim.Theater.Extensions {

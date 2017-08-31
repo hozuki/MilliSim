@@ -1,6 +1,6 @@
-﻿using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Core;
 
-namespace OpenMLTD.MilliSim.Rendering {
+namespace OpenMLTD.MilliSim.Foundation {
     public interface IUpdateable {
 
         void Update(GameTime gameTime);

@@ -1,4 +1,4 @@
-namespace OpenMLTD.MilliSim.Rendering {
+namespace OpenMLTD.MilliSim.Foundation {
     public interface IElement : IUpdateable {
 
         void Initialize();

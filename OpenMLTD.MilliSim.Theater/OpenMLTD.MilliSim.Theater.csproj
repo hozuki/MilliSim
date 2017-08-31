@@ -85,9 +85,9 @@
     <Compile Include="Elements\DebugOverlay.cs" />
     <Compile Include="Elements\FpsOverlay.cs" />
     <Compile Include="Elements\HelpOverlay.cs" />
-    <Compile Include="Configuration\LayoutValue.cs" />
+    <Compile Include="Configuration\PercentOrRealValue.cs" />
     <Compile Include="Configuration\Yaml\DifficultyConverter.cs" />
-    <Compile Include="Configuration\Yaml\LayoutValueConverter.cs" />
+    <Compile Include="Configuration\Yaml\PercentOrRealValueConverter.cs" />
     <Compile Include="Elements\TapPoints.cs" />
     <Compile Include="Elements\OutlinedTextOverlay.cs" />
     <Compile Include="Elements\Stage.cs" />
@@ -120,6 +120,10 @@
       <Project>{6847b3bf-8a0b-4433-a4d5-8de9961eb1f8}</Project>
       <Name>OpenMLTD.MilliSim.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Foundation\OpenMLTD.MilliSim.Foundation.csproj">
+      <Project>{BF644701-DFD5-49B6-90E8-A54C1BB331AE}</Project>
+      <Name>OpenMLTD.MilliSim.Foundation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Rendering\OpenMLTD.MilliSim.Rendering.csproj">
       <Project>{8cdfb26b-8d82-4d66-a850-0a1686c29e28}</Project>
       <Name>OpenMLTD.MilliSim.Rendering</Name>
@@ -147,7 +151,7 @@
     <Content Include="res\images\ui\tap_point.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="res\images\ui\tap_bar.png">
+    <Content Include="res\images\ui\tap_bar_chain.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

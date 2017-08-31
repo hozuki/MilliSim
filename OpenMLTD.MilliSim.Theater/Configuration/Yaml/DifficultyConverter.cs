@@ -15,6 +15,7 @@ namespace OpenMLTD.MilliSim.Theater.Configuration.Yaml {
             if (parser.Current == null) {
                 return null;
             }
+
             var scalar = (Scalar)parser.Current;
             var str = scalar.Value;
             if (string.IsNullOrWhiteSpace(str)) {

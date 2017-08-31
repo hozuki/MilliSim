@@ -3,10 +3,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace OpenMLTD.MilliSim.Rendering {
+namespace OpenMLTD.MilliSim.Foundation {
     public class GameWindow : Form {
 
-        public GameWindow(Game game) {
+        public GameWindow(GameBase game) {
             Game = game;
 
             SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
@@ -21,7 +21,7 @@ namespace OpenMLTD.MilliSim.Rendering {
             InitializeComponent();
         }
 
-        public Game Game { get; }
+        public GameBase Game { get; }
 
         public event EventHandler<EventArgs> StageReady;
 

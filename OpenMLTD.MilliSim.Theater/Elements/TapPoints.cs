@@ -19,7 +19,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             var clientSize = context.ClientSize;
             var difficulty = settings.Game.Difficulty;
 
-            var centerY = settings.Layout.TapPoints.Y * clientSize.Height;
+            var centerY = settings.UI.TapPoints.Layout.Y * clientSize.Height;
 
             float[] tapPointXPercArray, nodeXPercArray;
             switch (difficulty) {
@@ -43,23 +43,25 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             // Draw "chains", left and right.
             context.PushTransform();
-            context.Translate(0, centerY - _tapBarRealSize.Height / 2);
+            context.Translate(0, centerY - _tapBarChainRealSize.Height / 2);
             context.Begin2D();
-            var yy = _tapBarRealSize.Height / 2;
+            var yy = _tapBarChainRealSize.Height / 2;
+            var blankLeft = settings.Images.TapPoint.BlankEdge.Left;
+            var blankRight = settings.Images.TapPoint.BlankEdge.Right;
             for (var i = 0; i < nodeXPercArray.Length; ++i) {
                 var x1 = clientSize.Width * tapPointXPercArray[i];
                 var x2 = clientSize.Width * nodeXPercArray[i];
-                x1 += _tapPointRealSize.Width / 2;
+                x1 += _tapPointRealSize.Width / 2 - blankLeft;
                 x2 -= _tapBarNodeRealSize.Width / 2;
                 // Already translated.
-                context.DrawLine(_tapBarConnectionPen, x1, yy, x2, yy);
+                context.DrawLine(_tapBarChainPen, x1, yy, x2, yy);
 
                 x1 = clientSize.Width * nodeXPercArray[i];
                 x2 = clientSize.Width * tapPointXPercArray[i + 1];
                 x1 += _tapBarNodeRealSize.Width / 2;
-                x2 -= _tapPointRealSize.Width / 2;
+                x2 -= _tapPointRealSize.Width / 2 - blankRight;
                 // Already translated.
-                context.DrawLine(_tapBarConnectionPen, x1, yy, x2, yy);
+                context.DrawLine(_tapBarChainPen, x1, yy, x2, yy);
             }
             context.End2D();
             context.PopTransform();
@@ -88,56 +90,55 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             var clientSize = context.ClientSize;
             var windowScalingBasis = settings.Scaling.Base;
             var tapPointScalingBasis = settings.Scaling.TapPoint;
-            var tapBarScalingBasis = settings.Scaling.TapBar;
+            var tapBarScalingBasis = settings.Scaling.TapBarChain;
             var tapBarNodeScalingBasis = settings.Scaling.TapBarNode;
 
-            _tapPointImage = Direct2DHelper.LoadBitmap(settings.Images.TapPoint, context);
+            Opacity = settings.UI.TapPoints.Opacity;
+
+            _tapPointImage = Direct2DHelper.LoadBitmap(settings.Images.TapPoint.FileName, context);
             _tapPointScaleRatio = new Vector2(
-                (windowScalingBasis.Width / clientSize.Width) * (tapPointScalingBasis.Width / _tapPointExpectedImageSize.Width),
-                (windowScalingBasis.Height / clientSize.Height) * (tapPointScalingBasis.Height / _tapPointExpectedImageSize.Height));
+                (windowScalingBasis.Width / clientSize.Width) * (tapPointScalingBasis.Width / _tapPointImage.Width),
+                (windowScalingBasis.Height / clientSize.Height) * (tapPointScalingBasis.Height / _tapPointImage.Height));
             _tapPointRealSize = new SizeF(_tapPointImage.Width * _tapPointScaleRatio.X, _tapPointImage.Height * _tapPointScaleRatio.Y);
 
-            _tapBarImage = Direct2DHelper.LoadBitmap(settings.Images.TapBar, context);
-            _tapBarScaleRatio = new Vector2(
-                (windowScalingBasis.Width / clientSize.Width) * (tapBarScalingBasis.Width / _tapBarExpectedImageSize.Width),
-                (windowScalingBasis.Height / clientSize.Height) * (tapBarScalingBasis.Height / _tapBarExpectedImageSize.Height));
-            _tapBarRealSize = new SizeF(_tapBarImage.Width * _tapBarScaleRatio.X, _tapBarImage.Height * _tapBarScaleRatio.Y);
+            _tapBarChainImage = Direct2DHelper.LoadBitmap(settings.Images.TapBarChain.FileName, context);
+            _tapBarChainScaleRatio = new Vector2(
+                (windowScalingBasis.Width / clientSize.Width) * (tapBarScalingBasis.Width / _tapBarChainImage.Width),
+                (windowScalingBasis.Height / clientSize.Height) * (tapBarScalingBasis.Height / _tapBarChainImage.Height));
+            _tapBarChainRealSize = new SizeF(_tapBarChainImage.Width * _tapBarChainScaleRatio.X, _tapBarChainImage.Height * _tapBarChainScaleRatio.Y);
 
-            _tapBarNodeImage = Direct2DHelper.LoadBitmap(settings.Images.TapBarNode, context);
+            _tapBarNodeImage = Direct2DHelper.LoadBitmap(settings.Images.TapBarNode.FileName, context);
             _tapBarNodeScaleRatio = new Vector2(
-                (windowScalingBasis.Width / clientSize.Width) * (tapBarNodeScalingBasis.Width / _tapBarNodeExpectedImageSize.Width),
-                (windowScalingBasis.Height / clientSize.Height) * (tapBarNodeScalingBasis.Height / _tapBarNodeExpectedImageSize.Height));
+                (windowScalingBasis.Width / clientSize.Width) * (tapBarNodeScalingBasis.Width / _tapBarNodeImage.Width),
+                (windowScalingBasis.Height / clientSize.Height) * (tapBarNodeScalingBasis.Height / _tapBarNodeImage.Height));
             _tapBarNodeRealSize = new SizeF(_tapBarNodeImage.Width * _tapBarNodeScaleRatio.X, _tapBarNodeImage.Height * _tapBarNodeScaleRatio.Y);
 
-            _tapBarScaleEffect = new D2DScaleEffect(context) {
-                Scale = ((RawVector2)_tapBarScaleRatio).ToGdiSizeF()
+            _tapBarChainScaleEffect = new D2DScaleEffect(context) {
+                Scale = ((RawVector2)_tapBarChainScaleRatio).ToGdiSizeF()
             };
-            _tapBarScaleEffect.SetInput(0, _tapBarImage);
+            _tapBarChainScaleEffect.SetInput(0, _tapBarChainImage);
 
-            var tapBarBrushRect = new RectangleF(0, 0, _tapBarRealSize.Width, _tapBarRealSize.Height);
-            _tapBarConnectionBrush = new D2DImageBrush(context, _tapBarScaleEffect, ExtendMode.Wrap, ExtendMode.Wrap, InterpolationMode.Linear, tapBarBrushRect);
-            _tapBarConnectionPen = new D2DPen(_tapBarConnectionBrush, _tapBarExpectedImageSize.Height * _tapBarScaleRatio.Y);
+            var tapBarBrushRect = new RectangleF(0, 0, _tapBarChainRealSize.Width, _tapBarChainRealSize.Height);
+            _tapBarChainBrush = new D2DImageBrush(context, _tapBarChainScaleEffect, ExtendMode.Wrap, ExtendMode.Wrap, InterpolationMode.Linear, tapBarBrushRect);
+            _tapBarChainPen = new D2DPen(_tapBarChainBrush, _tapBarChainImage.Height * _tapBarChainScaleRatio.Y);
         }
 
         protected override void OnLostContext(RenderContext context) {
             base.OnLostContext(context);
-            _tapBarConnectionPen.Dispose();
-            _tapBarConnectionBrush.Dispose();
-            _tapBarScaleEffect.Dispose();
+            _tapBarChainPen.Dispose();
+            _tapBarChainBrush.Dispose();
+            _tapBarChainScaleEffect.Dispose();
             _tapPointImage.Dispose();
-            _tapBarImage.Dispose();
+            _tapBarChainImage.Dispose();
             _tapBarNodeImage.Dispose();
         }
 
-        private readonly SizeF _tapPointExpectedImageSize = new SizeF(380, 380);
-        private readonly SizeF _tapBarExpectedImageSize = new SizeF(32, 32);
-        private readonly SizeF _tapBarNodeExpectedImageSize = new SizeF(74, 74);
         private SizeF _tapPointRealSize;
-        private SizeF _tapBarRealSize;
+        private SizeF _tapBarChainRealSize;
         private SizeF _tapBarNodeRealSize;
 
         private Vector2 _tapPointScaleRatio;
-        private Vector2 _tapBarScaleRatio;
+        private Vector2 _tapBarChainScaleRatio;
         private Vector2 _tapBarNodeScaleRatio;
 
         private static readonly float[][] TapPointsXPercPrecalculated = {
@@ -153,13 +154,13 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         };
 
         private D2DBitmap _tapPointImage;
-        private D2DBitmap _tapBarImage;
+        private D2DBitmap _tapBarChainImage;
         private D2DBitmap _tapBarNodeImage;
 
-        private D2DScaleEffect _tapBarScaleEffect;
+        private D2DScaleEffect _tapBarChainScaleEffect;
 
-        private D2DImageBrush _tapBarConnectionBrush;
-        private D2DPen _tapBarConnectionPen;
+        private D2DImageBrush _tapBarChainBrush;
+        private D2DPen _tapBarChainPen;
 
     }
 }

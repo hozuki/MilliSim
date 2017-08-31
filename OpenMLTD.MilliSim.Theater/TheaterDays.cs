@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Rendering;
 using OpenMLTD.MilliSim.Theater.Elements;
 

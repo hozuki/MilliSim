@@ -1,7 +1,7 @@
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 
-namespace OpenMLTD.MilliSim.Rendering {
+namespace OpenMLTD.MilliSim.Foundation {
     // Hmm... no IDisposable.
     public abstract class Element : IElement {
 
