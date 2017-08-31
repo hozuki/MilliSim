@@ -6,6 +6,11 @@ namespace OpenMLTD.MilliSim.Theater.Extensions {
     public static class TheaterDaysExtensions {
 
         [CanBeNull]
+        public static AudioController GetAudioController(this TheaterDays days) {
+            return days.Elements.FindOrNull<AudioController>();
+        }
+
+        [CanBeNull]
         public static BackgroundVideo GetBackgroundVideo(this TheaterDays days) {
             return days.Elements.FindOrNull<BackgroundVideo>();
         }

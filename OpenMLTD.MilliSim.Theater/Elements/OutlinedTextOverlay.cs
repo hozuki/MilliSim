@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Rendering;
 using OpenMLTD.MilliSim.Rendering.Drawing;
 using OpenMLTD.MilliSim.Rendering.Drawing.Advanced;
@@ -16,6 +17,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
     /// Suggested for static and short texts.
     /// </summary>
     public class OutlinedTextOverlay : TextOverlayBase {
+
+        public OutlinedTextOverlay(GameBase game)
+            : base(game) {
+        }
 
         public override string Name { get; set; } = "Outlined Text Overlay";
 

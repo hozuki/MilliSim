@@ -14,5 +14,7 @@ namespace OpenMLTD.MilliSim.Foundation {
 
         public abstract Size ClientSize { get; }
 
+        protected internal abstract void Initialize();
+
     }
 }

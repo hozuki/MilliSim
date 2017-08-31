@@ -1,5 +1,6 @@
 using System.Drawing;
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Rendering.Extensions;
 using SharpDX.Direct2D1;
 using SharpDX.DXGI;
@@ -23,6 +24,10 @@ namespace OpenMLTD.MilliSim.Rendering {
     /// </para>
     /// </remarks>
     public abstract class BufferedElement2D : VisualElement, IBufferedElement, IElement2D {
+
+        protected BufferedElement2D(GameBase game)
+            : base(game) {
+        }
 
         public virtual Point Location { get; set; }
 

@@ -9,10 +9,7 @@ using PerformanceCounter = OpenMLTD.MilliSim.Core.PerformanceCounter;
 namespace OpenMLTD.MilliSim.Foundation {
     public abstract class GameBase : DisposableBase {
 
-        protected GameBase([CanBeNull, ItemNotNull] IReadOnlyList<Element> elements) {
-            Elements = elements ?? new Element[0];
-            _shouldContinue = true;
-
+        protected GameBase() {
             _timeLock = new SimpleUsingLock();
             _suspensionLock = new SimpleUsingLock();
         }
@@ -30,10 +27,6 @@ namespace OpenMLTD.MilliSim.Foundation {
         public void Run() => Run(new string[0]);
 
         public void Run<TWindow>() where TWindow : GameWindow => Run<TWindow>(new string[0]);
-
-        public void Initialize() {
-            OnInitialize();
-        }
 
         public void Run(string[] args) {
             Run<GameWindow>(args);
@@ -57,23 +50,33 @@ namespace OpenMLTD.MilliSim.Foundation {
                 // Must create the control before render thread starts, or a InvalidCall exception will be thrown.
                 window.CreateControl();
 
-                using (var renderer = CreateRenderer()) {
-                    Renderer = renderer;
+                var elements = CreateElements() ?? new Element[0];
+                Elements = elements;
 
-                    _exitingEvent = new ManualResetEvent(false);
+                using (var audioManager = CreateAudioManager()) {
+                    BaseAudioManager = audioManager;
 
-                    _workerThread = new Thread(WorkerThreadProc);
-                    _workerThread.IsBackground = true;
+                    using (var renderer = CreateRenderer()) {
+                        renderer.Initialize();
+                        BaseRenderer = renderer;
 
-                    window.Closed += GameWindowOnClosed;
-                    OnWindowLoad(EventArgs.Empty);
+                        OnInitialize();
 
-                    _workerThread.Start(window);
+                        _exitingEvent = new ManualResetEvent(false);
 
-                    window.ShowDialog();
+                        _workerThread = new Thread(WorkerThreadProc);
+                        _workerThread.IsBackground = true;
 
-                    _exitingEvent.WaitOne();
-                    _exitingEvent.Dispose();
+                        window.Closed += GameWindowOnClosed;
+                        OnWindowLoad(EventArgs.Empty);
+
+                        _workerThread.Start(window);
+
+                        window.ShowDialog();
+
+                        _exitingEvent.WaitOne();
+                        _exitingEvent.Dispose();
+                    }
                 }
             }
         }
@@ -113,7 +116,7 @@ namespace OpenMLTD.MilliSim.Foundation {
         }
 
         [NotNull, ItemNotNull]
-        public IReadOnlyList<Element> Elements { get; }
+        public IReadOnlyList<IElement> Elements { get; private set; }
 
         [NotNull]
         public GameTime Time {
@@ -136,7 +139,9 @@ namespace OpenMLTD.MilliSim.Foundation {
 
         public virtual string Title { get; } = "Game";
 
-        public RendererBase Renderer { get; private set; }
+        protected RendererBase BaseRenderer { get; private set; }
+
+        protected AudioManagerBase BaseAudioManager { get; private set; }
 
         /// <summary>
         /// Invoke an <see cref="Action"/> on worker thread.
@@ -157,9 +162,14 @@ namespace OpenMLTD.MilliSim.Foundation {
 
         protected abstract RendererBase CreateRenderer();
 
+        protected abstract AudioManagerBase CreateAudioManager();
+
+        [CanBeNull, ItemNotNull]
+        protected abstract IReadOnlyList<IElement> CreateElements();
+
         protected virtual void OnInitialize() {
             foreach (var element in Elements) {
-                element.Initialize();
+                element.OnInitialize();
             }
         }
 
@@ -214,7 +224,7 @@ namespace OpenMLTD.MilliSim.Foundation {
             Window.Closed -= GameWindowOnClosed;
         }
 
-        private volatile bool _shouldContinue;
+        private volatile bool _shouldContinue = true;
 
         private long _startTick;
         private long _lastTick;

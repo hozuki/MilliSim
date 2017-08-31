@@ -1,10 +1,15 @@
-﻿using System;
+using System;
 using System.Drawing;
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Rendering;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public class FpsOverlay : TextOverlay {
+
+        public FpsOverlay(GameBase game)
+            : base(game) {
+        }
 
         public override string Name { get; set; } = "FPS Overlay";
 

@@ -1,5 +1,6 @@
-﻿using System.IO;
+using System.IO;
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Rendering;
 using OpenMLTD.MilliSim.Rendering.Drawing;
 using OpenMLTD.MilliSim.Rendering.Extensions;
@@ -11,6 +12,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
     /// Suggested for dynamic texts or long texts.
     /// </summary>
     public class TextOverlay : TextOverlayBase {
+
+        public TextOverlay(GameBase game)
+            : base(game) {
+        }
 
         public override string Name { get; set; } = "Text Overlay";
 

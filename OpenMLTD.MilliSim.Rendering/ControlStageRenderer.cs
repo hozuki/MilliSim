@@ -12,7 +12,6 @@ namespace OpenMLTD.MilliSim.Rendering {
         public ControlStageRenderer(GameBase game, Control control)
             : base(game) {
             Control = control;
-            Initialize();
         }
 
         ~ControlStageRenderer() {

@@ -19,6 +19,14 @@ namespace OpenMLTD.MilliSim.Theater {
 
             ClientSize = new Size(settings.Window.Width, settings.Window.Height);
             CenterToScreen();
+
+            // Register element events.
+            var theaterDays = GetTypedGame();
+
+            var video = theaterDays.GetBackgroundVideo();
+            if (video != null) {
+                video.VideoStateChanged += Video_VideoStateChanged;
+            }
         }
 
         private void TheaterStage_StageReady(object sender, EventArgs e) {
@@ -131,6 +139,34 @@ namespace OpenMLTD.MilliSim.Theater {
                             theaterDays.Resume();
                         } else {
                             theaterDays.Suspend();
+                        }
+                        break;
+                    }
+                case Keys.B: {
+                        var audio = theaterDays.GetAudioController();
+                        var music = audio?.Music;
+                        if (music != null) {
+                            if (music.IsPlaying) {
+                                music.Pause();
+                            } else {
+                                music.Play();
+                            }
+                        }
+                        break;
+                    }
+                case Keys.Up: {
+                        var audio = theaterDays.GetAudioController();
+                        var music = audio?.Music;
+                        if (music != null) {
+                            music.Volume += 0.05f;
+                        }
+                        break;
+                    }
+                case Keys.Down: {
+                        var audio = theaterDays.GetAudioController();
+                        var music = audio?.Music;
+                        if (music != null) {
+                            music.Volume -= 0.05f;
                         }
                         break;
                     }

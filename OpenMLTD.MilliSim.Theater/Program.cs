@@ -36,7 +36,6 @@ namespace OpenMLTD.MilliSim.Theater {
             }
 
             using (var theaterDays = new TheaterDays()) {
-                theaterDays.Initialize();
                 theaterDays.Run<TheaterView>(args);
             }
         }

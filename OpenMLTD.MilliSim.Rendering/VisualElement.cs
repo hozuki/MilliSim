@@ -4,6 +4,10 @@ using OpenMLTD.MilliSim.Foundation;
 namespace OpenMLTD.MilliSim.Rendering {
     public abstract class VisualElement : Element, IDrawable {
 
+        protected VisualElement(GameBase game)
+            : base(game) {
+        }
+
         public void Draw(GameTime gameTime, RenderContext context) {
             if (!Visible) {
                 return;

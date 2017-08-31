@@ -1,9 +1,14 @@
-﻿using System;
+using System;
 using System.Drawing;
+using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Rendering;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public abstract class TextOverlayBase : Element2D {
+
+        protected TextOverlayBase(GameBase game)
+            : base(game) {
+        }
 
         public event EventHandler<EventArgs> TextChanged;
 

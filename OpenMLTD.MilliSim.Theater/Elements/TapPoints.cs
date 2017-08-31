@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities;
+using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Rendering;
 using OpenMLTD.MilliSim.Rendering.Drawing;
 using OpenMLTD.MilliSim.Rendering.Drawing.Effects;
@@ -13,6 +14,10 @@ using RectangleF = System.Drawing.RectangleF;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public class TapPoints : BufferedElement2D {
+
+        public TapPoints(GameBase game)
+            : base(game) {
+        }
 
         protected override void OnDrawBuffer(GameTime gameTime, RenderContext context) {
             var settings = Program.Settings;

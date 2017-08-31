@@ -5,7 +5,8 @@ using OpenMLTD.MilliSim.Foundation;
 namespace OpenMLTD.MilliSim.Rendering {
     public abstract class BufferedContainerElement : Element2D, IContainerElement {
 
-        protected BufferedContainerElement(IReadOnlyList<IElement> elements) {
+        protected BufferedContainerElement(GameBase game, IReadOnlyList<IElement> elements)
+            : base(game) {
             Elements = elements;
         }
 
@@ -14,7 +15,7 @@ namespace OpenMLTD.MilliSim.Rendering {
         protected override void OnInitialize() {
             base.OnInitialize();
             foreach (var element in Elements) {
-                element.Initialize();
+                element.OnInitialize();
             }
         }
 
@@ -44,6 +45,13 @@ namespace OpenMLTD.MilliSim.Rendering {
             foreach (var element in Elements) {
                 (element as IDrawable)?.OnLostContext(context);
             }
+        }
+
+        protected override void OnDispose() {
+            foreach (var element in Elements) {
+                element.OnDispose();
+            }
+            base.OnDispose();
         }
 
     }

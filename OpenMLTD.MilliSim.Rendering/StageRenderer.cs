@@ -30,8 +30,6 @@ namespace OpenMLTD.MilliSim.Rendering {
                     _dxgiFactory?.Dispose();
                     _swapChain?.Dispose();
                     _direct3DDevice?.Dispose();
-                    //_direct2DDevice?.Dispose();
-                    //_direct2DContext?.Dispose();
                     _dxgiDeviceManager?.Dispose();
 
                     _swapChainDescription.ModeDescription.Width = _newSize.Width;
@@ -94,24 +92,8 @@ namespace OpenMLTD.MilliSim.Rendering {
 
         internal DXGIDeviceManager DxgiDeviceManager => _dxgiDeviceManager;
 
-        protected override void Dispose(bool disposing) {
-            if (!disposing) {
-                return;
-            }
-            _directWriteFactory.Dispose();
-            _dxgiFactory.Dispose();
-            _swapChain.Dispose();
-            _direct3DDevice.Dispose();
-            _dxgiDeviceManager.Dispose();
-        }
-
-        protected abstract void CreateSwapChainAndDevice(out SwapChainDescription swapChainDescription, out SwapChain swapChain, out SharpDX.Direct3D11.Device device);
-
-        protected virtual void OnAfterInitialization() {
-        }
-
-        // Called in child classes' constructors.
-        protected void Initialize() {
+        // Called by GameBase.
+        protected internal override void Initialize() {
             CreateSwapChainAndDevice(out _swapChainDescription, out _swapChain, out _direct3DDevice);
 
             _dxgiDevice = _direct3DDevice.QueryInterface<SharpDX.DXGI.Device>();
@@ -133,6 +115,22 @@ namespace OpenMLTD.MilliSim.Rendering {
             }
 
             OnAfterInitialization();
+        }
+
+        protected override void Dispose(bool disposing) {
+            if (!disposing) {
+                return;
+            }
+            _directWriteFactory.Dispose();
+            _dxgiFactory.Dispose();
+            _swapChain.Dispose();
+            _direct3DDevice.Dispose();
+            _dxgiDeviceManager.Dispose();
+        }
+
+        protected abstract void CreateSwapChainAndDevice(out SwapChainDescription swapChainDescription, out SwapChain swapChain, out SharpDX.Direct3D11.Device device);
+
+        protected virtual void OnAfterInitialization() {
         }
 
         protected bool _isSizeChanged;

@@ -26,11 +26,11 @@ namespace OpenMLTD.MilliSim.Foundation {
         public event EventHandler<EventArgs> StageReady;
 
         internal void RaiseStageReady(EventArgs e) {
-            StageReady?.Invoke(this, e);
+            OnStageReady(this, e);
         }
 
-        internal void RaiseStageReadyAsync(EventArgs e) {
-            StageReady?.BeginInvoke(this, e, null, null);
+        protected virtual void OnStageReady(object sender, EventArgs e) {
+            StageReady?.Invoke(this, e);
         }
 
         #region Windows Form Designer generated code

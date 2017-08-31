@@ -5,12 +5,17 @@ using System.Threading;
 using JetBrains.Annotations;
 using MimeTypes;
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Rendering;
 using SharpDX.DXGI;
 using SharpDX.MediaFoundation;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public sealed class BackgroundVideo : BackgroundBase {
+
+        public BackgroundVideo(GameBase game)
+            : base(game) {
+        }
 
         ~BackgroundVideo() {
             CloseFile();

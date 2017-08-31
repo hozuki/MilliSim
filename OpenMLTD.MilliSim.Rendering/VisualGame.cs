@@ -1,26 +1,24 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 
 namespace OpenMLTD.MilliSim.Rendering {
     public abstract class VisualGame : GameBase {
 
-        protected VisualGame([CanBeNull, ItemNotNull] IReadOnlyList<Element> elements)
-            : base(elements) {
-            var visualElements = Elements.OfType<VisualElement>().ToArray();
-            Stage = new StageView(visualElements);
-        }
-
         public override void Draw(GameTime gameTime) {
             Stage.Draw(gameTime, StageRenderer);
         }
 
-        public ControlStageRenderer StageRenderer => (ControlStageRenderer)Renderer;
+        public ControlStageRenderer StageRenderer => (ControlStageRenderer)BaseRenderer;
 
-        public StageView Stage { get; }
+        public StageView Stage { get; private set; }
+
+        protected override void OnInitialize() {
+            base.OnInitialize();
+
+            var visualElements = Elements.OfType<VisualElement>().ToArray();
+            Stage = new StageView(visualElements);
+        }
 
         protected override RendererBase CreateRenderer() {
             return new ControlStageRenderer(this, Window);
@@ -32,7 +30,7 @@ namespace OpenMLTD.MilliSim.Rendering {
                 foreach (var element in Elements) {
                     (element as IDrawable)?.OnLostContext(renderContext);
                 }
-                Renderer.Dispose();
+                BaseRenderer.Dispose();
             }
 
             base.Dispose(disposing);

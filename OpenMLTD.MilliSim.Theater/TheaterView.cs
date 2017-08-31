@@ -49,13 +49,6 @@ namespace OpenMLTD.MilliSim.Theater {
             KeyDown += TheaterStage_KeyDown;
             StageReady += TheaterStage_StageReady;
             Load += TheaterStage_Load;
-
-            var theaterDays = GetTypedGame();
-
-            var video = theaterDays.GetBackgroundVideo();
-            if (video != null) {
-                video.VideoStateChanged += Video_VideoStateChanged;
-            }
         }
 
         private static readonly string TitleTemplate = "MilliSim: {0}";
