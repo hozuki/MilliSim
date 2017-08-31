@@ -6,7 +6,7 @@ using OpenMLTD.MilliSim.Rendering;
 using OpenMLTD.MilliSim.Theater.Elements;
 
 namespace OpenMLTD.MilliSim.Theater {
-    public sealed class TheaterDays : Game {
+    public sealed class TheaterDays : VisualGame {
 
         public TheaterDays()
             : base(CreateElements()) {

@@ -2,27 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Foundation;
 using SharpDX;
-using SharpDX.Direct2D1;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using SharpDX.MediaFoundation;
-using Color = System.Drawing.Color;
 using Factory = SharpDX.DXGI.Factory;
 
 namespace OpenMLTD.MilliSim.Rendering {
-    public abstract class StageRenderer : DisposableBase {
+    public abstract class StageRenderer : RendererBase {
 
-        protected StageRenderer(Game game) {
-            Game = game;
+        protected StageRenderer(GameBase game)
+            : base(game) {
         }
-
-        public Game Game { get; }
-
-        public Color ClearColor { get; set; } = Color.Black;
-
-        public abstract Size ClientSize { get; }
 
         public void Draw(IReadOnlyList<IDrawable> drawables, GameTime gameTime) {
             var context = _renderContext;

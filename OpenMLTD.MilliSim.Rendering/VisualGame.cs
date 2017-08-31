@@ -6,35 +6,29 @@ using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 
 namespace OpenMLTD.MilliSim.Rendering {
-    public abstract class Game : GameBase {
+    public abstract class VisualGame : GameBase {
 
-        protected Game([CanBeNull, ItemNotNull] IReadOnlyList<Element> elements)
+        protected VisualGame([CanBeNull, ItemNotNull] IReadOnlyList<Element> elements)
             : base(elements) {
             var visualElements = Elements.OfType<VisualElement>().ToArray();
             Stage = new StageView(visualElements);
         }
 
         public override void Draw(GameTime gameTime) {
-            Stage.Draw(gameTime, Renderer);
+            Stage.Draw(gameTime, StageRenderer);
         }
 
-        public ControlStageRenderer Renderer { get; private set; }
+        public ControlStageRenderer StageRenderer => (ControlStageRenderer)Renderer;
 
         public StageView Stage { get; }
 
-        protected override void OnBeforeRun(EventArgs e) {
-            base.OnBeforeRun(e);
-            Renderer = new ControlStageRenderer(this, Window);
-        }
-
-        protected override void OnAfterRun(EventArgs e) {
-            Renderer.Dispose();
-            base.OnAfterRun(e);
+        protected override RendererBase CreateRenderer() {
+            return new ControlStageRenderer(this, Window);
         }
 
         protected override void Dispose(bool disposing) {
             if (disposing) {
-                var renderContext = Renderer.RenderContext;
+                var renderContext = StageRenderer.RenderContext;
                 foreach (var element in Elements) {
                     (element as IDrawable)?.OnLostContext(renderContext);
                 }

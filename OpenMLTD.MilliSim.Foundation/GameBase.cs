@@ -40,6 +40,12 @@ namespace OpenMLTD.MilliSim.Foundation {
         }
 
         public void Run<TWindow>(string[] args) where TWindow : GameWindow {
+            if (_isAlreadyRun) {
+                throw new InvalidOperationException("The game has already been run once.");
+            }
+
+            _isAlreadyRun = true;
+
             var t = typeof(TWindow);
             var ctor = t.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, new[] { typeof(GameBase) }, new ParameterModifier[0]);
             if (ctor == null) {
@@ -51,24 +57,24 @@ namespace OpenMLTD.MilliSim.Foundation {
                 // Must create the control before render thread starts, or a InvalidCall exception will be thrown.
                 window.CreateControl();
 
-                OnBeforeRun(EventArgs.Empty);
+                using (var renderer = CreateRenderer()) {
+                    Renderer = renderer;
 
-                _exitingEvent = new ManualResetEvent(false);
+                    _exitingEvent = new ManualResetEvent(false);
 
-                _workerThread = new Thread(WorkerThreadProc);
-                _workerThread.IsBackground = true;
+                    _workerThread = new Thread(WorkerThreadProc);
+                    _workerThread.IsBackground = true;
 
-                window.Closed += GameWindowOnClosed;
-                OnWindowLoad(EventArgs.Empty);
+                    window.Closed += GameWindowOnClosed;
+                    OnWindowLoad(EventArgs.Empty);
 
-                _workerThread.Start(window);
+                    _workerThread.Start(window);
 
-                window.ShowDialog();
+                    window.ShowDialog();
 
-                _exitingEvent.WaitOne();
-                _exitingEvent.Dispose();
-
-                OnAfterRun(EventArgs.Empty);
+                    _exitingEvent.WaitOne();
+                    _exitingEvent.Dispose();
+                }
             }
         }
 
@@ -130,6 +136,8 @@ namespace OpenMLTD.MilliSim.Foundation {
 
         public virtual string Title { get; } = "Game";
 
+        public RendererBase Renderer { get; private set; }
+
         /// <summary>
         /// Invoke an <see cref="Action"/> on worker thread.
         /// </summary>
@@ -147,6 +155,8 @@ namespace OpenMLTD.MilliSim.Foundation {
             _actionQueue.Enqueue((action, state));
         }
 
+        protected abstract RendererBase CreateRenderer();
+
         protected virtual void OnInitialize() {
             foreach (var element in Elements) {
                 element.Initialize();
@@ -155,12 +165,6 @@ namespace OpenMLTD.MilliSim.Foundation {
 
         protected virtual void OnWindowLoad(EventArgs e) {
             WindowLoad?.Invoke(this, e);
-        }
-
-        protected virtual void OnBeforeRun(EventArgs e) {
-        }
-
-        protected virtual void OnAfterRun(EventArgs e) {
         }
 
         protected override void Dispose(bool disposing) {
@@ -226,6 +230,8 @@ namespace OpenMLTD.MilliSim.Foundation {
         private ManualResetEvent _exitingEvent;
         private readonly SimpleUsingLock _timeLock;
         private readonly SimpleUsingLock _suspensionLock;
+
+        private bool _isAlreadyRun;
 
     }
 }

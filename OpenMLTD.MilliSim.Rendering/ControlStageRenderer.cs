@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using OpenMLTD.MilliSim.Foundation;
 using SharpDX;
 using SharpDX.Direct3D;
 using SharpDX.DXGI;
@@ -8,7 +9,7 @@ using SharpDX.DXGI;
 namespace OpenMLTD.MilliSim.Rendering {
     public sealed class ControlStageRenderer : StageRenderer {
 
-        public ControlStageRenderer(Game game, Control control)
+        public ControlStageRenderer(GameBase game, Control control)
             : base(game) {
             Control = control;
             Initialize();

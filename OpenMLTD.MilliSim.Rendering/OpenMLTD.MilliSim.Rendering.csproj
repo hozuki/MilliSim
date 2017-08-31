@@ -131,7 +131,7 @@
     <Compile Include="ControlStageRenderer.cs" />
     <Compile Include="ContainerElement.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="VisualGame.cs" />
     <Compile Include="RenderContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StageRenderer.cs" />
