@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace OpenMLTD.MilliSim.Theater.Configuration {
+namespace OpenMLTD.MilliSim.Theater.Configuration.Primitives {
     public struct PercentOrRealValue {
 
         public float Value { get; set; }

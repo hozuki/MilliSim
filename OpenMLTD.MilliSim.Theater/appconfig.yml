@@ -85,10 +85,14 @@ images:
   hit_rank:
     file: res/images/ui/hit_rank.png # perfect, great, good, fast, slow, miss; left to right
     count: 10 # top to bottom
-  notes: # notes: tap (small, large), hold (small, large), flick (left, right, up), slide (ends, middle)
-    - file: res/images/notes/default.png # style=0
-    - file: res/images/notes/style1.png # style=1
-    - file: res/images/notes/style2.png # style=2
+  notes: # notes: tap (small, large), hold (small, large), flick (left, up, right), slide (start, middle, end)
+    - file: res/images/notes/default.png # style=0 (default notes set), 160x160
+      count: 10
+      orientation: horizontal
+    #- file: res/images/notes/style1.png # style=1
+    #  count: 10
+    #- file: res/images/notes/style2.png # style=2
+    #  count: 10
   sync_line:
     file: res/images/sync_line.png
   difficulty_badges:
@@ -101,6 +105,7 @@ scaling:
   tap_point: 110x110
   tap_bar_chain: 4x4
   tap_bar_node: 16x16
+  note: 120x120
 ui:
   tap_points:
     layout:
@@ -123,10 +128,10 @@ ui:
     layout:
       x: 80% # x position (anchor: left)
       y: 20% # y position (anchor: top)
-  note_area:
-    layout:
-      y: 20%
-      # the rest follow configuration in 'tap_points'
+  notes_animation:
+    opacity: 80%
+  ribbons:
+    opacity: 80%
   title:
     layout:
       x: 5% # x position (anchor: left)

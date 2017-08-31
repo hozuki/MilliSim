@@ -81,6 +81,8 @@
     <Compile Include="Drawing\Advanced\D2DFontPathData.cs" />
     <Compile Include="Direct2DHelper.cs" />
     <Compile Include="DirectWriteHelper.cs" />
+    <Compile Include="Drawing\Advanced\D2DImageStrip.cs" />
+    <Compile Include="Drawing\Advanced\ImageStripOrientation.cs" />
     <Compile Include="Drawing\D2DArcSegment.cs" />
     <Compile Include="Drawing\D2DArcSize.cs" />
     <Compile Include="Drawing\D2DBezierSegment.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="Extensions\PointFExtensions.cs" />
     <Compile Include="Extensions\RawColorExtensions.cs" />
     <Compile Include="Extensions\RectangleFExtensions.cs" />
+    <Compile Include="Extensions\RenderContextExtensions.Advanced.cs" />
     <Compile Include="Extensions\RenderContextExtensions.cs" />
     <Compile Include="Extensions\RenderContextExtensions.Native.cs" />
     <Compile Include="Extensions\SizeExtensions.cs" />

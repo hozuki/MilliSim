@@ -33,19 +33,28 @@ namespace OpenMLTD.MilliSim.Theater {
             var settings = Program.Settings;
             var theaterDays = GetTypedGame();
 
+            var debugOverlay = theaterDays.GetDebugOverlay();
+
+            var audioController = theaterDays.GetAudioController();
+            if (audioController?.Music != null) {
+                var musicFileName = Path.GetFileName(settings.Media.BackgroundMusic);
+                if (debugOverlay != null) {
+                    debugOverlay.AddLine($"Background music: {musicFileName}");
+                }
+            }
+
             var video = theaterDays.GetBackgroundVideo();
             if (video != null) {
                 var animFileName = Path.GetFileName(settings.Media.BackgroundAnimation);
-                var debugOverlay = theaterDays.GetDebugOverlay();
                 if (debugOverlay != null) {
-                    debugOverlay.Text = $"Background animation:\n{animFileName}";
+                    debugOverlay.AddLine($"Background animation: {animFileName}");
                 }
 
                 theaterDays.Invoke(() => {
                     video.OpenFile(settings.Media.BackgroundAnimation);
                     if (!video.CanPlay) {
                         if (debugOverlay != null) {
-                            debugOverlay.Text = $"Error:\nunable to play <{animFileName}>. File type is not supported.";
+                            debugOverlay.AddLine($"ERROR: Unable to play <{animFileName}>. File type is not supported.");
                             debugOverlay.Show();
                         }
                     } else {

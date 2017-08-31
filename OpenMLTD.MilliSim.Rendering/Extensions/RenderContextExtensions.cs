@@ -1,6 +1,5 @@
 using System.Drawing;
 using OpenMLTD.MilliSim.Rendering.Drawing;
-using OpenMLTD.MilliSim.Rendering.Drawing.Advanced;
 using SharpDX.Direct2D1;
 using SharpDX;
 using Point = System.Drawing.Point;
@@ -37,46 +36,6 @@ namespace OpenMLTD.MilliSim.Rendering.Extensions {
 
         public static void FillPath(this RenderContext context, ID2DBrush brush, D2DPathData path, PointF offset) {
             context.FillPath(brush, path, offset.X, offset.Y);
-        }
-
-        public static void FillPath(this RenderContext context, ID2DBrush brush, D2DFontPathData path) {
-            path.Fill(context, brush);
-        }
-
-        /// <summary>
-        /// Fills a <see cref="D2DFontPathData"/> to current <see cref="RenderContext"/>.
-        /// </summary>
-        /// <param name="context">The <see cref="RenderContext"/> to fill to.</param>
-        /// <param name="brush">The <see cref="D2DBrushBase"/> to use.</param>
-        /// <param name="path">The <see cref="D2DFontPathData"/> to fill.</param>
-        /// <param name="offsetX">The X offset on target <see cref="RenderContext"/>.</param>
-        /// <param name="offsetY">The Y offset on target <see cref="RenderContext"/>.</param>
-        /// <param name="yCorrection">If <see langword="true"/>, apply automatic Y correction: y(real) = offsetY + lineHeight. If <see langword="false"/>, the Y value stays untouched.</param>
-        public static void FillPath(this RenderContext context, ID2DBrush brush, D2DFontPathData path, float offsetX, float offsetY, bool yCorrection) {
-            if (yCorrection) {
-                offsetY += path.LineHeight;
-            }
-            path.Fill(context, brush, offsetX, offsetY);
-        }
-
-        public static void FillPath(this RenderContext context, ID2DBrush brush, D2DFontPathData path, float offsetX, float offsetY) {
-            context.FillPath(brush, path, offsetX, offsetY, true);
-        }
-
-        public static void FillPath(this RenderContext context, ID2DBrush brush, D2DFontPathData path, Point offset, bool yCorrection) {
-            context.FillPath(brush, path, offset.X, offset.Y, yCorrection);
-        }
-
-        public static void FillPath(this RenderContext context, ID2DBrush brush, D2DFontPathData path, Point offset) {
-            context.FillPath(brush, path, offset, true);
-        }
-
-        public static void FillPath(this RenderContext context, ID2DBrush brush, D2DFontPathData path, PointF offset, bool yCorrection) {
-            context.FillPath(brush, path, offset.X, offset.Y, yCorrection);
-        }
-
-        public static void FillPath(this RenderContext context, ID2DBrush brush, D2DFontPathData path, PointF offset) {
-            context.FillPath(brush, path, offset, true);
         }
 
         public static void FillMesh(this RenderContext context, ID2DBrush brush, D2DMesh mesh) {
@@ -136,46 +95,6 @@ namespace OpenMLTD.MilliSim.Rendering.Extensions {
 
         public static void DrawPath(this RenderContext context, ID2DPen pen, D2DPathData path, PointF offset) {
             context.DrawPath(pen, path, offset.X, offset.Y);
-        }
-
-        public static void DrawPath(this RenderContext context, ID2DPen pen, D2DFontPathData path) {
-            path.Draw(context, pen);
-        }
-
-        /// <summary>
-        /// Draws a <see cref="D2DFontPathData"/> to current <see cref="RenderContext"/>.
-        /// </summary>
-        /// <param name="context">The <see cref="RenderContext"/> to draw to.</param>
-        /// <param name="pen">The <see cref="D2DPen"/> to use.</param>
-        /// <param name="path">The <see cref="D2DFontPathData"/> to draw.</param>
-        /// <param name="offsetX">The X offset on target <see cref="RenderContext"/>.</param>
-        /// <param name="offsetY">The Y offset on target <see cref="RenderContext"/>.</param>
-        /// <param name="yCorrection">If <see langword="true"/>, apply automatic Y correction: y(real) = offsetY + lineHeight. If <see langword="false"/>, the Y value stays untouched.</param>
-        public static void DrawPath(this RenderContext context, ID2DPen pen, D2DFontPathData path, float offsetX, float offsetY, bool yCorrection) {
-            if (yCorrection) {
-                offsetY += path.LineHeight;
-            }
-            path.Draw(context, pen, offsetX, offsetY);
-        }
-
-        public static void DrawPath(this RenderContext context, ID2DPen pen, D2DFontPathData path, float offsetX, float offsetY) {
-            context.DrawPath(pen, path, offsetX, offsetY, true);
-        }
-
-        public static void DrawPath(this RenderContext context, ID2DPen pen, D2DFontPathData path, Point offset, bool yCorrection) {
-            context.DrawPath(pen, path, offset.X, offset.Y, yCorrection);
-        }
-
-        public static void DrawPath(this RenderContext context, ID2DPen pen, D2DFontPathData path, Point offset) {
-            context.DrawPath(pen, path, offset, true);
-        }
-
-        public static void DrawPath(this RenderContext context, ID2DPen pen, D2DFontPathData path, PointF offset, bool yCorrection) {
-            context.DrawPath(pen, path, offset.X, offset.Y, yCorrection);
-        }
-
-        public static void DrawPath(this RenderContext context, ID2DPen pen, D2DFontPathData path, PointF offset) {
-            context.DrawPath(pen, path, offset, true);
         }
 
         public static void DrawImage(this RenderContext context, ID2DImage image, float destX, float destY) {

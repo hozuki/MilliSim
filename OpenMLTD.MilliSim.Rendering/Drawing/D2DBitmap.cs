@@ -1,7 +1,7 @@
 using SharpDX.Direct2D1;
 
 namespace OpenMLTD.MilliSim.Rendering.Drawing {
-    public sealed class D2DBitmap : D2DImageBase, ID2DImage {
+    public class D2DBitmap : D2DImageBase, ID2DImage {
 
         public D2DBitmap(Bitmap bitmap) {
             NativeImage = bitmap;

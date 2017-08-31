@@ -34,6 +34,8 @@ namespace OpenMLTD.MilliSim.Theater {
             // ** Stage ** //
 
             var stageElements = new List<Element>();
+
+            stageElements.Add(new NotesAnimation(this));
             stageElements.Add(new TapPoints(this));
 
             var stage = new Stage(this, stageElements.ToArray());

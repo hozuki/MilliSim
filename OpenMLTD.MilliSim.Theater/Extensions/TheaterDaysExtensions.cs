@@ -1,9 +1,14 @@
 using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Foundation.Extensions;
 using OpenMLTD.MilliSim.Theater.Elements;
 
 namespace OpenMLTD.MilliSim.Theater.Extensions {
     public static class TheaterDaysExtensions {
+
+        public static TheaterDays AsTheaterDays(this GameBase game) {
+            return (TheaterDays)game;
+        }
 
         [CanBeNull]
         public static AudioController GetAudioController(this TheaterDays days) {

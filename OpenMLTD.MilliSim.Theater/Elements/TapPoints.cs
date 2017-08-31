@@ -20,6 +20,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         }
 
         protected override void OnDrawBuffer(GameTime gameTime, RenderContext context) {
+            base.OnDrawBuffer(gameTime, context);
+
             var settings = Program.Settings;
             var clientSize = context.ClientSize;
             var difficulty = settings.Game.Difficulty;

@@ -25,7 +25,8 @@ namespace OpenMLTD.MilliSim.Theater {
                 .WithTypeConverter(new PercentOrRealValueConverter())
                 .WithTypeConverter(new DifficultyConverter())
                 .WithTypeConverter(new ColorConverter())
-                .WithTypeConverter(new SizeFConverter());
+                .WithTypeConverter(new SizeFConverter())
+                .WithTypeConverter(new PointFConverter());
             var s = b.Build();
 
             using (var fileStream = File.Open(ConfigFilePath, FileMode.Open, FileAccess.Read, FileShare.Read)) {

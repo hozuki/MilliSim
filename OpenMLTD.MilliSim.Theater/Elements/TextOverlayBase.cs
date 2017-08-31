@@ -14,7 +14,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
         public override string Name { get; set; } = "Text Overlay Base";
 
-        public string Text {
+        public virtual string Text {
             get => _text;
             set {
                 var b = _text != value;

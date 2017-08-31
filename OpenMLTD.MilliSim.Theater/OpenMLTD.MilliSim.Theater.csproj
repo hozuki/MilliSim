@@ -80,7 +80,24 @@
   <ItemGroup>
     <Compile Include="ApplicationHelper.cs" />
     <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="Configuration\GameClass.cs" />
+    <Compile Include="Configuration\ImagesClass.cs" />
+    <Compile Include="Configuration\LocalStringsClass.cs" />
+    <Compile Include="Configuration\MediaClass.cs" />
+    <Compile Include="Configuration\MetadataClass.cs" />
+    <Compile Include="Configuration\Primitives\ImageStrip.cs" />
+    <Compile Include="Configuration\Primitives\ImageWithBlankEdge.cs" />
+    <Compile Include="Configuration\Primitives\LayoutCoordinate2D.cs" />
+    <Compile Include="Configuration\Primitives\NoteGroup.cs" />
+    <Compile Include="Configuration\Primitives\SimpleRectangleF.cs" />
+    <Compile Include="Configuration\Primitives\UIElementConfig.cs" />
+    <Compile Include="Configuration\ScalingClass.cs" />
+    <Compile Include="Configuration\SfxClass.cs" />
+    <Compile Include="Configuration\StyleClass.cs" />
+    <Compile Include="Configuration\SystemUIClass.cs" />
+    <Compile Include="Configuration\UIClass.cs" />
     <Compile Include="Configuration\Yaml\ColorConverter.cs" />
+    <Compile Include="Configuration\Yaml\PointFConverter.cs" />
     <Compile Include="Configuration\Yaml\SizeFConverter.cs" />
     <Compile Include="Elements\AudioController.cs" />
     <Compile Include="Elements\BackgroundBase.cs" />
@@ -89,9 +106,10 @@
     <Compile Include="Elements\DebugOverlay.cs" />
     <Compile Include="Elements\FpsOverlay.cs" />
     <Compile Include="Elements\HelpOverlay.cs" />
-    <Compile Include="Configuration\PercentOrRealValue.cs" />
+    <Compile Include="Configuration\Primitives\PercentOrRealValue.cs" />
     <Compile Include="Configuration\Yaml\DifficultyConverter.cs" />
     <Compile Include="Configuration\Yaml\PercentOrRealValueConverter.cs" />
+    <Compile Include="Elements\NotesAnimation.cs" />
     <Compile Include="Elements\TapPoints.cs" />
     <Compile Include="Elements\OutlinedTextOverlay.cs" />
     <Compile Include="Elements\Stage.cs" />
@@ -110,10 +128,11 @@
     <Compile Include="TheaterView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Configuration\WindowOrientation.cs" />
+    <Compile Include="Configuration\Primitives\WindowOrientation.cs" />
     <Compile Include="TheaterView.EventHandlers.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Configuration\WindowClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Audio\OpenMLTD.MilliSim.Audio.csproj">
@@ -153,6 +172,14 @@
   <ItemGroup>
     <Content Include="MLTD-Icon.ico" />
     <Content Include="MLTD-Icon.png" />
+    <Content Include="res\images\notes\default.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res\images\ui\src\flick_left.png" />
+    <Content Include="res\images\ui\src\flick_right.png" />
+    <Content Include="res\images\ui\src\flick_up.png" />
+    <Content Include="res\images\ui\src\tap_large.png" />
+    <Content Include="res\images\ui\src\tap_small.png" />
     <Content Include="res\images\ui\tap_bar_node.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -169,5 +196,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

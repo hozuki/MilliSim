@@ -60,7 +60,8 @@ namespace OpenMLTD.MilliSim.Rendering {
             OnCopyBufferedContents(context, _offscreenBitmap);
         }
 
-        protected abstract void OnDrawBuffer(GameTime gameTime, RenderContext context);
+        protected virtual void OnDrawBuffer(GameTime gameTime, RenderContext context) {
+        }
 
         protected virtual void OnCopyBufferedContents(RenderContext context, SharpDX.Direct2D1.Bitmap buffer) {
             context.Begin2D();
