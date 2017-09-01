@@ -1,6 +1,6 @@
 using System.Drawing;
 using OpenMLTD.MilliSim.Foundation;
-using OpenMLTD.MilliSim.Rendering;
+using OpenMLTD.MilliSim.Graphics;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public class HelpOverlay : OutlinedTextOverlay {

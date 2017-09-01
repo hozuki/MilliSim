@@ -1,4 +1,4 @@
-using OpenMLTD.MilliSim.Rendering.Drawing.Advanced;
+using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Advanced;
 
 namespace OpenMLTD.MilliSim.Theater.Configuration.Primitives {
     public sealed class ImageStrip {

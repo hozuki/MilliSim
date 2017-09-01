@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 using MimeTypes;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
-using OpenMLTD.MilliSim.Rendering;
+using OpenMLTD.MilliSim.Graphics;
 using SharpDX.DXGI;
 using SharpDX.MediaFoundation;
 

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using OpenMLTD.MilliSim.Audio;
 using OpenMLTD.MilliSim.Foundation;
-using OpenMLTD.MilliSim.Rendering;
+using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Theater.Elements;
 
 namespace OpenMLTD.MilliSim.Theater {

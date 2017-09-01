@@ -3,12 +3,13 @@ using System.Drawing;
 using System.IO;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
-using OpenMLTD.MilliSim.Rendering;
-using OpenMLTD.MilliSim.Rendering.Drawing;
-using OpenMLTD.MilliSim.Rendering.Drawing.Advanced;
-using OpenMLTD.MilliSim.Rendering.Extensions;
+using OpenMLTD.MilliSim.Graphics;
+using OpenMLTD.MilliSim.Graphics.Drawing;
+using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
+using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Advanced;
+using OpenMLTD.MilliSim.Graphics.Extensions;
 using SharpDX.DirectWrite;
-using FontStyle = OpenMLTD.MilliSim.Rendering.FontStyle;
+using FontStyle = OpenMLTD.MilliSim.Graphics.Drawing.FontStyle;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     /// <summary>

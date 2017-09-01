@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
-using OpenMLTD.MilliSim.Rendering;
+using OpenMLTD.MilliSim.Graphics;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public class FpsOverlay : TextOverlay {

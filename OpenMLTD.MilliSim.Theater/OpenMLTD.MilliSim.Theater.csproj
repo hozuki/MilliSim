@@ -154,9 +154,9 @@
       <Project>{BF644701-DFD5-49B6-90E8-A54C1BB331AE}</Project>
       <Name>OpenMLTD.MilliSim.Foundation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenMLTD.MilliSim.Rendering\OpenMLTD.MilliSim.Rendering.csproj">
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Graphics\OpenMLTD.MilliSim.Graphics.csproj">
       <Project>{8cdfb26b-8d82-4d66-a850-0a1686c29e28}</Project>
-      <Name>OpenMLTD.MilliSim.Rendering</Name>
+      <Name>OpenMLTD.MilliSim.Graphics</Name>
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\MimeTypeMap\src\MimeTypes\MimeTypes.csproj">
       <Project>{d54fb6f6-9042-4925-bfc5-947a363f0849}</Project>

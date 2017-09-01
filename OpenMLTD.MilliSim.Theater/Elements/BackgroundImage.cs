@@ -1,9 +1,10 @@
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
-using OpenMLTD.MilliSim.Rendering;
-using OpenMLTD.MilliSim.Rendering.Drawing;
-using OpenMLTD.MilliSim.Rendering.Extensions;
+using OpenMLTD.MilliSim.Graphics;
+using OpenMLTD.MilliSim.Graphics.Drawing;
+using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
+using OpenMLTD.MilliSim.Graphics.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public sealed class BackgroundImage : BackgroundBase {
