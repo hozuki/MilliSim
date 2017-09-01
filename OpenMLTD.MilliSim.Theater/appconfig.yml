@@ -13,7 +13,8 @@ media:
   #bgm: game/bgm.wav # path to background music (BGM)
   bgm: F:\TEMP\cg-sd\harari_01.wav
   #bga: F:\TEMP\DelesteSimulator_x64 2017-05-30 00-51-33-148.mp4 # path to background animation (BGA), a video
-  bga: F:\Independent Software\JiJiDown\Download\1.【MLTD MV】「Shooting Stars」60fps-1.1(Av13296433,P1).mp4
+  #bga: F:\Independent Software\JiJiDown\Download\1.【MLTD MV】「Shooting Stars」60fps-1.1(Av13296433,P1).mp4
+  bga: F:\Independent Software\JiJiDown\Download\1.偶像大师MLTD手游Shooting Stars MM难度FC-1.1(Av13332401,P1).flv-muxed.mp4
   bgi: D:\Pictures\912721fae6cd7b8930e4d2db0e2442a7d8330efa.jpg.png # path to background image (BGI)
   # Note: if BGA and BGI are both set, BGA will be used.
   bgm_volume: 100 # volume of BGM (0 - 100)
@@ -102,7 +103,7 @@ localization:
   press_space_to_start: Press space key to play #スペースで再生
 scaling:
   base: 960x540
-  tap_point: 110x110
+  tap_point: 114x114
   tap_bar_chain: 4x4
   tap_bar_node: 16x16
   note: 120x120
@@ -110,7 +111,7 @@ ui:
   tap_points:
     layout:
       x: 50% # x position (anchor: center)
-      y: 82% # y position (anchor: middle)
+      y: 83% # y position (anchor: middle)
     opacity: 80%
   hp_gauge:
     layout:

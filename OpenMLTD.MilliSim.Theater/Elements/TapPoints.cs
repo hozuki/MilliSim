@@ -15,6 +15,40 @@ using RectangleF = System.Drawing.RectangleF;
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public class TapPoints : BufferedElement2D {
 
+        static TapPoints() {
+            const float workingAreaWidth = 0.61f;
+            const float left = (1 - workingAreaWidth) / 2;
+            const float right = left + workingAreaWidth;
+
+            var t2 = CalcTracks(2, left, right);
+            var t4 = CalcTracks(4, left, right);
+            var t6 = CalcTracks(6, left, right);
+
+            TapPointsXPercPrecalculated = new[] {
+                t2.Tracks, // 2mix, 2mix+
+                t4.Tracks, //4mix,
+                t6.Tracks // 6mix, mmix
+            };
+
+            TapNodesXPercPrecalculated = new[] {
+                t2.Midpoints, // 2mix, 2mix+
+                t4.Midpoints, //4mix,
+                t6.Midpoints // 6mix, mmix
+            };
+
+            (float[] Tracks, float[] Midpoints) CalcTracks(int n, float l, float r) {
+                var tracks = new float[n];
+                for (var i = 0; i < n; ++i) {
+                    tracks[i] = l + (r - l) * i / (n - 1);
+                }
+                var midPoints = new float[tracks.Length - 1];
+                for (var i = 0; i < midPoints.Length; ++i) {
+                    midPoints[i] = (tracks[i] + tracks[i + 1]) / 2;
+                }
+                return (tracks, midPoints);
+            }
+        }
+
         public TapPoints(GameBase game)
             : base(game) {
         }
@@ -148,17 +182,9 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         private Vector2 _tapBarChainScaleRatio;
         private Vector2 _tapBarNodeScaleRatio;
 
-        private static readonly float[][] TapPointsXPercPrecalculated = {
-            new[] {0.2f, 0.8f}, // 2mix, 2mix+
-            new[] {0.2f, 0.4f, 0.6f, 0.8f}, //4mix,
-            new[] {0.2f, 0.32f, 0.44f, 0.56f, 0.68f, 0.8f} // 6mix, mmix
-        };
+        private static readonly float[][] TapPointsXPercPrecalculated;
 
-        private static readonly float[][] TapNodesXPercPrecalculated = {
-            new[] {0.5f}, // 2mix, 2mix+
-            new[] {0.3f, 0.5f, 0.7f}, //4mix,
-            new[] {0.26f, 0.38f, 0.5f, 0.62f, 0.74f} // 6mix, mmix
-        };
+        private static readonly float[][] TapNodesXPercPrecalculated;
 
         private D2DBitmap _tapPointImage;
         private D2DBitmap _tapBarChainImage;
