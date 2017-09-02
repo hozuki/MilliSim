@@ -12,7 +12,7 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing.Direct2D {
         public float Height => NativeImage.Size.Height;
 
         public D2DBitmap ShareWith(RenderContext context) {
-            return ShareWith(context.RenderTarget.DeviceContext);
+            return ShareWith(context.RenderTarget.DeviceContext2D);
         }
 
         public D2DBitmap ShareWith(DeviceContext context) {

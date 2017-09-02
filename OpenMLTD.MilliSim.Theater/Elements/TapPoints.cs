@@ -84,8 +84,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             }
 
             // Draw "chains", left and right.
-            context.PushTransform();
-            context.Translate(0, centerY - _tapBarChainRealSize.Height / 2);
+            context.PushTransform2D();
+            context.Translate2D(0, centerY - _tapBarChainRealSize.Height / 2);
             context.Begin2D();
             var yy = _tapBarChainRealSize.Height / 2;
             var blankLeft = settings.Images.TapPoint.BlankEdge.Left;
@@ -106,7 +106,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 context.DrawLine(_tapBarChainPen, x1, yy, x2, yy);
             }
             context.End2D();
-            context.PopTransform();
+            context.PopTransform2D();
 
             // Draw nodes.
             context.Begin2D();
@@ -137,19 +137,19 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             Opacity = settings.UI.TapPoints.Opacity;
 
-            _tapPointImage = Direct2DHelper.LoadBitmap(settings.Images.TapPoint.FileName, context);
+            _tapPointImage = Direct2DHelper.LoadBitmap(context, settings.Images.TapPoint.FileName);
             _tapPointScaleRatio = new Vector2(
                 (windowScalingBasis.Width / clientSize.Width) * (tapPointScalingBasis.Width / _tapPointImage.Width),
                 (windowScalingBasis.Height / clientSize.Height) * (tapPointScalingBasis.Height / _tapPointImage.Height));
             _tapPointRealSize = new SizeF(_tapPointImage.Width * _tapPointScaleRatio.X, _tapPointImage.Height * _tapPointScaleRatio.Y);
 
-            _tapBarChainImage = Direct2DHelper.LoadBitmap(settings.Images.TapBarChain.FileName, context);
+            _tapBarChainImage = Direct2DHelper.LoadBitmap(context, settings.Images.TapBarChain.FileName);
             _tapBarChainScaleRatio = new Vector2(
                 (windowScalingBasis.Width / clientSize.Width) * (tapBarScalingBasis.Width / _tapBarChainImage.Width),
                 (windowScalingBasis.Height / clientSize.Height) * (tapBarScalingBasis.Height / _tapBarChainImage.Height));
             _tapBarChainRealSize = new SizeF(_tapBarChainImage.Width * _tapBarChainScaleRatio.X, _tapBarChainImage.Height * _tapBarChainScaleRatio.Y);
 
-            _tapBarNodeImage = Direct2DHelper.LoadBitmap(settings.Images.TapBarNode.FileName, context);
+            _tapBarNodeImage = Direct2DHelper.LoadBitmap(context, settings.Images.TapBarNode.FileName);
             _tapBarNodeScaleRatio = new Vector2(
                 (windowScalingBasis.Width / clientSize.Width) * (tapBarNodeScalingBasis.Width / _tapBarNodeImage.Width),
                 (windowScalingBasis.Height / clientSize.Height) * (tapBarNodeScalingBasis.Height / _tapBarNodeImage.Height));

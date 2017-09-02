@@ -41,7 +41,7 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing {
             var bitmapProps = new BitmapProperties1();
             bitmapProps.PixelFormat = new PixelFormat(Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied);
             bitmapProps.BitmapOptions = BitmapOptions.Target;
-            _offscreenBitmap = new Bitmap1(context.RenderTarget.DeviceContext, context.ClientSize.ToD2DSize(), bitmapProps);
+            _offscreenBitmap = new Bitmap1(context.RenderTarget.DeviceContext2D, context.ClientSize.ToD2DSize(), bitmapProps);
         }
 
         protected override void OnLostContext(RenderContext context) {
@@ -50,7 +50,7 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing {
         }
 
         protected sealed override void OnDraw(GameTime gameTime, RenderContext context) {
-            using (TargetSwitcher.Begin(context, _offscreenBitmap)) {
+            using (TargetSwitcher.Begin2D(context, _offscreenBitmap)) {
                 context.Begin2D();
                 context.Clear2D(Color.Transparent);
                 context.End2D();

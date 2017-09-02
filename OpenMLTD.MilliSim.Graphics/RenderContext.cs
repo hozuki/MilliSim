@@ -76,7 +76,7 @@ namespace OpenMLTD.MilliSim.Graphics {
         }
 
         public void Clear2D(RenderTarget target, Color clearColor) {
-            target.DeviceContext.Clear(clearColor.ToRC4());
+            target.DeviceContext2D.Clear(clearColor.ToRC4());
         }
 
         public void SetRenderTarget([CanBeNull] RenderTarget target) {
@@ -102,11 +102,11 @@ namespace OpenMLTD.MilliSim.Graphics {
         }
 
         public void Begin2D() {
-            RenderTarget.DeviceContext.BeginDraw();
+            RenderTarget.DeviceContext2D.BeginDraw();
         }
 
         public void End2D() {
-            RenderTarget.DeviceContext.EndDraw();
+            RenderTarget.DeviceContext2D.EndDraw();
         }
 
         public void Present() {

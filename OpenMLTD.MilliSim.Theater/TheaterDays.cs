@@ -31,11 +31,17 @@ namespace OpenMLTD.MilliSim.Theater {
                 elements.Add(new BackgroundImage(this));
             }
 
+#if DEBUG
+            //elements.Add(new MiniCube(this));
+#endif
+            elements.Add(new RibbonsLayer(this));
+
+
             // ** Stage ** //
 
             var stageElements = new List<Element>();
 
-            stageElements.Add(new NotesAnimation(this));
+            stageElements.Add(new NotesLayer(this));
             stageElements.Add(new TapPoints(this));
 
             var stage = new Stage(this, stageElements.ToArray());

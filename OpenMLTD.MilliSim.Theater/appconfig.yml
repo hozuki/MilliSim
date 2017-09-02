@@ -94,6 +94,8 @@ images:
     #  count: 10
     #- file: res/images/notes/style2.png # style=2
     #  count: 10
+  ribbon:
+    file: res/images/ui/ribbon.png # 128x128
   sync_line:
     file: res/images/sync_line.png
   difficulty_badges:
@@ -129,9 +131,9 @@ ui:
     layout:
       x: 80% # x position (anchor: left)
       y: 20% # y position (anchor: top)
-  notes_animation:
+  notes_layer:
     opacity: 80%
-  ribbons:
+  ribbons_layer:
     opacity: 80%
   title:
     layout:

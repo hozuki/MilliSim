@@ -2,39 +2,27 @@ using System.Drawing;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Advanced;
-using SharpDX.WIC;
 using Bitmap = SharpDX.Direct2D1.Bitmap;
-using PixelFormat = SharpDX.WIC.PixelFormat;
 
 namespace OpenMLTD.MilliSim.Graphics.Drawing {
     public static class Direct2DHelper {
 
-        public static BitmapSource LoadBitmapAsWic(string fileName) {
-            using (var factory = new ImagingFactory()) {
-                using (var decoder = new BitmapDecoder(factory, fileName, DecodeOptions.CacheOnDemand)) {
-                    var converter = new FormatConverter(factory);
-                    converter.Initialize(decoder.GetFrame(0), PixelFormat.Format32bppPBGRA, BitmapDitherType.None, null, 0, BitmapPaletteType.Custom);
-                    return converter;
-                }
-            }
-        }
-
-        public static D2DImageStrip LoadImageStrip(string fileName, RenderContext context, int count, ImageStripOrientation orientation) {
-            var bitmap = LoadBitmap(fileName, context.RenderTarget.DeviceContext);
+        public static D2DImageStrip LoadImageStrip(RenderContext context, string fileName, int count, ImageStripOrientation orientation) {
+            var bitmap = LoadBitmap(context.RenderTarget.DeviceContext2D, fileName);
             return new D2DImageStrip(bitmap, count, orientation);
         }
 
-        public static D2DBitmap LoadBitmap(string fileName, RenderContext context) {
-            return LoadBitmap(fileName, context.RenderTarget);
+        public static D2DBitmap LoadBitmap(RenderContext context, string fileName) {
+            return LoadBitmap(context.RenderTarget, fileName);
         }
 
-        public static D2DBitmap LoadBitmap(string fileName, RenderTarget target) {
-            var bitmap = LoadBitmap(fileName, target.DeviceContext);
+        public static D2DBitmap LoadBitmap(RenderTarget target, string fileName) {
+            var bitmap = LoadBitmap(target.DeviceContext2D, fileName);
             return new D2DBitmap(bitmap);
         }
 
-        public static Bitmap LoadBitmap(string fileName, SharpDX.Direct2D1.RenderTarget target) {
-            using (var bmp = LoadBitmapAsWic(fileName)) {
+        public static Bitmap LoadBitmap(SharpDX.Direct2D1.RenderTarget target, string fileName) {
+            using (var bmp = WicHelper.LoadBitmapSourceFromFile(fileName)) {
                 return Bitmap.FromWicBitmap(target, bmp);
             }
         }

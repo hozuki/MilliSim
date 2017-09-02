@@ -46,11 +46,17 @@
     <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
       <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX.D3DCompiler, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.D3DCompiler.4.0.1\lib\net45\SharpDX.D3DCompiler.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX.Direct2D1, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
       <HintPath>..\packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D11, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
       <HintPath>..\packages\SharpDX.Direct3D11.4.0.1\lib\net45\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11.Effects, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct3D11.Effects.4.0.1\lib\net45\SharpDX.Direct3D11.Effects.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D9, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
       <HintPath>..\packages\SharpDX.Direct3D9.4.0.1\lib\net45\SharpDX.Direct3D9.dll</HintPath>
@@ -112,7 +118,9 @@
     <Compile Include="Configuration\Primitives\PercentOrRealValue.cs" />
     <Compile Include="Configuration\Yaml\DifficultyConverter.cs" />
     <Compile Include="Configuration\Yaml\PercentOrRealValueConverter.cs" />
-    <Compile Include="Elements\NotesAnimation.cs" />
+    <Compile Include="Elements\MiniCube.cs" />
+    <Compile Include="Elements\NotesLayer.cs" />
+    <Compile Include="Elements\RibbonsLayer.cs" />
     <Compile Include="Elements\TapPoints.cs" />
     <Compile Include="Elements\OutlinedTextOverlay.cs" />
     <Compile Include="Elements\Stage.cs" />
@@ -127,6 +135,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Content Include="res\fx\minicube.fx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Compile Include="TheaterDays.cs" />
     <Compile Include="TheaterView.cs">
       <SubType>Form</SubType>
@@ -176,6 +187,9 @@
     <Content Include="MLTD-Icon.ico" />
     <Content Include="MLTD-Icon.png" />
     <Content Include="res\images\notes\default.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res\images\ui\ribbon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="res\images\ui\src\flick_left.png" />

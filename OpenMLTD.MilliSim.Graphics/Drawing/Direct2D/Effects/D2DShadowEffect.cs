@@ -10,7 +10,7 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Effects {
         }
 
         public D2DShadowEffect(RenderContext context)
-            : this(context.RenderTarget.DeviceContext) {
+            : this(context.RenderTarget.DeviceContext2D) {
         }
 
         public D2DShadowEffect(DeviceContext context)

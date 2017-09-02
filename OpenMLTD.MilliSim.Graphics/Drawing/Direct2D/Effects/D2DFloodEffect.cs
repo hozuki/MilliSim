@@ -10,7 +10,7 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Effects {
         }
 
         public D2DFloodEffect(RenderContext context)
-            : this(context.RenderTarget.DeviceContext) {
+            : this(context.RenderTarget.DeviceContext2D) {
         }
 
         public D2DFloodEffect(DeviceContext context)

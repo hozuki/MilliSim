@@ -43,11 +43,17 @@
     <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
       <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX.D3DCompiler, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.D3DCompiler.4.0.1\lib\net45\SharpDX.D3DCompiler.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX.Direct2D1, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
       <HintPath>..\packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D11, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
       <HintPath>..\packages\SharpDX.Direct3D11.4.0.1\lib\net45\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11.Effects, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct3D11.Effects.4.0.1\lib\net45\SharpDX.Direct3D11.Effects.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D9, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
       <HintPath>..\packages\SharpDX.Direct3D9.4.0.1\lib\net45\SharpDX.Direct3D9.dll</HintPath>
@@ -76,6 +82,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\BasicModelInstanceExtensions.cs" />
+    <Compile Include="Extensions\Texture2DExtensions.cs" />
+    <Compile Include="Extensions\RenderContextExtensions.cs" />
+    <Compile Include="Extensions\RenderContextExtensions.Direct3D.cs" />
+    <Compile Include="GeometryGenerator.cs" />
+    <Compile Include="MathF.cs" />
+    <Compile Include="MeshData.cs" />
+    <Compile Include="Rendering\BasicModel.cs" />
+    <Compile Include="Rendering\BasicModelInstance.cs" />
+    <Compile Include="Rendering\CameraBase.cs" />
+    <Compile Include="Rendering\Direct3DHelper.cs" />
     <Compile Include="Drawing\BufferedContainerElement.cs" />
     <Compile Include="Drawing\BufferedElement2D.cs" />
     <Compile Include="Drawing\Direct2D\Advanced\D2DFontPathData.cs" />
@@ -117,9 +134,9 @@
     <Compile Include="Extensions\PointFExtensions.cs" />
     <Compile Include="Extensions\RawColorExtensions.cs" />
     <Compile Include="Extensions\RectangleFExtensions.cs" />
-    <Compile Include="Extensions\RenderContextExtensions.Advanced.cs" />
-    <Compile Include="Extensions\RenderContextExtensions.cs" />
-    <Compile Include="Extensions\RenderContextExtensions.Native.cs" />
+    <Compile Include="Extensions\RenderContextExtensions.Direct2D.Advanced.cs" />
+    <Compile Include="Extensions\RenderContextExtensions.Direct2D.cs" />
+    <Compile Include="Extensions\RenderContextExtensions.Direct2D.Native.cs" />
     <Compile Include="Extensions\SizeExtensions.cs" />
     <Compile Include="Extensions\SizeFExtensions.cs" />
     <Compile Include="Drawing\FillMode.cs" />
@@ -129,6 +146,22 @@
     <Compile Include="IContainerElement.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="Extensions\Matrix3x2Extensions.cs" />
+    <Compile Include="Rendering\Direct3D\D3DEffect.cs" />
+    <Compile Include="Rendering\Direct3D\D3DMaterial.cs" />
+    <Compile Include="Rendering\Direct3D\Effects\D3DSimpleTextureEffect.cs" />
+    <Compile Include="Rendering\Direct3D\Effects\D3DVertexColorEffect.cs" />
+    <Compile Include="Rendering\FpsCamera.cs" />
+    <Compile Include="Rendering\Frustrum.cs" />
+    <Compile Include="Rendering\HeightFunc.cs" />
+    <Compile Include="Rendering\IncludeProcessor.cs" />
+    <Compile Include="Rendering\InputLayoutDescriptions.cs" />
+    <Compile Include="Rendering\IntersectionState.cs" />
+    <Compile Include="Rendering\LookAtCamera.cs" />
+    <Compile Include="Rendering\MeshGeometry.cs" />
+    <Compile Include="Rendering\ModelBase.cs" />
+    <Compile Include="Rendering\OrthoCamera.cs" />
+    <Compile Include="Rendering\Texture2DLoadOptions.cs" />
+    <Compile Include="MeshVertex.cs" />
     <Compile Include="RenderTarget.cs" />
     <Compile Include="StageView.cs" />
     <Compile Include="ControlStageRenderer.cs" />
@@ -141,6 +174,7 @@
     <Compile Include="Drawing\SweepDirection.cs" />
     <Compile Include="TargetSwitcher.cs" />
     <Compile Include="VisualElement.cs" />
+    <Compile Include="WicHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -155,7 +189,32 @@
       <Name>OpenMLTD.MilliSim.Foundation</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="D3DCompiler_47.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="D3DCompiler_47_x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res\fx\helper.fx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res\fx\simple_texture.fx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res\fx\vertex_color.fx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sharpdx_direct3d11_1_effects_arm.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sharpdx_direct3d11_1_effects_x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sharpdx_direct3d11_1_effects_x86.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

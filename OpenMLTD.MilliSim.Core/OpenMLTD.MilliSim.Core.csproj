@@ -39,9 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallerHelper.cs" />
     <Compile Include="Disposable.cs" />
     <Compile Include="DisposableBase.cs" />
     <Compile Include="GameTime.cs" />
+    <Compile Include="InteropHelper.cs" />
     <Compile Include="Interop\NativeMethods.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="PerformanceCounter.cs" />

@@ -145,6 +145,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
         public bool IsEnded { get; private set; }
 
+        // TODO: when Visible=false, this method will not be called, and the video's audio playback suspends.
         protected override void OnDraw(GameTime gameTime, RenderContext context) {
             base.OnDraw(gameTime, context);
 

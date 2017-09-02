@@ -44,10 +44,10 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Advanced {
         }
 
         internal void Draw(RenderContext context, ID2DPen pen, float offsetX, float offsetY) {
-            context.PushTransform();
-            context.Translate(offsetX, offsetY);
+            context.PushTransform2D();
+            context.Translate2D(offsetX, offsetY);
             Draw(context, pen);
-            context.PopTransform();
+            context.PopTransform2D();
         }
 
         internal void Fill(RenderContext context, ID2DBrush brush) {
@@ -66,10 +66,10 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Advanced {
         }
 
         internal void Fill(RenderContext context, ID2DBrush brush, float offsetX, float offsetY) {
-            context.PushTransform();
-            context.Translate(offsetX, offsetY);
+            context.PushTransform2D();
+            context.Translate2D(offsetX, offsetY);
             Fill(context, brush);
-            context.PopTransform();
+            context.PopTransform2D();
         }
 
         protected override bool KeepFinalizer { get; } = true;
@@ -116,7 +116,7 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Advanced {
 
         // Warning: this function seems to have serious memory leak...
         private static D2DPathData GetPathData(RenderContext context, string text, FontFace fontFace, float fontSizeInEm) {
-            var pathData = new D2DPathData(context.RenderTarget.DeviceContext.Factory);
+            var pathData = new D2DPathData(context.RenderTarget.DeviceContext2D.Factory);
 
             pathData.BeginDraw();
 

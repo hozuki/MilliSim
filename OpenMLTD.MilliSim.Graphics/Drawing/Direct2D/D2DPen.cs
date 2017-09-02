@@ -11,7 +11,7 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing.Direct2D {
         }
 
         public D2DPen(RenderContext context, Color color, float strokeWidth) {
-            var nativeBrush = new SolidColorBrush(context.RenderTarget.DeviceContext, color.ToRC4());
+            var nativeBrush = new SolidColorBrush(context.RenderTarget.DeviceContext2D, color.ToRC4());
             Brush = new NativeBrushWrapper(nativeBrush);
             StrokeStyle = null;
             StrokeWidth = strokeWidth;

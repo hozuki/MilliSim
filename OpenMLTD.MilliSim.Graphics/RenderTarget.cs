@@ -48,7 +48,9 @@ namespace OpenMLTD.MilliSim.Graphics {
             _depthView = new DepthStencilView(context.Direct3DDevice, _depthBuffer);
 
             var createProps = new CreationProperties();
-            _deviceContext = new SharpDX.Direct2D1.DeviceContext(_backBufferSurface, createProps);
+            _deviceContext2D = new SharpDX.Direct2D1.DeviceContext(_backBufferSurface, createProps);
+
+            DeviceContext3D = context.Direct3DDevice.ImmediateContext;
         }
 
         public Surface BackBufferSurface => _backBufferSurface;
@@ -61,17 +63,19 @@ namespace OpenMLTD.MilliSim.Graphics {
 
         public DepthStencilView DepthView => _depthView;
 
-        public SharpDX.Direct2D1.DeviceContext DeviceContext => _deviceContext;
+        public SharpDX.Direct2D1.DeviceContext DeviceContext2D => _deviceContext2D;
+
+        public SharpDX.Direct3D11.DeviceContext DeviceContext3D { get; }
 
         public void PushTransform() {
-            var transform = _deviceContext.Transform;
+            var transform = _deviceContext2D.Transform;
             _transformHistory.Push(transform);
         }
 
         public Matrix3x2 PopTransform() {
-            var currentTransform = _deviceContext.Transform;
+            var currentTransform = _deviceContext2D.Transform;
             var transform = _transformHistory.Pop();
-            _deviceContext.Transform = transform;
+            _deviceContext2D.Transform = transform;
             return currentTransform;
         }
 
@@ -79,7 +83,7 @@ namespace OpenMLTD.MilliSim.Graphics {
             if (!disposing) {
                 return;
             }
-            _deviceContext.Dispose();
+            _deviceContext2D.Dispose();
             _depthView.Dispose();
             _depthBuffer.Dispose();
             _backBuffer.Dispose();
@@ -93,7 +97,7 @@ namespace OpenMLTD.MilliSim.Graphics {
         private readonly RenderTargetView _renderView;
         private readonly Texture2D _depthBuffer;
         private readonly DepthStencilView _depthView;
-        private SharpDX.Direct2D1.DeviceContext _deviceContext;
+        private SharpDX.Direct2D1.DeviceContext _deviceContext2D;
 
     }
 }

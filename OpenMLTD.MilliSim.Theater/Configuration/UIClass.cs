@@ -13,9 +13,9 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public UICommonConfig ComboCounter { get; set; }
 
-        public UICommonConfig NotesAnimation { get; set; }
+        public UICommonConfig NotesLayer { get; set; }
 
-        public UICommonConfig Ribbons { get; set; }
+        public UICommonConfig RibbonsLayer { get; set; }
 
         public UICommonConfig Title { get; set; }
 

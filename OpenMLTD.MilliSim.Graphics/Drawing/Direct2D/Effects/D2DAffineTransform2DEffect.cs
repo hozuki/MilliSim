@@ -10,7 +10,7 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Effects {
         }
 
         public D2DAffineTransform2DEffect(RenderContext context)
-            : this(context.RenderTarget.DeviceContext) {
+            : this(context.RenderTarget.DeviceContext2D) {
         }
 
         public D2DAffineTransform2DEffect(DeviceContext context)
