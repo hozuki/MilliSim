@@ -56,17 +56,28 @@ function main() {
             process.exit(1);
         }
 
-        console.info("Filtering files...");
-        let patched = 0;
+        /**
+         * @type {string[]}
+         */
+        const filesToPatch = [];
+
+        console.info(chalk.green("Finding AssemblyInfo files..."));
         for (const fileName of fileList) {
             if (!AlienProjectPattern.test(fileName) && AssemblyInfoPattern.test(fileName)) {
-                console.info(`Found AssemblyInfo file ${fileName}, patching...`);
-                patchAssemblyInfo(fileName);
-                console.info("Done.");
-                ++patched;
+                filesToPatch.push(fileName);
             }
         }
-        console.info(chalk.green(`Patched ${patched} AssemblyInfo file.`));
+
+        console.info(chalk.green(`Found ${filesToPatch.length} candidates.`));
+
+        let patched = 0;
+        for (const fileName of filesToPatch) {
+            console.info(`Patching ${chalk.magenta(fileName)}... (${patched + 1}/${filesToPatch.length})`);
+            patchAssemblyInfo(fileName);
+            ++patched;
+        }
+
+        console.info(chalk.green(`Done. Patched ${patched} AssemblyInfo file(s).`));
     }
 
     /**
