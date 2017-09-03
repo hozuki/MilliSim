@@ -17,9 +17,7 @@ namespace OpenMLTD.MilliSim.Foundation {
         public event EventHandler<EventArgs> WindowLoad;
 
         public virtual void Update([NotNull] GameTime gameTime) {
-            foreach (var element in Elements) {
-                element.Update(gameTime);
-            }
+            Root.Update(gameTime);
         }
 
         public abstract void Draw([NotNull] GameTime gameTime);
@@ -51,7 +49,8 @@ namespace OpenMLTD.MilliSim.Foundation {
                 window.CreateControl();
 
                 var elements = CreateElements() ?? new Element[0];
-                Elements = elements;
+                var root = CreateRootElement(elements);
+                Root = root;
 
                 using (var audioManager = CreateAudioManager()) {
                     BaseAudioManager = audioManager;
@@ -94,7 +93,7 @@ namespace OpenMLTD.MilliSim.Foundation {
                     return _isSuspended;
                 }
             }
-            set {
+            private set {
                 using (_suspensionLock.NewWriteLock()) {
                     _isSuspended = value;
                 }
@@ -115,8 +114,8 @@ namespace OpenMLTD.MilliSim.Foundation {
             IsSuspended = false;
         }
 
-        [NotNull, ItemNotNull]
-        public IReadOnlyList<IElement> Elements { get; private set; }
+        [NotNull]
+        public IContainerElement Root { get; private set; }
 
         [NotNull]
         public GameTime Time {
@@ -167,10 +166,11 @@ namespace OpenMLTD.MilliSim.Foundation {
         [CanBeNull, ItemNotNull]
         protected abstract IReadOnlyList<IElement> CreateElements();
 
+        [NotNull]
+        protected abstract IContainerElement CreateRootElement([NotNull, ItemNotNull] IReadOnlyList<IElement> elements);
+
         protected virtual void OnInitialize() {
-            foreach (var element in Elements) {
-                element.OnInitialize();
-            }
+            Root.OnInitialize();
         }
 
         protected virtual void OnWindowLoad(EventArgs e) {

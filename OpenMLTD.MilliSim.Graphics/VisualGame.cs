@@ -1,4 +1,4 @@
-using System.Linq;
+using System.Collections.Generic;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 
@@ -11,25 +11,20 @@ namespace OpenMLTD.MilliSim.Graphics {
 
         public ControlStageRenderer StageRenderer => (ControlStageRenderer)BaseRenderer;
 
-        public StageView Stage { get; private set; }
-
-        protected override void OnInitialize() {
-            base.OnInitialize();
-
-            var visualElements = Elements.OfType<VisualElement>().ToArray();
-            Stage = new StageView(visualElements);
-        }
+        public Stage Stage => (Stage)Root;
 
         protected override RendererBase CreateRenderer() {
             return new ControlStageRenderer(this, Window);
         }
 
+        protected sealed override IContainerElement CreateRootElement(IReadOnlyList<IElement> elements) {
+            return new Stage(this, elements);
+        }
+
         protected override void Dispose(bool disposing) {
             if (disposing) {
                 var renderContext = StageRenderer.RenderContext;
-                foreach (var element in Elements) {
-                    (element as IDrawable)?.OnLostContext(renderContext);
-                }
+                (Stage as IDrawable)?.OnLostContext(renderContext);
                 BaseRenderer.Dispose();
             }
 

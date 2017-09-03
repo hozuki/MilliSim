@@ -4,14 +4,14 @@ using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 
 namespace OpenMLTD.MilliSim.Graphics.Drawing {
-    public abstract class ContainerElement : Element2D {
+    public abstract class ContainerElement : Element2D, IVisualContainerElement {
 
         protected ContainerElement(GameBase game, [CanBeNull, ItemNotNull] IReadOnlyList<IElement> elements)
             : base(game) {
-            Elements = elements ?? new Element[0];
+            Elements = new ElementCollection(elements);
         }
 
-        public IReadOnlyList<IElement> Elements { get; }
+        public ElementCollection Elements { get; }
 
         protected override void OnInitialize() {
             base.OnInitialize();

@@ -4,9 +4,9 @@ using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
-    public class Stage : ContainerElement {
+    public class GamingArea : ContainerElement {
 
-        public Stage(GameBase game, [CanBeNull] [ItemNotNull] IReadOnlyList<IElement> elements)
+        public GamingArea(GameBase game, [CanBeNull] [ItemNotNull] IReadOnlyList<IElement> elements)
             : base(game, elements) {
         }
 

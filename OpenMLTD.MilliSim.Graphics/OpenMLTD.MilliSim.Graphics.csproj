@@ -90,6 +90,7 @@
     <Compile Include="Extensions\RenderContextExtensions.cs" />
     <Compile Include="Extensions\RenderContextExtensions.Direct3D.cs" />
     <Compile Include="GeometryGenerator.cs" />
+    <Compile Include="IVisualContainerElement.cs" />
     <Compile Include="MathF.cs" />
     <Compile Include="MeshData.cs" />
     <Compile Include="Rendering\BasicModel.cs" />
@@ -146,7 +147,6 @@
     <Compile Include="Drawing\FontStyle.cs" />
     <Compile Include="Drawing\IElement2D.cs" />
     <Compile Include="Drawing\IBufferedElement2D.cs" />
-    <Compile Include="IContainerElement.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="Extensions\Matrix3x2Extensions.cs" />
     <Compile Include="Rendering\Direct3D\D3DEffect.cs" />
@@ -167,7 +167,7 @@
     <Compile Include="Rendering\Texture2DLoadOptions.cs" />
     <Compile Include="MeshVertex.cs" />
     <Compile Include="RenderTarget.cs" />
-    <Compile Include="StageView.cs" />
+    <Compile Include="Stage.cs" />
     <Compile Include="ControlStageRenderer.cs" />
     <Compile Include="Drawing\ContainerElement.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />

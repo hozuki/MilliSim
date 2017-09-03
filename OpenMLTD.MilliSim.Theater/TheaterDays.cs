@@ -39,12 +39,12 @@ namespace OpenMLTD.MilliSim.Theater {
 
             // ** Stage ** //
 
-            var stageElements = new List<Element>();
+            var gamingAreaElements = new List<Element>();
 
-            stageElements.Add(new NotesLayer(this));
-            stageElements.Add(new TapPoints(this));
+            gamingAreaElements.Add(new NotesLayer(this));
+            gamingAreaElements.Add(new TapPoints(this));
 
-            var stage = new Stage(this, stageElements.ToArray());
+            var stage = new GamingArea(this, gamingAreaElements.ToArray());
             elements.Add(stage);
 
             // Overlays

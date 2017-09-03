@@ -125,7 +125,7 @@
     <Compile Include="Elements\RibbonsLayer.cs" />
     <Compile Include="Elements\TapPoints.cs" />
     <Compile Include="Elements\OutlinedTextOverlay.cs" />
-    <Compile Include="Elements\Stage.cs" />
+    <Compile Include="Elements\GamingArea.cs" />
     <Compile Include="Elements\TextOverlay.cs" />
     <Compile Include="Elements\TextOverlayBase.cs" />
     <Compile Include="Elements\VideoStateChangedEventArgs.cs" />

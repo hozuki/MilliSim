@@ -16,42 +16,40 @@ using RectangleF = System.Drawing.RectangleF;
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public class TapPoints : BufferedElement2D {
 
-        static TapPoints() {
-            const float workingAreaWidth = 0.61f;
-            const float left = (1 - workingAreaWidth) / 2;
-            const float right = left + workingAreaWidth;
+        public TapPoints(GameBase game)
+            : base(game) {
+        }
 
-            var t2 = CalcTracks(2, left, right);
-            var t4 = CalcTracks(4, left, right);
-            var t6 = CalcTracks(6, left, right);
-
-            TapPointsXPercPrecalculated = new[] {
-                t2.Tracks, // 2mix, 2mix+
-                t4.Tracks, //4mix,
-                t6.Tracks // 6mix, mmix
-            };
-
-            TapNodesXPercPrecalculated = new[] {
-                t2.Midpoints, // 2mix, 2mix+
-                t4.Midpoints, //4mix,
-                t6.Midpoints // 6mix, mmix
-            };
-
-            (float[] Tracks, float[] Midpoints) CalcTracks(int n, float l, float r) {
-                var tracks = new float[n];
-                for (var i = 0; i < n; ++i) {
-                    tracks[i] = l + (r - l) * i / (n - 1);
+        public int TrackCount {
+            get => _trackCount;
+            set {
+                if (value < 1) {
+                    throw new ArgumentOutOfRangeException(nameof(value), value, null);
                 }
-                var midPoints = new float[tracks.Length - 1];
-                for (var i = 0; i < midPoints.Length; ++i) {
-                    midPoints[i] = (tracks[i] + tracks[i + 1]) / 2;
-                }
-                return (tracks, midPoints);
+                _trackCount = value;
             }
         }
 
-        public TapPoints(GameBase game)
-            : base(game) {
+        protected override void OnLayout() {
+            base.OnLayout();
+
+            const float workingAreaWidth = 0.61f;
+            const float l = (1 - workingAreaWidth) / 2;
+            const float r = l + workingAreaWidth;
+            var n = TrackCount;
+
+            var tracks = new float[n];
+            for (var i = 0; i < n; ++i) {
+                tracks[i] = l + (r - l) * i / (n - 1);
+            }
+
+            var midPoints = new float[tracks.Length - 1];
+            for (var i = 0; i < midPoints.Length; ++i) {
+                midPoints[i] = (tracks[i] + tracks[i + 1]) / 2;
+            }
+
+            _tapPointsX = tracks;
+            _tapNodesX = midPoints;
         }
 
         protected override void OnDrawBuffer(GameTime gameTime, RenderContext context) {
@@ -59,29 +57,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             var settings = Program.Settings;
             var clientSize = context.ClientSize;
-            var difficulty = settings.Game.Difficulty;
 
             var centerY = settings.UI.TapPoints.Layout.Y * clientSize.Height;
 
-            float[] tapPointXPercArray, nodeXPercArray;
-            switch (difficulty) {
-                case Difficulty.D2Mix:
-                case Difficulty.D2MixPlus:
-                    tapPointXPercArray = TapPointsXPercPrecalculated[0];
-                    nodeXPercArray = TapNodesXPercPrecalculated[0];
-                    break;
-                case Difficulty.D4Mix:
-                    tapPointXPercArray = TapPointsXPercPrecalculated[1];
-                    nodeXPercArray = TapNodesXPercPrecalculated[1];
-                    break;
-                case Difficulty.D6Mix:
-                case Difficulty.MillionMix:
-                    tapPointXPercArray = TapPointsXPercPrecalculated[2];
-                    nodeXPercArray = TapNodesXPercPrecalculated[2];
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            float[] tapPointXPercArray = _tapPointsX, nodeXPercArray = _tapNodesX;
 
             // Draw "chains", left and right.
             context.PushTransform2D();
@@ -183,9 +162,9 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         private Vector2 _tapBarChainScaleRatio;
         private Vector2 _tapBarNodeScaleRatio;
 
-        private static readonly float[][] TapPointsXPercPrecalculated;
+        private float[] _tapPointsX;
 
-        private static readonly float[][] TapNodesXPercPrecalculated;
+        private float[] _tapNodesX;
 
         private D2DBitmap _tapPointImage;
         private D2DBitmap _tapBarChainImage;
@@ -195,6 +174,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
         private D2DImageBrush _tapBarChainBrush;
         private D2DPen _tapBarChainPen;
+
+        private int _trackCount = 2;
 
     }
 }

@@ -1,43 +1,37 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using SharpDX.MediaFoundation;
-using Factory = SharpDX.DXGI.Factory;
+using Device = SharpDX.Direct3D11.Device;
 
 namespace OpenMLTD.MilliSim.Graphics {
     public abstract class StageRenderer : RendererBase {
 
-        protected StageRenderer(GameBase game)
+        protected StageRenderer(VisualGame game)
             : base(game) {
         }
 
-        public void Draw(IReadOnlyList<IDrawable> drawables, GameTime gameTime) {
+        internal void Draw(IVisualContainerElement root, GameTime gameTime) {
             var context = _renderContext;
 
             using (_sizeLock.NewReadLock()) {
                 if (_isSizeChanged) {
-                    foreach (var element in drawables) {
-                        element.OnLostContext(context);
-                    }
+                    root.OnLostContext(context);
 
                     context?.Dispose();
 
-                    RecreateResources(drawables, out context);
+                    RecreateResources(root, out context);
                     _renderContext = context;
                 }
             }
 
             context.ClearAll();
 
-            foreach (var drawable in drawables) {
-                drawable.Draw(gameTime, context);
-            }
+            root.Draw(gameTime, context);
 
             context.Present();
         }
@@ -47,7 +41,7 @@ namespace OpenMLTD.MilliSim.Graphics {
         /// </summary>
         internal RenderContext RenderContext => _renderContext;
 
-        internal SharpDX.Direct3D11.Device Direct3DDevice => _direct3DDevice;
+        internal Device Direct3DDevice => _direct3DDevice;
 
         internal SharpDX.DXGI.Device DxgiDevice => _dxgiDevice;
 
@@ -63,10 +57,7 @@ namespace OpenMLTD.MilliSim.Graphics {
 
         // Called by GameBase.
         protected internal override void Initialize() {
-            var drawables = Game.Elements.OfType<IDrawable>().ToArray();
-
-            RecreateResources(drawables, out _renderContext);
-
+            RecreateResources((IVisualContainerElement)Game.Root, out _renderContext);
             OnAfterInitialization();
         }
 
@@ -81,12 +72,12 @@ namespace OpenMLTD.MilliSim.Graphics {
             _dxgiDeviceManager.Dispose();
         }
 
-        protected abstract void CreateSwapChainAndDevice(out SwapChainDescription swapChainDescription, out SwapChain swapChain, out SharpDX.Direct3D11.Device device);
+        protected abstract void CreateSwapChainAndDevice(out SwapChainDescription swapChainDescription, out SwapChain swapChain, out Device device);
 
         protected virtual void OnAfterInitialization() {
         }
 
-        private void RecreateResources(IReadOnlyList<IDrawable> drawables, out RenderContext context) {
+        private void RecreateResources(IVisualContainerElement root, out RenderContext context) {
             _dxgiFactory?.Dispose();
             _swapChain?.Dispose();
             _direct3DDevice?.Dispose();
@@ -108,13 +99,9 @@ namespace OpenMLTD.MilliSim.Graphics {
             context = new RenderContext(this, new Size(_swapChainDescription.ModeDescription.Width, _swapChainDescription.ModeDescription.Height));
             _renderContext = context;
 
-            foreach (var drawable in drawables) {
-                drawable.OnLayout();
-            }
+            root.OnLayout();
 
-            foreach (var drawable in drawables) {
-                drawable.OnGotContext(context);
-            }
+            root.OnGotContext(context);
 
             _isSizeChanged = false;
 
@@ -124,9 +111,7 @@ namespace OpenMLTD.MilliSim.Graphics {
                 // Look into MediaEngine and DXGIDeviceManager?
                 Game.Window.Invoke(new Action(() => Game.Window.RaiseStageReady(EventArgs.Empty)));
 
-                foreach (var element in drawables) {
-                    element.OnStageReady(context);
-                }
+                root.OnStageReady(context);
             }
         }
 
@@ -136,7 +121,7 @@ namespace OpenMLTD.MilliSim.Graphics {
         // For D2D interop, and video output.
         protected const DeviceCreationFlags D3DDeviceCreationFlags = DeviceCreationFlags.BgraSupport | DeviceCreationFlags.VideoSupport;
 
-        private SharpDX.Direct3D11.Device _direct3DDevice;
+        private Device _direct3DDevice;
         private SharpDX.DXGI.Device _dxgiDevice;
         private SwapChainDescription _swapChainDescription;
         private SwapChain _swapChain;

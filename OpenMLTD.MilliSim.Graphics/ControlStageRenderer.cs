@@ -8,7 +8,7 @@ using SharpDX.DXGI;
 namespace OpenMLTD.MilliSim.Graphics {
     public sealed class ControlStageRenderer : StageRenderer {
 
-        public ControlStageRenderer(GameBase game, Control control)
+        public ControlStageRenderer(VisualGame game, Control control)
             : base(game) {
             Control = control;
         }

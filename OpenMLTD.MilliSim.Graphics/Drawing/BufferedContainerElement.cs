@@ -1,16 +1,17 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 
 namespace OpenMLTD.MilliSim.Graphics.Drawing {
-    public abstract class BufferedContainerElement : Element2D, IContainerElement {
+    public abstract class BufferedContainerElement : Element2D, IVisualContainerElement {
 
-        protected BufferedContainerElement(GameBase game, IReadOnlyList<IElement> elements)
+        protected BufferedContainerElement(GameBase game, [CanBeNull, ItemNotNull] IReadOnlyList<IElement> elements)
             : base(game) {
-            Elements = elements;
+            Elements = new ElementCollection(elements);
         }
 
-        public IReadOnlyList<IElement> Elements { get; }
+        public ElementCollection Elements { get; }
 
         protected override void OnInitialize() {
             base.OnInitialize();

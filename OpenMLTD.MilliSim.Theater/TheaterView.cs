@@ -1,6 +1,7 @@
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Foundation;
+using OpenMLTD.MilliSim.Theater.Elements;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater {
@@ -39,7 +40,7 @@ namespace OpenMLTD.MilliSim.Theater {
 
             var theaterDays = GetTypedGame();
 
-            var video = theaterDays.GetBackgroundVideo();
+            var video = theaterDays.GetSingleElement<BackgroundVideo>();
             if (video != null) {
                 video.VideoStateChanged -= Video_VideoStateChanged;
             }

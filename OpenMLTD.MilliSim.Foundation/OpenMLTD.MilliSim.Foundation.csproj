@@ -52,12 +52,14 @@
   <ItemGroup>
     <Compile Include="AudioManagerBase.cs" />
     <Compile Include="Element.cs" />
-    <Compile Include="Extensions\ElementEnumerableExtensions.cs" />
+    <Compile Include="ElementCollection.cs" />
+    <Compile Include="Extensions\ContainerElementExtensions.cs" />
     <Compile Include="Extensions\UpdatableExtensions.cs" />
     <Compile Include="GameBase.cs" />
     <Compile Include="GameWindow.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="IContainerElement.cs" />
     <Compile Include="IElement.cs" />
     <Compile Include="IUpdateable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
