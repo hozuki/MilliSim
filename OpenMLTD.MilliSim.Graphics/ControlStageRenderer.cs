@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using OpenMLTD.MilliSim.Foundation;
-using SharpDX;
 using SharpDX.Direct3D;
 using SharpDX.DXGI;
 
@@ -52,15 +51,10 @@ namespace OpenMLTD.MilliSim.Graphics {
         }
 
         private void ControlOnClientSizeChanged(object sender, EventArgs eventArgs) {
-            lock (_sizeLock.NewReadLock()) {
-                var control = (Control)sender;
+            using (_sizeLock.NewReadLock()) {
                 _isSizeChanged = true;
-                var clientSize = control.ClientSize;
-                _newSize = new Size2(clientSize.Width, clientSize.Height);
             }
         }
-
-
 
     }
 }

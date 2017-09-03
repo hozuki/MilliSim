@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
-using SharpDX;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
@@ -20,50 +20,16 @@ namespace OpenMLTD.MilliSim.Graphics {
         public void Draw(IReadOnlyList<IDrawable> drawables, GameTime gameTime) {
             var context = _renderContext;
 
-            lock (_sizeLock.NewReadLock()) {
+            using (_sizeLock.NewReadLock()) {
                 if (_isSizeChanged) {
                     foreach (var element in drawables) {
                         element.OnLostContext(context);
                     }
 
                     context?.Dispose();
-                    _dxgiFactory?.Dispose();
-                    _swapChain?.Dispose();
-                    _direct3DDevice?.Dispose();
-                    _dxgiDeviceManager?.Dispose();
 
-                    _swapChainDescription.ModeDescription.Width = _newSize.Width;
-                    _swapChainDescription.ModeDescription.Height = _newSize.Height;
-
-                    SharpDX.Direct3D11.Device.CreateWithSwapChain(DriverType.Hardware, D3DDeviceCreationFlags, _swapChainDescription, out _direct3DDevice, out _swapChain);
-                    _dxgiDevice = _direct3DDevice.QueryInterface<SharpDX.DXGI.Device>();
-                    _dxgiFactory = _swapChain.GetParent<Factory>();
-
-                    // Video (EVR) initialization.
-                    var multithread = _direct3DDevice.QueryInterface<DeviceMultithread>();
-                    multithread.SetMultithreadProtected(true);
-                    _dxgiDeviceManager = new DXGIDeviceManager();
-                    _dxgiDeviceManager.ResetDevice(_direct3DDevice);
-
-                    context = new RenderContext(this, new Size(_newSize.Width, _newSize.Height));
+                    RecreateResources(drawables, out context);
                     _renderContext = context;
-
-                    foreach (var drawable in drawables) {
-                        drawable.OnGotContext(context);
-                    }
-
-                    _isSizeChanged = false;
-
-                    ++_controlResizeCounter;
-                    if (_controlResizeCounter == StartupControlResizeCount) {
-                        // WTF...
-                        // Look into MediaEngine and DXGIDeviceManager?
-                        Game.Window.Invoke(new Action(() => Game.Window.RaiseStageReady(EventArgs.Empty)));
-
-                        foreach (var element in drawables) {
-                            element.OnStageReady(context);
-                        }
-                    }
                 }
             }
 
@@ -76,7 +42,10 @@ namespace OpenMLTD.MilliSim.Graphics {
             context.Present();
         }
 
-        public RenderContext RenderContext => _renderContext;
+        /// <summary>
+        /// Do not use except in <see cref="VisualGame.Dispose(bool)"/>.
+        /// </summary>
+        internal RenderContext RenderContext => _renderContext;
 
         internal SharpDX.Direct3D11.Device Direct3DDevice => _direct3DDevice;
 
@@ -94,25 +63,9 @@ namespace OpenMLTD.MilliSim.Graphics {
 
         // Called by GameBase.
         protected internal override void Initialize() {
-            CreateSwapChainAndDevice(out _swapChainDescription, out _swapChain, out _direct3DDevice);
+            var drawables = Game.Elements.OfType<IDrawable>().ToArray();
 
-            _dxgiDevice = _direct3DDevice.QueryInterface<SharpDX.DXGI.Device>();
-            _dxgiFactory = _swapChain.GetParent<Factory>();
-
-            // Direct2D initialization.
-            _directWriteFactory = new SharpDX.DirectWrite.Factory();
-
-            // Video (EVR) initialization.
-            var multithread = _direct3DDevice.QueryInterface<DeviceMultithread>();
-            multithread.SetMultithreadProtected(true);
-            _dxgiDeviceManager = new DXGIDeviceManager();
-            _dxgiDeviceManager.ResetDevice(_direct3DDevice);
-
-            var context = new RenderContext(this, ClientSize);
-            _renderContext = context;
-            foreach (var element in Game.Elements) {
-                (element as IDrawable)?.OnGotContext(context);
-            }
+            RecreateResources(drawables, out _renderContext);
 
             OnAfterInitialization();
         }
@@ -133,8 +86,47 @@ namespace OpenMLTD.MilliSim.Graphics {
         protected virtual void OnAfterInitialization() {
         }
 
+        private void RecreateResources(IReadOnlyList<IDrawable> drawables, out RenderContext context) {
+            _dxgiFactory?.Dispose();
+            _swapChain?.Dispose();
+            _direct3DDevice?.Dispose();
+            _dxgiDeviceManager?.Dispose();
+            _directWriteFactory?.Dispose();
+
+            CreateSwapChainAndDevice(out _swapChainDescription, out _swapChain, out _direct3DDevice);
+            _dxgiDevice = _direct3DDevice.QueryInterface<SharpDX.DXGI.Device>();
+            _dxgiFactory = _swapChain.GetParent<Factory>();
+
+            // Video (EVR) initialization.
+            var multithread = _direct3DDevice.QueryInterface<DeviceMultithread>();
+            multithread.SetMultithreadProtected(true);
+            _dxgiDeviceManager = new DXGIDeviceManager();
+            _dxgiDeviceManager.ResetDevice(_direct3DDevice);
+
+            _directWriteFactory = new SharpDX.DirectWrite.Factory();
+
+            context = new RenderContext(this, new Size(_swapChainDescription.ModeDescription.Width, _swapChainDescription.ModeDescription.Height));
+            _renderContext = context;
+
+            foreach (var drawable in drawables) {
+                drawable.OnGotContext(context);
+            }
+
+            _isSizeChanged = false;
+
+            ++_controlResizeCounter;
+            if (_controlResizeCounter == StartupControlResizeCount) {
+                // WTF...
+                // Look into MediaEngine and DXGIDeviceManager?
+                Game.Window.Invoke(new Action(() => Game.Window.RaiseStageReady(EventArgs.Empty)));
+
+                foreach (var element in drawables) {
+                    element.OnStageReady(context);
+                }
+            }
+        }
+
         protected bool _isSizeChanged;
-        protected Size2 _newSize;
         protected readonly SimpleUsingLock _sizeLock = new SimpleUsingLock();
 
         // For D2D interop, and video output.
@@ -156,10 +148,10 @@ namespace OpenMLTD.MilliSim.Graphics {
         // We assume that the stage is resized only for a certain number of times. During each size change,
         // increase the counter. And finally, all resizing actions are complete and the size will never
         // change in the future.
-        // In current model, the size changes 1 time. One for window creation (by WinForms), one for setting
+        // In current model, the size changes 2 times. One for window creation (by WinForms), one for setting
         // ClientSize on GameWindow (by user's config entry).
         private int _controlResizeCounter;
-        private static int StartupControlResizeCount = 1;
+        private static int StartupControlResizeCount = 2;
 
     }
 }
