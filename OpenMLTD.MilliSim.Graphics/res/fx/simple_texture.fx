@@ -24,12 +24,6 @@ SamplerState samLinear {
 	AddressU = WRAP;
 	AddressV = WRAP;
 };
- 
-struct VS_IN {
-    float3 PosL : POSITION;
-    float3 NormalL : NORMAL;
-    float2 Tex : TEXCOORD;
-};
 
 struct PS_IN {
     float4 PosH : SV_POSITION;
@@ -42,21 +36,19 @@ PS_IN VS(VS_IN vin) {
     PS_IN vout;
 	
 	// Transform to world space space.
-    vout.PosW = mul(float4(vin.PosL, 1.0f), gWorld).xyz;
-    vout.NormalW = mul(vin.NormalL, (float3x3)gWorldInvTranspose);
-		
+    vout.PosW = mul(float4(vin.Position, 1.0f), gWorld).xyz;
+    vout.NormalW = mul(vin.Normal, (float3x3)gWorldInvTranspose);
+
 	// Transform to homogeneous clip space.
-    vout.PosH = mul(float4(vin.PosL, 1.0f), gWorldViewProj);
+    vout.PosH = mul(float4(vin.Position, 1.0f), gWorldViewProj);
 	
 	// Output vertex attributes for interpolation across triangle.
-    vout.Tex = mul(float4(vin.Tex, 0.0f, 1.0f), gTexTransform).xy;
+    vout.Tex = mul(float4(vin.TexCoord, 0.0f, 1.0f), gTexTransform).xy;
 
     return vout;
 }
  
-float4 PS(PS_IN pin,
-		  uniform bool gUseTexure,
-		  uniform bool gAlphaClip) : SV_Target {
+float4 PS(PS_IN pin, uniform bool gUseTexure, uniform bool gAlphaClip) : SV_Target {
 	// Interpolating normal can unnormalize it, so normalize it.
     pin.NormalW = normalize(pin.NormalW);
 	

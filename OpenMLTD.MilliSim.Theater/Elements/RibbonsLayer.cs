@@ -54,7 +54,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             _colorEffect = colorEffect;
 
             var pass = textureEffect.SimpleTextureTechnique.GetPassByIndex(0);
-            _posTexLayout = context.CreateInputLayout(pass, InputLayoutDescriptions.PosNormTex);
+            _posTexLayout = context.CreateInputLayout(pass, InputLayoutDescriptions.PosNormTexTan);
 
             _model = BasicModel.CreateCylinder(context.Direct3DDevice, 60, 60, 60, 100, 200);
             _model.DiffuseMap = _ribbonTextureSrv;

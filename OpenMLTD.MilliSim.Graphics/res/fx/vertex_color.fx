@@ -5,12 +5,6 @@ cbuffer cbPerObject {
     Material gMaterial;
 }
 
-struct VS_IN {
-    float3 Position : POSITION;
-    float3 Normal : NORMAL;
-    float2 Tex : TEXCOORD;
-};
-
 struct PS_IN {
     float4 Position : SV_POSITION;
     float4 Color : COLOR;

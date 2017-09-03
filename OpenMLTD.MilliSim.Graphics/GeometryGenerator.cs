@@ -13,35 +13,35 @@ namespace OpenMLTD.MilliSim.Graphics {
             var indices = new List<int>();
 
             // front
-            vertices.Add(new MeshVertex(-w2, -h2, -d2, 0, 0, -1, 0, 1));
-            vertices.Add(new MeshVertex(-w2, +h2, -d2, 0, 0, -1, 0, 0));
-            vertices.Add(new MeshVertex(+w2, +h2, -d2, 0, 0, -1, 1, 0));
-            vertices.Add(new MeshVertex(+w2, -h2, -d2, 0, 0, -1, 1, 1));
+            vertices.Add(new MeshVertex(-w2, -h2, -d2, 0, 0, -1, 1, 0, 0, 0, 1));
+            vertices.Add(new MeshVertex(-w2, +h2, -d2, 0, 0, -1, 1, 0, 0, 0, 0));
+            vertices.Add(new MeshVertex(+w2, +h2, -d2, 0, 0, -1, 1, 0, 0, 1, 0));
+            vertices.Add(new MeshVertex(+w2, -h2, -d2, 0, 0, -1, 1, 0, 0, 1, 1));
             // back
-            vertices.Add(new MeshVertex(-w2, -h2, +d2, 0, 0, 1, 1, 1));
-            vertices.Add(new MeshVertex(+w2, -h2, +d2, 0, 0, 1, 0, 1));
-            vertices.Add(new MeshVertex(+w2, +h2, +d2, 0, 0, 1, 0, 0));
-            vertices.Add(new MeshVertex(-w2, +h2, +d2, 0, 0, 1, 1, 0));
+            vertices.Add(new MeshVertex(-w2, -h2, +d2, 0, 0, 1, -1, 0, 0, 1, 1));
+            vertices.Add(new MeshVertex(+w2, -h2, +d2, 0, 0, 1, -1, 0, 0, 0, 1));
+            vertices.Add(new MeshVertex(+w2, +h2, +d2, 0, 0, 1, -1, 0, 0, 0, 0));
+            vertices.Add(new MeshVertex(-w2, +h2, +d2, 0, 0, 1, -1, 0, 0, 1, 0));
             // top
-            vertices.Add(new MeshVertex(-w2, +h2, -d2, 0, 1, 0, 0, 1));
-            vertices.Add(new MeshVertex(-w2, +h2, +d2, 0, 1, 0, 0, 0));
-            vertices.Add(new MeshVertex(+w2, +h2, +d2, 0, 1, 0, 1, 0));
-            vertices.Add(new MeshVertex(+w2, +h2, -d2, 0, 1, 0, 1, 1));
+            vertices.Add(new MeshVertex(-w2, +h2, -d2, 0, 1, 0, 1, 0, 0, 0, 1));
+            vertices.Add(new MeshVertex(-w2, +h2, +d2, 0, 1, 0, 1, 0, 0, 0, 0));
+            vertices.Add(new MeshVertex(+w2, +h2, +d2, 0, 1, 0, 1, 0, 0, 1, 0));
+            vertices.Add(new MeshVertex(+w2, +h2, -d2, 0, 1, 0, 1, 0, 0, 1, 1));
             // bottom
-            vertices.Add(new MeshVertex(-w2, -h2, -d2, 0, -1, 0, 1, 1));
-            vertices.Add(new MeshVertex(+w2, -h2, -d2, 0, -1, 0, 0, 1));
-            vertices.Add(new MeshVertex(+w2, -h2, +d2, 0, -1, 0, 0, 0));
-            vertices.Add(new MeshVertex(-w2, -h2, +d2, 0, -1, 0, 1, 0));
+            vertices.Add(new MeshVertex(-w2, -h2, -d2, 0, -1, 0, -1, 0, 0, 1, 1));
+            vertices.Add(new MeshVertex(+w2, -h2, -d2, 0, -1, 0, -1, 0, 0, 0, 1));
+            vertices.Add(new MeshVertex(+w2, -h2, +d2, 0, -1, 0, -1, 0, 0, 0, 0));
+            vertices.Add(new MeshVertex(-w2, -h2, +d2, 0, -1, 0, -1, 0, 0, 1, 0));
             // left
-            vertices.Add(new MeshVertex(-w2, -h2, +d2, -1, 0, 0, 0, 1));
-            vertices.Add(new MeshVertex(-w2, +h2, +d2, -1, 0, 0, 0, 0));
-            vertices.Add(new MeshVertex(-w2, +h2, -d2, -1, 0, 0, 1, 0));
-            vertices.Add(new MeshVertex(-w2, -h2, -d2, -1, 0, 0, 1, 1));
+            vertices.Add(new MeshVertex(-w2, -h2, +d2, -1, 0, 0, 0, 0, -1, 0, 1));
+            vertices.Add(new MeshVertex(-w2, +h2, +d2, -1, 0, 0, 0, 0, -1, 0, 0));
+            vertices.Add(new MeshVertex(-w2, +h2, -d2, -1, 0, 0, 0, 0, -1, 1, 0));
+            vertices.Add(new MeshVertex(-w2, -h2, -d2, -1, 0, 0, 0, 0, -1, 1, 1));
             // right
-            vertices.Add(new MeshVertex(+w2, -h2, -d2, 1, 0, 0, 0, 1));
-            vertices.Add(new MeshVertex(+w2, +h2, -d2, 1, 0, 0, 0, 0));
-            vertices.Add(new MeshVertex(+w2, +h2, +d2, 1, 0, 0, 1, 0));
-            vertices.Add(new MeshVertex(+w2, -h2, +d2, 1, 0, 0, 1, 1));
+            vertices.Add(new MeshVertex(+w2, -h2, -d2, 1, 0, 0, 0, 0, 1, 0, 1));
+            vertices.Add(new MeshVertex(+w2, +h2, -d2, 1, 0, 0, 0, 0, 1, 0, 0));
+            vertices.Add(new MeshVertex(+w2, +h2, +d2, 1, 0, 0, 0, 0, 1, 1, 0));
+            vertices.Add(new MeshVertex(+w2, -h2, +d2, 1, 0, 0, 0, 0, 1, 1, 1));
 
             indices.AddRange(new[]{
                 0,1,2,0,2,3,
@@ -58,7 +58,7 @@ namespace OpenMLTD.MilliSim.Graphics {
         public static MeshData CreateSphere(float radius, int sliceCount, int stackCount) {
             var vertices = new List<MeshVertex>();
 
-            vertices.Add(new MeshVertex(0, radius, 0, 0, 1, 0, 0, 0));
+            vertices.Add(new MeshVertex(0, radius, 0, 0, 1, 0, 1, 0, 0, 0, 0));
             var phiStep = MathF.PI / stackCount;
             var thetaStep = 2.0f * MathF.PI / sliceCount;
 
@@ -70,12 +70,15 @@ namespace OpenMLTD.MilliSim.Graphics {
                         (radius * MathF.Sin(phi) * MathF.Cos(theta)),
                         (radius * MathF.Cos(phi)),
                         (radius * MathF.Sin(phi) * MathF.Sin(theta)));
+                    var t = new Vector3(-radius * MathF.Sin(phi) * MathF.Sin(theta), 0, radius * MathF.Sin(phi) * MathF.Cos(theta));
+                    t.Normalize();
                     var n = Vector3.Normalize(p);
+
                     var uv = new Vector2(theta / (MathF.PI * 2), phi / MathF.PI);
-                    vertices.Add(new MeshVertex(p, n, uv));
+                    vertices.Add(new MeshVertex(p, n, t, uv));
                 }
             }
-            vertices.Add(new MeshVertex(0, -radius, 0, 0, -1, 0, 0, 1));
+            vertices.Add(new MeshVertex(0, -radius, 0, 0, -1, 0, 1, 0, 0, 0, 1));
 
             var indices = new List<int>();
 
@@ -121,8 +124,8 @@ namespace OpenMLTD.MilliSim.Graphics {
                 var y = -0.5f * height + i * stackHeight;
                 var r = bottomRadius + i * radiusStep;
                 var dTheta = 2.0f * MathF.PI / sliceCount;
-                for (var j = 0; j <= sliceCount; j++) {
 
+                for (var j = 0; j <= sliceCount; j++) {
                     var c = MathF.Cos(j * dTheta);
                     var s = MathF.Sin(j * dTheta);
 
@@ -135,8 +138,7 @@ namespace OpenMLTD.MilliSim.Graphics {
 
                     var n = Vector3.Normalize(Vector3.Cross(t, bitangent));
 
-                    vertices.Add(new MeshVertex(v, n, uv));
-
+                    vertices.Add(new MeshVertex(v, n, t, uv));
                 }
             }
 
@@ -177,7 +179,7 @@ namespace OpenMLTD.MilliSim.Graphics {
                 var z = halfDepth - i * dz;
                 for (var j = 0; j < n; j++) {
                     var x = -halfWidth + j * dx;
-                    vercies.Add(new MeshVertex(new Vector3(x, 0, z), new Vector3(0, 1, 0), new Vector2(j * du, i * dv)));
+                    vercies.Add(new MeshVertex(new Vector3(x, 0, z), new Vector3(0, 1, 0), new Vector3(1, 0, 0), new Vector2(j * du, i * dv)));
                 }
             }
 
@@ -202,10 +204,10 @@ namespace OpenMLTD.MilliSim.Graphics {
             var vertices = new List<MeshVertex>();
             var indices = new List<int>();
 
-            vertices.Add(new MeshVertex(-1, -1, 0, 0, 0, -1, 0, 1));
-            vertices.Add(new MeshVertex(-1, 1, 0, 0, 0, -1, 0, 0));
-            vertices.Add(new MeshVertex(1, 1, 0, 0, 0, -1, 1, 0));
-            vertices.Add(new MeshVertex(1, -1, 0, 0, 0, -1, 1, 1));
+            vertices.Add(new MeshVertex(-1, -1, 0, 0, 0, -1, 1, 0, 0, 0, 1));
+            vertices.Add(new MeshVertex(-1, 1, 0, 0, 0, -1, 1, 0, 0, 0, 0));
+            vertices.Add(new MeshVertex(1, 1, 0, 0, 0, -1, 1, 0, 0, 1, 0));
+            vertices.Add(new MeshVertex(1, -1, 0, 0, 0, -1, 1, 0, 0, 1, 1));
 
             indices.AddRange(new[] { 0, 1, 2, 0, 2, 3 });
 
@@ -224,9 +226,9 @@ namespace OpenMLTD.MilliSim.Graphics {
 
                 var u = x / height + 0.5f;
                 var v = z / height + 0.5f;
-                vertices.Add(new MeshVertex(x, y, z, 0, 1, 0, u, v));
+                vertices.Add(new MeshVertex(x, y, z, 0, 1, 0, 1, 0, 0, u, v));
             }
-            vertices.Add(new MeshVertex(0, y, 0, 0, 1, 0, 0.5f, 0.5f));
+            vertices.Add(new MeshVertex(0, y, 0, 0, 1, 0, 1, 0, 0, 0.5f, 0.5f));
 
             var centerIndex = vertices.Count - 1;
             for (var i = 0; i < sliceCount; i++) {
@@ -248,9 +250,9 @@ namespace OpenMLTD.MilliSim.Graphics {
 
                 var u = x / height + 0.5f;
                 var v = z / height + 0.5f;
-                vertices.Add(new MeshVertex(x, y, z, 0, -1, 0, u, v));
+                vertices.Add(new MeshVertex(x, y, z, 0, -1, 0, 1, 0, 0, u, v));
             }
-            vertices.Add(new MeshVertex(0, y, 0, 0, -1, 0, 0.5f, 0.5f));
+            vertices.Add(new MeshVertex(0, y, 0, 0, -1, 0, 1, 0, 0, 0.5f, 0.5f));
 
             var centerIndex = vertices.Count - 1;
             for (var i = 0; i < sliceCount; i++) {
