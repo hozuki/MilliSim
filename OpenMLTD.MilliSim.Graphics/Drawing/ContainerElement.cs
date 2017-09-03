@@ -48,6 +48,20 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing {
             }
         }
 
+        protected override void OnStageReady(RenderContext context) {
+            base.OnStageReady(context);
+            foreach (var element in Elements) {
+                (element as IDrawable)?.OnStageReady(context);
+            }
+        }
+
+        protected override void OnLayout() {
+            base.OnLayout();
+            foreach (var element in Elements) {
+                (element as IDrawable)?.OnLayout();
+            }
+        }
+
         protected override void OnDispose() {
             foreach (var element in Elements) {
                 element.OnDispose();

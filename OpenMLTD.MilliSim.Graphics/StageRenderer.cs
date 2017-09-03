@@ -109,6 +109,10 @@ namespace OpenMLTD.MilliSim.Graphics {
             _renderContext = context;
 
             foreach (var drawable in drawables) {
+                drawable.OnLayout();
+            }
+
+            foreach (var drawable in drawables) {
                 drawable.OnGotContext(context);
             }
 

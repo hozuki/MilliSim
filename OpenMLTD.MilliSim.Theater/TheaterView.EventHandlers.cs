@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using OpenMLTD.MilliSim.Graphics.Extensions;
 using OpenMLTD.MilliSim.Theater.Elements;
 using OpenMLTD.MilliSim.Theater.Extensions;
 using OpenMLTD.MilliSim.Theater.Properties;

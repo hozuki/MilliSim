@@ -29,14 +29,6 @@ namespace OpenMLTD.MilliSim.Foundation {
             return base.ToString();
         }
 
-        public void Enable() {
-            Enabled = true;
-        }
-
-        public void Disable() {
-            Enabled = false;
-        }
-
         void IElement.OnInitialize() {
             if (_isInitialized) {
                 return;

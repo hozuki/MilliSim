@@ -17,12 +17,8 @@ namespace OpenMLTD.MilliSim.Graphics {
 
         public virtual bool Visible { get; set; } = true;
 
-        public void Show() {
-            Visible = true;
-        }
-
-        public void Hide() {
-            Visible = false;
+        public void PerformLayout() {
+            OnLayout();
         }
 
         protected virtual void OnDraw(GameTime gameTime, RenderContext context) {
@@ -37,6 +33,9 @@ namespace OpenMLTD.MilliSim.Graphics {
         protected virtual void OnStageReady(RenderContext context) {
         }
 
+        protected virtual void OnLayout() {
+        }
+
         void IDrawable.OnGotContext(RenderContext context) {
             OnGotContext(context);
         }
@@ -47,6 +46,10 @@ namespace OpenMLTD.MilliSim.Graphics {
 
         void IDrawable.OnStageReady(RenderContext context) {
             OnStageReady(context);
+        }
+
+        void IDrawable.OnLayout() {
+            OnLayout();
         }
 
     }

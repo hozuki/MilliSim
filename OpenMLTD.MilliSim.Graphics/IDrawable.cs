@@ -13,5 +13,7 @@ namespace OpenMLTD.MilliSim.Graphics {
 
         void OnStageReady(RenderContext context);
 
+        void OnLayout();
+
     }
 }
