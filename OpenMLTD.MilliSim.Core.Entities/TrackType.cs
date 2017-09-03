@@ -1,4 +1,4 @@
-﻿namespace OpenMLTD.MilliSim.Core.Entities {
+namespace OpenMLTD.MilliSim.Core.Entities {
     public enum TrackType {
 
         Block = -1,

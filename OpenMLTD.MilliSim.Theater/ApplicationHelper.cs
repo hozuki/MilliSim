@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 namespace OpenMLTD.MilliSim.Theater {
     public static class ApplicationHelper {

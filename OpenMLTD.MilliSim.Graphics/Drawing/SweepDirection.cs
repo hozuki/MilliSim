@@ -1,4 +1,4 @@
-﻿namespace OpenMLTD.MilliSim.Graphics.Drawing {
+namespace OpenMLTD.MilliSim.Graphics.Drawing {
     public enum SweepDirection {
 
         Counterclockwise = 0,

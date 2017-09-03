@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using OpenMLTD.MilliSim.Graphics.Extensions;
 using SharpDX.Direct2D1;
 

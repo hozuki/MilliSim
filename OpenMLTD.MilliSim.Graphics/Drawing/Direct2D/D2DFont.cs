@@ -1,4 +1,4 @@
-﻿using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Core;
 using SharpDX.DirectWrite;
 
 namespace OpenMLTD.MilliSim.Graphics.Drawing.Direct2D {

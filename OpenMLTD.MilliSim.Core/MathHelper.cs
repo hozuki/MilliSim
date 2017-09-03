@@ -1,4 +1,4 @@
-﻿namespace OpenMLTD.MilliSim.Core {
+namespace OpenMLTD.MilliSim.Core {
     public static class MathHelper {
 
         public static int Clamp(this int v, int min, int max) {

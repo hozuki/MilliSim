@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace OpenMLTD.MilliSim.Core.Entities {
     public static class NoteHelper {

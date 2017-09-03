@@ -1,4 +1,4 @@
-﻿using SharpDX;
+using SharpDX;
 
 namespace OpenMLTD.MilliSim.Graphics.Extensions {
     public static class Matrix3x2Extensions {

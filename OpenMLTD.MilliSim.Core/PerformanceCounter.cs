@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using OpenMLTD.MilliSim.Core.Interop;
 
 namespace OpenMLTD.MilliSim.Core {

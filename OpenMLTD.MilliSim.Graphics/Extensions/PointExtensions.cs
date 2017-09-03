@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using SharpDX.Mathematics.Interop;
 
 namespace OpenMLTD.MilliSim.Graphics.Extensions {

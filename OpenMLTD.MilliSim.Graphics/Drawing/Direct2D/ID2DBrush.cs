@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using SharpDX.Direct2D1;
 
 namespace OpenMLTD.MilliSim.Graphics.Drawing.Direct2D {

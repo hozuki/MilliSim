@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
 using SharpDX.DirectWrite;

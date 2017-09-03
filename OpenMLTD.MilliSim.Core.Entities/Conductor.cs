@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 namespace OpenMLTD.MilliSim.Core.Entities {
     /// <summary>

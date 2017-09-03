@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using SharpDX.MediaFoundation;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
