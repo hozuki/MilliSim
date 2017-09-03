@@ -23,7 +23,7 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public sealed class UICommonConfig {
 
-            public LayoutCoordinate2D Layout { get; set; }
+            public LayoutValue2D Layout { get; set; }
 
             public PercentOrRealValue Opacity { get; set; }
 

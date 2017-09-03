@@ -114,6 +114,7 @@ ui:
     layout:
       x: 50% # x position (anchor: center)
       y: 83% # y position (anchor: middle)
+      width: 61% # width (from center of left-most point, to center of right-most point)
     opacity: 80%
   hp_gauge:
     layout:

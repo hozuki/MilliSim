@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Core.Entities;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
@@ -33,9 +32,11 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         protected override void OnLayout() {
             base.OnLayout();
 
-            const float workingAreaWidth = 0.61f;
-            const float l = (1 - workingAreaWidth) / 2;
-            const float r = l + workingAreaWidth;
+            var settings = Program.Settings;
+
+            var workingAreaWidth = settings.UI.TapPoints.Layout.Width.Value;
+            var l = (1 - workingAreaWidth) / 2;
+            var r = l + workingAreaWidth;
             var n = TrackCount;
 
             var tracks = new float[n];

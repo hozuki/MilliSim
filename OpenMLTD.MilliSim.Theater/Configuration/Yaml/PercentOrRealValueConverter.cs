@@ -28,13 +28,13 @@ namespace OpenMLTD.MilliSim.Theater.Configuration.Yaml {
                 var f = Convert.ToSingle(str.Substring(0, str.Length - 1));
                 val = new PercentOrRealValue {
                     IsPercentage = true,
-                    Value = f
+                    RawValue = f
                 };
             } else {
                 var f = Convert.ToSingle(str);
                 val = new PercentOrRealValue {
                     IsPercentage = false,
-                    Value = f
+                    RawValue = f
                 };
             }
             parser.MoveNext();

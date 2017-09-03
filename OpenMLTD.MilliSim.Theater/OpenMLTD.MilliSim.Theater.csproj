@@ -98,7 +98,7 @@
     <Compile Include="Configuration\MetadataClass.cs" />
     <Compile Include="Configuration\Primitives\ImageStrip.cs" />
     <Compile Include="Configuration\Primitives\ImageWithBlankEdge.cs" />
-    <Compile Include="Configuration\Primitives\LayoutCoordinate2D.cs" />
+    <Compile Include="Configuration\Primitives\LayoutValue2D.cs" />
     <Compile Include="Configuration\Primitives\NoteGroup.cs" />
     <Compile Include="Configuration\Primitives\SimpleRectangleF.cs" />
     <Compile Include="Configuration\Primitives\UIElementConfig.cs" />
