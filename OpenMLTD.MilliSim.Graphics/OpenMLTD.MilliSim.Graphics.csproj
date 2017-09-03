@@ -151,6 +151,7 @@
     <Compile Include="Rendering\Direct3D\Effects\D3DSimpleTextureEffect.cs" />
     <Compile Include="Rendering\Direct3D\Effects\D3DVertexColorEffect.cs" />
     <Compile Include="Rendering\FpsCamera.cs" />
+    <Compile Include="Rendering\FrequentlyUsedStates.cs" />
     <Compile Include="Rendering\Frustrum.cs" />
     <Compile Include="Rendering\HeightFunc.cs" />
     <Compile Include="Rendering\IncludeProcessor.cs" />

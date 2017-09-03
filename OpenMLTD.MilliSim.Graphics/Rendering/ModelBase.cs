@@ -4,11 +4,9 @@ using SharpDX;
 using SharpDX.Direct3D11;
 
 namespace OpenMLTD.MilliSim.Graphics.Rendering {
-    public abstract class ModelBase<TVertex> : DisposeBase where TVertex : struct {
+    public abstract class ModelBase : DisposeBase {
 
         protected ModelBase() {
-            _vertices = new List<TVertex>();
-            _indices = new List<int>();
             Mesh = new MeshGeometry();
         }
 
@@ -26,13 +24,13 @@ namespace OpenMLTD.MilliSim.Graphics.Rendering {
             }
             var meshGeometry = Mesh;
             Utilities.Dispose(ref meshGeometry);
-            _indices = null;
-            _vertices = null;
+            Indices = null;
+            Vertices = null;
         }
 
-        protected IReadOnlyList<int> _indices;
+        protected IReadOnlyList<int> Indices { get; set; }
 
-        protected IReadOnlyList<TVertex> _vertices;
+        protected IReadOnlyList<MeshVertex> Vertices { get; set; }
 
     }
 }

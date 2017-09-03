@@ -1,8 +1,11 @@
+using System;
 using System.Drawing;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Graphics.Extensions;
+using OpenMLTD.MilliSim.Graphics.Rendering;
 using SharpDX;
+using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using SharpDX.MediaFoundation;
@@ -24,6 +27,8 @@ namespace OpenMLTD.MilliSim.Graphics {
             DirectWriteFactory = renderer.DirectWriteFactory;
             DxgiDeviceManager = renderer.DxgiDeviceManager;
 
+            FrequentlyUsedStates = new FrequentlyUsedStates(this);
+
             Initialize();
         }
 
@@ -42,6 +47,8 @@ namespace OpenMLTD.MilliSim.Graphics {
         public SharpDX.DirectWrite.Factory DirectWriteFactory { get; }
 
         public SwapChain SwapChain { get; }
+
+        public FrequentlyUsedStates FrequentlyUsedStates { get; }
 
         private SwapChainDescription SwapChainDescription { get; }
 
@@ -95,10 +102,26 @@ namespace OpenMLTD.MilliSim.Graphics {
             return new RenderTarget(this, false);
         }
 
-        public void Begin3D() {
+        public void Begin3D(InputLayout inputLayout, PrimitiveTopology topology) {
+            var states = FrequentlyUsedStates;
+            Begin3D(inputLayout, topology, states.AlphaBlend, null, states.CullCounterclockwise);
+        }
+
+        public void Begin3D(InputLayout inputLayout, PrimitiveTopology topology, BlendState blend, DepthStencilState depthStencil, RasterizerState rasterizer) {
+            var ctx = Direct3DDevice.ImmediateContext;
+            ctx.InputAssembler.InputLayout = inputLayout;
+            ctx.InputAssembler.PrimitiveTopology = topology;
+            ctx.Rasterizer.State = rasterizer;
+            ctx.OutputMerger.BlendState = blend;
+            ctx.OutputMerger.DepthStencilState = depthStencil;
         }
 
         public void End3D() {
+            var ctx = Direct3DDevice.ImmediateContext;
+            ctx.InputAssembler.InputLayout = null;
+            ctx.Rasterizer.State = null;
+            ctx.OutputMerger.BlendState = null;
+            ctx.OutputMerger.DepthStencilState = null;
         }
 
         public void Begin2D() {
@@ -134,6 +157,7 @@ namespace OpenMLTD.MilliSim.Graphics {
             if (!disposing) {
                 return;
             }
+            FrequentlyUsedStates.Dispose();
             _rootRenderTarget.Dispose();
         }
 

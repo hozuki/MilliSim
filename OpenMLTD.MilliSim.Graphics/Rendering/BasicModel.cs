@@ -6,7 +6,7 @@ using SharpDX.Direct3D11;
 using Color = System.Drawing.Color;
 
 namespace OpenMLTD.MilliSim.Graphics.Rendering {
-    public class BasicModel : ModelBase<MeshVertex> {
+    public class BasicModel : ModelBase {
 
         private BasicModel() {
         }
@@ -69,8 +69,8 @@ namespace OpenMLTD.MilliSim.Graphics.Rendering {
             // Redundant copy
             var vertices = mesh.Vertices.ToArray();
             var indices = mesh.Indices.ToArray();
-            _vertices = vertices;
-            _indices = indices;
+            Vertices = vertices;
+            Indices = indices;
 
             Mesh.SetVertices(device, vertices);
             Mesh.SetIndices(device, indices);

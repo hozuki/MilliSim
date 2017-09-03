@@ -27,17 +27,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             var viewProjection = _camera.ViewProjectionMatrix;
 
-            context.Begin3D();
-            var ctx = context.RenderTarget.DeviceContext3D;
-            ctx.Rasterizer.State = _noCullRasState;
-            ctx.OutputMerger.BlendState = _alphaBlendState;
-            ctx.InputAssembler.PrimitiveTopology = PrimitiveTopology.TriangleList;
-            ctx.InputAssembler.InputLayout = _posTexLayout;
-            _modelInstance.Draw(context.RenderTarget.DeviceContext3D, _textureEffect, viewProjection);
-            //_modelInstance.Draw(context.RenderTarget.DeviceContext3D, _colorEffect, viewProjection);
-            ctx.InputAssembler.InputLayout = null;
-            ctx.Rasterizer.State = null;
-            ctx.OutputMerger.BlendState = null;
+            context.Begin3D(_posTexLayout, PrimitiveTopology.TriangleList);
+            context.Draw(_modelInstance, _textureEffect, viewProjection);
             context.End3D();
         }
 
@@ -63,9 +54,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             _colorEffect = colorEffect;
 
             var pass = textureEffect.SimpleTextureTechnique.GetPassByIndex(0);
-            var passDesc = pass.Description;
-            var bytecode = passDesc.Signature;
-            _posTexLayout = new InputLayout(context.Direct3DDevice, bytecode, InputLayoutDescriptions.PosNormTex);
+            _posTexLayout = context.CreateInputLayout(pass, InputLayoutDescriptions.PosNormTex);
 
             _model = BasicModel.CreateCylinder(context.Direct3DDevice, 60, 60, 60, 100, 200);
             _model.DiffuseMap = _ribbonTextureSrv;
@@ -73,29 +62,6 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 Diffuse = Color.White.ToC4()
             };
             _modelInstance = new BasicModelInstance(_model);
-
-            var noCullDesc = new RasterizerStateDescription {
-                FillMode = FillMode.Solid,
-                CullMode = CullMode.None,
-                IsFrontCounterClockwise = false,
-                IsDepthClipEnabled = true
-            };
-            _noCullRasState = new RasterizerState(context.Direct3DDevice, noCullDesc);
-
-            var transDesc = new BlendStateDescription {
-                AlphaToCoverageEnable = false,
-                IndependentBlendEnable = false
-            };
-            transDesc.RenderTarget[0].IsBlendEnabled = true;
-            transDesc.RenderTarget[0].SourceBlend = BlendOption.SourceAlpha;
-            transDesc.RenderTarget[0].DestinationBlend = BlendOption.InverseSourceAlpha;
-            transDesc.RenderTarget[0].BlendOperation = BlendOperation.Add;
-            transDesc.RenderTarget[0].SourceAlphaBlend = BlendOption.One;
-            transDesc.RenderTarget[0].DestinationAlphaBlend = BlendOption.Zero;
-            transDesc.RenderTarget[0].AlphaBlendOperation = BlendOperation.Add;
-            transDesc.RenderTarget[0].RenderTargetWriteMask = ColorWriteMaskFlags.All;
-
-            _alphaBlendState = new BlendState(context.Direct3DDevice, transDesc);
         }
 
         protected override void OnLostContext(RenderContext context) {
@@ -107,9 +73,6 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             _colorEffect.Dispose();
             _ribbonTextureSrv.Dispose();
             _ribbonTexture.Dispose();
-
-            _noCullRasState.Dispose();
-            _alphaBlendState.Dispose();
         }
 
         private OrthoCamera _camera;
@@ -120,8 +83,6 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         private InputLayout _posTexLayout;
         private D3DSimpleTextureEffect _textureEffect;
         private D3DVertexColorEffect _colorEffect;
-        private RasterizerState _noCullRasState;
-        private BlendState _alphaBlendState;
 
     }
 }
