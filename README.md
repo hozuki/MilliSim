@@ -44,7 +44,7 @@ Step 2: Restore dependencies using NuGet CLI.
 
 ```bash
 npm install glob chalk --save
-node install.js
+node before_script-nuget_restore.js
 ```
 
 Step 3: Build the solution.

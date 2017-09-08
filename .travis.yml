@@ -11,11 +11,9 @@ before_install:
   - sudo apt-get install -y gtk-sharp2 p7zip-full nodejs npm
   - sudo npm install glob chalk
 
-install:
-  - sudo node install.js
-
 before_script:
-  - node before_script.js
+  - node before_script-nuget_restore.js
+  - node before_script-patch_asminfo.js
 
 before_deploy:
   - rm -f ${TRAVIS_BUILD_DIR}/OpenMLTD.MilliSim.Theater/bin/${CONFIGURATION}/*.xml
