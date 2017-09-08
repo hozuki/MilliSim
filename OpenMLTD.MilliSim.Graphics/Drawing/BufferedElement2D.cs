@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
@@ -36,6 +37,48 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing {
             set => _opacity = value.Clamp(0, 1);
         }
 
+        public void FadeTo(float finalOpacity, float deltaPerSecond) {
+            var opacity = Opacity;
+            finalOpacity = finalOpacity.Clamp(0, 1);
+
+            if ((finalOpacity - opacity) * deltaPerSecond <= 0) {
+                return;
+            }
+
+            _finalOpacity = finalOpacity;
+            _deltaPerSecond = deltaPerSecond;
+            _isFading = true;
+        }
+
+        public void FadeTo(float finalOpacity, TimeSpan duration) {
+            var opacity = Opacity;
+            finalOpacity = finalOpacity.Clamp(0, 1);
+
+            if (opacity.Equals(finalOpacity)) {
+                return;
+            }
+
+            var delta = finalOpacity - opacity;
+            var deltaPerSecond = delta / (float)duration.TotalSeconds;
+            FadeTo(finalOpacity, deltaPerSecond);
+        }
+
+        public void FadeOut(float deltaPerSecond) {
+            FadeTo(0, deltaPerSecond);
+        }
+
+        public void FadeOut(TimeSpan duration) {
+            FadeTo(0, duration);
+        }
+
+        public void FadeIn(float deltaPerSecond) {
+            FadeTo(1, deltaPerSecond);
+        }
+
+        public void FadeIn(TimeSpan duration) {
+            FadeTo(1, duration);
+        }
+
         protected override void OnGotContext(RenderContext context) {
             base.OnGotContext(context);
             var bitmapProps = new BitmapProperties1();
@@ -47,6 +90,26 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing {
         protected override void OnLostContext(RenderContext context) {
             _offscreenBitmap.Dispose();
             base.OnLostContext(context);
+        }
+
+        protected override void OnUpdate(GameTime gameTime) {
+            base.OnUpdate(gameTime);
+
+            if (_isFading) {
+                var nextOpacity = Opacity + _deltaPerSecond * (float)gameTime.Delta.TotalSeconds;
+                if (_deltaPerSecond > 0 && nextOpacity >= _finalOpacity) {
+                    if (nextOpacity > _finalOpacity) {
+                        nextOpacity = _finalOpacity;
+                    }
+                    _isFading = false;
+                } else if (_deltaPerSecond < 0 && nextOpacity <= _finalOpacity) {
+                    if (nextOpacity < _finalOpacity) {
+                        nextOpacity = _finalOpacity;
+                    }
+                    _isFading = false;
+                }
+                Opacity = nextOpacity;
+            }
         }
 
         protected sealed override void OnDraw(GameTime gameTime, RenderContext context) {
@@ -75,6 +138,10 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing {
 
         private Bitmap1 _offscreenBitmap;
         private float _opacity = 1;
+
+        private bool _isFading;
+        private float _deltaPerSecond;
+        private float _finalOpacity;
 
     }
 }

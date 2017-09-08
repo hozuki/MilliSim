@@ -131,10 +131,20 @@ namespace OpenMLTD.MilliSim.Theater {
         private void TheaterStage_KeyDown(object sender, KeyEventArgs e) {
             var theaterDays = GetTypedGame();
 
+            var tapPoints = theaterDays.FindSingleElement<TapPoints>();
             switch (e.KeyCode) {
                 case Keys.Space: {
                         var video = theaterDays.FindSingleElement<BackgroundVideo>();
                         if (video != null) {
+                            if (video.IsPaused || video.IsStopped) {
+                                if (tapPoints != null) {
+                                    tapPoints.FadeIn(TimeSpan.FromSeconds(1.5f));
+                                }
+                            } else {
+                                if (tapPoints != null) {
+                                    tapPoints.FadeOut(TimeSpan.FromSeconds(1.5f));
+                                }
+                            }
                             if (video.IsStopped) {
                                 video.Play();
                             } else {

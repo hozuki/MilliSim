@@ -203,6 +203,8 @@ namespace OpenMLTD.MilliSim.Foundation {
                     gameTime = new GameTime(TimeSpan.FromMilliseconds(delta), TimeSpan.FromMilliseconds(total));
                     Update(gameTime);
                     Time = gameTime;
+
+                    _lastTick = nowTick;
                 } else {
                     gameTime = Time;
                 }
