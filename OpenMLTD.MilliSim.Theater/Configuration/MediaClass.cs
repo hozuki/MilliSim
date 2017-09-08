@@ -1,3 +1,4 @@
+using OpenMLTD.MilliSim.Theater.Configuration.Primitives;
 using YamlDotNet.Serialization;
 
 namespace OpenMLTD.MilliSim.Theater.Configuration {
@@ -13,13 +14,13 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
         public string BackgroundImage { get; set; }
 
         [YamlMember(Alias = "bgm_volume")]
-        public int BackgroundMusicVolume { get; set; }
+        public PercentOrRealValue BackgroundMusicVolume { get; set; } = new PercentOrRealValue(1f, false);
 
         [YamlMember(Alias = "bga_volume")]
-        public int BackgroundAnimationVolume { get; set; }
+        public PercentOrRealValue BackgroundAnimationVolume { get; set; } = new PercentOrRealValue(1f, false);
 
         [YamlMember(Alias = "sfx_volume")]
-        public int SoundEffectsVolume { get; set; }
+        public PercentOrRealValue SoundEffectsVolume { get; set; } = new PercentOrRealValue(1f, false);
 
     }
 }

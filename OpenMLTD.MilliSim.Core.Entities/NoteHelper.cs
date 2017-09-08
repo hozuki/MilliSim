@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace OpenMLTD.MilliSim.Core.Entities {
     public static class NoteHelper {
@@ -47,6 +48,54 @@ namespace OpenMLTD.MilliSim.Core.Entities {
                     throw new ArgumentOutOfRangeException(nameof(trackIndex), trackIndex, null);
             }
         }
+
+        public static int[] GetTrackIndicesFromTrackType(TrackType trackType) {
+            switch (trackType) {
+                case TrackType.Block:
+                    return TracksList[0];
+                case TrackType.Conductor:
+                    return TracksList[1];
+                case TrackType.D2Mix:
+                    return TracksList[2];
+                case TrackType.D2MixPlus:
+                    return TracksList[3];
+                case TrackType.D4Mix:
+                    return TracksList[4];
+                case TrackType.D6Mix:
+                    return TracksList[5];
+                case TrackType.MillionMix:
+                    return TracksList[6];
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(trackType), trackType, null);
+            }
+        }
+
+        public static TrackType MapDifficultyToTrackType(Difficulty difficulty) {
+            switch (difficulty) {
+                case Difficulty.D2Mix:
+                    return TrackType.D2Mix;
+                case Difficulty.D2MixPlus:
+                    return TrackType.D2MixPlus;
+                case Difficulty.D4Mix:
+                    return TrackType.D4Mix;
+                case Difficulty.D6Mix:
+                    return TrackType.D6Mix;
+                case Difficulty.MillionMix:
+                    return TrackType.MillionMix;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);
+            }
+        }
+
+        private static readonly int[][] TracksList = {
+            new[] { -1 },
+            new[] { 0 },
+            new[] { 1, 2 },
+            new[] { 3, 4 },
+            new[] { 9, 10, 11, 12 },
+            new[] { 25, 26, 27, 28, 29, 30 },
+            new[] { 31, 32, 33, 34, 35, 36 }
+        };
 
     }
 }

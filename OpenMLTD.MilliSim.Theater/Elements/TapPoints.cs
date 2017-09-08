@@ -29,7 +29,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             }
         }
 
-        public float[] AvatarsXRatio => _tapPointsX;
+        public float[] TapPointXRatios => _tapPointsX;
 
         protected override void OnLayout() {
             base.OnLayout();

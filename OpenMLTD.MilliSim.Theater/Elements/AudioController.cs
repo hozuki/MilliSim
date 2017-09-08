@@ -31,8 +31,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             var theaterDays = GetTypedGame();
             if (settings.Media.BackgroundMusic != null && File.Exists(settings.Media.BackgroundMusic) &&
                 AudioManager.IsFileSupported(settings.Media.BackgroundMusic)) {
-                Music = theaterDays.AudioManager.CreateMusic(settings.Media.BackgroundMusic);
-                theaterDays.AudioManager.Music = Music;
+                var music = theaterDays.AudioManager.CreateMusic(settings.Media.BackgroundMusic);
+                theaterDays.AudioManager.Music = music;
+                music.Volume = settings.Media.BackgroundMusicVolume.Value;
+                Music = music;
             }
         }
 

@@ -25,7 +25,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
         public event EventHandler<VideoStateChangedEventArgs> VideoStateChanged;
 
-        public TimeSpan CurrentTime { get; private set; } = TimeSpan.Zero;
+        public TimeSpan CurrentTime => _mediaEngine == null ? TimeSpan.Zero : TimeSpan.FromSeconds(_mediaEngine.CurrentTime);
 
         public void OpenFile([NotNull] string path) {
             if (_fileStream != null) {
@@ -213,6 +213,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         private bool IsReadyToPlay { get; set; }
 
         private void OnPlaybackCallback(MediaEngineEvent playEvent, long param1, int param2) {
+            var settings = Program.Settings;
+
             switch (playEvent) {
                 case MediaEngineEvent.CanPlay:
                     if (_isStageReady) {
@@ -221,6 +223,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                         IsEnded = false;
                         IsStopped = true;
                     }
+                    Volume = settings.Media.BackgroundAnimationVolume.Value;
                     break;
                 case MediaEngineEvent.Pause:
                     IsPaused = true;
@@ -230,20 +233,17 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     IsPaused = false;
                     break;
                 case MediaEngineEvent.TimeUpdate:
-                    CurrentTime = TimeSpan.FromSeconds(_mediaEngine.CurrentTime);
                     break;
                 case MediaEngineEvent.Ended:
                     IsStopped = true;
                     IsPaused = false;
                     IsEnded = true;
-                    CurrentTime = TimeSpan.Zero;
                     break;
                 case MediaEngineEvent.Error:
                 case MediaEngineEvent.Abort:
                     IsStopped = true;
                     IsPaused = true;
                     IsEnded = true;
-                    CurrentTime = TimeSpan.Zero;
                     _readyToPlayEvent.Reset();
                     break;
             }

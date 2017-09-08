@@ -51,7 +51,8 @@ namespace OpenMLTD.MilliSim.Audio {
                 return;
             }
 
-            AudioManager.AudioOut.Stop();
+            AudioManager.AudioOut.Pause();
+            CurrentTime = TimeSpan.Zero;
 
             IsPlaying = false;
             IsPaused = false;

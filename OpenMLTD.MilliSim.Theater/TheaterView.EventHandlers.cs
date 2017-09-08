@@ -98,6 +98,12 @@ namespace OpenMLTD.MilliSim.Theater {
                     if (helpOverlay != null) {
                         helpOverlay.Show();
                     }
+
+                    var audio = theaterDays.FindSingleElement<AudioController>();
+                    var music = audio?.Music;
+                    if (music != null) {
+                        music.Stop();
+                    }
                     break;
                 case MediaEngineEvent.Error:
                     if (debugOverlay != null) {
@@ -151,24 +157,7 @@ namespace OpenMLTD.MilliSim.Theater {
                                 video.TogglePause();
                             }
                         }
-                        break;
-                    }
-                case Keys.F2: {
-                        var video = theaterDays.FindSingleElement<BackgroundVideo>();
-                        if (video != null) {
-                            video.PauseOnFirstFrame();
-                        }
-                        break;
-                    }
-                case Keys.P: {
-                        if (theaterDays.IsSuspended) {
-                            theaterDays.Resume();
-                        } else {
-                            theaterDays.Suspend();
-                        }
-                        break;
-                    }
-                case Keys.B: {
+
                         var audio = theaterDays.FindSingleElement<AudioController>();
                         var music = audio?.Music;
                         if (music != null) {
@@ -177,6 +166,27 @@ namespace OpenMLTD.MilliSim.Theater {
                             } else {
                                 music.Play();
                             }
+                        }
+                        break;
+                    }
+                case Keys.F2: {
+                        var video = theaterDays.FindSingleElement<BackgroundVideo>();
+                        if (video != null) {
+                            video.PauseOnFirstFrame();
+                        }
+
+                        var audio = theaterDays.FindSingleElement<AudioController>();
+                        var music = audio?.Music;
+                        if (music != null) {
+                            music.Stop();
+                        }
+                        break;
+                    }
+                case Keys.P: {
+                        if (theaterDays.IsSuspended) {
+                            theaterDays.Resume();
+                        } else {
+                            theaterDays.Suspend();
                         }
                         break;
                     }

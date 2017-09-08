@@ -37,12 +37,14 @@ namespace OpenMLTD.MilliSim.Theater {
             //elements.Add(new MiniCube(this));
 #endif
             elements.Add(new RibbonsLayer(this));
-            
+
             // ** Stage ** //
 
             var gamingAreaElements = new List<Element>();
 
-            gamingAreaElements.Add(new NotesLayer(this));
+            gamingAreaElements.Add(new NotesLayer(this) {
+                SpeedScale = 1.3f
+            });
             gamingAreaElements.Add(new TapPoints(this));
 
             var stage = new GamingArea(this, gamingAreaElements.ToArray());
