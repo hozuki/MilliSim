@@ -38,7 +38,7 @@ namespace OpenMLTD.MilliSim.Theater {
             StageReady -= TheaterStage_StageReady;
             Load -= TheaterStage_Load;
 
-            var theaterDays = GetTypedGame();
+            var theaterDays = Game.AsTheaterDays();
 
             var video = theaterDays.FindSingleElement<BackgroundVideo>();
             if (video != null) {
@@ -53,8 +53,6 @@ namespace OpenMLTD.MilliSim.Theater {
         }
 
         private static readonly string TitleTemplate = "MilliSim: {0}";
-
-        private TheaterDays GetTypedGame() => (TheaterDays)Game;
 
     }
 }

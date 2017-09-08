@@ -10,7 +10,7 @@ game:
   title: "Shooting Stars"
   scoreobj: game/scrobj_shtstr.unity3d # .unity3d (raw format from MLTD), .json
 media:
-  bgm: game/song3_shtstr_bgm.ogg # path to background music (BGM)
+  bgm: game/song3_shtstr_bgm.mp3 # path to background music (BGM)
   #bga: F:\TEMP\DelesteSimulator_x64 2017-05-30 00-51-33-148.mp4 # path to background animation (BGA), a video
   #bga: F:\Independent Software\JiJiDown\Download\1.【MLTD MV】「Shooting Stars」60fps-1.1(Av13296433,P1).mp4
   bga: F:\Independent Software\JiJiDown\Download\1.偶像大师MLTD手游Shooting Stars MM难度FC-1.1(Av13332401,P1).flv-muxed.mp4

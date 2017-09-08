@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using NAudio.CoreAudioApi;
 using NAudio.Flac;
@@ -13,7 +12,9 @@ namespace OpenMLTD.MilliSim.Audio {
     public class AudioManager : AudioManagerBase {
 
         public AudioManager() {
-            _mixerStream = new WaveMixerStream32();
+            _mixerStream = new WaveMixerStream32 {
+                AutoStop = true
+            };
             _soundPlayer = new AudioOut(AudioClientShareMode.Shared, 60);
             _soundPlayer.Init(_mixerStream);
         }
@@ -48,15 +49,32 @@ namespace OpenMLTD.MilliSim.Audio {
 
             switch (extension) {
                 case "wav":
+                    return true;
                 case "ogg":
                 case "oga":
+                    // Temporarily disabled. See comments below.
+                    return false;
                 case "mp3":
+                    return true;
                 case "flac":
+                    return true;
                 case "wma":
                     return true;
                 default:
                     return false;
             }
+
+            /* Ogg/Vorbis files are currently disabled.
+             * MilliSim.Audio uses NAudio.Vorbis, thus NVorbis as its underlying decoding and streaming
+             * library. At this point, if you try to seek the WaveStream when the last packets are consumed,
+             * you will get a NullReferenceException from PacketReader.FindPacket() (in NVorbis). This
+             * even happens when you try to seek to file start (0 sec). The final outcome is, during the
+             * following playbacks (second time, third time, etc.), audio will be completely silent.
+             * So I have to disable OGG support and hope users can accept only using MP3s.
+             *
+             * NVorbis commit: https://github.com/ioctlLR/NVorbis/commit/478eb45c3996e45a6bd19777c0549b85a7bb6851
+             * NAudio.Vorbis commit: https://github.com/naudio/Vorbis/commit/0a16577fa9360304ae2a38d052955eb9e18e012d
+             */
         }
 
         public Music Music {
@@ -67,14 +85,11 @@ namespace OpenMLTD.MilliSim.Audio {
                     _mixerStream.RemoveInputStream(_music.Channel);
                 }
                 if (value != null) {
+                    _mixerStream.CurrentTime = TimeSpan.Zero;
                     _mixerStream.AddInputStream(value.Channel);
                 }
                 _music = value;
             }
-        }
-
-        internal void ForceMixerOutput() {
-            _soundPlayer.Play();
         }
 
         internal bool NeedSampleRateConversionFrom(WaveFormat sourceFormat) {

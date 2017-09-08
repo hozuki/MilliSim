@@ -23,7 +23,7 @@ namespace OpenMLTD.MilliSim.Theater {
             CenterToScreen();
 
             // Register element events.
-            var theaterDays = GetTypedGame();
+            var theaterDays = Game.AsTheaterDays();
 
             var video = theaterDays.FindSingleElement<BackgroundVideo>();
             if (video != null) {
@@ -38,7 +38,7 @@ namespace OpenMLTD.MilliSim.Theater {
 
         private void TheaterStage_StageReady(object sender, EventArgs e) {
             var settings = Program.Settings;
-            var theaterDays = GetTypedGame();
+            var theaterDays = Game.AsTheaterDays();
 
             var debugOverlay = theaterDays.FindSingleElement<DebugOverlay>();
 
@@ -80,7 +80,7 @@ namespace OpenMLTD.MilliSim.Theater {
         }
 
         private void Video_VideoStateChanged(object sender, VideoStateChangedEventArgs e) {
-            var theaterDays = GetTypedGame();
+            var theaterDays = Game.AsTheaterDays();
             var helpOverlay = theaterDays.FindSingleElement<HelpOverlay>();
             var debugOverlay = theaterDays.FindSingleElement<DebugOverlay>();
             var video = theaterDays.FindSingleElement<BackgroundVideo>();
@@ -98,12 +98,6 @@ namespace OpenMLTD.MilliSim.Theater {
                     if (helpOverlay != null) {
                         helpOverlay.Show();
                     }
-
-                    var audio = theaterDays.FindSingleElement<AudioController>();
-                    var music = audio?.Music;
-                    if (music != null) {
-                        music.Stop();
-                    }
                     break;
                 case MediaEngineEvent.Error:
                     if (debugOverlay != null) {
@@ -111,10 +105,10 @@ namespace OpenMLTD.MilliSim.Theater {
                             var error = video.GetError();
                             var errCode = (MediaEngineErr)error.GetErrorCode();
                             var hr = error.ExtendedErrorCode;
-                            debugOverlay.Text = $"Error: MediaEngine reported an error.\nType: {errCode}\nExtended: {hr}";
+                            debugOverlay.AddLine($"ERROR: MediaEngine reported an error (Type: {errCode}, {hr})");
                         } else {
                             // Not reachable.
-                            debugOverlay.Text = "Error: MediaEngine reported an error.";
+                            debugOverlay.AddLine("ERROR: MediaEngine reported an error.");
                         }
                         debugOverlay.Show();
                     }
@@ -124,7 +118,7 @@ namespace OpenMLTD.MilliSim.Theater {
                     break;
                 case MediaEngineEvent.Abort:
                     if (debugOverlay != null) {
-                        debugOverlay.Text = "Warning: MediaEngine aborted.";
+                        debugOverlay.AddLine("Warning: MediaEngine aborted.");
                         debugOverlay.Show();
                     }
                     if (helpOverlay != null) {
@@ -132,80 +126,95 @@ namespace OpenMLTD.MilliSim.Theater {
                     }
                     break;
             }
+
+            var audio = theaterDays.FindSingleElement<AudioController>();
+            var music = audio?.Music;
+            if (music != null) {
+                switch (e.Event) {
+                    case MediaEngineEvent.Play:
+                    case MediaEngineEvent.Playing:
+                        music.Play();
+                        break;
+                    case MediaEngineEvent.Pause:
+                        music.Pause();
+                        break;
+                    case MediaEngineEvent.CanPlay:
+                    case MediaEngineEvent.Ended:
+                    case MediaEngineEvent.Error:
+                    case MediaEngineEvent.Abort:
+                        music.Stop();
+                        break;
+                }
+            }
+
+            var tapPoints = theaterDays.FindSingleElement<TapPoints>();
+            if (tapPoints != null) {
+                switch (e.Event) {
+                    case MediaEngineEvent.Play:
+                    case MediaEngineEvent.Playing:
+                        tapPoints.FadeIn(TimeSpan.FromSeconds(1.5));
+                        break;
+                    case MediaEngineEvent.Pause:
+                    case MediaEngineEvent.Ended:
+                    case MediaEngineEvent.Error:
+                    case MediaEngineEvent.Abort:
+                        tapPoints.FadeOut(TimeSpan.FromSeconds(1.5));
+                        break;
+                }
+            }
         }
 
         private void TheaterStage_KeyDown(object sender, KeyEventArgs e) {
-            var theaterDays = GetTypedGame();
+            var theaterDays = Game.AsTheaterDays();
 
-            var tapPoints = theaterDays.FindSingleElement<TapPoints>();
+            var video = theaterDays.FindSingleElement<BackgroundVideo>();
+            var audio = theaterDays.FindSingleElement<AudioController>();
+            var music = audio?.Music;
             switch (e.KeyCode) {
-                case Keys.Space: {
-                        var video = theaterDays.FindSingleElement<BackgroundVideo>();
-                        if (video != null) {
-                            if (video.IsPaused || video.IsStopped) {
-                                if (tapPoints != null) {
-                                    tapPoints.FadeIn(TimeSpan.FromSeconds(1.5f));
-                                }
-                            } else {
-                                if (tapPoints != null) {
-                                    tapPoints.FadeOut(TimeSpan.FromSeconds(1.5f));
-                                }
-                            }
-                            if (video.IsStopped) {
-                                video.Play();
-                            } else {
-                                video.TogglePause();
-                            }
-                        }
-
-                        var audio = theaterDays.FindSingleElement<AudioController>();
-                        var music = audio?.Music;
-                        if (music != null) {
-                            if (music.IsPlaying) {
-                                music.Pause();
-                            } else {
-                                music.Play();
-                            }
-                        }
-                        break;
-                    }
-                case Keys.F2: {
-                        var video = theaterDays.FindSingleElement<BackgroundVideo>();
-                        if (video != null) {
-                            video.PauseOnFirstFrame();
-                        }
-
-                        var audio = theaterDays.FindSingleElement<AudioController>();
-                        var music = audio?.Music;
-                        if (music != null) {
-                            music.Stop();
-                        }
-                        break;
-                    }
-                case Keys.P: {
-                        if (theaterDays.IsSuspended) {
-                            theaterDays.Resume();
+                case Keys.Space:
+                    if (video != null) {
+                        if (video.IsStopped) {
+                            video.Play();
                         } else {
-                            theaterDays.Suspend();
+                            video.TogglePause();
                         }
-                        break;
                     }
-                case Keys.Up: {
-                        var audio = theaterDays.FindSingleElement<AudioController>();
-                        var music = audio?.Music;
-                        if (music != null) {
-                            music.Volume += 0.05f;
-                        }
-                        break;
+                    break;
+                case Keys.F2:
+                    if (music != null) {
+                        music.Stop();
                     }
-                case Keys.Down: {
-                        var audio = theaterDays.FindSingleElement<AudioController>();
-                        var music = audio?.Music;
-                        if (music != null) {
-                            music.Volume -= 0.05f;
-                        }
-                        break;
+
+                    if (video != null) {
+                        video.PauseOnFirstFrame();
                     }
+                    break;
+                case Keys.P:
+                    if (theaterDays.IsSuspended) {
+                        theaterDays.Resume();
+                    } else {
+                        theaterDays.Suspend();
+                    }
+                    break;
+                case Keys.Up:
+                    if (music != null) {
+                        music.Volume += 0.05f;
+                    }
+                    break;
+                case Keys.Down:
+                    if (music != null) {
+                        music.Volume -= 0.05f;
+                    }
+                    break;
+                case Keys.Q:
+                    var newTime = TimeSpan.FromMinutes(1) + TimeSpan.FromSeconds(45);
+                    if (music != null) {
+                        music.CurrentTime = newTime;
+                    }
+                    if (video != null) {
+                        video.CurrentTime = newTime;
+                    }
+                    break;
             }
         }
 

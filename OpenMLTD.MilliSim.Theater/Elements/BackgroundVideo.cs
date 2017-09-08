@@ -25,7 +25,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
         public event EventHandler<VideoStateChangedEventArgs> VideoStateChanged;
 
-        public TimeSpan CurrentTime => _mediaEngine == null ? TimeSpan.Zero : TimeSpan.FromSeconds(_mediaEngine.CurrentTime);
+        public TimeSpan CurrentTime {
+            get => _mediaEngine == null ? TimeSpan.Zero : TimeSpan.FromSeconds(_mediaEngine.CurrentTime);
+            set => _mediaEngine.CurrentTime = value.TotalSeconds;
+        }
 
         public void OpenFile([NotNull] string path) {
             if (_fileStream != null) {
