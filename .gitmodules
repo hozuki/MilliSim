@@ -1,3 +1,6 @@
 [submodule "MimeTypeMap"]
 	path = thirdparty/MimeTypeMap
 	url = https://github.com/samuelneff/MimeTypeMap.git
+[submodule "thirdparty/UnityStudioLib"]
+	path = thirdparty/UnityStudioLib
+	url = https://github.com/OpenMLTD/UnityStudioLib.git

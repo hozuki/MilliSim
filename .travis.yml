@@ -7,13 +7,15 @@ solution: MilliSim.sln
 env:
   - MAIN_VER=0.1.0 SOLUTION_NAME=MilliSim.sln CONFIGURATION=Release
 
-install:
+before_install:
   - sudo apt-get install -y gtk-sharp2 p7zip-full nodejs npm
   - sudo npm install glob chalk
-  - nuget restore ${SOLUTION_NAME}
+
+install:
+  - sudo node install.js
 
 before_script:
-  - node assembly_info_patch.js
+  - node before_script.js
 
 before_deploy:
   - rm -f ${TRAVIS_BUILD_DIR}/OpenMLTD.MilliSim.Theater/bin/${CONFIGURATION}/*.xml

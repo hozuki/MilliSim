@@ -7,8 +7,8 @@ metadata:
   version: 1 # format version
 game:
   difficulty: mm # 2m, 2m+, 4m, 6m, mm; number of tracks is set accordingly
-  title: "Blue Symphony"
-  scoreobj: game/scoreobj.unity3d # .unity3d (raw format from MLTD), .json
+  title: "Shooting Stars"
+  scoreobj: game/scrobj_shtstr.unity3d # .unity3d (raw format from MLTD), .json
 media:
   #bgm: game/bgm.wav # path to background music (BGM)
   bgm: F:\TEMP\cg-sd\harari_01.wav

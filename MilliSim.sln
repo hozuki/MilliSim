@@ -1,4 +1,3 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
@@ -21,8 +20,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".dir", ".dir", "{9D3D7DAF-5
 		.gitignore = .gitignore
 		.gitmodules = .gitmodules
 		.travis.yml = .travis.yml
-		assembly_info_patch.js = assembly_info_patch.js
+		before_script.js = before_script.js
 		CONTRIBUTING.md = CONTRIBUTING.md
+		install.js = install.js
 		LICENSE.txt = LICENSE.txt
 		push.cmd = push.cmd
 		push.sh = push.sh
@@ -34,6 +34,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Audio", "OpenMLTD.MilliSim.Audio\OpenMLTD.MilliSim.Audio.csproj", "{DAE9137C-8EE9-4E6F-B02C-E47916965027}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Graphics", "OpenMLTD.MilliSim.Graphics\OpenMLTD.MilliSim.Graphics.csproj", "{8CDFB26B-8D82-4D66-A850-0A1686C29E28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.Imports.Unity3D", "OpenMLTD.MilliSim.Extension.Imports.Unity3D\OpenMLTD.MilliSim.Extension.Imports.Unity3D.csproj", "{22AEEF23-15FF-4B6C-941D-550C63F50329}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityStudio", "thirdparty\UnityStudioLib\UnityStudioLib\UnityStudio.csproj", "{97696198-D591-4D31-B468-B19834EBB913}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +73,14 @@ Global
 		{8CDFB26B-8D82-4D66-A850-0A1686C29E28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CDFB26B-8D82-4D66-A850-0A1686C29E28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CDFB26B-8D82-4D66-A850-0A1686C29E28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22AEEF23-15FF-4B6C-941D-550C63F50329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22AEEF23-15FF-4B6C-941D-550C63F50329}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22AEEF23-15FF-4B6C-941D-550C63F50329}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22AEEF23-15FF-4B6C-941D-550C63F50329}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97696198-D591-4D31-B468-B19834EBB913}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97696198-D591-4D31-B468-B19834EBB913}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97696198-D591-4D31-B468-B19834EBB913}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97696198-D591-4D31-B468-B19834EBB913}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +93,8 @@ Global
 		{BF644701-DFD5-49B6-90E8-A54C1BB331AE} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 		{DAE9137C-8EE9-4E6F-B02C-E47916965027} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 		{8CDFB26B-8D82-4D66-A850-0A1686C29E28} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
+		{22AEEF23-15FF-4B6C-941D-550C63F50329} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
+		{97696198-D591-4D31-B468-B19834EBB913} = {700A876B-F712-44FC-9513-CC1B6096D5FF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {27A82ED7-C1EE-4F03-B3AD-02534ACDB2B1}

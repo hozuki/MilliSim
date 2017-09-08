@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extending\IScoreReader.cs" />
     <Compile Include="Score.cs" />
     <Compile Include="Conductor.cs" />
     <Compile Include="Difficulty.cs" />

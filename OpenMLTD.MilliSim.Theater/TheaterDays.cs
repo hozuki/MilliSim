@@ -23,6 +23,7 @@ namespace OpenMLTD.MilliSim.Theater {
             // Background elements
             // Beware the adding order. Usually these elements should be updated first.
             elements.Add(new AudioController(this));
+            elements.Add(new ScoreLoader(this));
 
             // Background
             if (!string.IsNullOrEmpty(settings.Media.BackgroundAnimation) && File.Exists(settings.Media.BackgroundAnimation)) {

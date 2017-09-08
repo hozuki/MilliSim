@@ -16,6 +16,7 @@ A simulator for [THE iDOLM@STER Million Live Theater Days](https://millionlive.i
 
 - Windows 7 or later
 - [.NET Framework 4.5](https://www.microsoft.com/en-us/download/details.aspx?id=42642)
+- Direct3D 11 and Direct2D
 
 Theoratically, MilliSim can also run on a UNIX-compliant machine using [Wine](https://www.winehq.org/download)
 and [Mono](http://www.mono-project.com/download/), though this is not tested.
@@ -26,23 +27,37 @@ and [Mono](http://www.mono-project.com/download/), though this is not tested.
 
 - Visual Studio 2017 Community (optional if you are familiar with MSBuild)
 - .NET Framework 4.5 Toolchain
+- [Node.js](https://nodejs.org/en/download/)
+- [NuGet CLI](https://www.nuget.org/downloads)
 
 Step 1: Clone this repo:
 
 ```bash
-git clone https://github.com/hozuki/MilliSim.git --recursive
+git clone https://github.com/hozuki/MilliSim.git
+cd MillSim
+git submodule init --recursive
+git submodule update --recursive
+cd ..
 ```
 
-Step 2: Restore dependencies using [NuGet](https://www.nuget.org/downloads) CLI, or Visual Studio.
+Step 2: Restore dependencies using NuGet CLI.
 
-```cmd
-nuget restore MilliSim.sln
+```bash
+npm install glob chalk --save
+node install.js
 ```
-
-If you are using Visual Studio, you can restore dependencies by right-clicking the solution node
-and select `Restore NuGet packages`.
 
 Step 3: Build the solution.
+
+```bash
+msbuild MilliSim.sln /p:Configuration=Release
+```
+
+To update third external projects, use this command:
+
+```bash
+git submodule foreach --recursive git pull
+```
 
 ## Notes
 
