@@ -44,14 +44,8 @@
     <Reference Include="NAudio.Lame, Version=1.0.5.27653, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.Lame.1.0.6\lib\net20\NAudio.Lame.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio.Vorbis, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NAudio.Vorbis.1.0.0.0\lib\net35\NAudio.Vorbis.dll</HintPath>
-    </Reference>
     <Reference Include="NAudio.WindowsMediaFormat, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.Wma.1.0.1\lib\net35\NAudio.WindowsMediaFormat.dll</HintPath>
-    </Reference>
-    <Reference Include="NVorbis, Version=0.8.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NVorbis.0.8.5.0\lib\NVorbis.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -76,6 +70,14 @@
     <ProjectReference Include="..\OpenMLTD.MilliSim.Foundation\OpenMLTD.MilliSim.Foundation.csproj">
       <Project>{bf644701-dfd5-49b6-90e8-a54c1bb331ae}</Project>
       <Name>OpenMLTD.MilliSim.Foundation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\thirdparty\NAudio.Vorbis\NAudio.Vorbis\NAudio.Vorbis.csproj">
+      <Project>{6fc9aaa7-e7fe-4bd4-b813-582d4b3bda0c}</Project>
+      <Name>NAudio.Vorbis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\thirdparty\NVorbis\NVorbis\NVorbis.csproj">
+      <Project>{a372e591-dfef-49c4-9c82-98c4361efccd}</Project>
+      <Name>NVorbis</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

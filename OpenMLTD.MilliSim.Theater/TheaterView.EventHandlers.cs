@@ -207,7 +207,7 @@ namespace OpenMLTD.MilliSim.Theater {
                     }
                     break;
                 case Keys.Q:
-                    var newTime = TimeSpan.FromMinutes(1) + TimeSpan.FromSeconds(45);
+                    var newTime = TimeSpan.FromMinutes(2);
                     if (music != null) {
                         music.CurrentTime = newTime;
                     }
