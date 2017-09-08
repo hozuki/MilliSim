@@ -25,6 +25,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
         public event EventHandler<VideoStateChangedEventArgs> VideoStateChanged;
 
+        public TimeSpan CurrentTime { get; private set; } = TimeSpan.Zero;
+
         public void OpenFile([NotNull] string path) {
             if (_fileStream != null) {
                 CloseFile();
@@ -228,17 +230,20 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     IsPaused = false;
                     break;
                 case MediaEngineEvent.TimeUpdate:
+                    CurrentTime = TimeSpan.FromSeconds(_mediaEngine.CurrentTime);
                     break;
                 case MediaEngineEvent.Ended:
                     IsStopped = true;
                     IsPaused = false;
                     IsEnded = true;
+                    CurrentTime = TimeSpan.Zero;
                     break;
                 case MediaEngineEvent.Error:
                 case MediaEngineEvent.Abort:
                     IsStopped = true;
                     IsPaused = true;
                     IsEnded = true;
+                    CurrentTime = TimeSpan.Zero;
                     _readyToPlayEvent.Reset();
                     break;
             }

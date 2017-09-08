@@ -20,7 +20,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             var settings = Program.Settings;
             var scoreFileName = settings.Game.ScoreFile;
-            var debug = Game.AsTheaterDays().GetSingleElement<DebugOverlay>();
+            var debug = Game.AsTheaterDays().FindSingleElement<DebugOverlay>();
 
             if (string.IsNullOrEmpty(scoreFileName)) {
                 if (debug != null) {

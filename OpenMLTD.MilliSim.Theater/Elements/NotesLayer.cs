@@ -33,7 +33,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             var settings = Program.Settings;
             var theaterDays = Game.AsTheaterDays();
-            var debugOverlay = theaterDays.GetSingleElement<DebugOverlay>();
+            var debugOverlay = theaterDays.FindSingleElement<DebugOverlay>();
 
             if (settings.Images.Notes.Length == 0) {
                 if (debugOverlay != null) {

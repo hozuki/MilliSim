@@ -139,6 +139,7 @@
     <Compile Include="Elements\MiniCube.cs" />
     <Compile Include="Elements\NotesLayer.cs" />
     <Compile Include="Elements\RibbonsLayer.cs" />
+    <Compile Include="Elements\SyncTimer.cs" />
     <Compile Include="Elements\TapPoints.cs" />
     <Compile Include="Elements\OutlinedTextOverlay.cs" />
     <Compile Include="Elements\GamingArea.cs" />

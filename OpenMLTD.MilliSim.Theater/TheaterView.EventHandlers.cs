@@ -25,12 +25,12 @@ namespace OpenMLTD.MilliSim.Theater {
             // Register element events.
             var theaterDays = GetTypedGame();
 
-            var video = theaterDays.GetSingleElement<BackgroundVideo>();
+            var video = theaterDays.FindSingleElement<BackgroundVideo>();
             if (video != null) {
                 video.VideoStateChanged += Video_VideoStateChanged;
             }
 
-            var tapPoints = theaterDays.GetSingleElement<TapPoints>();
+            var tapPoints = theaterDays.FindSingleElement<TapPoints>();
             if (tapPoints != null) {
                 tapPoints.TrackCount = TrackHelper.GetTrackCount(settings.Game.Difficulty);
             }
@@ -40,9 +40,9 @@ namespace OpenMLTD.MilliSim.Theater {
             var settings = Program.Settings;
             var theaterDays = GetTypedGame();
 
-            var debugOverlay = theaterDays.GetSingleElement<DebugOverlay>();
+            var debugOverlay = theaterDays.FindSingleElement<DebugOverlay>();
 
-            var audioController = theaterDays.GetSingleElement<AudioController>();
+            var audioController = theaterDays.FindSingleElement<AudioController>();
             if (audioController?.Music != null) {
                 var musicFileName = Path.GetFileName(settings.Media.BackgroundMusic);
                 if (debugOverlay != null) {
@@ -50,7 +50,7 @@ namespace OpenMLTD.MilliSim.Theater {
                 }
             }
 
-            var video = theaterDays.GetSingleElement<BackgroundVideo>();
+            var video = theaterDays.FindSingleElement<BackgroundVideo>();
             if (video != null) {
                 var animFileName = Path.GetFileName(settings.Media.BackgroundAnimation);
                 if (debugOverlay != null) {
@@ -73,7 +73,7 @@ namespace OpenMLTD.MilliSim.Theater {
                 });
             }
 
-            var image = theaterDays.GetSingleElement<BackgroundImage>();
+            var image = theaterDays.FindSingleElement<BackgroundImage>();
             if (image != null) {
                 image.Load(settings.Media.BackgroundImage);
             }
@@ -81,9 +81,9 @@ namespace OpenMLTD.MilliSim.Theater {
 
         private void Video_VideoStateChanged(object sender, VideoStateChangedEventArgs e) {
             var theaterDays = GetTypedGame();
-            var helpOverlay = theaterDays.GetSingleElement<HelpOverlay>();
-            var debugOverlay = theaterDays.GetSingleElement<DebugOverlay>();
-            var video = theaterDays.GetSingleElement<BackgroundVideo>();
+            var helpOverlay = theaterDays.FindSingleElement<HelpOverlay>();
+            var debugOverlay = theaterDays.FindSingleElement<DebugOverlay>();
+            var video = theaterDays.FindSingleElement<BackgroundVideo>();
 
             switch (e.Event) {
                 case MediaEngineEvent.Play:
@@ -133,7 +133,7 @@ namespace OpenMLTD.MilliSim.Theater {
 
             switch (e.KeyCode) {
                 case Keys.Space: {
-                        var video = theaterDays.GetSingleElement<BackgroundVideo>();
+                        var video = theaterDays.FindSingleElement<BackgroundVideo>();
                         if (video != null) {
                             if (video.IsStopped) {
                                 video.Play();
@@ -144,7 +144,7 @@ namespace OpenMLTD.MilliSim.Theater {
                         break;
                     }
                 case Keys.F2: {
-                        var video = theaterDays.GetSingleElement<BackgroundVideo>();
+                        var video = theaterDays.FindSingleElement<BackgroundVideo>();
                         if (video != null) {
                             video.PauseOnFirstFrame();
                         }
@@ -159,7 +159,7 @@ namespace OpenMLTD.MilliSim.Theater {
                         break;
                     }
                 case Keys.B: {
-                        var audio = theaterDays.GetSingleElement<AudioController>();
+                        var audio = theaterDays.FindSingleElement<AudioController>();
                         var music = audio?.Music;
                         if (music != null) {
                             if (music.IsPlaying) {
@@ -171,7 +171,7 @@ namespace OpenMLTD.MilliSim.Theater {
                         break;
                     }
                 case Keys.Up: {
-                        var audio = theaterDays.GetSingleElement<AudioController>();
+                        var audio = theaterDays.FindSingleElement<AudioController>();
                         var music = audio?.Music;
                         if (music != null) {
                             music.Volume += 0.05f;
@@ -179,7 +179,7 @@ namespace OpenMLTD.MilliSim.Theater {
                         break;
                     }
                 case Keys.Down: {
-                        var audio = theaterDays.GetSingleElement<AudioController>();
+                        var audio = theaterDays.FindSingleElement<AudioController>();
                         var music = audio?.Music;
                         if (music != null) {
                             music.Volume -= 0.05f;

@@ -22,6 +22,7 @@ namespace OpenMLTD.MilliSim.Theater {
 
             // Background elements
             // Beware the adding order. Usually these elements should be updated first.
+            elements.Add(new SyncTimer(this));
             elements.Add(new AudioController(this));
             elements.Add(new ScoreLoader(this));
 
@@ -36,8 +37,7 @@ namespace OpenMLTD.MilliSim.Theater {
             //elements.Add(new MiniCube(this));
 #endif
             elements.Add(new RibbonsLayer(this));
-
-
+            
             // ** Stage ** //
 
             var gamingAreaElements = new List<Element>();
