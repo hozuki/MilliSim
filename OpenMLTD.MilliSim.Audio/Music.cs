@@ -51,6 +51,7 @@ namespace OpenMLTD.MilliSim.Audio {
             }
 
             AudioManager.AudioOut.Stop();
+            AudioManager.MixerStream.CurrentTime = TimeSpan.Zero;
             CurrentTime = TimeSpan.Zero;
 
             IsPlaying = false;

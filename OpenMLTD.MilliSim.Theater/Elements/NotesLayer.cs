@@ -120,13 +120,13 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                         throw new ArgumentOutOfRangeException();
                 }
 
-                var indexX = Array.IndexOf(trackIndices, note.TrackIndex);
-                var x = clientSize.Width * trackXRatios[indexX];
-                var y = MathHelper.Lerp(startY, endY, (float)(currentSecond - noteEnterTime) / leadTimeScaled);
-
                 if (imageIndex < 0) {
                     continue;
                 }
+
+                var indexX = Array.IndexOf(trackIndices, note.TrackIndex);
+                var x = clientSize.Width * trackXRatios[indexX];
+                var y = MathHelper.Lerp(startY, endY, (float)(currentSecond - noteEnterTime) / leadTimeScaled);
 
                 context.DrawImageStrip(noteImages[0], imageIndex, x - scaledNoteSize.Width / 2, y - scaledNoteSize.Height / 2, scaledNoteSize.Width, scaledNoteSize.Height);
             }

@@ -12,11 +12,11 @@ namespace OpenMLTD.MilliSim.Audio {
     public class AudioManager : AudioManagerBase {
 
         public AudioManager() {
-            _mixerStream = new WaveMixerStream32 {
+            MixerStream = new WaveMixerStream32 {
                 AutoStop = true
             };
             _soundPlayer = new AudioOut(AudioClientShareMode.Shared, 60);
-            _soundPlayer.Init(_mixerStream);
+            _soundPlayer.Init(MixerStream);
         }
 
         public Music CreateMusic(string fileName) {
@@ -84,18 +84,20 @@ namespace OpenMLTD.MilliSim.Audio {
             set {
                 if (_music != null) {
                     _music.Stop();
-                    _mixerStream.RemoveInputStream(_music.Channel);
+                    MixerStream.RemoveInputStream(_music.Channel);
                 }
                 if (value != null) {
-                    _mixerStream.CurrentTime = TimeSpan.Zero;
-                    _mixerStream.AddInputStream(value.Channel);
+                    MixerStream.CurrentTime = TimeSpan.Zero;
+                    MixerStream.AddInputStream(value.Channel);
                 }
                 _music = value;
             }
         }
 
+        internal WaveMixerStream32 MixerStream { get; }
+
         internal bool NeedSampleRateConversionFrom(WaveFormat sourceFormat) {
-            if (_mixerStream.InputCount == 0) {
+            if (MixerStream.InputCount == 0) {
                 return false;
             }
             var standard = StandardFormat;
@@ -105,7 +107,7 @@ namespace OpenMLTD.MilliSim.Audio {
                    sourceFormat.Encoding != standard.Encoding;
         }
 
-        internal WaveFormat StandardFormat => _mixerStream.WaveFormat;
+        internal WaveFormat StandardFormat => MixerStream.WaveFormat;
 
         internal AudioOut AudioOut => _soundPlayer;
 
@@ -116,7 +118,7 @@ namespace OpenMLTD.MilliSim.Audio {
 
             _soundPlayer.Stop();
 
-            _mixerStream.Dispose();
+            MixerStream.Dispose();
             _soundPlayer.Dispose();
         }
 
@@ -152,7 +154,6 @@ namespace OpenMLTD.MilliSim.Audio {
 
         private Music _music;
         private readonly AudioOut _soundPlayer;
-        private readonly WaveMixerStream32 _mixerStream;
 
     }
 }
