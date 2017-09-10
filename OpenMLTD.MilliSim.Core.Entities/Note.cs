@@ -1,18 +1,17 @@
 using System;
-using System.Collections.Generic;
+using System.Runtime.Serialization;
 using JetBrains.Annotations;
 
 namespace OpenMLTD.MilliSim.Core.Entities {
+    [Serializable]
+    [DataContract]
     public sealed class Note : NoteBase {
 
         /// <summary>
         /// Base type of this note.
         /// </summary>
+        [DataMember(Name = "type")]
         public NoteType Type { get; set; }
-
-        void a() {
-            Console.WriteLine();
-        }
 
         /// <summary>
         /// Start position of this note.
@@ -23,6 +22,7 @@ namespace OpenMLTD.MilliSim.Core.Entities {
         /// Allows decimal number (maybe).
         /// UPDATE 170812: Start point -3 has been discovered in official 'Shooting Stars' beatmap.</para>
         /// </remarks>
+        [DataMember(Name = "startPosition")]
         public float StartPosition { get; set; }
 
         /// <summary>
@@ -32,6 +32,7 @@ namespace OpenMLTD.MilliSim.Core.Entities {
         /// <para>From https://github.com/thiEFcat/ScrObjAnalyzer:</para>
         /// <para>Ranges from 0 to n-1 in nMix mode.</para>
         /// </remarks>
+        [DataMember(Name = "endPosition")]
         public float EndPosition { get; set; }
 
         /// <summary>
@@ -40,11 +41,13 @@ namespace OpenMLTD.MilliSim.Core.Entities {
         /// <remarks>
         /// There is also a speed table at the end of each beatmap. Not sure how that mapping goes.
         /// </remarks>
+        [DataMember(Name = "speed")]
         public float Speed { get; set; }
 
         /// <summary>
         /// Unknown.
         /// </summary>
+        [DataMember(Name = "duration")]
         public int Duration { get; set; }
 
         /// <summary>
@@ -52,17 +55,26 @@ namespace OpenMLTD.MilliSim.Core.Entities {
         /// <see cref="NoteType.SlideSmall"/>.
         /// </summary>
         [CanBeNull, ItemNotNull]
-        public IReadOnlyList<PolyPoint> PolyPoints { get; set; }
+        [DataMember(Name = "polyPoints")]
+        public PolyPoint[] PolyPoints { get; set; }
 
         /// <summary>
         /// Ending type of this note.
         /// </summary>
+        [DataMember(Name = "endType")]
         public NoteEndType EndType { get; set; }
 
         /// <summary>
         /// Unknown.
         /// </summary>
+        [DataMember(Name = "leadTime")]
         public double LeadTime { get; set; }
+
+        /// <summary>
+        /// Extra: group ID. To be compatible with CGSS. Ignored by MLTD.
+        /// </summary>
+        [DataMember(Name = "groupID")]
+        public int GroupID { get; set; }
 
     }
 }

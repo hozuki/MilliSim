@@ -129,6 +129,8 @@
     <Compile Include="Elements\BackgroundBase.cs" />
     <Compile Include="Elements\BackgroundImage.cs" />
     <Compile Include="Elements\BackgroundVideo.cs" />
+    <Compile Include="Intenal\OnStageStatus.cs" />
+    <Compile Include="Intenal\RuntimeNoteCalculator.cs" />
     <Compile Include="Elements\ScoreLoader.cs" />
     <Compile Include="Elements\DebugOverlay.cs" />
     <Compile Include="Elements\FpsOverlay.cs" />
@@ -139,6 +141,7 @@
     <Compile Include="Elements\MiniCube.cs" />
     <Compile Include="Elements\NotesLayer.cs" />
     <Compile Include="Elements\RibbonsLayer.cs" />
+    <Compile Include="Elements\ScoreRenderMode.cs" />
     <Compile Include="Elements\SyncTimer.cs" />
     <Compile Include="Elements\TapPoints.cs" />
     <Compile Include="Elements\OutlinedTextOverlay.cs" />
@@ -155,9 +158,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Content Include="game\song3_shtstr_bgm.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="res\fx\minicube.fx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -175,6 +175,10 @@
     <ProjectReference Include="..\OpenMLTD.MilliSim.Audio\OpenMLTD.MilliSim.Audio.csproj">
       <Project>{DAE9137C-8EE9-4E6F-B02C-E47916965027}</Project>
       <Name>OpenMLTD.MilliSim.Audio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Core.Entities.Runtime\OpenMLTD.MilliSim.Core.Entities.Runtime.csproj">
+      <Project>{529a83d3-aa22-469a-80d2-f7e68be6b312}</Project>
+      <Name>OpenMLTD.MilliSim.Core.Entities.Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Core.Entities\OpenMLTD.MilliSim.Core.Entities.csproj">
       <Project>{78c104e2-b11b-4574-974a-0248c2323286}</Project>
@@ -204,6 +208,12 @@
   <ItemGroup>
     <None Include="appconfig.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="game\scrobj_blsymp.unity3d">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="game\song3_blsymp_bgm.ogg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="game\song3_shtstr_bgm.ogg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

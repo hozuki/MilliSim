@@ -31,6 +31,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
         public float[] TapPointXRatios => _tapPointsX;
 
+        public float[] IncomingXRatios => _incomingX;
+
         protected override void OnLayout() {
             base.OnLayout();
 
@@ -53,6 +55,12 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             _tapPointsX = tracks;
             _tapNodesX = midPoints;
+
+            var incomings = new float[tracks.Length];
+            for (var i = 0; i < incomings.Length; ++i) {
+                incomings[i] = 0.5f + (tracks[i] - 0.5f) * 0.5f;
+            }
+            _incomingX = incomings;
         }
 
         protected override void OnDrawBuffer(GameTime gameTime, RenderContext context) {
@@ -166,6 +174,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         private Vector2 _tapBarNodeScaleRatio;
 
         private float[] _tapPointsX;
+        private float[] _incomingX;
 
         private float[] _tapNodesX;
 

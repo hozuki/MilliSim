@@ -88,7 +88,7 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
             context.DrawPath(pen, path, offset, true);
         }
 
-        public static void DrawImageStrip(this RenderContext context, D2DImageStrip imageStrip, int index, float destX, float destY) {
+        public static void DrawImageStripUnit(this RenderContext context, D2DImageStrip imageStrip, int index, float destX, float destY) {
             if (index < 0 || index >= imageStrip.Count) {
                 throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
@@ -96,7 +96,7 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
             context.DrawImage(imageStrip, destX, destY, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height);
         }
 
-        public static void DrawImageStrip(this RenderContext context, D2DImageStrip imageStrip, int index, float destX, float destY, InterpolationMode interpolationMode, CompositeMode compositeMode) {
+        public static void DrawImageStripUnit(this RenderContext context, D2DImageStrip imageStrip, int index, float destX, float destY, InterpolationMode interpolationMode, CompositeMode compositeMode) {
             if (index < 0 || index >= imageStrip.Count) {
                 throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
@@ -104,12 +104,20 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
             context.DrawImage(imageStrip, destX, destY, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, interpolationMode, compositeMode);
         }
 
-        public static void DrawImageStrip(this RenderContext context, D2DImageStrip imageStrip, int index, float destX, float destY, float destWidth, float destHeight) {
+        public static void DrawImageStripUnit(this RenderContext context, D2DImageStrip imageStrip, int index, float destX, float destY, float destWidth, float destHeight) {
             if (index < 0 || index >= imageStrip.Count) {
                 throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
             var srcRect = GetSourceRect(imageStrip, index);
             context.DrawBitmap(imageStrip, destX, destY, destWidth, destHeight, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height);
+        }
+
+        public static void DrawImageStripUnit(this RenderContext context, D2DImageStrip imageStrip, int index, float destX, float destY, float destWidth, float destHeight, float opacity) {
+            if (index < 0 || index >= imageStrip.Count) {
+                throw new ArgumentOutOfRangeException(nameof(index), index, null);
+            }
+            var srcRect = GetSourceRect(imageStrip, index);
+            context.DrawBitmap(imageStrip, destX, destY, destWidth, destHeight, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, opacity);
         }
 
         private static RectangleF GetSourceRect(D2DImageStrip imageStrip, int index) {

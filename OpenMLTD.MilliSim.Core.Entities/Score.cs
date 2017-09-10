@@ -1,21 +1,29 @@
-using System.Collections.Generic;
+using System;
+using System.Runtime.Serialization;
 using JetBrains.Annotations;
 
 namespace OpenMLTD.MilliSim.Core.Entities {
+    [Serializable]
+    [DataContract]
     public sealed class Score {
 
         [CanBeNull, ItemNotNull]
-        public IReadOnlyList<Note> Notes { get; set; }
+        [DataMember(Name = "notes")]
+        public Note[] Notes { get; set; }
 
         [CanBeNull, ItemNotNull]
-        public IReadOnlyList<Conductor> Conductors { get; set; }
+        [DataMember(Name = "conductors")]
+        public Conductor[] Conductors { get; set; }
 
         [CanBeNull]
-        public IReadOnlyList<float> ScoreSpeeds { get; set; }
+        [DataMember(Name = "scoreSpeeds")]
+        public float[] ScoreSpeeds { get; set; }
 
         [CanBeNull]
-        public IReadOnlyList<float> JudgeRanges { get; set; }
+        [DataMember(Name = "judgeRanges")]
+        public float[] JudgeRanges { get; set; }
 
+        [DataMember(Name = "musicOffset")]
         public float MusicOffset { get; set; }
 
     }

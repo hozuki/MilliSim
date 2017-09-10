@@ -1,6 +1,7 @@
 using System;
 using System.Composition;
 using System.IO;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core.Entities;
 using OpenMLTD.MilliSim.Core.Entities.Extending;
 using OpenMLTD.MilliSim.Extension.Imports.Unity3D.Extensions;
@@ -10,6 +11,7 @@ using UnityStudio.Serialization;
 
 namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
     [Export(typeof(IScoreReader))]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]
     public sealed class Unity3DScoreReader : IScoreReader {
 
         public Score Read(Stream stream, string fileName) {

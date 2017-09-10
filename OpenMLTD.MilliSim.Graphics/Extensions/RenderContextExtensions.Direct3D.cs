@@ -36,11 +36,11 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
             return effect;
         }
 
-        public static void Draw(this RenderContext context, BasicModelInstance modelInstance, D3DSimpleTextureEffect effect, Matrix viewProjection) {
+        public static void DrawModel(this RenderContext context, BasicModelInstance modelInstance, D3DSimpleTextureEffect effect, Matrix viewProjection) {
             modelInstance.Draw(context.Direct3DDevice.ImmediateContext, effect, viewProjection);
         }
 
-        public static void Draw(this RenderContext context, BasicModelInstance modelInstance, D3DVertexColorEffect effect, Matrix viewProjection) {
+        public static void DrawModel(this RenderContext context, BasicModelInstance modelInstance, D3DVertexColorEffect effect, Matrix viewProjection) {
             modelInstance.Draw(context.Direct3DDevice.ImmediateContext, effect, viewProjection);
         }
 

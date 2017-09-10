@@ -4,11 +4,17 @@ using SharpDX.MediaFoundation;
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public sealed class VideoStateChangedEventArgs : EventArgs {
 
-        internal VideoStateChangedEventArgs(MediaEngineEvent @event) {
-            Event = @event;
+        internal VideoStateChangedEventArgs(MediaEngineEvent oldValidState, MediaEngineEvent newState) {
+            OldValidState = oldValidState;
+            NewState = newState;
         }
 
-        public MediaEngineEvent Event { get; }
+        /// <summary>
+        /// The old valid state, a <see cref="MediaEngineEvent"/> with <see cref="MediaEngineEvent.TimeUpdate"/> filtered out.
+        /// </summary>
+        public MediaEngineEvent OldValidState { get; }
+
+        public MediaEngineEvent NewState { get; }
 
     }
 }

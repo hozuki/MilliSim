@@ -147,6 +147,10 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
             context.RenderTarget.DeviceContext2D.DrawBitmap(bitmap, destX, destY, destWidth, destHeight, srcX, srcY, srcWidth, srcHeight);
         }
 
+        public static void DrawBitmap(this RenderContext context, D2DBitmap bitmap, float destX, float destY, float destWidth, float destHeight, float srcX, float srcY, float srcWidth, float srcHeight, float opacity) {
+            context.RenderTarget.DeviceContext2D.DrawBitmap(bitmap, destX, destY, destWidth, destHeight, srcX, srcY, srcWidth, srcHeight, opacity);
+        }
+
         public static void DrawText(this RenderContext context, string text, ID2DBrush brush, D2DFont font, float destX, float destY, float destWidth, float destHeight) {
             context.RenderTarget.DeviceContext2D.DrawText(text, brush, font, destX, destY, destWidth, destHeight);
         }

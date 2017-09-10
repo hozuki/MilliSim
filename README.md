@@ -35,8 +35,7 @@ Step 1: Clone this repo:
 ```bash
 git clone https://github.com/hozuki/MilliSim.git
 cd MillSim
-git submodule init --recursive
-git submodule update --recursive
+git submodule update --init --recursive
 cd ..
 ```
 

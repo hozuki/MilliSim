@@ -71,6 +71,11 @@ namespace OpenMLTD.MilliSim.Theater {
                         video.PauseOnFirstFrame();
                     }
                 });
+            } else {
+                var help = theaterDays.FindSingleElement<HelpOverlay>();
+                if (help != null) {
+                    help.Show();
+                }
             }
 
             var image = theaterDays.FindSingleElement<BackgroundImage>();
@@ -85,7 +90,7 @@ namespace OpenMLTD.MilliSim.Theater {
             var debugOverlay = theaterDays.FindSingleElement<DebugOverlay>();
             var video = theaterDays.FindSingleElement<BackgroundVideo>();
 
-            switch (e.Event) {
+            switch (e.NewState) {
                 case MediaEngineEvent.Play:
                 case MediaEngineEvent.Playing:
                     if (helpOverlay != null) {
@@ -130,8 +135,17 @@ namespace OpenMLTD.MilliSim.Theater {
             var audio = theaterDays.FindSingleElement<AudioController>();
             var music = audio?.Music;
             if (music != null) {
-                switch (e.Event) {
+                switch (e.NewState) {
                     case MediaEngineEvent.Play:
+                        music.Play();
+                        if (e.OldValidState == MediaEngineEvent.Pause) {
+                            if (video != null) {
+                                // Force seeking to music time to avoid the lag.
+                                // The lag appears when you pause for too many times (about 5 times) during playback.
+                                video.CurrentTime = music.CurrentTime;
+                            }
+                        }
+                        break;
                     case MediaEngineEvent.Playing:
                         music.Play();
                         break;
@@ -149,7 +163,7 @@ namespace OpenMLTD.MilliSim.Theater {
 
             var tapPoints = theaterDays.FindSingleElement<TapPoints>();
             if (tapPoints != null) {
-                switch (e.Event) {
+                switch (e.NewState) {
                     case MediaEngineEvent.Play:
                     case MediaEngineEvent.Playing:
                         tapPoints.FadeIn(TimeSpan.FromSeconds(1.5));
@@ -170,6 +184,7 @@ namespace OpenMLTD.MilliSim.Theater {
             var video = theaterDays.FindSingleElement<BackgroundVideo>();
             var audio = theaterDays.FindSingleElement<AudioController>();
             var music = audio?.Music;
+            var help = theaterDays.FindSingleElement<HelpOverlay>();
             switch (e.KeyCode) {
                 case Keys.Space:
                     if (video != null) {
@@ -177,6 +192,17 @@ namespace OpenMLTD.MilliSim.Theater {
                             video.Play();
                         } else {
                             video.TogglePause();
+                        }
+                    } else {
+                        if (music != null) {
+                            if (music.IsPlaying) {
+                                music.Pause();
+                            } else {
+                                music.Play();
+                            }
+                        }
+                        if (help != null) {
+                            help.Visible = !help.Visible;
                         }
                     }
                     break;
@@ -204,6 +230,21 @@ namespace OpenMLTD.MilliSim.Theater {
                 case Keys.Down:
                     if (music != null) {
                         music.Volume -= 0.05f;
+                    }
+                    break;
+                case Keys.Right:
+                case Keys.Left: {
+                        var timer = theaterDays.FindSingleElement<SyncTimer>();
+                        if (timer != null) {
+                            var current = timer.CurrentTime;
+                            var next = e.KeyCode == Keys.Right ? current + TimeSpan.FromSeconds(5) : current - TimeSpan.FromSeconds(5);
+                            if (video != null) {
+                                video.CurrentTime = next;
+                            }
+                            if (music != null) {
+                                music.CurrentTime = next;
+                            }
+                        }
                     }
                     break;
                 case Keys.Q:

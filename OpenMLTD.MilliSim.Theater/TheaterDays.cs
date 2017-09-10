@@ -43,7 +43,8 @@ namespace OpenMLTD.MilliSim.Theater {
             var gamingAreaElements = new List<Element>();
 
             gamingAreaElements.Add(new NotesLayer(this) {
-                SpeedScale = 1.3f
+                SpeedScale = 1.3f,
+                RenderMode = ScoreRenderMode.Straight
             });
             gamingAreaElements.Add(new TapPoints(this));
 

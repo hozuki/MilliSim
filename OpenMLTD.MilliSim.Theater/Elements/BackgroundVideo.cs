@@ -250,7 +250,11 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     _readyToPlayEvent.Reset();
                     break;
             }
-            VideoStateChanged?.Invoke(this, new VideoStateChangedEventArgs(playEvent));
+            VideoStateChanged?.Invoke(this, new VideoStateChangedEventArgs(_oldValidState, playEvent));
+
+            if (playEvent != MediaEngineEvent.TimeUpdate) {
+                _oldValidState = playEvent;
+            }
         }
 
         private MediaEngineClassFactory _mediaEngineFactory;
@@ -265,6 +269,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         private Size? _videoSize;
 
         private bool _isStageReady;
+
+        private MediaEngineEvent _oldValidState = MediaEngineEvent.Stalled;
 
         // Warning: Not disposed...
         private readonly ManualResetEvent _readyToPlayEvent = new ManualResetEvent(false);

@@ -161,6 +161,12 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
             target.DrawBitmap(bitmap.NativeImage, destRect, 1f, BitmapInterpolationMode.Linear, srcRect);
         }
 
+        public static void DrawBitmap(this SharpDX.Direct2D1.RenderTarget target, D2DBitmap bitmap, float destX, float destY, float destWidth, float destHeight, float srcX, float srcY, float srcWidth, float srcHeight, float opacity) {
+            var destRect = new RawRectangleF(destX, destY, destX + destWidth, destY + destHeight);
+            var srcRect = new RawRectangleF(srcX, srcY, srcX + srcWidth, srcY + srcHeight);
+            target.DrawBitmap(bitmap.NativeImage, destRect, opacity, BitmapInterpolationMode.Linear, srcRect);
+        }
+
         public static void DrawText(this SharpDX.Direct2D1.RenderTarget target, string text, ID2DBrush brush, D2DFont font, float destX, float destY, float destWidth, float destHeight) {
             var destRect = new RawRectangleF(destX, destY, destX + destWidth, destY + destHeight);
             target.DrawText(text, font.NativeFont, destRect, brush.NativeBrush);

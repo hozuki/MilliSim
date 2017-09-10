@@ -9,8 +9,12 @@ namespace OpenMLTD.MilliSim.Core {
             return v < min ? min : (v > max ? max : v);
         }
 
-        public static float Lerp(this float from, float to, float percent) {
+        public static float Lerp(float from, float to, float percent) {
             return from * (1 - percent) + to * percent;
+        }
+
+        public static float LerpTo(this float from, float to, float percent) {
+            return Lerp(from, to, percent);
         }
 
     }

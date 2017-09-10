@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 
 namespace OpenMLTD.MilliSim.Core.Entities {
-    public static class NoteHelper {
+    public static class ScoreHelper {
 
         public static TrackType GetTrackTypeFromTrackIndex(int trackIndex) {
             /*
@@ -85,6 +84,11 @@ namespace OpenMLTD.MilliSim.Core.Entities {
                 default:
                     throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);
             }
+        }
+
+        public static double TicksToSeconds(long ticks) {
+            // Surprised?
+            return (double)ticks / 1200;
         }
 
         private static readonly int[][] TracksList = {

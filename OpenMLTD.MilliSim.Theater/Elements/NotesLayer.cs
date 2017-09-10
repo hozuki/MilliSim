@@ -1,15 +1,18 @@
 using System;
+using System.Drawing;
 using System.IO;
-using System.Linq;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Core.Entities;
+using OpenMLTD.MilliSim.Core.Entities.Runtime;
+using OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
+using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Advanced;
 using OpenMLTD.MilliSim.Graphics.Extensions;
 using OpenMLTD.MilliSim.Theater.Extensions;
+using OpenMLTD.MilliSim.Theater.Intenal;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public class NotesLayer : BufferedElement2D {
@@ -31,6 +34,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             }
         }
 
+        public ScoreRenderMode RenderMode { get; set; }
+
         protected override void OnDrawBuffer(GameTime gameTime, RenderContext context) {
             base.OnDrawBuffer(gameTime, context);
 
@@ -43,11 +48,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             }
 
             var noteImages = _noteImages;
-            var activeNotes = _activeNotes;
-
-            if (activeNotes == null) {
-                return;
-            }
+            var notes = _score.Notes;
 
             var theaterDays = Game.AsTheaterDays();
 
@@ -62,27 +63,25 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             }
 
             var settings = Program.Settings;
-            var difficulty = settings.Game.Difficulty;
             var scaledNoteSize = settings.Scaling.Note;
             var currentSecond = syncTimer.CurrentTime.TotalSeconds;
             var speedScale = SpeedScale;
-            var trackType = NoteHelper.MapDifficultyToTrackType(difficulty);
-            var trackIndices = NoteHelper.GetTrackIndicesFromTrackType(trackType);
-            var trackXRatios = tapPoints.TapPointXRatios;
+            var startXRatios = tapPoints.IncomingXRatios;
+            var endXRatios = tapPoints.TapPointXRatios;
             var tapPointsLayout = settings.UI.TapPoints.Layout;
             var notesLayerLayout = settings.UI.NotesLayer.Layout;
             var clientSize = context.ClientSize;
 
-            var startY = notesLayerLayout.Y * clientSize.Height;
-            var endY = tapPointsLayout.Y * clientSize.Height;
+            var opacity = settings.UI.NotesLayer.Opacity;
+            var renderMode = RenderMode;
+
+            var topY = notesLayerLayout.Y * clientSize.Height;
+            var bottomY = tapPointsLayout.Y * clientSize.Height;
 
             context.Begin2D();
 
-            for (var i = 0; i < activeNotes.Length; ++i) {
-                var note = activeNotes[i];
-                var leadTimeScaled = (float)note.LeadTime / (speedScale * speedScale);
-                var noteEnterTime = note.AbsoluteTime - leadTimeScaled;
-                var noteLeaveTime = note.AbsoluteTime;
+            foreach (var note in notes) {
+                var (noteEnterTime, noteLeaveTime, _) = RuntimeNoteCalculator.CalculateNoteTimePoints(note, speedScale);
 
                 if (!(noteEnterTime <= currentSecond && currentSecond <= noteLeaveTime)) {
                     continue;
@@ -90,31 +89,73 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
                 var imageIndex = -1;
                 switch (note.Type) {
-                    case NoteType.TapSmall:
-                        imageIndex = 0;
+                    case RuntimeNoteType.Tap:
+                        switch (note.Size) {
+                            case RuntimeNoteSize.Small:
+                                imageIndex = 0;
+                                break;
+                            case RuntimeNoteSize.Large:
+                                imageIndex = 1;
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
                         break;
-                    case NoteType.TapLarge:
-                        imageIndex = 1;
+                    case RuntimeNoteType.Flick:
+                        switch (note.FlickDirection) {
+                            case FlickDirection.Left:
+                                imageIndex = 4;
+                                break;
+                            case FlickDirection.Up:
+                                imageIndex = 5;
+                                break;
+                            case FlickDirection.Right:
+                                imageIndex = 6;
+                                break;
+                            case FlickDirection.Down:
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
                         break;
-                    case NoteType.FlickLeft:
-                        imageIndex = 4;
+                    case RuntimeNoteType.Hold:
+                        switch (note.Size) {
+                            case RuntimeNoteSize.Small:
+                                imageIndex = 2;
+                                break;
+                            case RuntimeNoteSize.Large:
+                                imageIndex = 3;
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
                         break;
-                    case NoteType.FlickUp:
-                        imageIndex = 5;
+                    case RuntimeNoteType.Slide:
+                        switch (note.FlickDirection) {
+                            case FlickDirection.None:
+                            case FlickDirection.Down:
+                                if (note.IsSlideStart()) {
+                                    imageIndex = 7;
+                                } else if (note.IsSlideEnd()) {
+                                    imageIndex = 9;
+                                } else {
+                                    imageIndex = 8;
+                                }
+                                break;
+                            case FlickDirection.Left:
+                                imageIndex = 4;
+                                break;
+                            case FlickDirection.Up:
+                                imageIndex = 5;
+                                break;
+                            case FlickDirection.Right:
+                                imageIndex = 6;
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
                         break;
-                    case NoteType.FlickRight:
-                        imageIndex = 6;
-                        break;
-                    case NoteType.HoldSmall:
-                        imageIndex = 2;
-                        break;
-                    case NoteType.SlideSmall:
-                        imageIndex = 7;
-                        break;
-                    case NoteType.HoldLarge:
-                        imageIndex = 3;
-                        break;
-                    case NoteType.Special:
+                    case RuntimeNoteType.Special:
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -124,17 +165,18 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     continue;
                 }
 
-                var indexX = Array.IndexOf(trackIndices, note.TrackIndex);
-                var x = clientSize.Width * trackXRatios[indexX];
-                var y = MathHelper.Lerp(startY, endY, (float)(currentSecond - noteEnterTime) / leadTimeScaled);
+                var loc = RuntimeNoteCalculator.CalculateNoteLocation(note, currentSecond, startXRatios, endXRatios, clientSize, topY, bottomY, speedScale, renderMode, false);
 
-                context.DrawImageStrip(noteImages[0], imageIndex, x - scaledNoteSize.Width / 2, y - scaledNoteSize.Height / 2, scaledNoteSize.Width, scaledNoteSize.Height);
+                // NextSync is always after PrevSync. So draw here, below the two notes.
+                if (note.HasNextSync()) {
+                    var nextX = RuntimeNoteCalculator.CalculateNoteX(note.NextSync, currentSecond, startXRatios, endXRatios, clientSize, speedScale, renderMode);
+                    context.DrawLine(_simpleSyncLinePen, loc.X, loc.Y, nextX, loc.Y);
+                }
+
+                // Then draw the note.
+                context.DrawImageStripUnit(noteImages[0], imageIndex, loc.X - scaledNoteSize.Width / 2, loc.Y - scaledNoteSize.Height / 2, scaledNoteSize.Width, scaledNoteSize.Height, opacity);
             }
 
-            //if (_noteImages?[0] != null) {
-            //    var strip = _noteImages[0];
-            //    context.DrawImageStrip(strip, 1, 130, 340, scaledNoteSize.Width, scaledNoteSize.Height);
-            //}
             context.End2D();
         }
 
@@ -176,11 +218,13 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 }
             }
 
-            Opacity = settings.UI.NotesLayer.Opacity;
+            _simpleSyncLinePen = new D2DPen(context, Color.White, 5);
         }
 
         protected override void OnLostContext(RenderContext context) {
             base.OnLostContext(context);
+
+            _simpleSyncLinePen.Dispose();
 
             if (_noteImages != null) {
                 foreach (var noteImage in _noteImages) {
@@ -194,28 +238,14 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             base.OnInitialize();
 
             var scoreLoader = Game.AsTheaterDays().FindSingleElement<ScoreLoader>();
-            _score = scoreLoader?.Score;
-
-            if (_score != null) {
-                var notes = _score.Notes;
-                if (notes == null) {
-                    return;
-                }
-
-                var settings = Program.Settings;
-                var difficulty = settings.Game.Difficulty;
-
-                var trackType = NoteHelper.MapDifficultyToTrackType(difficulty);
-                var trackIndices = NoteHelper.GetTrackIndicesFromTrackType(trackType);
-                _activeNotes = notes.Where(n => Array.IndexOf(trackIndices, n.TrackIndex) >= 0).ToArray();
-            }
+            _score = scoreLoader?.RuntimeScore;
         }
 
         private D2DImageStrip[] _noteImages;
         [CanBeNull]
-        private Score _score;
-        [CanBeNull]
-        private Note[] _activeNotes;
+        private RuntimeScore _score;
+
+        private D2DPen _simpleSyncLinePen;
 
         private float _speedScale = 1f;
 
