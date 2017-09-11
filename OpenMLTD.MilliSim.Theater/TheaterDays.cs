@@ -70,6 +70,7 @@ namespace OpenMLTD.MilliSim.Theater {
                     FillColor = settings.SystemUI.DebugOverlay.TextFill,
                     FontSize = settings.SystemUI.DebugOverlay.FontSize
                 });
+                elements.Add(new SyncTimerOverlay(this));
             }
 
             return elements.ToArray();

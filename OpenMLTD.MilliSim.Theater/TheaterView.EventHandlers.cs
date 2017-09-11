@@ -213,6 +213,10 @@ namespace OpenMLTD.MilliSim.Theater {
 
                     if (video != null) {
                         video.PauseOnFirstFrame();
+                    } else {
+                        if (help != null) {
+                            help.Show();
+                        }
                     }
                     break;
                 case Keys.P:

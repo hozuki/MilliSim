@@ -129,6 +129,7 @@
     <Compile Include="Elements\BackgroundBase.cs" />
     <Compile Include="Elements\BackgroundImage.cs" />
     <Compile Include="Elements\BackgroundVideo.cs" />
+    <Compile Include="Elements\SyncTimerOverlay.cs" />
     <Compile Include="Intenal\OnStageStatus.cs" />
     <Compile Include="Intenal\RuntimeNoteCalculator.cs" />
     <Compile Include="Elements\ScoreLoader.cs" />
