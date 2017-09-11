@@ -83,18 +83,10 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions {
             for (var i = 0; i < totalNotesCount - 1; ++i) {
                 var note = list[i];
                 var nextNote = list[i + 1];
-
-                while (note.HitTime.Equals(nextNote.HitTime)) {
+                // About this strange behavior, see remarks on RuntimeNote.Ticks.
+                if (note.HitTime.Equals(nextNote.HitTime) || note.Ticks == nextNote.Ticks) {
                     note.NextSync = nextNote;
                     nextNote.PrevSync = note;
-
-                    ++i;
-                    if (i >= totalNotesCount - 1) {
-                        break;
-                    }
-
-                    note = list[i];
-                    nextNote = list[i + 1];
                 }
             }
 
@@ -116,6 +108,7 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions {
             rn.RelativeSpeed = note.Speed;
             rn.StartX = note.StartPosition;
             rn.EndX = note.EndPosition;
+            rn.Ticks = note.Tick;
 
             switch (note.Type) {
                 case NoteType.TapSmall:
@@ -143,6 +136,7 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions {
             rn.Type = RuntimeNoteType.Flick;
             rn.StartX = note.StartPosition;
             rn.EndX = note.EndPosition;
+            rn.Ticks = note.Tick;
 
             switch (note.Type) {
                 case NoteType.FlickLeft:
@@ -171,6 +165,7 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions {
             rn.Type = RuntimeNoteType.Hold;
             rn.StartX = note.StartPosition;
             rn.EndX = note.EndPosition;
+            rn.Ticks = note.Tick;
 
             switch (note.Type) {
                 case NoteType.HoldSmall:
@@ -184,11 +179,12 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions {
             // Creates a HoldEnd note.
             var holdEnd = new RuntimeNote();
             holdEnd.ID = ++currentID;
-            holdEnd.HitTime = rn.HitTime + ScoreHelper.TicksToSeconds(note.Duration);
+            holdEnd.HitTime = rn.HitTime + RuntimeNoteHelper.TicksToSeconds(note.Duration);
             holdEnd.LeadTime = rn.LeadTime;
             holdEnd.RelativeSpeed = rn.RelativeSpeed;
             holdEnd.StartX = rn.EndX;
             holdEnd.EndX = rn.EndX;
+            holdEnd.Ticks = rn.Ticks + note.Duration;
 
             switch (note.EndType) {
                 case NoteEndType.Tap:
@@ -235,6 +231,7 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions {
             rn.Type = RuntimeNoteType.Slide;
             rn.StartX = note.StartPosition;
             rn.EndX = note.EndPosition;
+            rn.Ticks = note.Tick;
 
             var ret = new RuntimeNote[note.PolyPoints.Length];
             ret[0] = rn;
@@ -243,13 +240,13 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions {
                 var polyPoint = note.PolyPoints[i];
                 var n = new RuntimeNote();
                 n.ID = ++currentID;
-                n.HitTime = rn.HitTime + ScoreHelper.TicksToSeconds(polyPoint.Subtick);
+                n.HitTime = rn.HitTime + RuntimeNoteHelper.TicksToSeconds(polyPoint.Subtick);
                 n.LeadTime = rn.LeadTime;
                 n.RelativeSpeed = rn.RelativeSpeed;
                 n.Type = RuntimeNoteType.Slide;
                 n.StartX = ret[i - 1].EndX;
-                //n.StartX = polyPoint.PositionX;
                 n.EndX = polyPoint.PositionX;
+                n.Ticks = rn.Ticks + polyPoint.Subtick;
                 ret[i] = n;
             }
 

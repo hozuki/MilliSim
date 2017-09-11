@@ -86,11 +86,6 @@ namespace OpenMLTD.MilliSim.Core.Entities {
             }
         }
 
-        public static double TicksToSeconds(long ticks) {
-            // Surprised?
-            return (double)ticks / 1200;
-        }
-
         private static readonly int[][] TracksList = {
             new[] { -1 },
             new[] { 0 },

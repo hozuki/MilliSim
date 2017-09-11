@@ -47,6 +47,7 @@
     <Compile Include="Extensions\ScoreExtensions.cs" />
     <Compile Include="FlickDirection.cs" />
     <Compile Include="RuntimeNoteComparisons.cs" />
+    <Compile Include="RuntimeNoteHelper.cs" />
     <Compile Include="RuntimeNoteSize.cs" />
     <Compile Include="RuntimeNote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
