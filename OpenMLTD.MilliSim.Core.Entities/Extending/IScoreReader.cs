@@ -1,21 +1,14 @@
+using System;
 using System.IO;
+using JetBrains.Annotations;
 
 namespace OpenMLTD.MilliSim.Core.Entities.Extending {
-    public interface IScoreReader {
+    public interface IScoreReader : IDisposable {
 
-        bool TryRead(Stream stream, string fileName, out Score score);
+        [NotNull]
+        Score Read([NotNull] Stream stream, [NotNull] string fileName, [NotNull] IFlexibleOptions options);
 
-        /// <summary>
-        /// Tests if this reader supports a specific file type.
-        /// </summary>
-        /// <param name="fileName">The file name.</param>
-        /// <returns>Whether this reader may support the file.</returns>
-        bool SupportsFileType(string fileName);
-
-        /// <summary>
-        /// Gets the description of this reader.
-        /// </summary>
-        string Description { get; }
+        bool TryRead([NotNull] Stream stream, [NotNull] string fileName, [NotNull] IFlexibleOptions options, [CanBeNull] out Score score);
 
     }
 }

@@ -2,16 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Core.Entities;
+using OpenMLTD.MilliSim.Core.Entities.Extending;
+using OpenMLTD.MilliSim.Core.Entities.Runtime;
 
-namespace OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions {
-    public static class ScoreExtensions {
+namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
+    public sealed class Unity3DScoreCompiler : DisposableBase, IScoreCompiler {
+
+        internal Unity3DScoreCompiler() {
+        }
 
         /// <summary>
         /// Compiles a <see cref="Score"/> to a <see cref="RuntimeScore"/>, which will be used by the player.
         /// </summary>
         /// <param name="score">The <see cref="Score"/> to compile.</param>
         /// <returns>Compiled score.</returns>
-        public static RuntimeScore Compile([NotNull] this Score score) {
+        public RuntimeScore Compile([NotNull] Score score) {
             return Compile(score, ScoreCompileOptions.Default);
         }
 
@@ -22,7 +29,7 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions {
         /// <param name="score">The <see cref="Score"/> to compile.</param>
         /// <param name="options">Compile options.</param>
         /// <returns>Compiled score.</returns>
-        public static RuntimeScore Compile([NotNull] this Score score, [NotNull] ScoreCompileOptions options) {
+        public RuntimeScore Compile([NotNull] Score score, [NotNull] IFlexibleOptions options) {
             if (score == null) {
                 throw new ArgumentNullException(nameof(score));
             }
@@ -34,12 +41,12 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions {
             if (score.Notes == null || score.Notes.Length == 0) {
                 var notes = new RuntimeNote[0];
                 return new RuntimeScore(notes) {
-                    Difficulty = options.Difficulty,
-                    OffsetToMusic = score.MusicOffset
+                    Difficulty = options.GetValue<Difficulty>(ScoreCompileOptions.DifficultyKey),
+                    OffsetToMusic = options.GetValue<float>(ScoreCompileOptions.GlobalSpeedKey)
                 };
             }
 
-            var trackType = ScoreHelper.MapDifficultyToTrackType(options.Difficulty);
+            var trackType = ScoreHelper.MapDifficultyToTrackType(options.GetValue<Difficulty>(ScoreCompileOptions.DifficultyKey));
             var trackIndices = ScoreHelper.GetTrackIndicesFromTrackType(trackType);
             var gameNotes = score.Notes.Where(n => Array.IndexOf(trackIndices, n.TrackIndex) >= 0).ToArray();
 
@@ -94,9 +101,12 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions {
 
             var runtimeNotes = list.ToArray();
             return new RuntimeScore(runtimeNotes) {
-                Difficulty = options.Difficulty,
+                Difficulty = options.GetValue<Difficulty>(ScoreCompileOptions.DifficultyKey),
                 OffsetToMusic = score.MusicOffset
             };
+        }
+
+        protected override void Dispose(bool disposing) {
         }
 
         private static RuntimeNote[] CreateTap(Note note, ref int currentID) {

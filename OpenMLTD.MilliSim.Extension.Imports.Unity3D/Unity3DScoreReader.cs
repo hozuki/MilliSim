@@ -1,7 +1,6 @@
 using System;
-using System.Composition;
 using System.IO;
-using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities;
 using OpenMLTD.MilliSim.Core.Entities.Extending;
 using OpenMLTD.MilliSim.Extension.Imports.Unity3D.Extensions;
@@ -10,11 +9,12 @@ using UnityStudio.Models;
 using UnityStudio.Serialization;
 
 namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
-    [Export(typeof(IScoreReader))]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]
-    public sealed class Unity3DScoreReader : IScoreReader {
+    public sealed class Unity3DScoreReader : DisposableBase, IScoreReader {
 
-        public Score Read(Stream stream, string fileName) {
+        internal Unity3DScoreReader() {
+        }
+
+        public Score Read(Stream stream, string fileName, IFlexibleOptions options) {
             var extension = Path.GetExtension(fileName);
             if (extension == null) {
                 throw new ArgumentException();
@@ -46,9 +46,9 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             return scoreObject.ToMilliSimScore();
         }
 
-        public bool TryRead(Stream stream, string fileName, out Score score) {
+        public bool TryRead(Stream stream, string fileName, IFlexibleOptions options, out Score score) {
             try {
-                score = Read(stream, fileName);
+                score = Read(stream, fileName, options);
                 return true;
             } catch {
                 score = null;
@@ -56,12 +56,8 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             }
         }
 
-        public bool SupportsFileType(string fileName) {
-            fileName = fileName.ToLowerInvariant();
-            return fileName.EndsWith(".unity3d") || fileName.EndsWith(".unity3d.lz4");
+        protected override void Dispose(bool disposing) {
         }
-
-        public string Description => "Unity3D Score Reader";
 
     }
 }

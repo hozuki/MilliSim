@@ -47,7 +47,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extending\IScoreCompiler.cs" />
+    <Compile Include="Extending\IScoreFormat.cs" />
     <Compile Include="Extending\IScoreReader.cs" />
+    <Compile Include="FlexibleOptions.cs" />
+    <Compile Include="EmptyFlexibleOptions.cs" />
+    <Compile Include="Runtime\Extensions\RuntimeNoteExtensions.cs" />
+    <Compile Include="Runtime\FlickDirection.cs" />
+    <Compile Include="IFlexibleOptions.cs" />
+    <Compile Include="Runtime\RuntimeNote.cs" />
+    <Compile Include="Runtime\RuntimeNoteComparisons.cs" />
+    <Compile Include="Runtime\RuntimeNoteHelper.cs" />
+    <Compile Include="Runtime\RuntimeNoteSize.cs" />
+    <Compile Include="Runtime\RuntimeNoteType.cs" />
+    <Compile Include="Runtime\RuntimeScore.cs" />
+    <Compile Include="Runtime\ScoreCompileOptions.cs" />
     <Compile Include="Score.cs" />
     <Compile Include="Conductor.cs" />
     <Compile Include="Difficulty.cs" />
@@ -71,6 +85,7 @@
       <Name>OpenMLTD.MilliSim.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

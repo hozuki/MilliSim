@@ -177,10 +177,6 @@
       <Project>{DAE9137C-8EE9-4E6F-B02C-E47916965027}</Project>
       <Name>OpenMLTD.MilliSim.Audio</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenMLTD.MilliSim.Core.Entities.Runtime\OpenMLTD.MilliSim.Core.Entities.Runtime.csproj">
-      <Project>{529a83d3-aa22-469a-80d2-f7e68be6b312}</Project>
-      <Name>OpenMLTD.MilliSim.Core.Entities.Runtime</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Core.Entities\OpenMLTD.MilliSim.Core.Entities.csproj">
       <Project>{78c104e2-b11b-4574-974a-0248c2323286}</Project>
       <Name>OpenMLTD.MilliSim.Core.Entities</Name>

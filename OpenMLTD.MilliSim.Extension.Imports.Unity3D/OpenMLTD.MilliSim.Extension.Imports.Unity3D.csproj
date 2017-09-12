@@ -65,6 +65,8 @@
     <Compile Include="Extensions\ScoreObjectExtensions.cs" />
     <Compile Include="PolyPointData.cs" />
     <Compile Include="ScoreObject.cs" />
+    <Compile Include="Unity3DScoreCompiler.cs" />
+    <Compile Include="Unity3DScoreFormat.cs" />
     <Compile Include="Unity3DScoreReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -43,8 +43,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NVorbis", "thirdparty\NVorb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NAudio.Vorbis", "thirdparty\NAudio.Vorbis\NAudio.Vorbis\NAudio.Vorbis.csproj", "{6FC9AAA7-E7FE-4BD4-B813-582D4B3BDA0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Core.Entities.Runtime", "OpenMLTD.MilliSim.Core.Entities.Runtime\OpenMLTD.MilliSim.Core.Entities.Runtime.csproj", "{529A83D3-AA22-469A-80D2-F7E68BE6B312}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,10 +93,6 @@ Global
 		{6FC9AAA7-E7FE-4BD4-B813-582D4B3BDA0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FC9AAA7-E7FE-4BD4-B813-582D4B3BDA0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FC9AAA7-E7FE-4BD4-B813-582D4B3BDA0C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{529A83D3-AA22-469A-80D2-F7E68BE6B312}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{529A83D3-AA22-469A-80D2-F7E68BE6B312}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{529A83D3-AA22-469A-80D2-F7E68BE6B312}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{529A83D3-AA22-469A-80D2-F7E68BE6B312}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,7 +109,6 @@ Global
 		{97696198-D591-4D31-B468-B19834EBB913} = {700A876B-F712-44FC-9513-CC1B6096D5FF}
 		{A372E591-DFEF-49C4-9C82-98C4361EFCCD} = {700A876B-F712-44FC-9513-CC1B6096D5FF}
 		{6FC9AAA7-E7FE-4BD4-B813-582D4B3BDA0C} = {700A876B-F712-44FC-9513-CC1B6096D5FF}
-		{529A83D3-AA22-469A-80D2-F7E68BE6B312} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {27A82ED7-C1EE-4F03-B3AD-02534ACDB2B1}

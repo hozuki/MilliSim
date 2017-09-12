@@ -19,7 +19,7 @@ namespace OpenMLTD.MilliSim.Theater {
         public static ApplicationSettings Settings { get; private set; }
 
         [ImportMany]
-        public static IReadOnlyList<IScoreReader> ScoreReaders { get; [UsedImplicitly] private set; }
+        public static IReadOnlyList<IScoreFormat> ScoreFormats { get; [UsedImplicitly] private set; }
 
         internal static CompositionHost ExtensionContainer { get; private set; }
 
@@ -86,7 +86,7 @@ namespace OpenMLTD.MilliSim.Theater {
             var configuration = new ContainerConfiguration().WithAssemblies(allAssemblies);
             var host = configuration.CreateContainer();
 
-            ScoreReaders = host.GetExports<IScoreReader>().ToArray();
+            ScoreFormats = host.GetExports<IScoreFormat>().ToArray();
 
             return host;
         }
