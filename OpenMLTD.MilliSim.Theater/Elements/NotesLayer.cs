@@ -167,10 +167,18 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
                 var loc = RuntimeNoteCalculator.CalculateNoteLocation(note, currentSecond, startXRatios, endXRatios, clientSize, topY, bottomY, speedScale, renderMode, false);
 
-                // NextSync is always after PrevSync. So draw here, below the two notes.
-                if (note.HasNextSync()) {
-                    var nextX = RuntimeNoteCalculator.CalculateNoteX(note.NextSync, currentSecond, startXRatios, endXRatios, clientSize, speedScale, renderMode);
-                    context.DrawLine(_simpleSyncLinePen, loc.X, loc.Y, nextX, loc.Y);
+                if (settings.Style.SyncLine) {
+                    // NextSync is always after PrevSync. So draw here, below the two notes.
+                    if (note.HasNextSync()) {
+                        var drawSyncLine = true;
+                        if (note.IsSlideMiddle() || note.NextSync.IsSlideMiddle()) {
+                            drawSyncLine = settings.Style.SlideMiddleSyncLine;
+                        }
+                        if (drawSyncLine) {
+                            var nextX = RuntimeNoteCalculator.CalculateNoteX(note.NextSync, currentSecond, startXRatios, endXRatios, clientSize, speedScale, renderMode);
+                            context.DrawLine(_simpleSyncLinePen, loc.X, loc.Y, nextX, loc.Y);
+                        }
+                    }
                 }
 
                 // Then draw the note.

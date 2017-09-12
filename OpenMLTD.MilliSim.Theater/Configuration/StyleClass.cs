@@ -5,5 +5,7 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public bool FlickRibbon { get; set; }
 
+        public bool SlideMiddleSyncLine { get; set; }
+
     }
 }

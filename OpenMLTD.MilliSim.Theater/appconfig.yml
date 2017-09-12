@@ -29,6 +29,7 @@ window:
 style:
   sync_line: yes # true, yes, y, on, 1
   flick_ribbon: no # false, no, n, off, 0
+  slide_middle_sync_line: no
 system_ui:
   debug_overlay:
     use: yes # displays debug info overlay
