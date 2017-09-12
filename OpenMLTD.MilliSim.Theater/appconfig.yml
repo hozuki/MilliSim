@@ -13,7 +13,7 @@ media:
   bgm: game/song3_blsymp_bgm.ogg # path to background music (BGM)
   #bga: media/bga.mp4 # path to background animation (BGA), a video
   #bga: F:\Independent Software\JiJiDown\Download\1.偶像大师MLTD手游Shooting Stars MM难度FC-1.1(Av13332401,P1).flv-muxed.mp4
-  bga: F:\Independent Software\JiJiDown\Download\4.【ミリシタMLTD】偶像大师百万现场Theater Days初始曲目Million Mix难度谱面-4.Blue Symphony(Av11726668,P4).mp4
+  #bga: F:\Independent Software\JiJiDown\Download\4.【ミリシタMLTD】偶像大师百万现场Theater Days初始曲目Million Mix难度谱面-4.Blue Symphony(Av11726668,P4).mp4
   #bgi: D:\Pictures\912721fae6cd7b8930e4d2db0e2442a7d8330efa.jpg.png # path to background image (BGI)
   # Note: if BGA and BGI are both set, BGA will be used.
   bgm_volume: 100% # volume of BGM (0% - 100%)

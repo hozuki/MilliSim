@@ -57,7 +57,6 @@
     <Compile Include="IFlexibleOptions.cs" />
     <Compile Include="Runtime\RuntimeNote.cs" />
     <Compile Include="Runtime\RuntimeNoteComparisons.cs" />
-    <Compile Include="Runtime\RuntimeNoteHelper.cs" />
     <Compile Include="Runtime\RuntimeNoteSize.cs" />
     <Compile Include="Runtime\RuntimeNoteType.cs" />
     <Compile Include="Runtime\RuntimeScore.cs" />

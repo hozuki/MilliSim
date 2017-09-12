@@ -29,7 +29,7 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
         /// <param name="score">The <see cref="Score"/> to compile.</param>
         /// <param name="options">Compile options.</param>
         /// <returns>Compiled score.</returns>
-        public RuntimeScore Compile([NotNull] Score score, [NotNull] IFlexibleOptions options) {
+        public RuntimeScore Compile(Score score, IFlexibleOptions options) {
             if (score == null) {
                 throw new ArgumentNullException(nameof(score));
             }
@@ -52,6 +52,7 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
 
             var list = new List<RuntimeNote>();
 
+            var conductors = score.Conductors;
             var currentID = 0;
             foreach (var note in gameNotes) {
                 RuntimeNote[] notesToBeAdded;
@@ -59,22 +60,22 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
                 switch (note.Type) {
                     case NoteType.TapSmall:
                     case NoteType.TapLarge:
-                        notesToBeAdded = CreateTap(note, ref currentID);
+                        notesToBeAdded = CreateTap(note, conductors, ref currentID);
                         break;
                     case NoteType.FlickLeft:
                     case NoteType.FlickUp:
                     case NoteType.FlickRight:
-                        notesToBeAdded = CreateFlick(note, ref currentID);
+                        notesToBeAdded = CreateFlick(note, conductors, ref currentID);
                         break;
                     case NoteType.HoldSmall:
                     case NoteType.HoldLarge:
-                        notesToBeAdded = CreateHold(note, ref currentID);
+                        notesToBeAdded = CreateHold(note, conductors, ref currentID);
                         break;
                     case NoteType.SlideSmall:
-                        notesToBeAdded = CreateSlide(note, ref currentID);
+                        notesToBeAdded = CreateSlide(note, conductors, ref currentID);
                         break;
                     case NoteType.Special:
-                        notesToBeAdded = CreateSpecial(note, ref currentID);
+                        notesToBeAdded = CreateSpecial(note, conductors, ref currentID);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -91,7 +92,7 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
                 var note = list[i];
                 var nextNote = list[i + 1];
                 // About this strange behavior, see remarks on RuntimeNote.Ticks.
-                if (note.HitTime.Equals(nextNote.HitTime) || note.Ticks == nextNote.Ticks) {
+                if (note.HitTime.Equals(nextNote.HitTime)) {
                     note.NextSync = nextNote;
                     nextNote.PrevSync = note;
                 }
@@ -109,7 +110,7 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
         protected override void Dispose(bool disposing) {
         }
 
-        private static RuntimeNote[] CreateTap(Note note, ref int currentID) {
+        private static RuntimeNote[] CreateTap(Note note, Conductor[] conductors, ref int currentID) {
             var rn = new RuntimeNote();
 
             rn.ID = ++currentID;
@@ -118,7 +119,6 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             rn.RelativeSpeed = note.Speed;
             rn.StartX = note.StartPosition;
             rn.EndX = note.EndPosition;
-            rn.Ticks = note.Tick;
 
             switch (note.Type) {
                 case NoteType.TapSmall:
@@ -136,7 +136,7 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             return new[] { rn };
         }
 
-        private static RuntimeNote[] CreateFlick(Note note, ref int currentID) {
+        private static RuntimeNote[] CreateFlick(Note note, Conductor[] conductors, ref int currentID) {
             var rn = new RuntimeNote();
 
             rn.ID = ++currentID;
@@ -146,7 +146,6 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             rn.Type = RuntimeNoteType.Flick;
             rn.StartX = note.StartPosition;
             rn.EndX = note.EndPosition;
-            rn.Ticks = note.Tick;
 
             switch (note.Type) {
                 case NoteType.FlickLeft:
@@ -165,7 +164,7 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             return new[] { rn };
         }
 
-        private static RuntimeNote[] CreateHold(Note note, ref int currentID) {
+        private static RuntimeNote[] CreateHold(Note note, Conductor[] conductors, ref int currentID) {
             var rn = new RuntimeNote();
 
             rn.ID = ++currentID;
@@ -175,7 +174,6 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             rn.Type = RuntimeNoteType.Hold;
             rn.StartX = note.StartPosition;
             rn.EndX = note.EndPosition;
-            rn.Ticks = note.Tick;
 
             switch (note.Type) {
                 case NoteType.HoldSmall:
@@ -189,12 +187,11 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             // Creates a HoldEnd note.
             var holdEnd = new RuntimeNote();
             holdEnd.ID = ++currentID;
-            holdEnd.HitTime = rn.HitTime + RuntimeNoteHelper.TicksToSeconds(note.Duration);
+            holdEnd.HitTime = TicksToSeconds(note.Tick + note.Duration, conductors);
             holdEnd.LeadTime = rn.LeadTime;
             holdEnd.RelativeSpeed = rn.RelativeSpeed;
             holdEnd.StartX = rn.EndX;
             holdEnd.EndX = rn.EndX;
-            holdEnd.Ticks = rn.Ticks + note.Duration;
 
             switch (note.EndType) {
                 case NoteEndType.Tap:
@@ -223,7 +220,7 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             return new[] { rn, holdEnd };
         }
 
-        private static RuntimeNote[] CreateSlide(Note note, ref int currentID) {
+        private static RuntimeNote[] CreateSlide(Note note, Conductor[] conductors, ref int currentID) {
             // The first polypoint is always the slide start, indicating the end position.
             if (note.PolyPoints == null) {
                 throw new ArgumentException("A slide note must have polypoints.", nameof(note));
@@ -241,7 +238,6 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             rn.Type = RuntimeNoteType.Slide;
             rn.StartX = note.StartPosition;
             rn.EndX = note.EndPosition;
-            rn.Ticks = note.Tick;
 
             var ret = new RuntimeNote[note.PolyPoints.Length];
             ret[0] = rn;
@@ -250,13 +246,12 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
                 var polyPoint = note.PolyPoints[i];
                 var n = new RuntimeNote();
                 n.ID = ++currentID;
-                n.HitTime = rn.HitTime + RuntimeNoteHelper.TicksToSeconds(polyPoint.Subtick);
+                n.HitTime = TicksToSeconds(note.Tick + polyPoint.Subtick, conductors);
                 n.LeadTime = rn.LeadTime;
                 n.RelativeSpeed = rn.RelativeSpeed;
                 n.Type = RuntimeNoteType.Slide;
                 n.StartX = ret[i - 1].EndX;
                 n.EndX = polyPoint.PositionX;
-                n.Ticks = rn.Ticks + polyPoint.Subtick;
                 ret[i] = n;
             }
 
@@ -284,7 +279,7 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             return ret;
         }
 
-        private static RuntimeNote[] CreateSpecial(Note note, ref int currentID) {
+        private static RuntimeNote[] CreateSpecial(Note note, Conductor[] conductors, ref int currentID) {
             var rn = new RuntimeNote();
 
             rn.ID = ++currentID;
@@ -296,6 +291,26 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             rn.EndX = note.EndPosition;
 
             return new[] { rn };
+        }
+
+        /// <summary>
+        /// Convert a number of ticks to seconds, given a constant tempo.
+        /// </summary>
+        /// <param name="deltaTicks">Number of ticks.</param>
+        /// <param name="tempo">Current tempo.</param>
+        /// <remarks>See remarks of <see cref="RuntimeNote.Ticks"/>.</remarks>
+        /// <returns>Seconds.</returns>
+        private static double TicksToSeconds(long currentTick, Conductor[] conductors) {
+            var index = Array.FindLastIndex(conductors, conductor => conductor.Tick <= currentTick);
+
+            if (index < 0) {
+                throw new IndexOutOfRangeException();
+            }
+
+            var tempo = conductors[index].Tempo;
+            var deltaTicks = currentTick - conductors[index].Tick;
+            var deltaTime = deltaTicks / (tempo * 8);
+            return conductors[index].AbsoluteTime + deltaTime;
         }
 
     }
