@@ -17,10 +17,6 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             : base(game) {
         }
 
-        ~BackgroundVideo() {
-            CloseFile();
-        }
-
         public override string Name { get; set; } = "Background Video";
 
         public event EventHandler<VideoStateChangedEventArgs> VideoStateChanged;
@@ -158,11 +154,16 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             var mediaEngine = _mediaEngine;
 
+            if (mediaEngine == null) {
+                return;
+            }
+
             if (IsReadyToPlay && !IsStopped) {
                 if (_videoSize == null) {
                     mediaEngine.GetNativeVideoSize(out var w, out var h);
                     _videoSize = new Size(w, h);
                 }
+
                 // Transfer frame if a new one is available
                 if (mediaEngine.OnVideoStreamTick(out var _)) {
                     var videoRect = new SharpDX.Rectangle(0, 0, _videoSize.Value.Width, _videoSize.Value.Height);
@@ -171,7 +172,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             }
         }
 
-        protected override void OnGotContext(RenderContext context) {
+        protected override void OnStageReady(RenderContext context) {
             MediaManager.Startup();
 
             var mediaEngineFactory = new MediaEngineClassFactory();
@@ -192,10 +193,12 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             var mediaEngineEx = mediaEngine.QueryInterface<MediaEngineEx>();
             _mediaEngineEx = mediaEngineEx;
 
-            base.OnGotContext(context);
+            base.OnStageReady(context);
+
+            _isStageReady = true;
         }
 
-        protected override void OnLostContext(RenderContext context) {
+        protected override void OnDispose() {
             CloseFile();
 
             _mediaEngine.Dispose();
@@ -205,12 +208,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             IsReadyToPlay = false;
 
-            base.OnLostContext(context);
-        }
-
-        protected override void OnStageReady(RenderContext context) {
-            base.OnStageReady(context);
-            _isStageReady = true;
+            base.OnDispose();
         }
 
         private bool IsReadyToPlay { get; set; }

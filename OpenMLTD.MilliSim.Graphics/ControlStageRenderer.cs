@@ -52,7 +52,11 @@ namespace OpenMLTD.MilliSim.Graphics {
 
         private void ControlOnClientSizeChanged(object sender, EventArgs eventArgs) {
             using (_sizeLock.NewReadLock()) {
-                _isSizeChanged = true;
+                var newClientSize = Control.ClientSize;
+                // Avoid crash when window minimized.
+                if (newClientSize.Width > 0 && newClientSize.Height > 0) {
+                    _isSizeChanged = true;
+                }
             }
         }
 

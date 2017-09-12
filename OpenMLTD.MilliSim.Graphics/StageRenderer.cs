@@ -81,7 +81,6 @@ namespace OpenMLTD.MilliSim.Graphics {
             _dxgiFactory?.Dispose();
             _swapChain?.Dispose();
             _direct3DDevice?.Dispose();
-            _dxgiDeviceManager?.Dispose();
             _directWriteFactory?.Dispose();
 
             CreateSwapChainAndDevice(out _swapChainDescription, out _swapChain, out _direct3DDevice);
@@ -91,7 +90,9 @@ namespace OpenMLTD.MilliSim.Graphics {
             // Video (EVR) initialization.
             var multithread = _direct3DDevice.QueryInterface<DeviceMultithread>();
             multithread.SetMultithreadProtected(true);
-            _dxgiDeviceManager = new DXGIDeviceManager();
+            if (_dxgiDeviceManager == null) {
+                _dxgiDeviceManager = new DXGIDeviceManager();
+            }
             _dxgiDeviceManager.ResetDevice(_direct3DDevice);
 
             _directWriteFactory = new SharpDX.DirectWrite.Factory();
