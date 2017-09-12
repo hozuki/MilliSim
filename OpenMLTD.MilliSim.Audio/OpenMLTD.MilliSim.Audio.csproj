@@ -79,10 +79,6 @@
       <Project>{33828999-1003-403c-bf78-59d9e02ce6a2}</Project>
       <Name>NLayer.NAudioSupport</Name>
     </ProjectReference>
-    <ProjectReference Include="..\thirdparty\NLayer\NLayer\NLayer.csproj">
-      <Project>{37efb165-8e39-4f24-bec7-04e0e10bca54}</Project>
-      <Name>NLayer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\thirdparty\NVorbis\NVorbis\NVorbis.csproj">
       <Project>{a372e591-dfef-49c4-9c82-98c4361efccd}</Project>
       <Name>NVorbis</Name>
