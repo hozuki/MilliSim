@@ -35,18 +35,6 @@
     <Reference Include="JetBrains.Annotations, Version=11.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.11.0.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio, Version=1.8.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NAudio.1.8.3\lib\net35\NAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio.Flac, Version=1.0.5702.29018, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NAudio.Flac.1.0.5702.29018\lib\net45\NAudio.Flac.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio.Lame, Version=1.0.5.27653, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NAudio.Lame.1.0.6\lib\net20\NAudio.Lame.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio.WindowsMediaFormat, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NAudio.Wma.1.0.1\lib\net35\NAudio.WindowsMediaFormat.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -71,9 +59,29 @@
       <Project>{bf644701-dfd5-49b6-90e8-a54c1bb331ae}</Project>
       <Name>OpenMLTD.MilliSim.Foundation</Name>
     </ProjectReference>
+    <ProjectReference Include="..\thirdparty\NAudio.Flac\src\NAudio.Flac\NAudio.Flac.csproj">
+      <Project>{1bd0fa41-17b8-494c-bd88-5bf5835f6983}</Project>
+      <Name>NAudio.Flac</Name>
+    </ProjectReference>
     <ProjectReference Include="..\thirdparty\NAudio.Vorbis\NAudio.Vorbis\NAudio.Vorbis.csproj">
       <Project>{6fc9aaa7-e7fe-4bd4-b813-582d4b3bda0c}</Project>
       <Name>NAudio.Vorbis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\thirdparty\NAudio.Wma\NAudio.WindowsMediaFormat\NAudio.WindowsMediaFormat.csproj">
+      <Project>{1868fc77-fd6f-4881-9cf5-de7451806bfa}</Project>
+      <Name>NAudio.WindowsMediaFormat</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\thirdparty\NAudio\NAudio\NAudio.csproj">
+      <Project>{da4f02e3-0b5e-42cd-b8d9-5583fa51d66e}</Project>
+      <Name>NAudio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\thirdparty\NLayer\NLayer.NAudioSupport\NLayer.NAudioSupport.csproj">
+      <Project>{33828999-1003-403c-bf78-59d9e02ce6a2}</Project>
+      <Name>NLayer.NAudioSupport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\thirdparty\NLayer\NLayer\NLayer.csproj">
+      <Project>{37efb165-8e39-4f24-bec7-04e0e10bca54}</Project>
+      <Name>NLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\NVorbis\NVorbis\NVorbis.csproj">
       <Project>{a372e591-dfef-49c4-9c82-98c4361efccd}</Project>
@@ -82,14 +90,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="libmp3lame.32.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libmp3lame.64.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
