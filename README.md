@@ -30,7 +30,11 @@ and [Mono](http://www.mono-project.com/download/), though this is not tested.
 - [Node.js](https://nodejs.org/en/download/)
 - [NuGet CLI](https://www.nuget.org/downloads)
 
-Step 1: Clone this repo:
+> Remember to [update your Mono version](http://www.mono-project.com/download/#download-lin) and
+> [update your NuGet version](https://docs.microsoft.com/en-us/nuget/guides/install-nuget) before
+> building. Otherwise you are very likely to see errors like "Too many projects specified".
+
+**Step 1**: Clone this repo:
 
 ```bash
 git clone https://github.com/hozuki/MilliSim.git
@@ -39,14 +43,14 @@ git submodule update --init --recursive
 cd ..
 ```
 
-Step 2: Restore dependencies using NuGet CLI.
+**Step 2**: Restore dependencies using NuGet CLI.
 
 ```bash
 npm install glob chalk --save
 node before_script-nuget_restore.js
 ```
 
-Step 3: Build the solution.
+**Step 3**: Build the solution.
 
 ```bash
 msbuild MilliSim.sln /p:Configuration=Release
