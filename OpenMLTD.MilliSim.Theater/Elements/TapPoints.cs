@@ -7,6 +7,7 @@ using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Effects;
 using OpenMLTD.MilliSim.Graphics.Extensions;
+using OpenMLTD.MilliSim.Theater.Extensions;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.Mathematics.Interop;
@@ -73,25 +74,31 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             float[] tapPointXPercArray = _tapPointsX, nodeXPercArray = _tapNodesX;
 
+            var gamingArea = Game.AsTheaterDays().FindSingleElement<GamingArea>();
+
+            if (gamingArea == null) {
+                throw new InvalidOperationException();
+            }
+
             // Draw "chains", left and right.
             context.PushTransform2D();
-            context.Translate2D(0, centerY - _tapBarChainRealSize.Height / 2);
+            context.Translate2D(0, centerY - gamingArea.ScaleResults.TapBarChain.Height / 2);
             context.Begin2D();
-            var yy = _tapBarChainRealSize.Height / 2;
+            var yy = gamingArea.ScaleResults.TapBarChain.Height / 2;
             var blankLeft = settings.Images.TapPoint.BlankEdge.Left;
             var blankRight = settings.Images.TapPoint.BlankEdge.Right;
             for (var i = 0; i < nodeXPercArray.Length; ++i) {
                 var x1 = clientSize.Width * tapPointXPercArray[i];
                 var x2 = clientSize.Width * nodeXPercArray[i];
-                x1 += _tapPointRealSize.Width / 2 - blankLeft;
-                x2 -= _tapBarNodeRealSize.Width / 2;
+                x1 += gamingArea.ScaleResults.TapPoint.Width / 2 - blankLeft;
+                x2 -= gamingArea.ScaleResults.TapBarNode.Width / 2;
                 // Already translated.
                 context.DrawLine(_tapBarChainPen, x1, yy, x2, yy);
 
                 x1 = clientSize.Width * nodeXPercArray[i];
                 x2 = clientSize.Width * tapPointXPercArray[i + 1];
-                x1 += _tapBarNodeRealSize.Width / 2;
-                x2 -= _tapPointRealSize.Width / 2 - blankRight;
+                x1 += gamingArea.ScaleResults.TapBarNode.Width / 2;
+                x2 -= gamingArea.ScaleResults.TapPoint.Width / 2 - blankRight;
                 // Already translated.
                 context.DrawLine(_tapBarChainPen, x1, yy, x2, yy);
             }
@@ -102,7 +109,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             context.Begin2D();
             for (var i = 0; i < nodeXPercArray.Length; ++i) {
                 var centerX = clientSize.Width * nodeXPercArray[i];
-                context.DrawBitmap(_tapBarNodeImage, centerX - _tapBarNodeRealSize.Width / 2, centerY - _tapBarNodeRealSize.Height / 2, _tapBarNodeRealSize.Width, _tapBarNodeRealSize.Height);
+                context.DrawBitmap(_tapBarNodeImage, centerX - gamingArea.ScaleResults.TapBarNode.Width / 2, centerY - gamingArea.ScaleResults.TapBarNode.Height / 2, gamingArea.ScaleResults.TapBarNode.Width, gamingArea.ScaleResults.TapBarNode.Height);
             }
             context.End2D();
 
@@ -110,7 +117,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             context.Begin2D();
             for (var i = 0; i < tapPointXPercArray.Length; ++i) {
                 var centerX = clientSize.Width * tapPointXPercArray[i];
-                context.DrawBitmap(_tapPointImage, centerX - _tapPointRealSize.Width / 2, centerY - _tapPointRealSize.Height / 2, _tapPointRealSize.Width, _tapPointRealSize.Height);
+                context.DrawBitmap(_tapPointImage, centerX - gamingArea.ScaleResults.TapPoint.Width / 2, centerY - gamingArea.ScaleResults.TapPoint.Height / 2, gamingArea.ScaleResults.TapPoint.Width, gamingArea.ScaleResults.TapPoint.Height);
             }
             context.End2D();
         }
@@ -119,40 +126,30 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             base.OnGotContext(context);
 
             var settings = Program.Settings;
-            var clientSize = context.ClientSize;
-            var windowScalingBasis = settings.Scaling.Base;
-            var tapPointScalingBasis = settings.Scaling.TapPoint;
-            var tapBarScalingBasis = settings.Scaling.TapBarChain;
-            var tapBarNodeScalingBasis = settings.Scaling.TapBarNode;
+            var gamingArea = Game.AsTheaterDays().FindSingleElement<GamingArea>();
+
+            if (gamingArea == null) {
+                throw new InvalidOperationException();
+            }
 
             Opacity = settings.UI.TapPoints.Opacity;
 
             _tapPointImage = Direct2DHelper.LoadBitmap(context, settings.Images.TapPoint.FileName);
-            _tapPointScaleRatio = new Vector2(
-                (windowScalingBasis.Width / clientSize.Width) * (tapPointScalingBasis.Width / _tapPointImage.Width),
-                (windowScalingBasis.Height / clientSize.Height) * (tapPointScalingBasis.Height / _tapPointImage.Height));
-            _tapPointRealSize = new SizeF(_tapPointImage.Width * _tapPointScaleRatio.X, _tapPointImage.Height * _tapPointScaleRatio.Y);
 
             _tapBarChainImage = Direct2DHelper.LoadBitmap(context, settings.Images.TapBarChain.FileName);
-            _tapBarChainScaleRatio = new Vector2(
-                (windowScalingBasis.Width / clientSize.Width) * (tapBarScalingBasis.Width / _tapBarChainImage.Width),
-                (windowScalingBasis.Height / clientSize.Height) * (tapBarScalingBasis.Height / _tapBarChainImage.Height));
-            _tapBarChainRealSize = new SizeF(_tapBarChainImage.Width * _tapBarChainScaleRatio.X, _tapBarChainImage.Height * _tapBarChainScaleRatio.Y);
 
             _tapBarNodeImage = Direct2DHelper.LoadBitmap(context, settings.Images.TapBarNode.FileName);
-            _tapBarNodeScaleRatio = new Vector2(
-                (windowScalingBasis.Width / clientSize.Width) * (tapBarNodeScalingBasis.Width / _tapBarNodeImage.Width),
-                (windowScalingBasis.Height / clientSize.Height) * (tapBarNodeScalingBasis.Height / _tapBarNodeImage.Height));
-            _tapBarNodeRealSize = new SizeF(_tapBarNodeImage.Width * _tapBarNodeScaleRatio.X, _tapBarNodeImage.Height * _tapBarNodeScaleRatio.Y);
 
+            var scaledTapBarChainSize = gamingArea.ScaleResults.TapBarChain;
+            var tapBarChainScaledRatio = new SizeF(scaledTapBarChainSize.Width / _tapBarChainImage.Width, scaledTapBarChainSize.Height / _tapBarChainImage.Height);
             _tapBarChainScaleEffect = new D2DScaleEffect(context) {
-                Scale = ((RawVector2)_tapBarChainScaleRatio).ToGdiSizeF()
+                Scale = tapBarChainScaledRatio
             };
             _tapBarChainScaleEffect.SetInput(0, _tapBarChainImage);
 
-            var tapBarBrushRect = new RectangleF(0, 0, _tapBarChainRealSize.Width, _tapBarChainRealSize.Height);
+            var tapBarBrushRect = new RectangleF(0, 0, scaledTapBarChainSize.Width, scaledTapBarChainSize.Height);
             _tapBarChainBrush = new D2DImageBrush(context, _tapBarChainScaleEffect, ExtendMode.Wrap, ExtendMode.Wrap, InterpolationMode.Linear, tapBarBrushRect);
-            _tapBarChainPen = new D2DPen(_tapBarChainBrush, _tapBarChainImage.Height * _tapBarChainScaleRatio.Y);
+            _tapBarChainPen = new D2DPen(_tapBarChainBrush, scaledTapBarChainSize.Height);
         }
 
         protected override void OnLostContext(RenderContext context) {
@@ -164,14 +161,6 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             _tapBarChainImage.Dispose();
             _tapBarNodeImage.Dispose();
         }
-
-        private SizeF _tapPointRealSize;
-        private SizeF _tapBarChainRealSize;
-        private SizeF _tapBarNodeRealSize;
-
-        private Vector2 _tapPointScaleRatio;
-        private Vector2 _tapBarChainScaleRatio;
-        private Vector2 _tapBarNodeScaleRatio;
 
         private float[] _tapPointsX;
         private float[] _incomingX;

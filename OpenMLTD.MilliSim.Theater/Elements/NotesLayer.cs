@@ -62,12 +62,17 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 throw new InvalidOperationException();
             }
 
+            var gamingArea = theaterDays.FindSingleElement<GamingArea>();
+            if (gamingArea == null) {
+                throw new InvalidOperationException();
+            }
+
             var settings = Program.Settings;
-            var scaledNoteSize = settings.Scaling.Note;
             var now = syncTimer.CurrentTime.TotalSeconds;
             var tapPointsLayout = settings.UI.TapPoints.Layout;
             var notesLayerLayout = settings.UI.NotesLayer.Layout;
             var clientSize = context.ClientSize;
+
 
             var opacity = settings.UI.NotesLayer.Opacity;
 
@@ -81,16 +86,22 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 TrackCount = tapPoints.TapPointXRatios.Length
             };
 
-            var noteMetrics = new NoteMetrics {
-                StartRadius = scaledNoteSize,
-                EndRadius = scaledNoteSize,
+            var commonNoteMetrics = new NoteMetrics {
+                StartRadius = gamingArea.ScaleResults.Note.Start,
+                EndRadius = gamingArea.ScaleResults.Note.End,
+                GlobalSpeedScale = GlobalSpeedScale
+            };
+
+            var specialNoteMetrics = new NoteMetrics {
+                StartRadius = gamingArea.ScaleResults.SpecialNote.Start,
+                EndRadius = gamingArea.ScaleResults.SpecialNote.End,
                 GlobalSpeedScale = GlobalSpeedScale
             };
 
             context.Begin2D();
 
             foreach (var note in notes) {
-                if (!NoteAnimationHelper.IsNoteVisible(note, now, noteMetrics)) {
+                if (!NoteAnimationHelper.IsNoteVisible(note, now, commonNoteMetrics)) {
                     continue;
                 }
 
@@ -174,10 +185,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     continue;
                 }
 
-                var thisY = TraceCalculator.GetNoteY(note, now, noteMetrics, animationMetrics);
-
                 if (!isHugeNote) {
-                    var thisX = TraceCalculator.GetNoteX(note, now, noteMetrics, animationMetrics);
+                    var thisX = TraceCalculator.GetNoteX(note, now, commonNoteMetrics, animationMetrics);
+                    var thisY = TraceCalculator.GetNoteY(note, now, commonNoteMetrics, animationMetrics);
+                    var thisRadius = TraceCalculator.GetNoteRadius(note, now, commonNoteMetrics, animationMetrics);
 
                     if (settings.Style.SyncLine) {
                         // NextSync is always after PrevSync. So draw here, below the two notes.
@@ -187,19 +198,20 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                                 drawSyncLine = settings.Style.SlideMiddleSyncLine;
                             }
                             if (drawSyncLine) {
-                                var nextX = TraceCalculator.GetNoteX(note.NextSync, now, noteMetrics, animationMetrics);
+                                var nextX = TraceCalculator.GetNoteX(note.NextSync, now, commonNoteMetrics, animationMetrics);
                                 context.DrawLine(_simpleSyncLinePen, thisX, thisY, nextX, thisY);
                             }
                         }
                     }
 
                     // Then draw the note.
-                    context.DrawImageStripUnit(noteImages[0], imageIndex, thisX - scaledNoteSize.Width / 2, thisY - scaledNoteSize.Height / 2, scaledNoteSize.Width, scaledNoteSize.Height, opacity);
+                    context.DrawImageStripUnit(noteImages[0], imageIndex, thisX - thisRadius.Width / 2, thisY - thisRadius.Height / 2, thisRadius.Width, thisRadius.Height, opacity);
                 } else {
-                    if (_hugeNoteImage != null) {
-                        var hugeNoteScaling = settings.Scaling.HugeNote;
-                        var x = (float)clientSize.Width / 2;
-                        context.DrawBitmap(_hugeNoteImage, x - hugeNoteScaling.Width / 2, thisY - hugeNoteScaling.Height / 2, hugeNoteScaling.Width, hugeNoteScaling.Height);
+                    if (_specialNoteImage != null) {
+                        var thisX = TraceCalculator.GetSpecialNoteX(note, now, specialNoteMetrics, animationMetrics);
+                        var thisY = TraceCalculator.GetSpecialNoteY(note, now, specialNoteMetrics, animationMetrics);
+                        var thisRadius = TraceCalculator.GetSpecialNoteRadius(note, now, specialNoteMetrics, animationMetrics);
+                        context.DrawBitmap(_specialNoteImage, thisX - thisRadius.Width / 2, thisY - thisRadius.Height / 2, thisRadius.Width, thisRadius.Height);
                     }
                 }
             }
@@ -213,6 +225,11 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             var settings = Program.Settings;
             var theaterDays = Game.AsTheaterDays();
             var debugOverlay = theaterDays.FindSingleElement<DebugOverlay>();
+
+            var gamingArea = theaterDays.FindSingleElement<GamingArea>();
+            if (gamingArea == null) {
+                throw new InvalidOperationException();
+            }
 
             if (settings.Images.Notes == null || settings.Images.Notes.Length == 0) {
                 if (debugOverlay != null) {
@@ -245,19 +262,19 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 }
             }
 
-            if (settings.Images.HugeNote.FileName == null) {
+            if (settings.Images.SpecialNote.FileName == null) {
                 if (debugOverlay != null) {
                     debugOverlay.AddLine("WARNING: huge note image is not specified.");
                 }
-            } else if (!File.Exists(settings.Images.HugeNote.FileName)) {
+            } else if (!File.Exists(settings.Images.SpecialNote.FileName)) {
                 if (debugOverlay != null) {
-                    debugOverlay.AddLine($"WARNING: huge note image file <{settings.Images.HugeNote.FileName}> is not found.");
+                    debugOverlay.AddLine($"WARNING: huge note image file <{settings.Images.SpecialNote.FileName}> is not found.");
                 }
             } else {
-                _hugeNoteImage = Direct2DHelper.LoadBitmap(context, settings.Images.HugeNote.FileName);
+                _specialNoteImage = Direct2DHelper.LoadBitmap(context, settings.Images.SpecialNote.FileName);
             }
 
-            _simpleSyncLinePen = new D2DPen(context, Color.White, 5);
+            _simpleSyncLinePen = new D2DPen(context, Color.White, gamingArea.ScaleResults.SyncLine.Width);
         }
 
         protected override void OnLostContext(RenderContext context) {
@@ -272,7 +289,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             }
             _noteImages = null;
 
-            _hugeNoteImage?.Dispose();
+            _specialNoteImage?.Dispose();
         }
 
         protected override void OnInitialize() {
@@ -283,7 +300,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         }
 
         [CanBeNull]
-        private D2DBitmap _hugeNoteImage;
+        private D2DBitmap _specialNoteImage;
         [ItemCanBeNull]
         private D2DImageStrip[] _noteImages;
 

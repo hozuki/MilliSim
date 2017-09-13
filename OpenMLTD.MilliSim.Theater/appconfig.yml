@@ -94,8 +94,8 @@ images:
     #  count: 10
     #- file: res/images/notes/style2.png # style=2
     #  count: 10
-  huge_note:
-    file: res/images/notes/huge_note.png # 384x384
+  special_note:
+    file: res/images/notes/special_note.png # 384x384
   ribbon:
     file: res/images/ui/ribbon.png # 128x128
   sync_line:
@@ -110,8 +110,14 @@ scaling:
   tap_point: 114x114
   tap_bar_chain: 4x4
   tap_bar_node: 16x16
-  note: 120x120
-  huge_note: 280x280
+  note:
+    start: 20x20
+    end: 120x120
+  special_note:
+    start: 200x200
+    end: 280x280
+  sync_line: 5x0
+  ribbon: 20x0
 ui:
   tap_points:
     layout:

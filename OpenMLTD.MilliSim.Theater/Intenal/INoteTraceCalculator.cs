@@ -50,5 +50,35 @@ namespace OpenMLTD.MilliSim.Theater.Intenal {
         /// <returns>The note's Y position.</returns>
         float GetNoteY([NotNull] RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
+        /// <summary>
+        /// Calculate special note's radius according to given data.
+        /// </summary>
+        /// <param name="note">The note whose current radius is to be calculated.</param>
+        /// <param name="now">Current time, in seconds.</param>
+        /// <param name="noteMetrics">Note metrics.</param>
+        /// <param name="animationMetrics">Note animation metrics.</param>
+        /// <returns>Calculated note radius.</returns>
+        SizeF GetSpecialNoteRadius([NotNull] RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+
+        /// <summary>
+        /// Calculate special note's X position according to given data.
+        /// </summary>
+        /// <param name="note">The special note whose current X position is to be calculated.</param>
+        /// <param name="now">Current time, in seconds.</param>
+        /// <param name="noteMetrics">Note metrics.</param>
+        /// <param name="animationMetrics">Note animation metrics.</param>
+        /// <returns>The note's X position.</returns>
+        float GetSpecialNoteX([NotNull] RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+
+        /// <summary>
+        /// Calculate special note's Y position according to given data.
+        /// </summary>
+        /// <param name="note">The special note whose current Y position is to be calculated.</param>
+        /// <param name="now">Current time, in seconds.</param>
+        /// <param name="noteMetrics">Note metrics.</param>
+        /// <param name="animationMetrics">Note animation metrics.</param>
+        /// <returns>The note's Y position.</returns>
+        float GetSpecialNoteY([NotNull] RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+
     }
 }

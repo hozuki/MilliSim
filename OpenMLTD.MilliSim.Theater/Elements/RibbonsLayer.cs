@@ -48,11 +48,15 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 throw new InvalidOperationException();
             }
 
+            var gamingArea = theaterDays.FindSingleElement<GamingArea>();
+            if (gamingArea == null) {
+                throw new InvalidOperationException();
+            }
+
             var settings = Program.Settings;
             var now = syncTimer.CurrentTime.TotalSeconds;
             var tapPointsLayout = settings.UI.TapPoints.Layout;
             var notesLayerLayout = settings.UI.NotesLayer.Layout;
-            var scaledNoteSize = settings.Scaling.Note;
             var clientSize = context.ClientSize;
 
             var traceCalculator = NotesLayer.TraceCalculator;
@@ -67,9 +71,9 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 TrackCount = tapPoints.TapPointXRatios.Length
             };
 
-            var noteMetrics = new NoteMetrics {
-                StartRadius = scaledNoteSize,
-                EndRadius = scaledNoteSize,
+            var commonNoteMetrics = new NoteMetrics {
+                StartRadius = gamingArea.ScaleResults.Note.Start,
+                EndRadius = gamingArea.ScaleResults.Note.End,
                 GlobalSpeedScale = notesLayer.GlobalSpeedScale
             };
 
@@ -77,37 +81,37 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             foreach (var note in notes) {
                 if (note.HasNextHold()) {
-                    var thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, noteMetrics);
+                    var thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, commonNoteMetrics);
 
                     var nextHold = note.NextHold;
-                    var nextHoldStatus = NoteAnimationHelper.GetOnStageStatusOf(nextHold, now, noteMetrics);
+                    var nextHoldStatus = NoteAnimationHelper.GetOnStageStatusOf(nextHold, now, commonNoteMetrics);
 
                     // Not even entered, or both left.
                     if (thisStatus == OnStageStatus.Incoming || ((int)thisStatus * (int)nextHoldStatus > 0)) {
                         continue;
                     }
 
-                    var thisX = traceCalculator.GetNoteX(note, now, noteMetrics, animationMetrics);
-                    var thisY = traceCalculator.GetNoteY(note, now, noteMetrics, animationMetrics);
-                    var nextX = traceCalculator.GetNextNoteX(note, nextHold, now, noteMetrics, animationMetrics);
-                    var nextY = traceCalculator.GetNoteY(nextHold, now, noteMetrics, animationMetrics);
+                    var thisX = traceCalculator.GetNoteX(note, now, commonNoteMetrics, animationMetrics);
+                    var thisY = traceCalculator.GetNoteY(note, now, commonNoteMetrics, animationMetrics);
+                    var nextX = traceCalculator.GetNextNoteX(note, nextHold, now, commonNoteMetrics, animationMetrics);
+                    var nextY = traceCalculator.GetNoteY(nextHold, now, commonNoteMetrics, animationMetrics);
                     context.DrawLine(_simpleRibbonPen, thisX, thisY, nextX, nextY);
                 }
 
                 if (note.HasNextSlide()) {
-                    var thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, noteMetrics);
+                    var thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, commonNoteMetrics);
 
                     var nextSlide = note.NextSlide;
-                    var nextSlideStatus = NoteAnimationHelper.GetOnStageStatusOf(nextSlide, now, noteMetrics);
+                    var nextSlideStatus = NoteAnimationHelper.GetOnStageStatusOf(nextSlide, now, commonNoteMetrics);
 
                     // Not even entered, or both left.
                     if (thisStatus == OnStageStatus.Incoming || ((int)thisStatus * (int)nextSlideStatus > 0)) {
                         continue;
                     }
-                    var thisX = traceCalculator.GetNoteX(note, now, noteMetrics, animationMetrics);
-                    var thisY = traceCalculator.GetNoteY(note, now, noteMetrics, animationMetrics);
-                    var nextX = traceCalculator.GetNextNoteX(note, nextSlide, now, noteMetrics, animationMetrics);
-                    var nextY = traceCalculator.GetNoteY(nextSlide, now, noteMetrics, animationMetrics);
+                    var thisX = traceCalculator.GetNoteX(note, now, commonNoteMetrics, animationMetrics);
+                    var thisY = traceCalculator.GetNoteY(note, now, commonNoteMetrics, animationMetrics);
+                    var nextX = traceCalculator.GetNextNoteX(note, nextSlide, now, commonNoteMetrics, animationMetrics);
+                    var nextY = traceCalculator.GetNoteY(nextSlide, now, commonNoteMetrics, animationMetrics);
                     context.DrawLine(_simpleRibbonPen, thisX, thisY, nextX, nextY);
                 }
             }
@@ -118,7 +122,12 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         protected override void OnGotContext(RenderContext context) {
             base.OnGotContext(context);
 
-            _simpleRibbonPen = new D2DPen(context, Color.White, 20);
+            var gamingArea = Game.AsTheaterDays().FindSingleElement<GamingArea>();
+            if (gamingArea == null) {
+                throw new InvalidOperationException();
+            }
+
+            _simpleRibbonPen = new D2DPen(context, Color.White, gamingArea.ScaleResults.Ribbon.Width);
         }
 
         protected override void OnLostContext(RenderContext context) {

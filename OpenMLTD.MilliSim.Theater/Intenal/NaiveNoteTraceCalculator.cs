@@ -84,5 +84,20 @@ namespace OpenMLTD.MilliSim.Theater.Intenal {
             return y;
         }
 
+        public SizeF GetSpecialNoteRadius(RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
+            return GetNoteRadius(note, now, noteMetrics, animationMetrics);
+        }
+
+        public float GetSpecialNoteX(RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
+            var leftRatio = animationMetrics.NoteEndXRatios[0];
+            var rightRatio = animationMetrics.NoteEndXRatios[animationMetrics.TrackCount - 1];
+            var xRatio = (leftRatio + rightRatio) / 2;
+            return animationMetrics.ClientSize.Width * xRatio;
+        }
+
+        public float GetSpecialNoteY(RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
+            return GetNoteY(note, now, noteMetrics, animationMetrics);
+        }
+
     }
 }

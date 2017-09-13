@@ -36,11 +36,12 @@ namespace OpenMLTD.MilliSim.Theater {
 #if DEBUG
             //elements.Add(new MiniCube(this));
 #endif
-            elements.Add(new RibbonsLayer(this));
 
             // ** Stage ** //
 
             var gamingAreaElements = new List<Element>();
+
+            gamingAreaElements.Add(new RibbonsLayer(this));
 
             gamingAreaElements.Add(new NotesLayer(this) {
                 GlobalSpeedScale = 1.3f

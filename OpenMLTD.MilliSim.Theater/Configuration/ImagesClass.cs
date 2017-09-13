@@ -29,7 +29,7 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public ImageStrip[] Notes { get; set; }
 
-        public ImageWithBlankEdge HugeNote { get; set; }
+        public ImageWithBlankEdge SpecialNote { get; set; }
 
         public ImageWithBlankEdge Ribbon { get; set; }
 
