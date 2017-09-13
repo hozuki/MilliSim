@@ -22,6 +22,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             var theaterDays = Game.AsTheaterDays();
             theaterDays.AudioManager.Sfx.UpdateWaveQueue();
+
+            Music?.UpdateState();
         }
 
         protected override void OnInitialize() {

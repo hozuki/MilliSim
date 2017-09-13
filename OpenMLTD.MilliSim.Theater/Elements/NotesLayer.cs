@@ -138,12 +138,28 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                         }
                         break;
                     case RuntimeNoteType.Hold:
-                        switch (note.Size) {
-                            case RuntimeNoteSize.Small:
-                                imageIndex = 2;
+                        switch (note.FlickDirection) {
+                            case FlickDirection.None:
+                            case FlickDirection.Down:
+                                switch (note.Size) {
+                                    case RuntimeNoteSize.Small:
+                                        imageIndex = 2;
+                                        break;
+                                    case RuntimeNoteSize.Large:
+                                        imageIndex = 3;
+                                        break;
+                                    default:
+                                        throw new ArgumentOutOfRangeException();
+                                }
                                 break;
-                            case RuntimeNoteSize.Large:
-                                imageIndex = 3;
+                            case FlickDirection.Left:
+                                imageIndex = 4;
+                                break;
+                            case FlickDirection.Up:
+                                imageIndex = 5;
+                                break;
+                            case FlickDirection.Right:
+                                imageIndex = 6;
                                 break;
                             default:
                                 throw new ArgumentOutOfRangeException();

@@ -157,6 +157,7 @@ namespace OpenMLTD.MilliSim.Theater {
                     case MediaEngineEvent.Error:
                     case MediaEngineEvent.Abort:
                         music.Stop();
+                        theaterDays.AudioManager.Sfx.StopAll();
                         break;
                 }
             }
@@ -219,6 +220,8 @@ namespace OpenMLTD.MilliSim.Theater {
                             help.Show();
                         }
                     }
+
+                    theaterDays.AudioManager.Sfx.StopAll();
                     break;
                 case Keys.P:
                     if (theaterDays.IsSuspended) {
@@ -239,6 +242,7 @@ namespace OpenMLTD.MilliSim.Theater {
                             if (music != null) {
                                 music.CurrentTime = next;
                             }
+                            theaterDays.AudioManager.Sfx.StopAll();
                         }
                     }
                     break;

@@ -4,6 +4,7 @@ using System.IO;
 using JetBrains.Annotations;
 using NAudio.Wave;
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Core.Extensions;
 
 namespace OpenMLTD.MilliSim.Audio {
     public sealed class SfxManager : DisposableBase {
@@ -105,6 +106,69 @@ namespace OpenMLTD.MilliSim.Audio {
             _playingStates.Add(true);
         }
 
+        public void PlayLooped([CanBeNull] string fileName, [NotNull] object state) {
+            if (fileName == null) {
+                return;
+            }
+
+            if (state == null) {
+                throw new ArgumentNullException(nameof(state));
+            }
+
+            if (_loopedStreams.ContainsKey(state)) {
+                return;
+            }
+
+            fileName = Path.GetFullPath(fileName);
+
+            PreloadSfx(fileName);
+
+            var key = Environment.OSVersion.Platform == PlatformID.Win32NT ? fileName.ToLowerInvariant() : fileName;
+
+            var currentTime = _audioManager.MixerTime;
+
+            var (data, format) = _preloaded[key];
+
+            var source = new RawSourceWaveStream(data, 0, data.Length, format);
+
+            var looped = new LoopedWaveStream(source);
+
+            // Offset requires 16-bit integer input.
+            WaveStream toOffset;
+            if (AudioHelper.NeedsFormatConversionFrom(format, RequiredFormat)) {
+                toOffset = new ResamplerDmoStream(looped, RequiredFormat);
+            } else {
+                toOffset = looped;
+            }
+
+            var offset = new WaveOffsetStream(toOffset, currentTime, TimeSpan.Zero, toOffset.TotalTime);
+
+            _audioManager.AddInputStream(offset, Volume);
+
+            _loopedStreams[state] = (offset, toOffset, looped, source);
+        }
+
+        public void StopLooped([NotNull] object state) {
+            if (state == null) {
+                throw new ArgumentNullException(nameof(state));
+            }
+
+            if (!_loopedStreams.ContainsKey(state)) {
+                return;
+            }
+
+            var (offset, toOffset, looped, source) = _loopedStreams[state];
+
+            _audioManager.RemoveInputStream(offset);
+            _loopedStreams.Remove(state);
+
+            offset.Dispose();
+            if (toOffset != looped) {
+                toOffset.Dispose();
+            }
+            source.Dispose();
+        }
+
         public void StopAll() {
             lock (_queueLock) {
                 foreach (var (_, offset, toOffset, source) in _playingWaveStreams) {
@@ -115,7 +179,18 @@ namespace OpenMLTD.MilliSim.Audio {
                         source.Dispose();
                     }
                 }
+
+                foreach (var (_, offset, toOffset, looped, source) in _loopedStreams) {
+                    _audioManager.RemoveInputStream(offset);
+                    offset.Dispose();
+                    if (toOffset != looped) {
+                        toOffset.Dispose();
+                    }
+                    source.Dispose();
+                }
+
                 _playingWaveStreams.Clear();
+                _loopedStreams.Clear();
                 _playingStates.Clear();
             }
         }
@@ -169,6 +244,7 @@ namespace OpenMLTD.MilliSim.Audio {
         private readonly List<bool> _playingStates = new List<bool>();
         private readonly List<(string Key, WaveOffsetStream Offset, WaveStream ToOffset, WaveStream Source)> _playingWaveStreams = new List<(string, WaveOffsetStream, WaveStream, WaveStream)>();
         private readonly Dictionary<string, (byte[] Data, WaveFormat Format)> _preloaded = new Dictionary<string, (byte[] Data, WaveFormat Format)>();
+        private readonly Dictionary<object, (WaveOffsetStream Offset, WaveStream ToOffset, LoopedWaveStream Looped, WaveStream Source)> _loopedStreams = new Dictionary<object, (WaveOffsetStream, WaveStream, LoopedWaveStream, WaveStream)>();
 
         private readonly object _queueLock = new object();
 

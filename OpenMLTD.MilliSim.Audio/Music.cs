@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using JetBrains.Annotations;
 using NAudio.Wave;
 using OpenMLTD.MilliSim.Core;
@@ -30,14 +31,17 @@ namespace OpenMLTD.MilliSim.Audio {
             }
 
             var currentMixer = _audioManager.MixerTime;
-            var lastMixer = _lastPausedMixerTime;
-            var relStart = lastMixer - OffsetStream.StartTime;
-            var pausedTime = currentMixer - lastMixer;
-            var newStart = relStart + pausedTime;
-            OffsetStream.StartTime = newStart;
-            OffsetStream.CurrentTime = currentMixer;
+            if (IsStopped) {
+                OffsetStream.StartTime = currentMixer;
+                OffsetStream.CurrentTime = currentMixer;
+            } else {
+                var newStart = currentMixer - CurrentTime;
+                OffsetStream.StartTime = newStart;
+                OffsetStream.CurrentTime = currentMixer;
+            }
+
             _audioManager.AddInputStream(OffsetStream, CachedVolume);
-            
+
             IsPaused = false;
             IsStopped = false;
             IsPlaying = true;
@@ -52,7 +56,6 @@ namespace OpenMLTD.MilliSim.Audio {
                 CachedVolume = Volume;
             }
 
-            _lastPausedMixerTime = _audioManager.MixerTime;
             _audioManager.RemoveMusic(this);
 
             IsPlaying = false;
@@ -68,9 +71,8 @@ namespace OpenMLTD.MilliSim.Audio {
                 CachedVolume = Volume;
             }
 
-            _lastPausedMixerTime = TimeSpan.Zero;
             _audioManager.RemoveMusic(this);
-            OffsetStream.CurrentTime = TimeSpan.Zero;
+            OffsetStream.CurrentTime = OffsetStream.StartTime;
 
             IsPlaying = false;
             IsPaused = false;
@@ -86,13 +88,46 @@ namespace OpenMLTD.MilliSim.Audio {
         public TimeSpan CurrentTime {
             get => OffsetStream.CurrentTime - OffsetStream.StartTime;
             set {
-                var b = value != CurrentTime;
+                if (value < TimeSpan.Zero) {
+                    value = TimeSpan.Zero;
+                }
+
+                var currentTime = CurrentTime;
+
+                if (IsStopped && currentTime >= _baseWaveStream.TotalTime && value < _baseWaveStream.TotalTime) {
+                    // We used WaveOffsetStream here. This kind of stream will continue playing from start (auto loop)
+                    // when stream position reaches the end. This behavior is not wanted. So once the music is stopped,
+                    // it cannot go back by setting CurrentTime property. The new playback will start from start.
+                    return;
+                }
+
+                var shouldStop = false;
+                if (value > _baseWaveStream.TotalTime) {
+                    value = _baseWaveStream.TotalTime;
+                    shouldStop = true;
+                }
+
+                var b = value != currentTime;
                 if (!b) {
                     return;
                 }
 
                 lock (_syncObject) {
                     var waveStream = OffsetStream;
+
+                    if (shouldStop) {
+                        Stop();
+                        waveStream.CurrentTime = waveStream.StartTime + value;
+                        return;
+                    }
+
+                    if (!IsPlaying) {
+                        var currentMixer = _audioManager.MixerTime;
+                        var newStart = currentMixer - currentTime;
+                        OffsetStream.StartTime = newStart;
+                        OffsetStream.CurrentTime = currentMixer;
+                    }
+
                     waveStream.CurrentTime = waveStream.StartTime + value;
 
                     var position = waveStream.Position;
@@ -109,6 +144,25 @@ namespace OpenMLTD.MilliSim.Audio {
         }
 
         public TimeSpan TotalTime => _baseWaveStream.TotalTime;
+
+        public void UpdateState() {
+            if (IsPlaying) {
+                ////var t1 = _audioManager.MixerTime;
+                ////var t2 = _cachedStartTime;
+                //var t1 = OffsetStream.CurrentTime;
+                //var t2 = OffsetStream.StartTime;
+                //var t3 = OffsetStream.SourceLength;
+
+                //Debug.Print("Abs time: {0}, source time: {1}", t1 - t2, t3);
+
+                //if (t1 - t2 >= t3) {
+                //    Stop();
+                //}
+                if (OffsetStream.CurrentTime - OffsetStream.StartTime >= OffsetStream.SourceLength) {
+                    Stop();
+                }
+            }
+        }
 
         internal WaveOffsetStream OffsetStream { get; }
 
@@ -143,7 +197,6 @@ namespace OpenMLTD.MilliSim.Audio {
         private readonly WaveStream _formatConvertedStream;
         private readonly bool _isExternalWaveStream;
         private readonly object _syncObject = new object();
-        private TimeSpan _lastPausedMixerTime = TimeSpan.Zero;
 
     }
 }

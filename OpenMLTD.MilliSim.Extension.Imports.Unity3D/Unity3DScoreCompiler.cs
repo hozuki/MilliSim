@@ -190,24 +190,21 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             holdEnd.HitTime = TicksToSeconds(note.Tick + note.Duration, conductors);
             holdEnd.LeadTime = rn.LeadTime;
             holdEnd.RelativeSpeed = rn.RelativeSpeed;
+            holdEnd.Type = rn.Type;
             holdEnd.StartX = rn.EndX;
             holdEnd.EndX = rn.EndX;
 
             switch (note.EndType) {
                 case NoteEndType.Tap:
-                    holdEnd.Type = RuntimeNoteType.Tap;
                     holdEnd.Size = rn.Size;
                     break;
                 case NoteEndType.FlickLeft:
-                    holdEnd.Type = RuntimeNoteType.Flick;
                     holdEnd.FlickDirection = FlickDirection.Left;
                     break;
                 case NoteEndType.FlickUp:
-                    holdEnd.Type = RuntimeNoteType.Flick;
                     holdEnd.FlickDirection = FlickDirection.Up;
                     break;
                 case NoteEndType.FlickRight:
-                    holdEnd.Type = RuntimeNoteType.Flick;
                     holdEnd.FlickDirection = FlickDirection.Right;
                     break;
                 default:

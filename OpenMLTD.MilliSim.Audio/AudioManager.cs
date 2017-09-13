@@ -24,8 +24,6 @@ namespace OpenMLTD.MilliSim.Audio {
 
             Sfx = new SfxManager(this);
 
-            _soundPlayer.PlaybackStopped += (_, e) => Debug.Print("stopped.");
-
             _soundPlayer.Play();
         }
 

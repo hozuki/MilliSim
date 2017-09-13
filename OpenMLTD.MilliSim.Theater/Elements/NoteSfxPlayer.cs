@@ -64,38 +64,58 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                         }
                         break;
                     case RuntimeNoteType.Hold:
-                        if (note.FlickDirection != FlickDirection.None) {
-                            if (newState == OnStageStatus.Passed) {
-                                player.Play(sfxPaths.Flick.Perfect);
-                            }
-                        } else {
-                            if (note.IsHoldStart()) {
+                        if (note.IsHoldStart()) {
+                            if (note.FlickDirection != FlickDirection.None) {
+                                if (newState == OnStageStatus.Passed) {
+                                    player.Play(sfxPaths.Flick.Perfect);
+                                }
+                            } else {
                                 if (newState == OnStageStatus.Passed) {
                                     player.Play(sfxPaths.Hold.Perfect);
-                                    // play loop: hold
+                                    player.PlayLooped(sfxPaths.HoldHold, note);
                                 }
-                            } else if (note.IsHoldEnd()) {
+                            }
+                        } else if (note.IsHoldEnd()) {
+                            if (note.FlickDirection != FlickDirection.None) {
+                                if (newState == OnStageStatus.Passed) {
+                                    player.Play(sfxPaths.Flick.Perfect);
+                                }
+                            } else {
                                 if (newState == OnStageStatus.Passed) {
                                     player.Play(sfxPaths.HoldEnd.Perfect);
                                 }
                             }
+
+                            if (newState == OnStageStatus.Passed) {
+                                player.StopLooped(FindFirstHold(note));
+                            }
                         }
                         break;
                     case RuntimeNoteType.Slide:
-                        if (note.FlickDirection != FlickDirection.None) {
-                            if (newState == OnStageStatus.Passed) {
-                                player.Play(sfxPaths.Flick.Perfect);
-                            }
-                        } else {
-                            if (note.IsSlideStart()) {
+                        if (note.IsSlideStart()) {
+                            if (note.FlickDirection != FlickDirection.None) {
+                                if (newState == OnStageStatus.Passed) {
+                                    player.Play(sfxPaths.Flick.Perfect);
+                                }
+                            } else {
                                 if (newState == OnStageStatus.Passed) {
                                     player.Play(sfxPaths.Slide.Perfect);
-                                    // play loop: slide
+                                    player.PlayLooped(sfxPaths.SlideHold, note);
                                 }
-                            } else if (note.IsSlideEnd()) {
+                            }
+                        } else if (note.IsSlideEnd()) {
+                            if (note.FlickDirection != FlickDirection.None) {
+                                if (newState == OnStageStatus.Passed) {
+                                    player.Play(sfxPaths.Flick.Perfect);
+                                }
+                            } else {
                                 if (newState == OnStageStatus.Passed) {
                                     player.Play(sfxPaths.SlideEnd.Perfect);
                                 }
+                            }
+
+                            if (newState == OnStageStatus.Passed) {
+                                player.StopLooped(FindFirstSlide(note));
                             }
                         }
                         break;
@@ -125,6 +145,22 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 }
                 _notes = score.Notes;
             }
+        }
+
+        private static RuntimeNote FindFirstHold(RuntimeNote note) {
+            var firstHold = note;
+            do {
+                firstHold = firstHold.PrevHold;
+            } while (firstHold.PrevHold != null);
+            return firstHold;
+        }
+
+        private static RuntimeNote FindFirstSlide(RuntimeNote note) {
+            var firstSlide = note;
+            do {
+                firstSlide = firstSlide.PrevSlide;
+            } while (firstSlide.PrevSlide != null);
+            return firstSlide;
         }
 
         [CanBeNull]
