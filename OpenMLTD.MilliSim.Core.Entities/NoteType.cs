@@ -5,6 +5,8 @@ namespace OpenMLTD.MilliSim.Core.Entities {
     /// <remarks>Reference: https://github.com/thiEFcat/ScrObjAnalyzer</remarks>
     public enum NoteType {
 
+        SecondaryBeat = -2,
+        PrimaryBeat = -1,
         TapSmall = 0,
         TapLarge = 1,
         FlickLeft = 2,

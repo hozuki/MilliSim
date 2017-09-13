@@ -124,6 +124,11 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                             player.Play(sfxPaths.Special.Perfect);
                         }
                         break;
+                    case RuntimeNoteType.SpecialEnd:
+                        if (newState == OnStageStatus.Passed) {
+                            player.Play(sfxPaths.SpecialEnd);
+                        }
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

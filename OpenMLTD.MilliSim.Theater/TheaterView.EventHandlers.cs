@@ -187,6 +187,7 @@ namespace OpenMLTD.MilliSim.Theater {
             var audio = theaterDays.FindSingleElement<AudioController>();
             var music = audio?.Music;
             var help = theaterDays.FindSingleElement<HelpOverlay>();
+
             switch (e.KeyCode) {
                 case Keys.Space:
                     if (video != null) {
@@ -202,9 +203,13 @@ namespace OpenMLTD.MilliSim.Theater {
                             } else {
                                 music.Play();
                             }
-                        }
-                        if (help != null) {
-                            help.Visible = !help.Visible;
+                            if (help != null) {
+                                help.Visible = !music.IsPlaying;
+                            }
+                        } else {
+                            if (help != null) {
+                                help.Visible = !help.Visible;
+                            }
                         }
                     }
                     break;

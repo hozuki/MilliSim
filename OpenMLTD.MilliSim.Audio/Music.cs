@@ -147,17 +147,6 @@ namespace OpenMLTD.MilliSim.Audio {
 
         public void UpdateState() {
             if (IsPlaying) {
-                ////var t1 = _audioManager.MixerTime;
-                ////var t2 = _cachedStartTime;
-                //var t1 = OffsetStream.CurrentTime;
-                //var t2 = OffsetStream.StartTime;
-                //var t3 = OffsetStream.SourceLength;
-
-                //Debug.Print("Abs time: {0}, source time: {1}", t1 - t2, t3);
-
-                //if (t1 - t2 >= t3) {
-                //    Stop();
-                //}
                 if (OffsetStream.CurrentTime - OffsetStream.StartTime >= OffsetStream.SourceLength) {
                     Stop();
                 }

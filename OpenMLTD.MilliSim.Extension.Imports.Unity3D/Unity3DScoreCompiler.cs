@@ -287,7 +287,18 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             rn.StartX = note.StartPosition;
             rn.EndX = note.EndPosition;
 
-            return new[] { rn };
+            var end = new RuntimeNote();
+
+            end.ID = ++currentID;
+            // 5 seconds (estimated). Didn't find any proof or ways to calculate this.
+            end.HitTime = rn.HitTime + 5;
+            end.LeadTime = rn.LeadTime;
+            end.RelativeSpeed = rn.RelativeSpeed;
+            end.Type = RuntimeNoteType.SpecialEnd;
+            end.StartX = rn.StartX;
+            end.EndX = rn.EndX;
+
+            return new[] { rn, end };
         }
 
         /// <summary>

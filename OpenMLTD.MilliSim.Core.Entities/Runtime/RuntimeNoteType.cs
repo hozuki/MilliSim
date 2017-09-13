@@ -6,7 +6,8 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime {
         Hold = 2,
         Slide = 3,
 
-        Special = 100
+        Special = 100,
+        SpecialEnd = 101
 
     }
 }

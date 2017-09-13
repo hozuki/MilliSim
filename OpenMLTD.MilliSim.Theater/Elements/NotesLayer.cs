@@ -193,6 +193,9 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     case RuntimeNoteType.Special:
                         isHugeNote = true;
                         break;
+                    case RuntimeNoteType.SpecialEnd:
+                        // We don't draw this note.
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
