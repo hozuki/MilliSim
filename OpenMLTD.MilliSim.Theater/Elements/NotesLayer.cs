@@ -24,17 +24,17 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         /// <summary>
         /// Note falling speed scale. The same one used in game.
         /// </summary>
-        public float SpeedScale {
-            get => _speedScale;
+        public float GlobalSpeedScale {
+            get => _globalSpeedScale;
             set {
                 if (value <= 0.05f) {
                     value = 0.05f;
                 }
-                _speedScale = value;
+                _globalSpeedScale = value;
             }
         }
 
-        public ScoreRenderMode RenderMode { get; set; }
+        internal static readonly INoteTraceCalculator TraceCalculator = new NaiveNoteTraceCalculator();
 
         protected override void OnDrawBuffer(GameTime gameTime, RenderContext context) {
             base.OnDrawBuffer(gameTime, context);
@@ -64,26 +64,33 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             var settings = Program.Settings;
             var scaledNoteSize = settings.Scaling.Note;
-            var currentSecond = syncTimer.CurrentTime.TotalSeconds;
-            var speedScale = SpeedScale;
-            var startXRatios = tapPoints.IncomingXRatios;
-            var endXRatios = tapPoints.TapPointXRatios;
+            var now = syncTimer.CurrentTime.TotalSeconds;
             var tapPointsLayout = settings.UI.TapPoints.Layout;
             var notesLayerLayout = settings.UI.NotesLayer.Layout;
             var clientSize = context.ClientSize;
 
             var opacity = settings.UI.NotesLayer.Opacity;
-            var renderMode = RenderMode;
 
-            var topY = notesLayerLayout.Y * clientSize.Height;
-            var bottomY = tapPointsLayout.Y * clientSize.Height;
+            var animationMetrics = new NoteAnimationMetrics {
+                ClientSize = clientSize,
+                GlobalSpeedScale = GlobalSpeedScale,
+                Top = notesLayerLayout.Y * clientSize.Height,
+                Bottom = tapPointsLayout.Y * clientSize.Height,
+                NoteStartXRatios = tapPoints.IncomingXRatios,
+                NoteEndXRatios = tapPoints.TapPointXRatios,
+                TrackCount = tapPoints.TapPointXRatios.Length
+            };
+
+            var noteMetrics = new NoteMetrics {
+                StartRadius = scaledNoteSize,
+                EndRadius = scaledNoteSize,
+                GlobalSpeedScale = GlobalSpeedScale
+            };
 
             context.Begin2D();
 
             foreach (var note in notes) {
-                var (noteEnterTime, noteLeaveTime, _) = RuntimeNoteCalculator.CalculateNoteTimePoints(note, speedScale);
-
-                if (!(noteEnterTime <= currentSecond && currentSecond <= noteLeaveTime)) {
+                if (!NoteAnimationHelper.IsNoteVisible(note, now, noteMetrics)) {
                     continue;
                 }
 
@@ -165,7 +172,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     continue;
                 }
 
-                var loc = RuntimeNoteCalculator.CalculateNoteLocation(note, currentSecond, startXRatios, endXRatios, clientSize, topY, bottomY, speedScale, renderMode, false);
+                var thisX = TraceCalculator.GetNoteX(note, now, noteMetrics, animationMetrics);
+                var thisY = TraceCalculator.GetNoteY(note, now, noteMetrics, animationMetrics);
 
                 if (settings.Style.SyncLine) {
                     // NextSync is always after PrevSync. So draw here, below the two notes.
@@ -175,14 +183,14 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                             drawSyncLine = settings.Style.SlideMiddleSyncLine;
                         }
                         if (drawSyncLine) {
-                            var nextX = RuntimeNoteCalculator.CalculateNoteX(note.NextSync, currentSecond, startXRatios, endXRatios, clientSize, speedScale, renderMode);
-                            context.DrawLine(_simpleSyncLinePen, loc.X, loc.Y, nextX, loc.Y);
+                            var nextX = TraceCalculator.GetNoteX(note.NextSync, now, noteMetrics, animationMetrics);
+                            context.DrawLine(_simpleSyncLinePen, thisX, thisY, nextX, thisY);
                         }
                     }
                 }
 
                 // Then draw the note.
-                context.DrawImageStripUnit(noteImages[0], imageIndex, loc.X - scaledNoteSize.Width / 2, loc.Y - scaledNoteSize.Height / 2, scaledNoteSize.Width, scaledNoteSize.Height, opacity);
+                context.DrawImageStripUnit(noteImages[0], imageIndex, thisX - scaledNoteSize.Width / 2, thisY - scaledNoteSize.Height / 2, scaledNoteSize.Width, scaledNoteSize.Height, opacity);
             }
 
             context.End2D();
@@ -255,7 +263,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
         private D2DPen _simpleSyncLinePen;
 
-        private float _speedScale = 1f;
+        private float _globalSpeedScale = 1f;
 
     }
 }

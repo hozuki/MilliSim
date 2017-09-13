@@ -49,63 +49,66 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             }
 
             var settings = Program.Settings;
-            var currentSecond = syncTimer.CurrentTime.TotalSeconds;
-            var speedScale = notesLayer.SpeedScale;
-            var startXRatios = tapPoints.IncomingXRatios;
-            var endXRatios = tapPoints.TapPointXRatios;
+            var now = syncTimer.CurrentTime.TotalSeconds;
             var tapPointsLayout = settings.UI.TapPoints.Layout;
             var notesLayerLayout = settings.UI.NotesLayer.Layout;
+            var scaledNoteSize = settings.Scaling.Note;
             var clientSize = context.ClientSize;
 
-            var renderMode = notesLayer.RenderMode;
+            var traceCalculator = NotesLayer.TraceCalculator;
 
-            var topY = notesLayerLayout.Y * clientSize.Height;
-            var bottomY = tapPointsLayout.Y * clientSize.Height;
+            var animationMetrics = new NoteAnimationMetrics {
+                ClientSize = clientSize,
+                GlobalSpeedScale = notesLayer.GlobalSpeedScale,
+                Top = notesLayerLayout.Y * clientSize.Height,
+                Bottom = tapPointsLayout.Y * clientSize.Height,
+                NoteStartXRatios = tapPoints.IncomingXRatios,
+                NoteEndXRatios = tapPoints.TapPointXRatios,
+                TrackCount = tapPoints.TapPointXRatios.Length
+            };
+
+            var noteMetrics = new NoteMetrics {
+                StartRadius = scaledNoteSize,
+                EndRadius = scaledNoteSize,
+                GlobalSpeedScale = notesLayer.GlobalSpeedScale
+            };
 
             context.Begin2D();
 
             foreach (var note in notes) {
-                OnStageStatus? thisStatus = null;
-                (float X, float Y, bool Visible)? thisLocation = null;
-
                 if (note.HasNextHold()) {
-                    if (thisStatus == null) {
-                        thisStatus = RuntimeNoteCalculator.GetOnStageStatusOf(note, currentSecond, speedScale);
-                    }
+                    var thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, noteMetrics);
 
                     var nextHold = note.NextHold;
-                    var nextHoldStatus = RuntimeNoteCalculator.GetOnStageStatusOf(nextHold, currentSecond, speedScale);
+                    var nextHoldStatus = NoteAnimationHelper.GetOnStageStatusOf(nextHold, now, noteMetrics);
 
                     // Not even entered, or both left.
-                    if (thisStatus.Value == OnStageStatus.Incoming || ((int)thisStatus.Value * (int)nextHoldStatus > 0)) {
+                    if (thisStatus == OnStageStatus.Incoming || ((int)thisStatus * (int)nextHoldStatus > 0)) {
                         continue;
                     }
 
-                    if (thisLocation == null) {
-                        thisLocation = RuntimeNoteCalculator.CalculateRibbonLocation(note, currentSecond, startXRatios, endXRatios, clientSize, topY, bottomY, speedScale, renderMode, false);
-                    }
-                    var nextHoldLocaion = RuntimeNoteCalculator.CalculateNoteLocation(nextHold, currentSecond, startXRatios, endXRatios, clientSize, topY, bottomY, speedScale, renderMode, false);
-                    context.DrawLine(_simpleRibbonPen, thisLocation.Value.X, thisLocation.Value.Y, nextHoldLocaion.X, nextHoldLocaion.Y);
+                    var thisX = traceCalculator.GetNoteX(note, now, noteMetrics, animationMetrics);
+                    var thisY = traceCalculator.GetNoteY(note, now, noteMetrics, animationMetrics);
+                    var nextX = traceCalculator.GetNextNoteX(note, nextHold, now, noteMetrics, animationMetrics);
+                    var nextY = traceCalculator.GetNoteY(nextHold, now, noteMetrics, animationMetrics);
+                    context.DrawLine(_simpleRibbonPen, thisX, thisY, nextX, nextY);
                 }
 
                 if (note.HasNextSlide()) {
-                    if (thisStatus == null) {
-                        thisStatus = RuntimeNoteCalculator.GetOnStageStatusOf(note, currentSecond, speedScale);
-                    }
+                    var thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, noteMetrics);
 
                     var nextSlide = note.NextSlide;
-                    var nextSlideStatus = RuntimeNoteCalculator.GetOnStageStatusOf(nextSlide, currentSecond, speedScale);
+                    var nextSlideStatus = NoteAnimationHelper.GetOnStageStatusOf(nextSlide, now, noteMetrics);
 
                     // Not even entered, or both left.
-                    if (thisStatus.Value == OnStageStatus.Incoming || ((int)thisStatus.Value * (int)nextSlideStatus > 0)) {
+                    if (thisStatus == OnStageStatus.Incoming || ((int)thisStatus * (int)nextSlideStatus > 0)) {
                         continue;
                     }
-
-                    if (thisLocation == null) {
-                        thisLocation = RuntimeNoteCalculator.CalculateRibbonLocation(note, currentSecond, startXRatios, endXRatios, clientSize, topY, bottomY, speedScale, renderMode, false);
-                    }
-                    var nextSlideLocaion = RuntimeNoteCalculator.CalculateNoteLocation(nextSlide, currentSecond, startXRatios, endXRatios, clientSize, topY, bottomY, speedScale, renderMode, false);
-                    context.DrawLine(_simpleRibbonPen, thisLocation.Value.X, thisLocation.Value.Y, nextSlideLocaion.X, nextSlideLocaion.Y);
+                    var thisX = traceCalculator.GetNoteX(note, now, noteMetrics, animationMetrics);
+                    var thisY = traceCalculator.GetNoteY(note, now, noteMetrics, animationMetrics);
+                    var nextX = traceCalculator.GetNextNoteX(note, nextSlide, now, noteMetrics, animationMetrics);
+                    var nextY = traceCalculator.GetNoteY(nextSlide, now, noteMetrics, animationMetrics);
+                    context.DrawLine(_simpleRibbonPen, thisX, thisY, nextX, nextY);
                 }
             }
 

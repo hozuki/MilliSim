@@ -2,8 +2,8 @@ namespace OpenMLTD.MilliSim.Theater.Intenal {
     internal enum OnStageStatus {
 
         Incoming = -1,
-        OnStage = 0,
-        Left = 1
+        Visible = 0,
+        Passed = 1
 
     }
 }
