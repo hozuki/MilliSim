@@ -13,5 +13,7 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public SizeF Note { get; set; }
 
+        public SizeF HugeNote { get; set; }
+
     }
 }
