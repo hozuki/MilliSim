@@ -41,8 +41,8 @@ namespace OpenMLTD.MilliSim.Theater {
 
             var gamingAreaElements = new List<Element>();
 
+            gamingAreaElements.Add(new NoteSfxPlayer(this));
             gamingAreaElements.Add(new RibbonsLayer(this));
-
             gamingAreaElements.Add(new NotesLayer(this) {
                 GlobalSpeedScale = 1.3f
             });

@@ -49,6 +49,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             PreloadAudio(sfx, settings.Sfx.Special);
             PreloadAudio(sfx, settings.Sfx.SpecialHold);
             PreloadAudio(sfx, settings.Sfx.SpecialEnd);
+
+            theaterDays.AudioManager.Sfx.Volume = settings.Media.SoundEffectsVolume.Value;
         }
 
         private static void PreloadAudio(SfxManager sfx, string fileName) {

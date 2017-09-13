@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using JetBrains.Annotations;
 using NAudio.Wave;
@@ -104,8 +103,6 @@ namespace OpenMLTD.MilliSim.Audio {
                 _playingWaveStreams.Add((key, offset, toOffset, source));
             }
             _playingStates.Add(true);
-
-            Debug.Print("Active list count: {0}", _playingWaveStreams.Count);
         }
 
         public void StopAll() {

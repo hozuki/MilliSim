@@ -126,6 +126,7 @@
     <Compile Include="Elements\BackgroundBase.cs" />
     <Compile Include="Elements\BackgroundImage.cs" />
     <Compile Include="Elements\BackgroundVideo.cs" />
+    <Compile Include="Elements\NoteSfxPlayer.cs" />
     <Compile Include="Elements\SyncTimerOverlay.cs" />
     <Compile Include="Intenal\INoteTraceCalculator.cs" />
     <Compile Include="Intenal\NaiveNoteTraceCalculator.cs" />
