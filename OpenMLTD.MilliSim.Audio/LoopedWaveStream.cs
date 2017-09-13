@@ -3,8 +3,9 @@ using NAudio.Wave;
 namespace OpenMLTD.MilliSim.Audio {
     internal sealed class LoopedWaveStream : WaveStream {
 
-        internal LoopedWaveStream(WaveStream baseStream) {
+        internal LoopedWaveStream(WaveStream baseStream, int maxLoops) {
             BaseStream = baseStream;
+            _maxLoops = maxLoops;
         }
 
         public WaveStream BaseStream { get; }
@@ -18,8 +19,9 @@ namespace OpenMLTD.MilliSim.Audio {
             while (totalBytesRead < count) {
                 var read = baseStream.Read(buffer, offset + totalBytesRead, count - totalBytesRead);
 
-                if (read == 0) {
-                    if (baseStream.Position == 0) {
+                if (read < count - totalBytesRead) {
+                    if (read == 0 && baseStream.Position == 0) {
+                        // Errored.
                         break;
                     }
                     baseStream.Position = 0;
@@ -31,12 +33,16 @@ namespace OpenMLTD.MilliSim.Audio {
             return totalBytesRead;
         }
 
-        public override long Length => BaseStream.Length;
+        public override long Length => BaseStream.Length * _maxLoops;
 
         public override long Position {
             get => BaseStream.Position;
-            set => BaseStream.Position = value;
+            set => BaseStream.Position = value % Length;
         }
+
+        internal static readonly int DefaultMaxLoops = 100;
+
+        private readonly int _maxLoops;
 
     }
 }

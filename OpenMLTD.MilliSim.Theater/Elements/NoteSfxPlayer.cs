@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
@@ -122,11 +124,26 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     case RuntimeNoteType.Special:
                         if (newState == OnStageStatus.Passed) {
                             player.Play(sfxPaths.Special.Perfect);
+                            var shouts = sfxPaths.Shouts;
+                            if (shouts != null && shouts.Length > 0) {
+                                var shoutIndex = MathHelper.Random.Next(shouts.Length);
+                                player.Play(shouts[shoutIndex]);
+                            }
+                            player.PlayLooped(sfxPaths.SpecialHold, note);
                         }
                         break;
                     case RuntimeNoteType.SpecialEnd:
                         if (newState == OnStageStatus.Passed) {
                             player.Play(sfxPaths.SpecialEnd);
+                            var shouts = sfxPaths.Shouts;
+                            if (shouts != null && shouts.Length > 0) {
+                                var shoutIndex = MathHelper.Random.Next(shouts.Length);
+                                player.Play(shouts[shoutIndex]);
+                            }
+
+                            var specialStart = _notes.SingleOrDefault(n => n.Type == RuntimeNoteType.Special);
+                            Debug.Assert(specialStart != null, "Wrong score format: there must be only exactly one special note and one special end note, if either of them exists.");
+                            player.StopLooped(specialStart);
                         }
                         break;
                     default:

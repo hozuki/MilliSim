@@ -131,7 +131,7 @@ namespace OpenMLTD.MilliSim.Audio {
 
             var source = new RawSourceWaveStream(data, 0, data.Length, format);
 
-            var looped = new LoopedWaveStream(source);
+            var looped = new LoopedWaveStream(source, LoopedWaveStream.DefaultMaxLoops);
 
             // Offset requires 16-bit integer input.
             WaveStream toOffset;
@@ -244,7 +244,7 @@ namespace OpenMLTD.MilliSim.Audio {
         private readonly List<bool> _playingStates = new List<bool>();
         private readonly List<(string Key, WaveOffsetStream Offset, WaveStream ToOffset, WaveStream Source)> _playingWaveStreams = new List<(string, WaveOffsetStream, WaveStream, WaveStream)>();
         private readonly Dictionary<string, (byte[] Data, WaveFormat Format)> _preloaded = new Dictionary<string, (byte[] Data, WaveFormat Format)>();
-        private readonly Dictionary<object, (WaveOffsetStream Offset, WaveStream ToOffset, LoopedWaveStream Looped, WaveStream Source)> _loopedStreams = new Dictionary<object, (WaveOffsetStream, WaveStream, LoopedWaveStream, WaveStream)>();
+        private readonly Dictionary<object, (WaveOffsetStream Offset, WaveStream ToOffset, WaveStream Looped, WaveStream Source)> _loopedStreams = new Dictionary<object, (WaveOffsetStream, WaveStream, WaveStream, WaveStream)>();
 
         private readonly object _queueLock = new object();
 

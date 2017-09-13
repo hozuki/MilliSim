@@ -25,5 +25,7 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public string SpecialHold { get; set; }
 
+        public string[] Shouts { get; set; }
+
     }
 }

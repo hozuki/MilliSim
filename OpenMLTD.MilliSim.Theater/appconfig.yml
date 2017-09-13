@@ -202,3 +202,7 @@ sfx: # sound effect files; format: 44100 Hz, 16-bit integer, 2 channels
     miss: res/sfx/app_miss.wav
   special_end: res/sfx/app_special_end.wav
   special_hold: res/sfx/app_special_loop.wav
+  shouts: # around 3 seconds
+    #- res/sfx/shout01.wav
+    #- res/sfx/shout02.wav
+    - res/sfx/shout03.wav

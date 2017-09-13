@@ -1,3 +1,5 @@
+using System;
+
 namespace OpenMLTD.MilliSim.Core {
     public static class MathHelper {
 
@@ -16,6 +18,8 @@ namespace OpenMLTD.MilliSim.Core {
         public static float LerpTo(this float from, float to, float percent) {
             return Lerp(from, to, percent);
         }
+
+        public static readonly Random Random = new Random();
 
     }
 }
