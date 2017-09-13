@@ -2,7 +2,7 @@ using System;
 using NAudio.Wave;
 
 namespace OpenMLTD.MilliSim.Audio {
-    internal sealed class NullWaveStream : WaveStream {
+    internal sealed class InfiniteNullWaveStream : WaveStream {
 
         public override bool CanRead => true;
 
@@ -19,9 +19,9 @@ namespace OpenMLTD.MilliSim.Audio {
 
         public override long Position { get; set; }
 
-        public static readonly NullWaveStream Instance = new NullWaveStream();
+        public static readonly InfiniteNullWaveStream Instance = new InfiniteNullWaveStream();
 
-        private NullWaveStream() {
+        private InfiniteNullWaveStream() {
         }
 
         private static readonly WaveFormat Format = WaveFormat.CreateIeeeFloatWaveFormat(44100, 2);

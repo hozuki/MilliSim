@@ -1,5 +1,5 @@
 namespace OpenMLTD.MilliSim.Theater.Configuration.Primitives {
-    public sealed class NoteGroup {
+    public sealed class NoteSfxGroup {
 
         public string Perfect { get; set; }
 

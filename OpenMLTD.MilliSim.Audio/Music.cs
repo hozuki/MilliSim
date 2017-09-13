@@ -6,29 +6,38 @@ using OpenMLTD.MilliSim.Core;
 namespace OpenMLTD.MilliSim.Audio {
     public sealed class Music : DisposableBase {
 
-        internal Music(AudioManager audioManager, [NotNull] WaveStream waveStream, bool externalWaveStream) {
-            AudioManager = audioManager;
-            BaseWaveStream = waveStream;
+        internal Music(AudioManager audioManager, [NotNull] WaveStream waveStream, float volume, bool externalWaveStream) {
+            _audioManager = audioManager;
+            _baseWaveStream = waveStream;
             _isExternalWaveStream = externalWaveStream;
 
-            if (audioManager.NeedSampleRateConversionFrom(waveStream.WaveFormat)) {
-                FormatConvertedWaveStream = new ResamplerDmoStream(waveStream, audioManager.StandardFormat);
+            if (AudioHelper.NeedsFormatConversionFrom(waveStream.WaveFormat, RequiredFormat)) {
+                _formatConvertedStream = new ResamplerDmoStream(waveStream, RequiredFormat);
             } else {
-                FormatConvertedWaveStream = waveStream;
+                _formatConvertedStream = waveStream;
             }
 
-            Channel = new WaveChannel32(FormatConvertedWaveStream, 1f, 0f);
-        }
+            OffsetStream = new WaveOffsetStream(_formatConvertedStream);
 
-        public event EventHandler<EventArgs> CurrentTimeRepositioned;
+            IsStopped = true;
+
+            CachedVolume = volume;
+        }
 
         public void Play() {
             if (IsPlaying) {
                 return;
             }
 
-            AudioManager.AudioOut.Play();
-
+            var currentMixer = _audioManager.MixerTime;
+            var lastMixer = _lastPausedMixerTime;
+            var relStart = lastMixer - OffsetStream.StartTime;
+            var pausedTime = currentMixer - lastMixer;
+            var newStart = relStart + pausedTime;
+            OffsetStream.StartTime = newStart;
+            OffsetStream.CurrentTime = currentMixer;
+            _audioManager.AddInputStream(OffsetStream, CachedVolume);
+            
             IsPaused = false;
             IsStopped = false;
             IsPlaying = true;
@@ -39,7 +48,12 @@ namespace OpenMLTD.MilliSim.Audio {
                 return;
             }
 
-            AudioManager.AudioOut.Pause();
+            if (IsPlaying) {
+                CachedVolume = Volume;
+            }
+
+            _lastPausedMixerTime = _audioManager.MixerTime;
+            _audioManager.RemoveMusic(this);
 
             IsPlaying = false;
             IsPaused = true;
@@ -50,23 +64,17 @@ namespace OpenMLTD.MilliSim.Audio {
                 return;
             }
 
-            AudioManager.AudioOut.Stop();
-            AudioManager.MixerStream.CurrentTime = TimeSpan.Zero;
-            CurrentTime = TimeSpan.Zero;
+            if (IsPlaying) {
+                CachedVolume = Volume;
+            }
+
+            _lastPausedMixerTime = TimeSpan.Zero;
+            _audioManager.RemoveMusic(this);
+            OffsetStream.CurrentTime = TimeSpan.Zero;
 
             IsPlaying = false;
             IsPaused = false;
             IsStopped = true;
-        }
-
-        public float Volume {
-            get => Channel.Volume;
-            set => Channel.Volume = value.Clamp(0, 1);
-        }
-
-        public float Pan {
-            get => Channel.Pan;
-            set => Channel.Pan = value;
         }
 
         public bool IsPlaying { get; private set; }
@@ -76,7 +84,7 @@ namespace OpenMLTD.MilliSim.Audio {
         public bool IsStopped { get; private set; }
 
         public TimeSpan CurrentTime {
-            get => Channel.CurrentTime;
+            get => OffsetStream.CurrentTime - OffsetStream.StartTime;
             set {
                 var b = value != CurrentTime;
                 if (!b) {
@@ -84,8 +92,8 @@ namespace OpenMLTD.MilliSim.Audio {
                 }
 
                 lock (_syncObject) {
-                    var waveStream = Channel;
-                    waveStream.CurrentTime = value;
+                    var waveStream = OffsetStream;
+                    waveStream.CurrentTime = waveStream.StartTime + value;
 
                     var position = waveStream.Position;
                     var blockAlign = waveStream.BlockAlign;
@@ -97,20 +105,14 @@ namespace OpenMLTD.MilliSim.Audio {
                         waveStream.Position = position;
                     }
                 }
-
-                CurrentTimeRepositioned?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        public TimeSpan TotalTime => BaseWaveStream.TotalTime;
+        public TimeSpan TotalTime => _baseWaveStream.TotalTime;
 
-        internal AudioManager AudioManager { get; }
+        internal WaveOffsetStream OffsetStream { get; }
 
-        internal WaveStream BaseWaveStream { get; }
-
-        internal WaveStream FormatConvertedWaveStream { get; }
-
-        internal WaveChannel32 Channel { get; }
+        internal float CachedVolume { get; private set; }
 
         protected override void Dispose(bool disposing) {
             if (!disposing) {
@@ -119,17 +121,29 @@ namespace OpenMLTD.MilliSim.Audio {
 
             Stop();
 
-            Channel.Dispose();
-            if (FormatConvertedWaveStream != BaseWaveStream) {
-                FormatConvertedWaveStream.Dispose();
+            if (_formatConvertedStream != _baseWaveStream) {
+                _formatConvertedStream.Dispose();
             }
+
+            OffsetStream.Dispose();
             if (!_isExternalWaveStream) {
-                BaseWaveStream.Dispose();
+                _baseWaveStream.Dispose();
             }
         }
 
+        private static WaveFormat RequiredFormat { get; } = WaveFormat.CreateIeeeFloatWaveFormat(44100, 2);
+
+        private float Volume {
+            get => _audioManager.GetStreamVolume(OffsetStream);
+            set => _audioManager.SetStreamVolume(OffsetStream, value);
+        }
+
+        private readonly AudioManager _audioManager;
+        private readonly WaveStream _baseWaveStream;
+        private readonly WaveStream _formatConvertedStream;
         private readonly bool _isExternalWaveStream;
         private readonly object _syncObject = new object();
+        private TimeSpan _lastPausedMixerTime = TimeSpan.Zero;
 
     }
 }

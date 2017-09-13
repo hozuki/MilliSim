@@ -155,28 +155,50 @@ ui:
     layout:
       x: 50% # x position (anchor: center)
       y: 70% # y position (anchor: middle)
-sfx: # sound effect files
+sfx: # sound effect files; format: 44100 Hz, 16-bit integer, 2 channels
   tap:
-    perfect:
-    great:
-    nice:
-    bad:
-    miss:
+    perfect: res/sfx/rhy_tap.wav
+    great: res/sfx/app_great.wav
+    nice: res/sfx/app_good.wav
+    bad: res/sfx/app_fast.wav
+    miss: res/sfx/app_miss.wav
   hold:
-    perfect:
-    great:
-    nice:
-    bad:
-    miss:
+    perfect: res/sfx/rhy_tap.wav
+    great: res/sfx/app_great.wav
+    nice: res/sfx/app_good.wav
+    bad: res/sfx/app_fast.wav
+    miss: res/sfx/app_miss.wav
   flick:
-    perfect:
-    great:
-    nice:
-    bad:
-    miss:
+    perfect: res/sfx/app_flick.wav
+    great: res/sfx/app_great.wav
+    nice: res/sfx/app_good.wav
+    bad: res/sfx/app_fast.wav
+    miss: res/sfx/app_miss.wav
   slide:
-    perfect:
-    great:
-    nice:
-    bad:
-    miss:  
+    perfect: res/sfx/rhy_tap.wav
+    great: res/sfx/app_great.wav
+    nice: res/sfx/app_good.wav
+    bad: res/sfx/app_fast.wav
+    miss: res/sfx/app_miss.wav
+  slide_hold: res/sfx/app_hold_up.wav
+  hold_hold: res/sfx/app_hold.wav
+  slide_end:
+    perfect: res/sfx/app_hold_rub.wav
+    great: res/sfx/app_great.wav
+    nice: res/sfx/app_good.wav
+    bad: res/sfx/app_fast.wav
+    miss: res/sfx/app_miss.wav
+  hold_end:
+    perfect: res/sfx/app_hold_end.wav
+    great: res/sfx/app_great.wav
+    nice: res/sfx/app_good.wav
+    bad: res/sfx/app_fast.wav
+    miss: res/sfx/app_miss.wav
+  special:
+    perfect: res/sfx/app_special.wav
+    great: res/sfx/app_great.wav
+    nice: res/sfx/app_good.wav
+    bad: res/sfx/app_fast.wav
+    miss: res/sfx/app_miss.wav
+  special_end: res/sfx/app_special_end.wav
+  special_hold: res/sfx/app_special_loop.wav

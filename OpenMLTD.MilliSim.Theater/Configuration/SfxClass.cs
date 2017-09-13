@@ -3,13 +3,27 @@ using OpenMLTD.MilliSim.Theater.Configuration.Primitives;
 namespace OpenMLTD.MilliSim.Theater.Configuration {
     public sealed class SfxClass {
 
-        public NoteGroup Tap { get; set; }
+        public NoteSfxGroup Tap { get; set; }
 
-        public NoteGroup Hold { get; set; }
+        public NoteSfxGroup Hold { get; set; }
 
-        public NoteGroup Flick { get; set; }
+        public NoteSfxGroup Flick { get; set; }
 
-        public NoteGroup Slide { get; set; }
+        public NoteSfxGroup Slide { get; set; }
+
+        public string SlideHold { get; set; }
+
+        public string HoldHold { get; set; }
+
+        public NoteSfxGroup SlideEnd { get; set; }
+
+        public NoteSfxGroup HoldEnd { get; set; }
+
+        public NoteSfxGroup Special { get; set; }
+
+        public string SpecialEnd { get; set; }
+
+        public string SpecialHold { get; set; }
 
     }
 }

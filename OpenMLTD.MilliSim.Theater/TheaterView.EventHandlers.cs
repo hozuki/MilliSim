@@ -180,6 +180,7 @@ namespace OpenMLTD.MilliSim.Theater {
 
         private void TheaterStage_KeyDown(object sender, KeyEventArgs e) {
             var theaterDays = Game.AsTheaterDays();
+            var settings = Program.Settings;
 
             var video = theaterDays.FindSingleElement<BackgroundVideo>();
             var audio = theaterDays.FindSingleElement<AudioController>();
@@ -226,16 +227,6 @@ namespace OpenMLTD.MilliSim.Theater {
                         theaterDays.Suspend();
                     }
                     break;
-                case Keys.Up:
-                    if (music != null) {
-                        music.Volume += 0.05f;
-                    }
-                    break;
-                case Keys.Down:
-                    if (music != null) {
-                        music.Volume -= 0.05f;
-                    }
-                    break;
                 case Keys.Right:
                 case Keys.Left: {
                         var timer = theaterDays.FindSingleElement<SyncTimer>();
@@ -259,6 +250,9 @@ namespace OpenMLTD.MilliSim.Theater {
                     if (video != null) {
                         video.CurrentTime = newTime;
                     }
+                    break;
+                case Keys.I:
+                    theaterDays.AudioManager.Sfx.Play(settings.Sfx.Tap.Perfect);
                     break;
             }
         }
