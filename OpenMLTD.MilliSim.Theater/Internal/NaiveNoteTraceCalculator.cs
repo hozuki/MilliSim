@@ -4,7 +4,7 @@ using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
 using OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions;
 
-namespace OpenMLTD.MilliSim.Theater.Intenal {
+namespace OpenMLTD.MilliSim.Theater.Internal {
     /// <inheritdoc cref="INoteTraceCalculator"/>
     /// <summary>
     /// This class calculates pseudo-static note traces. In other words, the notes will move downwards as if they are

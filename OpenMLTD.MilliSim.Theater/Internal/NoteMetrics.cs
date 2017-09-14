@@ -1,6 +1,6 @@
 using System.Drawing;
 
-namespace OpenMLTD.MilliSim.Theater.Intenal {
+namespace OpenMLTD.MilliSim.Theater.Internal {
     internal struct NoteMetrics {
 
         internal SizeF StartRadius { get; set; }

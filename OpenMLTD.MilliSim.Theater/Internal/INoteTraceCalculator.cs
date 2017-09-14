@@ -2,7 +2,7 @@ using System.Drawing;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
 
-namespace OpenMLTD.MilliSim.Theater.Intenal {
+namespace OpenMLTD.MilliSim.Theater.Internal {
     /// <summary>
     /// An interface used to calculate traces of notes.
     /// </summary>

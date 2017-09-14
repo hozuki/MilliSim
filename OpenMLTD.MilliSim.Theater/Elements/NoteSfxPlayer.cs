@@ -8,7 +8,7 @@ using OpenMLTD.MilliSim.Core.Entities.Runtime;
 using OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Theater.Extensions;
-using OpenMLTD.MilliSim.Theater.Intenal;
+using OpenMLTD.MilliSim.Theater.Internal;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public class NoteSfxPlayer : Element {

@@ -1,6 +1,6 @@
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
 
-namespace OpenMLTD.MilliSim.Theater.Intenal {
+namespace OpenMLTD.MilliSim.Theater.Internal {
     internal static class NoteAnimationHelper {
 
         internal static NoteTimePoints CalculateNoteTimePoints(RuntimeNote note, NoteMetrics metrics) {

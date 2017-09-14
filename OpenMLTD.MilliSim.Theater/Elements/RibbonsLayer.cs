@@ -10,7 +10,7 @@ using OpenMLTD.MilliSim.Graphics.Rendering;
 using OpenMLTD.MilliSim.Graphics.Rendering.Direct3D;
 using OpenMLTD.MilliSim.Graphics.Rendering.Direct3D.Effects;
 using OpenMLTD.MilliSim.Theater.Extensions;
-using OpenMLTD.MilliSim.Theater.Intenal;
+using OpenMLTD.MilliSim.Theater.Internal;
 using SharpDX;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;

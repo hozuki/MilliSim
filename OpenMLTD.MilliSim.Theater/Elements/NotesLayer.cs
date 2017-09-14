@@ -12,7 +12,7 @@ using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Advanced;
 using OpenMLTD.MilliSim.Graphics.Extensions;
 using OpenMLTD.MilliSim.Theater.Extensions;
-using OpenMLTD.MilliSim.Theater.Intenal;
+using OpenMLTD.MilliSim.Theater.Internal;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public class NotesLayer : BufferedElement2D {

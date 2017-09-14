@@ -1,6 +1,6 @@
 using System.Drawing;
 
-namespace OpenMLTD.MilliSim.Theater.Intenal {
+namespace OpenMLTD.MilliSim.Theater.Internal {
     internal struct NoteAnimationMetrics {
 
         public float GlobalSpeedScale { get; set; }

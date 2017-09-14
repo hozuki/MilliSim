@@ -1,4 +1,4 @@
-namespace OpenMLTD.MilliSim.Theater.Intenal {
+namespace OpenMLTD.MilliSim.Theater.Internal {
     public struct NoteTimePoints {
 
         public NoteTimePoints(double enter, double leave) {
