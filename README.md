@@ -27,10 +27,11 @@ and [Mono](http://www.mono-project.com/download/), though this is not tested.
 
 - Visual Studio 2017 Community (optional if you are familiar with MSBuild)
 - .NET Framework 4.5 Toolchain
+- [Mono](http://www.mono-project.com/download/) (if you are using macOS or Linux)
 - [Node.js](https://nodejs.org/en/download/)
 - [NuGet CLI](https://www.nuget.org/downloads)
 
-> Remember to [update your Mono version](http://www.mono-project.com/download/#download-lin) and
+> **Remember** to [update your Mono version](http://www.mono-project.com/download/#download-lin) and
 > [update your NuGet version](https://docs.microsoft.com/en-us/nuget/guides/install-nuget) before
 > building. Otherwise you are very likely to see errors like "Too many projects specified".
 
@@ -47,7 +48,7 @@ cd ..
 
 ```bash
 npm install glob chalk --save
-node before_script-nuget_restore.js
+sudo node before_script-nuget_restore.js
 ```
 
 **Step 3**: Build the solution.
