@@ -57,6 +57,14 @@ sudo node before_script-nuget_restore.js
 msbuild MilliSim.sln /p:Configuration=Release
 ```
 
+If you are using low-end machines, for example, Raspberry Pi,
+you should manually specify the concurrent process count,
+or there will be strange compile errors:
+
+```bash
+msbuild MilliSim.sln /p:Configuration=Release /m:1
+```
+
 To update third external projects, use this command:
 
 ```bash
