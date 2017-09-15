@@ -21,9 +21,9 @@ A simulator for [THE iDOLM@STER Million Live Theater Days](https://millionlive.i
 <del>Theoratically, MilliSim can also run on a UNIX-compliant machine using [Wine](https://www.winehq.org/download)
 and [Mono](http://www.mono-project.com/download/), though this is not tested.</del> Tested
 on Wine 2.0.2. Media Foundation APIs and WAS APIs are still having tons of errors. Even after
-bypassing OS version check (Wine seems to always return a high OS major version less than 6),
+bypassing OS version check (Wine seems to always return an OS major version less than 6),
 `MMDeviceEnumerator` still fails to initialize due to COM object creation failure. `MFCreateDxgiDeviceManager()`
-is just a stub. So up till September 2017, MilliSim can only run on Windows.
+is just a stub. So up till September 2017, MilliSim is only able to run on Windows.
 
 ## Building
 
@@ -70,10 +70,10 @@ there will be strange compile errors:
 msbuild MilliSim.sln /p:Configuration=Release /m:1
 ```
 
-To update third external projects, use this command:
+To update external projects, use this command:
 
 ```bash
-git submodule foreach --recursive git pull
+git submodule foreach --recursive git pull origin master
 ```
 
 ## Notes
