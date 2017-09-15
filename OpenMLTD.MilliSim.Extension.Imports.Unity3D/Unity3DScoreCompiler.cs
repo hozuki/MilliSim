@@ -191,7 +191,7 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             holdEnd.LeadTime = rn.LeadTime;
             holdEnd.RelativeSpeed = rn.RelativeSpeed;
             holdEnd.Type = rn.Type;
-            holdEnd.StartX = rn.EndX;
+            holdEnd.StartX = rn.StartX;
             holdEnd.EndX = rn.EndX;
 
             switch (note.EndType) {

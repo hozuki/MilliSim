@@ -37,7 +37,14 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             } else {
                 var startLeftMarginRatio = animationMetrics.NoteStartXRatios[0];
                 var startRightMarginRatio = animationMetrics.NoteStartXRatios[trackCount - 1];
-                var whichStartToTake = note.IsSlide() ? note.EndX : note.StartX;
+
+                float whichStartToTake;
+                if (note.IsSlide()) {
+                    whichStartToTake = note.EndX;
+                } else {
+                    whichStartToTake = note.StartX < 0 ? note.StartX * 0.5f : note.StartX;
+                }
+
                 var startXRatio = startLeftMarginRatio + (startRightMarginRatio - startLeftMarginRatio) * (whichStartToTake / (trackCount - 1));
 
                 var timePoints = NoteAnimationHelper.CalculateNoteTimePoints(note, noteMetrics);
@@ -74,7 +81,8 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                     xRatio = MathHelper.Lerp(thisXRatio, nextXRatio, perc);
 
                 } else {
-                    xRatio = startLeftMarginRatio + (startRightMarginRatio - startLeftMarginRatio) * (nextNote.StartX / (trackCount - 1));
+                    var nextStartX = nextNote.StartX < 0 ? nextNote.StartX * 0.5f : nextNote.StartX;
+                    xRatio = startLeftMarginRatio + (startRightMarginRatio - startLeftMarginRatio) * (nextStartX / (trackCount - 1));
                 }
 
                 return animationMetrics.ClientSize.Width * xRatio;
