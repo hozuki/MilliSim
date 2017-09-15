@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
 using OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions;
@@ -25,39 +26,25 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
 
             var onStage = NoteAnimationHelper.GetOnStageStatusOf(note, now, noteMetrics);
             float xRatio;
-            if (onStage == OnStageStatus.Passed && note.HasNextSlide()) {
-                var destXRatio = trackXRatioStart + (trackXRatioEnd - trackXRatioStart) * (note.NextSlide.EndX / (trackCount - 1));
-                var nextPerc = (float)(now - note.HitTime) / (float)(note.NextSlide.HitTime - note.HitTime);
-                xRatio = MathHelper.Lerp(endXRatio, destXRatio, nextPerc);
-            } else {
-                xRatio = endXRatio;
+            switch (onStage) {
+                case OnStageStatus.Incoming:
+                    if (note.IsHoldEnd()) {
+                        xRatio = GetIncomingNoteXRatio(note.PrevHold, note, now, noteMetrics, animationMetrics);
+                    } else if (note.IsSlideEnd()) {
+                        xRatio = GetIncomingNoteXRatio(note.PrevSlide, note, now, noteMetrics, animationMetrics);
+                    } else {
+                        xRatio = endXRatio;
+                    }
+                    break;
+                case OnStageStatus.Passed when note.HasNextSlide():
+                    var destXRatio = trackXRatioStart + (trackXRatioEnd - trackXRatioStart) * (note.NextSlide.EndX / (trackCount - 1));
+                    var nextPerc = (float)(now - note.HitTime) / (float)(note.NextSlide.HitTime - note.HitTime);
+                    xRatio = MathHelper.Lerp(endXRatio, destXRatio, nextPerc);
+                    break;
+                default:
+                    xRatio = endXRatio;
+                    break;
             }
-
-            return animationMetrics.ClientSize.Width * xRatio;
-        }
-
-        public float GetNextNoteX(RuntimeNote thisNote, RuntimeNote nextNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
-            if (thisNote == null) {
-                return GetNoteX(nextNote, now, noteMetrics, animationMetrics);
-            }
-
-            var nextOnStage = NoteAnimationHelper.GetOnStageStatusOf(nextNote, now, noteMetrics);
-            if (nextOnStage >= OnStageStatus.Visible) {
-                return GetNoteX(nextNote, now, noteMetrics, animationMetrics);
-            }
-
-            var trackCount = animationMetrics.TrackCount;
-            var trackXRatioStart = animationMetrics.NoteEndXRatios[0];
-            var trackXRatioEnd = animationMetrics.NoteEndXRatios[trackCount - 1];
-
-            var thisXRatio = trackXRatioStart + (trackXRatioEnd - trackXRatioStart) * (thisNote.EndX / (trackCount - 1));
-            var nextXRatio = trackXRatioStart + (trackXRatioEnd - trackXRatioStart) * (nextNote.EndX / (trackCount - 1));
-
-            var thisTimePoints = NoteAnimationHelper.CalculateNoteTimePoints(thisNote, noteMetrics);
-            var nextTimePoints = NoteAnimationHelper.CalculateNoteTimePoints(nextNote, noteMetrics);
-
-            var perc = (float)(now - thisTimePoints.Enter) / (float)(nextTimePoints.Enter - thisTimePoints.Enter);
-            var xRatio = MathHelper.Lerp(thisXRatio, nextXRatio, perc);
 
             return animationMetrics.ClientSize.Width * xRatio;
         }
@@ -97,6 +84,25 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
 
         public float GetSpecialNoteY(RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
             return GetNoteY(note, now, noteMetrics, animationMetrics);
+        }
+
+        public (float X1, float Y1, float ControlX1, float ControlY1, float ControlX2, float ControlY2, float X2, float Y2) GetRibbonLocations(RuntimeNote thisNote, RuntimeNote nextNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
+            throw new NotImplementedException();
+        }
+
+        private static float GetIncomingNoteXRatio([NotNull] RuntimeNote prevNote, RuntimeNote thisNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
+            var trackCount = animationMetrics.TrackCount;
+            var trackXRatioStart = animationMetrics.NoteEndXRatios[0];
+            var trackXRatioEnd = animationMetrics.NoteEndXRatios[trackCount - 1];
+
+            var thisXRatio = trackXRatioStart + (trackXRatioEnd - trackXRatioStart) * (prevNote.EndX / (trackCount - 1));
+            var nextXRatio = trackXRatioStart + (trackXRatioEnd - trackXRatioStart) * (thisNote.EndX / (trackCount - 1));
+
+            var thisTimePoints = NoteAnimationHelper.CalculateNoteTimePoints(prevNote, noteMetrics);
+            var nextTimePoints = NoteAnimationHelper.CalculateNoteTimePoints(thisNote, noteMetrics);
+
+            var perc = (float)(now - thisTimePoints.Enter) / (float)(nextTimePoints.Enter - thisTimePoints.Enter);
+            return MathHelper.Lerp(thisXRatio, nextXRatio, perc);
         }
 
     }

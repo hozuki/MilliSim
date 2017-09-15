@@ -93,7 +93,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
                     var thisX = traceCalculator.GetNoteX(note, now, commonNoteMetrics, animationMetrics);
                     var thisY = traceCalculator.GetNoteY(note, now, commonNoteMetrics, animationMetrics);
-                    var nextX = traceCalculator.GetNextNoteX(note, nextHold, now, commonNoteMetrics, animationMetrics);
+                    var nextX = traceCalculator.GetNoteX(nextHold, now, commonNoteMetrics, animationMetrics);
                     var nextY = traceCalculator.GetNoteY(nextHold, now, commonNoteMetrics, animationMetrics);
                     context.DrawLine(_simpleRibbonPen, thisX, thisY, nextX, nextY);
                 }
@@ -110,7 +110,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     }
                     var thisX = traceCalculator.GetNoteX(note, now, commonNoteMetrics, animationMetrics);
                     var thisY = traceCalculator.GetNoteY(note, now, commonNoteMetrics, animationMetrics);
-                    var nextX = traceCalculator.GetNextNoteX(note, nextSlide, now, commonNoteMetrics, animationMetrics);
+                    var nextX = traceCalculator.GetNoteX(nextSlide, now, commonNoteMetrics, animationMetrics);
                     var nextY = traceCalculator.GetNoteY(nextSlide, now, commonNoteMetrics, animationMetrics);
                     context.DrawLine(_simpleRibbonPen, thisX, thisY, nextX, nextY);
                 }
