@@ -83,7 +83,7 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
                     };
                     sink.BeginFigure(new RawVector2(x1, y1), FigureBegin.Filled);
                     sink.AddBezier(bezier);
-                    sink.EndFigure(FigureEnd.Closed);
+                    sink.EndFigure(FigureEnd.Open);
                     sink.Close();
                 }
                 target.DrawGeometry(path, pen.Brush.NativeBrush, pen.StrokeWidth, pen.StrokeStyle);
@@ -99,7 +99,7 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
                     };
                     sink.BeginFigure(new RawVector2(x1, y1), FigureBegin.Filled);
                     sink.AddQuadraticBezier(bezier);
-                    sink.EndFigure(FigureEnd.Closed);
+                    sink.EndFigure(FigureEnd.Open);
                     sink.Close();
                 }
                 target.DrawGeometry(path, pen.Brush.NativeBrush, pen.StrokeWidth, pen.StrokeStyle);
