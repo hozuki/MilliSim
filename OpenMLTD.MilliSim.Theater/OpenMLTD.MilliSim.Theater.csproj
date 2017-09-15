@@ -154,6 +154,7 @@
     <Compile Include="Elements\TimerSyncTarget.cs" />
     <Compile Include="Elements\VideoStateChangedEventArgs.cs" />
     <Compile Include="Extensions\TheaterDaysExtensions.cs" />
+    <Compile Include="Internal\RealisticNoteTraceCalculator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

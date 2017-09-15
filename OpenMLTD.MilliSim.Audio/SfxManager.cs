@@ -103,6 +103,7 @@ namespace OpenMLTD.MilliSim.Audio {
             lock (_queueLock) {
                 _playingWaveStreams.Add((key, offset, toOffset, source));
             }
+
             _playingStates.Add(true);
         }
 
@@ -145,7 +146,9 @@ namespace OpenMLTD.MilliSim.Audio {
 
             _audioManager.AddInputStream(offset, Volume);
 
-            _loopedStreams[state] = (offset, toOffset, looped, source);
+            lock (_queueLock) {
+                _loopedStreams[state] = (offset, toOffset, looped, source);
+            }
         }
 
         public void StopLooped([NotNull] object state) {
@@ -153,20 +156,22 @@ namespace OpenMLTD.MilliSim.Audio {
                 throw new ArgumentNullException(nameof(state));
             }
 
-            if (!_loopedStreams.ContainsKey(state)) {
-                return;
+            lock (_queueLock) {
+                if (!_loopedStreams.ContainsKey(state)) {
+                    return;
+                }
+
+                var (offset, toOffset, looped, source) = _loopedStreams[state];
+
+                _audioManager.RemoveInputStream(offset);
+                _loopedStreams.Remove(state);
+
+                offset.Dispose();
+                if (toOffset != looped) {
+                    toOffset.Dispose();
+                }
+                source.Dispose();
             }
-
-            var (offset, toOffset, looped, source) = _loopedStreams[state];
-
-            _audioManager.RemoveInputStream(offset);
-            _loopedStreams.Remove(state);
-
-            offset.Dispose();
-            if (toOffset != looped) {
-                toOffset.Dispose();
-            }
-            source.Dispose();
         }
 
         public void StopAll() {

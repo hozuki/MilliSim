@@ -59,7 +59,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             var incomings = new float[tracks.Length];
             for (var i = 0; i < incomings.Length; ++i) {
-                incomings[i] = 0.5f + (tracks[i] - 0.5f) * 0.5f;
+                incomings[i] = 0.5f + (tracks[i] - 0.5f) * 0.6f;
             }
             _incomingX = incomings;
         }
