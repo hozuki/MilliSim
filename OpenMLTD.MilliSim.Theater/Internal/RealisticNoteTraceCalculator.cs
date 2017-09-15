@@ -99,7 +99,7 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                     y = animationMetrics.Top;
                     break;
                 case OnStageStatus.Visible:
-                    y = MathHelper.Lerp(animationMetrics.Top, animationMetrics.Bottom, (float)(now - timePoints.Enter) / (float)timePoints.Duration);
+                    y = GetNoteOnStageY(note, now, timePoints, animationMetrics);
                     break;
                 case OnStageStatus.Passed:
                     y = animationMetrics.Bottom;
@@ -126,10 +126,6 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             return GetNoteY(note, now, noteMetrics, animationMetrics);
         }
 
-        private static float WtfTransform(float f) {
-            return f / (2 - f);
-        }
-
         private static double WtfTransform(double f) {
             return f / (2 - f);
         }
@@ -144,6 +140,21 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                 timeRemainingInWindow = 0f;
             }
             return WtfTransform(timeRemainingInWindow);
+        }
+
+        private static float GetNoteTransformedY(double transformedTime) {
+            return (float)transformedTime + 1.2f * (float)transformedTime * (1f - (float)transformedTime);
+        }
+
+        private static float GetNoteTransformedX(double transformedTime) {
+            return (float)transformedTime;
+        }
+
+        private static float GetNoteOnStageY(RuntimeNote note, double now, NoteTimePoints timePoints, NoteAnimationMetrics animationMetrics) {
+            var transformedTime = GetTransformedTime(note, now, timePoints, true, true);
+            var transformedY = GetNoteTransformedY(transformedTime);
+            var y = animationMetrics.Bottom + (animationMetrics.Top - animationMetrics.Bottom) * transformedY;
+            return y;
         }
 
     }
