@@ -34,7 +34,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             }
         }
 
-        internal static readonly INoteTraceCalculator TraceCalculator = new RealisticNoteTraceCalculator();
+        internal static readonly INoteTraceCalculator TraceCalculator = new MltdNoteTraceCalculator();
 
         protected override void OnDrawBuffer(GameTime gameTime, RenderContext context) {
             base.OnDrawBuffer(gameTime, context);

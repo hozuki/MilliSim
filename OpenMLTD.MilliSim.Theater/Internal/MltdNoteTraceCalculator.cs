@@ -5,12 +5,15 @@ using OpenMLTD.MilliSim.Core.Entities.Runtime;
 using OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater.Internal {
-    internal sealed class RealisticNoteTraceCalculator : INoteTraceCalculator {
+    /// <inheritdoc cref="INoteTraceCalculator"/>
+    /// <summary>
+    /// This class calculates note traces in MLTD style.
+    /// </summary>
+    internal sealed class MltdNoteTraceCalculator : INoteTraceCalculator {
 
         public SizeF GetNoteRadius(RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
             var timePoints = NoteAnimationHelper.CalculateNoteTimePoints(note, noteMetrics);
             var passed = now - timePoints.Enter;
-            //var remaining = timePoints.Leave - now;
             var perc = passed / timePoints.Duration;
             var w = (float)MathHelper.Lerp(noteMetrics.StartRadius.Width, noteMetrics.EndRadius.Width, perc);
             var h = (float)MathHelper.Lerp(noteMetrics.StartRadius.Height, noteMetrics.EndRadius.Height, perc);
@@ -28,9 +31,9 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             float xRatio;
             switch (onStage) {
                 case OnStageStatus.Incoming:
-                    if (note.IsHoldEnd()) {
+                    if (note.HasPrevHold()) {
                         xRatio = GetIncomingNoteXRatio(note.PrevHold, note, now, noteMetrics, animationMetrics);
-                    } else if (note.IsSlideEnd()) {
+                    } else if (note.HasPrevSlide()) {
                         xRatio = GetIncomingNoteXRatio(note.PrevSlide, note, now, noteMetrics, animationMetrics);
                     } else {
                         xRatio = endXRatio;
@@ -105,8 +108,83 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             return GetNoteY(note, now, noteMetrics, animationMetrics);
         }
 
-        public (float X1, float Y1, float ControlX1, float ControlY1, float ControlX2, float ControlY2, float X2, float Y2) GetRibbonLocations(RuntimeNote thisNote, RuntimeNote nextNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
-            throw new NotImplementedException();
+        public RibbonParameters GetHoldRibbonParameters(RuntimeNote startNote, RuntimeNote endNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
+            var tp1 = NoteAnimationHelper.CalculateNoteTimePoints(startNote, noteMetrics);
+            var tp2 = NoteAnimationHelper.CalculateNoteTimePoints(endNote, noteMetrics);
+
+            var t1 = GetTransformedTime(startNote, now, tp1);
+            var t2 = GetTransformedTime(endNote, now, tp2);
+            var tperc = startNote.IsHold() ? 0.5 : 0.4;
+            var tm = MathHelper.Lerp(t1, t2, tperc);
+
+            var x1 = GetNoteX(startNote, now, noteMetrics, animationMetrics);
+            var y1 = GetNoteOnStageY(t1, animationMetrics);
+            var x2 = GetNoteX(endNote, now, noteMetrics, animationMetrics);
+            var y2 = GetNoteOnStageY(t2, animationMetrics);
+
+            // CGSS-like
+            //var xm = GetNoteOnStageX(endNote.StartX, endNote.EndX, tm, animationMetrics);
+            // Naive guess
+            //var xm = (x1 + x2) / 2;
+            var xm = MathHelper.Lerp(x1, x2, 0.5f);
+            if (startNote.IsSlide()) {
+                if (endNote.EndX < startNote.EndX) {
+                    xm -= animationMetrics.ClientSize.Width * 0.02f * (float)((tp2.Leave - now) / (tp2.Leave - tp1.Enter));
+                } else if (endNote.EndX > startNote.EndX) {
+                    xm += animationMetrics.ClientSize.Width * 0.02f * (float)((tp2.Leave - now) / (tp2.Leave - tp1.Enter));
+                }
+            }
+            var ym = GetNoteOnStageY(tm, animationMetrics);
+            var (cx1, cx2) = GetBezierFromQuadratic(x1, xm, x2);
+            var (cy1, cy2) = GetBezierFromQuadratic(y1, ym, y2);
+            return new RibbonParameters(x1, y1, cx1, cy1, cx2, cy2, x2, y2);
+        }
+
+        public RibbonParameters GetSlideRibbonParameters(RuntimeNote startNote, RuntimeNote endNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
+            var tp1 = NoteAnimationHelper.CalculateNoteTimePoints(startNote, noteMetrics);
+            var thisStatus = NoteAnimationHelper.GetOnStageStatusOf(startNote, now, tp1);
+
+            if (thisStatus < OnStageStatus.Passed) {
+                return GetHoldRibbonParameters(startNote, endNote, now, noteMetrics, animationMetrics);
+            }
+
+            var tp2 = NoteAnimationHelper.CalculateNoteTimePoints(endNote, noteMetrics);
+
+            var t1 = GetTransformedTime(startNote, now, tp1);
+            var t2 = GetTransformedTime(endNote, now, tp2);
+            var tperc = startNote.IsHold() ? 0.5 : 0.4;
+            var tm = MathHelper.Lerp(t1, t2, tperc);
+
+            var trackCount = animationMetrics.TrackCount;
+            var leftMarginRatio = animationMetrics.NoteEndXRatios[0];
+            var rightMarginRatio = animationMetrics.NoteEndXRatios[trackCount - 1];
+            var startXRatio = leftMarginRatio + (rightMarginRatio - leftMarginRatio) * (startNote.EndX / (trackCount - 1));
+            var endXRatio = leftMarginRatio + (rightMarginRatio - leftMarginRatio) * (endNote.EndX / (trackCount - 1));
+
+            var perc = (float)((now - startNote.HitTime) / (endNote.HitTime - startNote.HitTime));
+            var x1Ratio = MathHelper.Lerp(startXRatio, endXRatio, perc);
+
+            var x1 = GetNoteX(endNote, now, noteMetrics, animationMetrics);
+            var y1 = GetNoteOnStageY(t2, animationMetrics);
+            var x2 = animationMetrics.ClientSize.Width * x1Ratio;
+            var y2 = animationMetrics.Bottom;
+
+            // CGSS-like
+            //var xm = GetNoteOnStageX(endNote.StartX, endNote.EndX, tm, animationMetrics);
+            // Naive guess
+            //var xm = (x1 + x2) / 2;
+            var xm = MathHelper.Lerp(x1, x2, 0.5f);
+            if (startNote.IsSlide()) {
+                if (endNote.EndX < startNote.EndX) {
+                    xm -= animationMetrics.ClientSize.Width * 0.02f * (float)((tp2.Leave - now) / (tp2.Leave - tp1.Enter));
+                } else if (endNote.EndX > startNote.EndX) {
+                    xm += animationMetrics.ClientSize.Width * 0.02f * (float)((tp2.Leave - now) / (tp2.Leave - tp1.Enter));
+                }
+            }
+            var ym = GetNoteOnStageY(tm, animationMetrics);
+            var (cx1, cx2) = GetBezierFromQuadratic(x1, xm, x2);
+            var (cy1, cy2) = GetBezierFromQuadratic(y1, ym, y2);
+            return new RibbonParameters(x1, y1, cx1, cy1, cx2, cy2, x2, y2);
         }
 
         private static float GetIncomingNoteXRatio(RuntimeNote prevNote, RuntimeNote thisNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
@@ -137,15 +215,18 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             return f / (2 - f);
         }
 
-        private static double GetTransformedTime(RuntimeNote note, double now, NoteTimePoints timePoints, bool clampIncoming = false, bool clampPassed = false) {
+        private static double GetTransformedTime(RuntimeNote note, double now, NoteTimePoints timePoints, bool clampIncoming = true, bool clampPassed = true) {
             var timeRemaining = note.HitTime - now;
-            var timeRemainingInWindow = timeRemaining / timePoints.Duration;
+
+            double timeRemainingInWindow;
             if (clampIncoming && timeRemaining > timePoints.Duration) {
                 timeRemainingInWindow = 1f;
-            }
-            if (clampPassed && timeRemaining < 0f) {
+            } else if (clampPassed && timeRemaining < 0f) {
                 timeRemainingInWindow = 0f;
+            } else {
+                timeRemainingInWindow = timeRemaining / timePoints.Duration;
             }
+
             return WtfTransform(timeRemainingInWindow);
         }
 
@@ -164,8 +245,28 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
         }
 
         private static float GetNoteOnStageY(RuntimeNote note, double now, NoteTimePoints timePoints, NoteAnimationMetrics animationMetrics) {
-            var transformedTime = GetTransformedTime(note, now, timePoints, true, true);
+            var transformedTime = GetTransformedTime(note, now, timePoints);
             return GetNoteOnStageY(transformedTime, animationMetrics);
+        }
+
+        private static float GetNoteOnStageX(float start, float end, double transformedTime, NoteAnimationMetrics animationMetrics) {
+            var transformedX = GetNoteTransformedX(transformedTime);
+
+            var trackCount = animationMetrics.TrackCount;
+            var startLeftMarginRatio = animationMetrics.NoteStartXRatios[0];
+            var startRightMarginRatio = animationMetrics.NoteStartXRatios[trackCount - 1];
+            var endLeftMarginRatio = animationMetrics.NoteEndXRatios[0];
+            var endRightMarginRatio = animationMetrics.NoteEndXRatios[trackCount - 1];
+
+            if (start < 0) {
+                start *= 0.5f;
+            }
+
+            var startXRatio = startLeftMarginRatio + (startRightMarginRatio - startLeftMarginRatio) * (start / (trackCount - 1));
+            var endXRatio = endLeftMarginRatio + (endRightMarginRatio - endLeftMarginRatio) * (end / (trackCount - 1));
+
+            var xRatio = endXRatio - (endXRatio - startXRatio) * transformedX;
+            return animationMetrics.ClientSize.Width * xRatio;
         }
 
         private static (float ControlX1, float ControlX2) GetBezierFromQuadratic(float x1, float xmid, float x2) {

@@ -77,7 +77,7 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
             using (var path = new PathGeometry(target.Factory)) {
                 using (var sink = path.Open()) {
                     var bezier = new BezierSegment {
-                        Point1 = new RawVector2(cx1, cx2),
+                        Point1 = new RawVector2(cx1, cy1),
                         Point2 = new RawVector2(cx2, cy2),
                         Point3 = new RawVector2(x2, y2)
                     };

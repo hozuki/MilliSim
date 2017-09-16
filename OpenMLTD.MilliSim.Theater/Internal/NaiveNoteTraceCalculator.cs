@@ -28,9 +28,9 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             float xRatio;
             switch (onStage) {
                 case OnStageStatus.Incoming:
-                    if (note.IsHoldEnd()) {
+                    if (note.HasPrevHold()) {
                         xRatio = GetIncomingNoteXRatio(note.PrevHold, note, now, noteMetrics, animationMetrics);
-                    } else if (note.IsSlideEnd()) {
+                    } else if (note.HasPrevSlide()) {
                         xRatio = GetIncomingNoteXRatio(note.PrevSlide, note, now, noteMetrics, animationMetrics);
                     } else {
                         xRatio = endXRatio;
@@ -86,8 +86,20 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             return GetNoteY(note, now, noteMetrics, animationMetrics);
         }
 
-        public (float X1, float Y1, float ControlX1, float ControlY1, float ControlX2, float ControlY2, float X2, float Y2) GetRibbonLocations(RuntimeNote thisNote, RuntimeNote nextNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
-            throw new NotImplementedException();
+        public RibbonParameters GetHoldRibbonParameters(RuntimeNote startNote, RuntimeNote endNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
+            var x1 = GetNoteX(startNote, now, noteMetrics, animationMetrics);
+            var y1 = GetNoteY(startNote, now, noteMetrics, animationMetrics);
+            var x2 = GetNoteX(endNote, now, noteMetrics, animationMetrics);
+            var y2 = GetNoteY(endNote, now, noteMetrics, animationMetrics);
+            return new RibbonParameters(x1, y1, x2, y2);
+        }
+
+        public RibbonParameters GetSlideRibbonParameters(RuntimeNote startNote, RuntimeNote endNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
+            var x1 = GetNoteX(startNote, now, noteMetrics, animationMetrics);
+            var y1 = GetNoteY(startNote, now, noteMetrics, animationMetrics);
+            var x2 = GetNoteX(endNote, now, noteMetrics, animationMetrics);
+            var y2 = GetNoteY(endNote, now, noteMetrics, animationMetrics);
+            return new RibbonParameters(x1, y1, x2, y2);
         }
 
         private static float GetIncomingNoteXRatio([NotNull] RuntimeNote prevNote, RuntimeNote thisNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {

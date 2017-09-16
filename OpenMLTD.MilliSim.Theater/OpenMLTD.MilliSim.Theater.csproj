@@ -128,6 +128,7 @@
     <Compile Include="Elements\BackgroundVideo.cs" />
     <Compile Include="Elements\NoteSfxPlayer.cs" />
     <Compile Include="Elements\SyncTimerOverlay.cs" />
+    <Compile Include="Extensions\RibbonParametersExtensions.cs" />
     <Compile Include="Internal\INoteTraceCalculator.cs" />
     <Compile Include="Internal\NaiveNoteTraceCalculator.cs" />
     <Compile Include="Internal\NoteAnimationHelper.cs" />
@@ -154,7 +155,8 @@
     <Compile Include="Elements\TimerSyncTarget.cs" />
     <Compile Include="Elements\VideoStateChangedEventArgs.cs" />
     <Compile Include="Extensions\TheaterDaysExtensions.cs" />
-    <Compile Include="Internal\RealisticNoteTraceCalculator.cs" />
+    <Compile Include="Internal\MltdNoteTraceCalculator.cs" />
+    <Compile Include="Internal\RibbonParameters.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

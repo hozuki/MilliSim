@@ -80,39 +80,46 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             context.Begin2D();
 
             foreach (var note in notes) {
-                if (note.HasNextHold()) {
-                    var thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, commonNoteMetrics);
+                OnStageStatus thisStatus, nextStatus;
+                RuntimeNote nextNote;
+                RibbonParameters ribbonParams;
 
-                    var nextHold = note.NextHold;
-                    var nextHoldStatus = NoteAnimationHelper.GetOnStageStatusOf(nextHold, now, commonNoteMetrics);
+                if (note.HasNextHold()) {
+                    thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, commonNoteMetrics);
+
+                    nextNote = note.NextHold;
+                    nextStatus = NoteAnimationHelper.GetOnStageStatusOf(nextNote, now, commonNoteMetrics);
 
                     // Not even entered, or both left.
-                    if (thisStatus == OnStageStatus.Incoming || ((int)thisStatus * (int)nextHoldStatus > 0)) {
+                    if (thisStatus == OnStageStatus.Incoming || ((int)thisStatus * (int)nextStatus > 0)) {
                         continue;
                     }
 
-                    var thisX = traceCalculator.GetNoteX(note, now, commonNoteMetrics, animationMetrics);
-                    var thisY = traceCalculator.GetNoteY(note, now, commonNoteMetrics, animationMetrics);
-                    var nextX = traceCalculator.GetNoteX(nextHold, now, commonNoteMetrics, animationMetrics);
-                    var nextY = traceCalculator.GetNoteY(nextHold, now, commonNoteMetrics, animationMetrics);
-                    context.DrawLine(_simpleRibbonPen, thisX, thisY, nextX, nextY);
+                    ribbonParams = traceCalculator.GetHoldRibbonParameters(note, nextNote, now, commonNoteMetrics, animationMetrics);
+                    if (ribbonParams.IsLine) {
+                        context.DrawLine(_simpleRibbonPen, ribbonParams.X1, ribbonParams.Y1, ribbonParams.X2, ribbonParams.Y2);
+                    } else {
+                        context.DrawBezier(_simpleRibbonPen, ribbonParams.X1, ribbonParams.Y1, ribbonParams.ControlX1, ribbonParams.ControlY1, ribbonParams.ControlX2, ribbonParams.ControlY2, ribbonParams.X2, ribbonParams.Y2);
+                    }
                 }
 
                 if (note.HasNextSlide()) {
-                    var thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, commonNoteMetrics);
+                    thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, commonNoteMetrics);
 
-                    var nextSlide = note.NextSlide;
-                    var nextSlideStatus = NoteAnimationHelper.GetOnStageStatusOf(nextSlide, now, commonNoteMetrics);
+                    nextNote = note.NextSlide;
+                    nextStatus = NoteAnimationHelper.GetOnStageStatusOf(nextNote, now, commonNoteMetrics);
 
                     // Not even entered, or both left.
-                    if (thisStatus == OnStageStatus.Incoming || ((int)thisStatus * (int)nextSlideStatus > 0)) {
+                    if (thisStatus == OnStageStatus.Incoming || ((int)thisStatus * (int)nextStatus > 0)) {
                         continue;
                     }
-                    var thisX = traceCalculator.GetNoteX(note, now, commonNoteMetrics, animationMetrics);
-                    var thisY = traceCalculator.GetNoteY(note, now, commonNoteMetrics, animationMetrics);
-                    var nextX = traceCalculator.GetNoteX(nextSlide, now, commonNoteMetrics, animationMetrics);
-                    var nextY = traceCalculator.GetNoteY(nextSlide, now, commonNoteMetrics, animationMetrics);
-                    context.DrawLine(_simpleRibbonPen, thisX, thisY, nextX, nextY);
+
+                    ribbonParams = traceCalculator.GetSlideRibbonParameters(note, nextNote, now, commonNoteMetrics, animationMetrics);
+                    if (ribbonParams.IsLine) {
+                        context.DrawLine(_simpleRibbonPen, ribbonParams.X1, ribbonParams.Y1, ribbonParams.X2, ribbonParams.Y2);
+                    } else {
+                        context.DrawBezier(_simpleRibbonPen, ribbonParams.X1, ribbonParams.Y1, ribbonParams.ControlX1, ribbonParams.ControlY1, ribbonParams.ControlX2, ribbonParams.ControlY2, ribbonParams.X2, ribbonParams.Y2);
+                    }
                 }
             }
 

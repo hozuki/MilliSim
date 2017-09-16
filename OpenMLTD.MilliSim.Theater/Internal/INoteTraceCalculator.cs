@@ -68,7 +68,35 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
         /// <returns>The note's Y position.</returns>
         float GetSpecialNoteY([NotNull] RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
-        (float X1, float Y1, float ControlX1, float ControlY1, float ControlX2, float ControlY2, float X2, float Y2) GetRibbonLocations([NotNull] RuntimeNote thisNote, [NotNull] RuntimeNote nextNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        /// <summary>
+        /// Calculates parameters for hold ribbons.
+        /// </summary>
+        /// <param name="startNote">This note.</param>
+        /// <param name="endNote">Next note.</param>
+        /// <param name="now">Current time, in seconds.</param>
+        /// <param name="noteMetrics">Note metrics.</param>
+        /// <param name="animationMetrics">Note animation metrics.</param>
+        /// <remarks>
+        /// Bezier curves cannot become straight lines, at least not in Direct2D.
+        /// So if the function should return a line, it must be indicated manually.
+        /// </remarks>
+        /// <returns>A tuple containing neccessary information.</returns>
+        RibbonParameters GetHoldRibbonParameters([NotNull] RuntimeNote startNote, [NotNull] RuntimeNote endNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+
+        /// <summary>
+        /// Calculates parameters for slide ribbons.
+        /// </summary>
+        /// <param name="startNote">This note.</param>
+        /// <param name="endNote">Next note.</param>
+        /// <param name="now">Current time, in seconds.</param>
+        /// <param name="noteMetrics">Note metrics.</param>
+        /// <param name="animationMetrics">Note animation metrics.</param>
+        /// <remarks>
+        /// Bezier curves cannot become straight lines, at least not in Direct2D.
+        /// So if the function should return a line, it must be indicated manually.
+        /// </remarks>
+        /// <returns>A tuple containing neccessary information.</returns>
+        RibbonParameters GetSlideRibbonParameters([NotNull] RuntimeNote startNote, [NotNull] RuntimeNote endNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
     }
 }
