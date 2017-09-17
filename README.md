@@ -76,6 +76,20 @@ To update external projects, use this command:
 git submodule foreach --recursive git pull origin master
 ```
 
+## Extensions
+
+MilliSim is designed to support extensions. Please check out examples:
+
+- `OpenMLTD.MilliSim.Extension.Imports.Unity3D.Unity3DScoreFormat` (custom score format)
+- `OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats.Vorbis.OggVorbisAudioFormat` (custom audio format)
+
+Plugin assemblies should be placed at:
+
+- `$WORK_DIR`
+- `$WORK_DIR/plugins`
+
+where `$WORK_DIR` is MilliSim's working directory.
+
 ## Notes
 
 ### Naming
