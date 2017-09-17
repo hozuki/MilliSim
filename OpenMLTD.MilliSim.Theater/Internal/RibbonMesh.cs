@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Theater.Animation;
 using SharpDX;
@@ -9,7 +10,7 @@ using Buffer = SharpDX.Direct3D11.Buffer;
 namespace OpenMLTD.MilliSim.Theater.Internal {
     internal struct RibbonMesh : IDisposable {
 
-        internal RibbonMesh(Device device, int slice, float width, float z, params RibbonParameters[] rps) {
+        internal RibbonMesh(Device device, int slice, float width, float topYRatio, float bottomYRatio, float z, params RibbonParameters[] rps) {
             _vertexBuffer = null;
             _indexBuffer = null;
             _vertexStride = 0;
@@ -19,7 +20,7 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             _vertexDataStream = null;
             _indexDataStream = null;
 
-            SetMeshParameters(device, slice, width, z, rps);
+            SetMeshParameters(device, slice, width, topYRatio, bottomYRatio, z, rps);
         }
 
         public void Dispose() {
@@ -29,7 +30,7 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             Utilities.Dispose(ref _indexDataStream);
         }
 
-        internal void SetMeshParameters(Device device, int slice, float width, float z, params RibbonParameters[] rps) {
+        internal void SetMeshParameters(Device device, int slice, float width, float topYRatio, float bottomYRatio, float z, params RibbonParameters[] rps) {
             Dispose();
 
             if (rps == null || rps.Length == 0) {
@@ -56,10 +57,12 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
 
             var vertices = new MeshVertex[vertexCount];
             var indices = new int[indexCount];
-            var halfVertexCount = vertexCount / 2;
 
             var vertexStart = 0;
             var indexStart = 0;
+
+            float perc;
+            float v;
 
             // 1---2
             // | / |
@@ -68,10 +71,14 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
 
             foreach (var rp in rps) {
                 if (rp.IsLine) {
-                    var leftTopVertex = new MeshVertex(rp.X1 - halfWidth, rp.Y1, z, 0, 0, 1, 1, 0, 0, 0, (rp.Y1 - startY) / (endY - startY));
-                    var rightTopVertex = new MeshVertex(rp.X1 + halfWidth, rp.Y1, z, 0, 0, 1, 1, 0, 0, 1, (rp.Y1 - startY) / (endY - startY));
-                    var leftBottomVertex = new MeshVertex(rp.X2 - halfWidth, rp.Y2, z, 0, 0, 1, 1, 0, 0, 0, (rp.Y2 - startY) / (endY - startY));
-                    var rightBottomVertex = new MeshVertex(rp.X2 + halfWidth, rp.Y2, z, 0, 0, 1, 1, 0, 0, 1, (rp.Y2 - startY) / (endY - startY));
+                    perc = (rp.Y1 - startY) / (endY - startY);
+                    v = MathHelper.Lerp(topYRatio, bottomYRatio, perc);
+                    var leftTopVertex = new MeshVertex(rp.X1 - halfWidth, rp.Y1, z, 0, 0, 1, 1, 0, 0, 0, v);
+                    var rightTopVertex = new MeshVertex(rp.X1 + halfWidth, rp.Y1, z, 0, 0, 1, 1, 0, 0, 1, v);
+                    perc = (rp.Y2 - startY) / (endY - startY);
+                    v = MathHelper.Lerp(topYRatio, bottomYRatio, perc);
+                    var leftBottomVertex = new MeshVertex(rp.X2 - halfWidth, rp.Y2, z, 0, 0, 1, 1, 0, 0, 0, v);
+                    var rightBottomVertex = new MeshVertex(rp.X2 + halfWidth, rp.Y2, z, 0, 0, 1, 1, 0, 0, 1, v);
 
                     vertices[vertexStart] = leftTopVertex;
                     vertices[vertexStart + 1] = rightTopVertex;
@@ -92,8 +99,10 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                         var t = (float)j / slice;
                         var pt = RibbonMathHelper.CubicBezier(rp, t);
 
-                        var leftVertex = new MeshVertex(pt.X - halfWidth, pt.Y, z, 0, 0, 1, 1, 0, 0, 0, (pt.Y - startY) / (endY - startY));
-                        var rightVertex = new MeshVertex(pt.X + halfWidth, pt.Y, z, 0, 0, 1, 1, 0, 0, 1, (pt.Y - startY) / (endY - startY));
+                        perc = (pt.Y - startY) / (endY - startY);
+                        v = MathHelper.Lerp(topYRatio, bottomYRatio, perc);
+                        var leftVertex = new MeshVertex(pt.X - halfWidth, pt.Y, z, 0, 0, 1, 1, 0, 0, 0, v);
+                        var rightVertex = new MeshVertex(pt.X + halfWidth, pt.Y, z, 0, 0, 1, 1, 0, 0, 1, v);
 
                         vertices[vertexStart + j * 2] = leftVertex;
                         vertices[vertexStart + j * 2 + 1] = rightVertex;

@@ -86,6 +86,9 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 EndRadius = gamingArea.ScaleResults.Note.End
             };
 
+            var topYRatio = _ribbonTopYRatio;
+            var bottomYRatio = _ribbonBottomYRatio;
+
             // Enable depth buffer to allow drawing in layers.
             // However the depth comparison always passes, and Z always decreases (see below), so the results looks like
             // "later-drawn-on-top" inside this visual element.
@@ -116,7 +119,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     }
 
                     var ribbonParams = traceCalculator.GetHoldRibbonParameters(note, nextNote, now, commonNoteMetrics, animationMetrics);
-                    using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, z, ribbonParams)) {
+                    using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, topYRatio, bottomYRatio, z, ribbonParams)) {
                         context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                     }
 
@@ -157,7 +160,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                             }
                         }
 
-                        using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, z, ribbonParamArray)) {
+                        using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, topYRatio, bottomYRatio, z, ribbonParamArray)) {
                             context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                         }
 
@@ -165,7 +168,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     } else {
                         var ribbonParams = traceCalculator.GetSlideRibbonParameters(note, nextNote, now, commonNoteMetrics, animationMetrics);
 
-                        using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, z, ribbonParams)) {
+                        using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, topYRatio, bottomYRatio, z, ribbonParams)) {
                             context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                         }
 
@@ -203,6 +206,11 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             var pass = textureEffect.SimpleTextureTechnique.GetPassByIndex(0);
             _posTexLayout = context.CreateInputLayout(pass, InputLayoutDescriptions.PosNormTexTan);
+
+            var textureDesc = _ribbonTexture.Description;
+            var textureBlankEdges = settings.Images.Ribbon.BlankEdge;
+            _ribbonTopYRatio = textureBlankEdges.Top / textureDesc.Height;
+            _ribbonBottomYRatio = (textureDesc.Height - textureBlankEdges.Bottom) / textureDesc.Height;
         }
 
         protected override void OnLostContext(RenderContext context) {
@@ -234,6 +242,9 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         private D3DSimpleTextureEffect _textureEffect;
         private InputLayout _posTexLayout;
         private D3DMaterial _ribbonMaterial;
+
+        private float _ribbonTopYRatio;
+        private float _ribbonBottomYRatio;
 
         private RuntimeScore _score;
 

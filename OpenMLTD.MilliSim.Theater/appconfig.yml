@@ -103,6 +103,11 @@ images:
     file: res/images/notes/special_note.png # 384x384
   ribbon:
     file: res/images/ui/ribbon.png # 128x128
+    blank_edge:
+      left: 18
+      top: 12
+      right: 18
+      bottom: 12
   sync_line:
     file: res/images/sync_line.png
   difficulty_badges:
@@ -122,7 +127,7 @@ scaling:
     start: 200x200
     end: 280x280
   sync_line: 5x0
-  ribbon: 60x0
+  ribbon: 100x0
 ui:
   tap_points:
     layout:
