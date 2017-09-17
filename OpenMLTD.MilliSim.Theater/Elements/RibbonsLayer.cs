@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
@@ -90,7 +91,6 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             foreach (var note in notes) {
                 OnStageStatus thisStatus, nextStatus;
                 RuntimeNote nextNote;
-                RibbonParameters ribbonParams;
 
                 if (note.HasNextHold()) {
                     thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, animationMetrics);
@@ -106,7 +106,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                         continue;
                     }
 
-                    ribbonParams = traceCalculator.GetHoldRibbonParameters(note, nextNote, now, commonNoteMetrics, animationMetrics);
+                    var ribbonParams = traceCalculator.GetHoldRibbonParameters(note, nextNote, now, commonNoteMetrics, animationMetrics);
                     using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, ribbonParams)) {
                         context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                     }
@@ -126,9 +126,34 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                         continue;
                     }
 
-                    ribbonParams = traceCalculator.GetSlideRibbonParameters(note, nextNote, now, commonNoteMetrics, animationMetrics);
-                    using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, ribbonParams)) {
-                        context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
+                    if (nextStatus == OnStageStatus.Visible && nextNote.HasNextSlide()) {
+                        var nextSlides = new List<RuntimeNote>();
+                        nextSlides.Add(nextNote);
+
+                        do {
+                            nextNote = nextNote.NextSlide;
+                            nextStatus = NoteAnimationHelper.GetOnStageStatusOf(nextNote, now, animationMetrics);
+                            nextSlides.Add(nextNote);
+                        } while (nextNote.HasNextSlide() && nextStatus > OnStageStatus.Incoming);
+
+                        var slideNotePairCount = nextSlides.Count;
+                        var ribbonParamArray = new RibbonParameters[slideNotePairCount];
+                        for (var i = 0; i < slideNotePairCount; ++i) {
+                            if (i == 0) {
+                                ribbonParamArray[i] = traceCalculator.GetSlideRibbonParameters(note, nextSlides[0], now, commonNoteMetrics, animationMetrics);
+                            } else {
+                                ribbonParamArray[i] = traceCalculator.GetSlideRibbonParameters(nextSlides[i - 1], nextSlides[i], now, commonNoteMetrics, animationMetrics);
+                            }
+                        }
+
+                        using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, ribbonParamArray)) {
+                            context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
+                        }
+                    } else {
+                        var ribbonParams = traceCalculator.GetSlideRibbonParameters(note, nextNote, now, commonNoteMetrics, animationMetrics);
+                        using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, ribbonParams)) {
+                            context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
+                        }
                     }
                 }
             }

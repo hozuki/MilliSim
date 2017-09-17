@@ -32,10 +32,17 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
         internal void SetMeshParameters(Device device, int slice, float width, params RibbonParameters[] rps) {
             Dispose();
 
+            if (rps == null || rps.Length == 0) {
+                return;
+            }
+
             var halfWidth = width / 2;
 
             var vertexCount = 0;
             var indexCount = 0;
+
+            var startY = rps[0].Y1;
+            var endY = rps[rps.Length - 1].Y2;
 
             foreach (var rp in rps) {
                 if (rp.IsLine) {
@@ -51,7 +58,6 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             var indices = new int[indexCount];
             var halfVertexCount = vertexCount / 2;
 
-            var v = 0;
             var vertexStart = 0;
             var indexStart = 0;
 
@@ -62,10 +68,10 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
 
             foreach (var rp in rps) {
                 if (rp.IsLine) {
-                    var leftTopVertex = new MeshVertex(rp.X1 - halfWidth, rp.Y1, 0, 0, 0, 1, 1, 0, 0, 0, (float)v / (halfVertexCount - 1));
-                    var rightTopVertex = new MeshVertex(rp.X1 + halfWidth, rp.Y1, 0, 0, 0, 1, 1, 0, 0, 1, (float)v / (halfVertexCount - 1));
-                    var leftBottomVertex = new MeshVertex(rp.X2 - halfWidth, rp.Y2, 0, 0, 0, 1, 1, 0, 0, 0, (float)(v + 1) / (halfVertexCount - 1));
-                    var rightBottomVertex = new MeshVertex(rp.X2 + halfWidth, rp.Y2, 0, 0, 0, 1, 1, 0, 0, 1, (float)(v + 1) / (halfVertexCount - 1));
+                    var leftTopVertex = new MeshVertex(rp.X1 - halfWidth, rp.Y1, 0, 0, 0, 1, 1, 0, 0, 0, (rp.Y1 - startY) / (endY - startY));
+                    var rightTopVertex = new MeshVertex(rp.X1 + halfWidth, rp.Y1, 0, 0, 0, 1, 1, 0, 0, 1, (rp.Y1 - startY) / (endY - startY));
+                    var leftBottomVertex = new MeshVertex(rp.X2 - halfWidth, rp.Y2, 0, 0, 0, 1, 1, 0, 0, 0, (rp.Y2 - startY) / (endY - startY));
+                    var rightBottomVertex = new MeshVertex(rp.X2 + halfWidth, rp.Y2, 0, 0, 0, 1, 1, 0, 0, 1, (rp.Y2 - startY) / (endY - startY));
 
                     vertices[vertexStart] = leftTopVertex;
                     vertices[vertexStart + 1] = rightTopVertex;
@@ -79,7 +85,6 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                     indices[indexStart + 4] = vertexStart + 2;
                     indices[indexStart + 5] = vertexStart + 1;
 
-                    v += 2;
                     vertexStart += 4;
                     indexStart += 6;
                 } else {
@@ -87,13 +92,11 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                         var t = (float)j / slice;
                         var pt = RibbonMathHelper.CubicBezier(rp, t);
 
-                        var leftVertex = new MeshVertex(pt.X - halfWidth, pt.Y, 0, 0, 0, 1, 1, 0, 0, 0, (float)v / (halfVertexCount - 1));
-                        var rightVertex = new MeshVertex(pt.X + halfWidth, pt.Y, 0, 0, 0, 1, 1, 0, 0, 1, (float)v / (halfVertexCount - 1));
+                        var leftVertex = new MeshVertex(pt.X - halfWidth, pt.Y, 0, 0, 0, 1, 1, 0, 0, 0, (pt.Y - startY) / (endY - startY));
+                        var rightVertex = new MeshVertex(pt.X + halfWidth, pt.Y, 0, 0, 0, 1, 1, 0, 0, 1, (pt.Y - startY) / (endY - startY));
 
                         vertices[vertexStart + j * 2] = leftVertex;
                         vertices[vertexStart + j * 2 + 1] = rightVertex;
-
-                        ++v;
                     }
 
                     for (var j = 0; j < slice; ++j) {

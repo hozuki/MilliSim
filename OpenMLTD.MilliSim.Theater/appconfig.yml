@@ -151,7 +151,7 @@ ui:
       y: 20% # (anchor: top)
     opacity: 80%
   ribbons_layer:
-    opacity: 80%
+    opacity: 100%
   title:
     layout:
       x: 5% # x position (anchor: left)

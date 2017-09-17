@@ -140,9 +140,23 @@ namespace OpenMLTD.MilliSim.Extension.Animation.StandardAnimations {
             var tm = MathHelper.Lerp(t1, t2, tperc);
 
             var x1 = GetNoteX(startNote, now, noteMetrics, animationMetrics);
-            var y1 = GetNoteOnStageY(t1, animationMetrics);
             var x2 = GetNoteX(endNote, now, noteMetrics, animationMetrics);
-            var y2 = GetNoteOnStageY(t2, animationMetrics);
+
+            var startStatus = NoteAnimationHelper.GetOnStageStatusOf(startNote, now, tp1);
+            float y1;
+            if (startStatus == OnStageStatus.Passed) {
+                y1 = animationMetrics.Bottom;
+            } else {
+                y1 = GetNoteOnStageY(t1, animationMetrics);
+            }
+
+            var endStatus = NoteAnimationHelper.GetOnStageStatusOf(endNote, now, tp2);
+            float y2;
+            if (endStatus == OnStageStatus.Incoming) {
+                y2 = animationMetrics.Top;
+            } else {
+                y2 = GetNoteOnStageY(t2, animationMetrics);
+            }
 
             // CGSS-like
             //var xm = GetNoteOnStageX(endNote.StartX, endNote.EndX, tm, animationMetrics);
