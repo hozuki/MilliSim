@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Audio.Extending;
 using OpenMLTD.MilliSim.Core;
@@ -14,10 +15,6 @@ namespace OpenMLTD.MilliSim.Theater {
     public sealed class PluginManager : DisposableBase {
 
         internal PluginManager([ItemNotNull] params string[] directories) {
-            if (IsInitialized) {
-                return;
-            }
-
             var allAssemblies = new List<Assembly>();
             foreach (var directory in directories) {
                 if (!Directory.Exists(directory)) {
@@ -41,28 +38,29 @@ namespace OpenMLTD.MilliSim.Theater {
             var configuration = new ContainerConfiguration().WithAssemblies(allAssemblies);
             var host = configuration.CreateContainer();
 
-            ScoreFormats = host.GetExports<IScoreFormat>().ToArray();
-            AudioFormats = host.GetExports<IAudioFormat>().ToArray();
+            var scoreFormats = host.GetExports<IScoreFormat>().ToArray();
+            var audioFormats = host.GetExports<IAudioFormat>().ToArray();
+            var loadedPlugins = Enumerable.Empty<IMilliSimPlugin>()
+                .Concat(scoreFormats)
+                .Concat(audioFormats)
+                .ToArray();
 
-            IsInitialized = true;
+            ScoreFormats = scoreFormats;
+            AudioFormats = audioFormats;
+            LoadedPlugins = loadedPlugins;
 
             _extensionConfiguration = configuration;
             _extensionContainer = host;
         }
 
-        public bool IsInitialized { get; private set; }
+        public IReadOnlyList<IScoreFormat> ScoreFormats { get; }
 
-        public IReadOnlyList<IScoreFormat> ScoreFormats {
-            get;
-            [UsedImplicitly]
-            private set;
-        }
+        public IReadOnlyList<IAudioFormat> AudioFormats { get; }
 
-        public IReadOnlyList<IAudioFormat> AudioFormats {
-            get;
-            [UsedImplicitly]
-            private set;
-        }
+        /// <summary>
+        /// Can be used in diagnostic windows, for example a <see cref="ListView"/> listing plugin details.
+        /// </summary>
+        internal IReadOnlyList<IMilliSimPlugin> LoadedPlugins { get; }
 
         protected override void Dispose(bool disposing) {
             if (disposing) {

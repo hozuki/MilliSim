@@ -35,5 +35,11 @@ namespace OpenMLTD.MilliSim.Core {
         [NotNull]
         Version PluginVersion { get; }
 
+        /// <summary>
+        /// Gets the plugin category.
+        /// </summary>
+        [NotNull]
+        string PluginCategory { get; }
+
     }
 }

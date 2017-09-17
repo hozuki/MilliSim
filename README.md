@@ -80,8 +80,8 @@ git submodule foreach --recursive git pull origin master
 
 MilliSim is designed to support extensions. Please check out examples:
 
-- `OpenMLTD.MilliSim.Extension.Imports.Unity3D.Unity3DScoreFormat` (custom score format)
-- `OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats.Vorbis.OggVorbisAudioFormat` (custom audio format)
+- [`OpenMLTD.MilliSim.Extension.Imports.Unity3D.Unity3DScoreFormat`](OpenMLTD.MilliSim.Extension.Imports.Unity3D/Unity3DScoreFormat.cs) (custom score format)
+- [`OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats.Vorbis.OggVorbisAudioFormat`](OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats/Vorbis/OggVorbisAudioFormat.cs) (custom audio format)
 
 Plugin assemblies should be placed at:
 

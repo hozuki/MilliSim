@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="AudioHelper.cs" />
     <Compile Include="AudioManager.cs" />
+    <Compile Include="Extending\AudioFormat.cs" />
     <Compile Include="Extending\IAudioFormat.cs" />
     <Compile Include="LoopedWaveStream.cs" />
     <Compile Include="Music.cs" />

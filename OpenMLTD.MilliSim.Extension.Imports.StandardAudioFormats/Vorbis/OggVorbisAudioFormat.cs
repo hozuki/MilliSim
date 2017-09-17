@@ -8,23 +8,23 @@ using OpenMLTD.MilliSim.Audio.Extending;
 namespace OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats.Vorbis {
     [Export(typeof(IAudioFormat))]
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]
-    public sealed class OggVorbisAudioFormat : IAudioFormat {
+    public sealed class OggVorbisAudioFormat : AudioFormat {
 
-        public string PluginID => "plugin.audio.ogg/vorbis";
+        public override string PluginID => "plugin.audio.ogg/vorbis";
 
-        public string PluginName => "Ogg/Vorbis Audio Format";
+        public override string PluginName => "Ogg/Vorbis Audio Format";
 
-        public string PluginDescription => "OGG audio format reader and factory.";
+        public override string PluginDescription => "OGG audio format reader and factory.";
 
-        public string PluginAuthor => "OpenMLTD";
+        public override string PluginAuthor => "OpenMLTD";
 
-        public Version PluginVersion => MyVersion;
+        public override Version PluginVersion => MyVersion;
 
-        public WaveStream Read(string fileName) {
+        public override WaveStream Read(string fileName) {
             return new VorbisWaveReader(fileName);
         }
 
-        public bool SupportsFileType(string fileName) {
+        public override bool SupportsFileType(string fileName) {
             /* Ogg/Vorbis files are currently disabled.
              * MilliSim.Audio uses NAudio.Vorbis, thus NVorbis as its underlying decoding and streaming
              * library. At this point, if you try to seek the WaveStream when the last packets are consumed,
@@ -43,7 +43,7 @@ namespace OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats.Vorbis {
             return fileName.EndsWith(".ogg") || fileName.EndsWith(".oga") || fileName.EndsWith(".ogv");
         }
 
-        public string FormatDescription => "Ogg/Vorbis";
+        public override string FormatDescription => "Ogg/Vorbis";
 
         private static readonly Version MyVersion = new Version(1, 0, 0, 0);
 

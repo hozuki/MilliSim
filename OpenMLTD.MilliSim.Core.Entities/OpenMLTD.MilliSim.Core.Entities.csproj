@@ -50,6 +50,7 @@
     <Compile Include="Extending\IScoreCompiler.cs" />
     <Compile Include="Extending\IScoreFormat.cs" />
     <Compile Include="Extending\IScoreReader.cs" />
+    <Compile Include="Extending\ScoreFormat.cs" />
     <Compile Include="FlexibleOptions.cs" />
     <Compile Include="EmptyFlexibleOptions.cs" />
     <Compile Include="Runtime\Extensions\RuntimeNoteExtensions.cs" />
