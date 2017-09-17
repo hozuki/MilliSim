@@ -208,7 +208,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
         [CanBeNull]
         private IReadOnlyList<RuntimeNote> _notes;
-        private static readonly Dictionary<RuntimeNote, OnStageStatus> _noteStates = new Dictionary<RuntimeNote, OnStageStatus>();
+        private readonly Dictionary<RuntimeNote, OnStageStatus> _noteStates = new Dictionary<RuntimeNote, OnStageStatus>();
 
     }
 }
