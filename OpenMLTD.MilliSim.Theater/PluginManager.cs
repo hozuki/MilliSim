@@ -10,6 +10,7 @@ using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Audio.Extending;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities.Extending;
+using OpenMLTD.MilliSim.Theater.Animation.Extending;
 
 namespace OpenMLTD.MilliSim.Theater {
     public sealed class PluginManager : DisposableBase {
@@ -40,13 +41,16 @@ namespace OpenMLTD.MilliSim.Theater {
 
             var scoreFormats = host.GetExports<IScoreFormat>().ToArray();
             var audioFormats = host.GetExports<IAudioFormat>().ToArray();
+            var noteTraceCalculators = host.GetExports<INoteTraceCalculator>().ToArray();
             var loadedPlugins = Enumerable.Empty<IMilliSimPlugin>()
                 .Concat(scoreFormats)
                 .Concat(audioFormats)
+                .Concat(noteTraceCalculators)
                 .ToArray();
 
             ScoreFormats = scoreFormats;
             AudioFormats = audioFormats;
+            NoteTraceCalculators = noteTraceCalculators;
             LoadedPlugins = loadedPlugins;
 
             _extensionConfiguration = configuration;
@@ -56,6 +60,8 @@ namespace OpenMLTD.MilliSim.Theater {
         public IReadOnlyList<IScoreFormat> ScoreFormats { get; }
 
         public IReadOnlyList<IAudioFormat> AudioFormats { get; }
+
+        public IReadOnlyList<INoteTraceCalculator> NoteTraceCalculators { get; }
 
         /// <summary>
         /// Can be used in diagnostic windows, for example a <see cref="ListView"/> listing plugin details.

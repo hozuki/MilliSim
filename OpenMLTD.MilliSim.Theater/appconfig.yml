@@ -27,6 +27,7 @@ window:
     ui: res/fonts/MSYH.TTC
     song_title: res/fonts/MSYH.TTC
 style:
+  trace_plugin: plugin.animation.mltd
   sync_line: yes # true, yes, y, on, 1
   flick_ribbon: no # false, no, n, off, 0
   slide_middle_sync_line: no

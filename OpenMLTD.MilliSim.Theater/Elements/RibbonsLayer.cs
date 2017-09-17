@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
 using OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions;
@@ -6,15 +7,8 @@ using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
 using OpenMLTD.MilliSim.Graphics.Extensions;
-using OpenMLTD.MilliSim.Graphics.Rendering;
-using OpenMLTD.MilliSim.Graphics.Rendering.Direct3D;
-using OpenMLTD.MilliSim.Graphics.Rendering.Direct3D.Effects;
+using OpenMLTD.MilliSim.Theater.Animation;
 using OpenMLTD.MilliSim.Theater.Extensions;
-using OpenMLTD.MilliSim.Theater.Internal;
-using SharpDX;
-using SharpDX.Direct3D;
-using SharpDX.Direct3D11;
-using Color = System.Drawing.Color;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public class RibbonsLayer : VisualElement {
@@ -59,11 +53,12 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             var notesLayerLayout = settings.UI.NotesLayer.Layout;
             var clientSize = context.ClientSize;
 
-            var traceCalculator = NotesLayer.TraceCalculator;
+            var traceCalculator = notesLayer.TraceCalculator;
 
             var animationMetrics = new NoteAnimationMetrics {
-                ClientSize = clientSize,
                 GlobalSpeedScale = notesLayer.GlobalSpeedScale,
+                Width = clientSize.Width,
+                Height = clientSize.Height,
                 Top = notesLayerLayout.Y * clientSize.Height,
                 Bottom = tapPointsLayout.Y * clientSize.Height,
                 NoteStartXRatios = tapPoints.IncomingXRatios,
@@ -73,8 +68,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             var commonNoteMetrics = new NoteMetrics {
                 StartRadius = gamingArea.ScaleResults.Note.Start,
-                EndRadius = gamingArea.ScaleResults.Note.End,
-                GlobalSpeedScale = notesLayer.GlobalSpeedScale
+                EndRadius = gamingArea.ScaleResults.Note.End
             };
 
             context.Begin2D();
@@ -85,10 +79,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 RibbonParameters ribbonParams;
 
                 if (note.HasNextHold()) {
-                    thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, commonNoteMetrics);
+                    thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, animationMetrics);
 
                     nextNote = note.NextHold;
-                    nextStatus = NoteAnimationHelper.GetOnStageStatusOf(nextNote, now, commonNoteMetrics);
+                    nextStatus = NoteAnimationHelper.GetOnStageStatusOf(nextNote, now, animationMetrics);
 
                     // Not even entered, or both left.
                     if (thisStatus == OnStageStatus.Incoming || ((int)thisStatus * (int)nextStatus > 0)) {
@@ -104,10 +98,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 }
 
                 if (note.HasNextSlide()) {
-                    thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, commonNoteMetrics);
+                    thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, animationMetrics);
 
                     nextNote = note.NextSlide;
-                    nextStatus = NoteAnimationHelper.GetOnStageStatusOf(nextNote, now, commonNoteMetrics);
+                    nextStatus = NoteAnimationHelper.GetOnStageStatusOf(nextNote, now, animationMetrics);
 
                     // Not even entered, or both left.
                     if (thisStatus == OnStageStatus.Incoming || ((int)thisStatus * (int)nextStatus > 0)) {

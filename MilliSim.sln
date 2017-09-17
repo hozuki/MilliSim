@@ -55,6 +55,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLayer", "thirdparty\NLayer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats", "OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats\OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats.csproj", "{001C2077-8F69-4318-9096-A52C215B4C44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Theater.Animation", "OpenMLTD.MilliSim.Theater.Animation\OpenMLTD.MilliSim.Theater.Animation.csproj", "{BD5E432C-9837-4DD8-A644-5709CD0705F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.Animation.StandardAnimations", "OpenMLTD.MilliSim.Extension.Animation.StandardAnimations\OpenMLTD.MilliSim.Extension.Animation.StandardAnimations.csproj", "{A2211C66-972C-4FC5-AD53-70C5B901A361}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +133,14 @@ Global
 		{001C2077-8F69-4318-9096-A52C215B4C44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{001C2077-8F69-4318-9096-A52C215B4C44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{001C2077-8F69-4318-9096-A52C215B4C44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD5E432C-9837-4DD8-A644-5709CD0705F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD5E432C-9837-4DD8-A644-5709CD0705F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD5E432C-9837-4DD8-A644-5709CD0705F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD5E432C-9837-4DD8-A644-5709CD0705F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2211C66-972C-4FC5-AD53-70C5B901A361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2211C66-972C-4FC5-AD53-70C5B901A361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2211C66-972C-4FC5-AD53-70C5B901A361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2211C66-972C-4FC5-AD53-70C5B901A361}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +163,8 @@ Global
 		{DA4F02E3-0B5E-42CD-B8D9-5583FA51D66E} = {700A876B-F712-44FC-9513-CC1B6096D5FF}
 		{CF18CBD3-91A7-4917-B997-DBA89AE678CC} = {700A876B-F712-44FC-9513-CC1B6096D5FF}
 		{001C2077-8F69-4318-9096-A52C215B4C44} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
+		{BD5E432C-9837-4DD8-A644-5709CD0705F1} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
+		{A2211C66-972C-4FC5-AD53-70C5B901A361} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {27A82ED7-C1EE-4F03-B3AD-02534ACDB2B1}

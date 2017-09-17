@@ -128,15 +128,7 @@
     <Compile Include="Elements\BackgroundVideo.cs" />
     <Compile Include="Elements\NoteSfxPlayer.cs" />
     <Compile Include="Elements\SyncTimerOverlay.cs" />
-    <Compile Include="Extensions\RibbonParametersExtensions.cs" />
     <Compile Include="Extensions\SfxManagerExtensions.cs" />
-    <Compile Include="Internal\INoteTraceCalculator.cs" />
-    <Compile Include="Internal\NaiveNoteTraceCalculator.cs" />
-    <Compile Include="Internal\NoteAnimationHelper.cs" />
-    <Compile Include="Internal\NoteAnimationMetrics.cs" />
-    <Compile Include="Internal\NoteMetrics.cs" />
-    <Compile Include="Internal\NoteTimePoints.cs" />
-    <Compile Include="Internal\OnStageStatus.cs" />
     <Compile Include="Elements\ScoreLoader.cs" />
     <Compile Include="Elements\DebugOverlay.cs" />
     <Compile Include="Elements\FpsOverlay.cs" />
@@ -156,8 +148,6 @@
     <Compile Include="Elements\TimerSyncTarget.cs" />
     <Compile Include="Elements\VideoStateChangedEventArgs.cs" />
     <Compile Include="Extensions\TheaterDaysExtensions.cs" />
-    <Compile Include="Internal\MltdNoteTraceCalculator.cs" />
-    <Compile Include="Internal\RibbonParameters.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -252,6 +242,10 @@
       <Project>{6847b3bf-8a0b-4433-a4d5-8de9961eb1f8}</Project>
       <Name>OpenMLTD.MilliSim.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Animation.StandardAnimations\OpenMLTD.MilliSim.Extension.Animation.StandardAnimations.csproj">
+      <Project>{a2211c66-972c-4fc5-ad53-70c5b901a361}</Project>
+      <Name>OpenMLTD.MilliSim.Extension.Animation.StandardAnimations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats\OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats.csproj">
       <Project>{001c2077-8f69-4318-9096-a52c215b4c44}</Project>
       <Name>OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats</Name>
@@ -267,6 +261,10 @@
     <ProjectReference Include="..\OpenMLTD.MilliSim.Graphics\OpenMLTD.MilliSim.Graphics.csproj">
       <Project>{8cdfb26b-8d82-4d66-a850-0a1686c29e28}</Project>
       <Name>OpenMLTD.MilliSim.Graphics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Theater.Animation\OpenMLTD.MilliSim.Theater.Animation.csproj">
+      <Project>{bd5e432c-9837-4dd8-a644-5709cd0705f1}</Project>
+      <Name>OpenMLTD.MilliSim.Theater.Animation</Name>
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\MimeTypeMap\src\MimeTypes\MimeTypes.csproj">
       <Project>{d54fb6f6-9042-4925-bfc5-947a363f0849}</Project>

@@ -82,6 +82,7 @@ MilliSim is designed to support extensions. Please check out examples:
 
 - [`OpenMLTD.MilliSim.Extension.Imports.Unity3D.Unity3DScoreFormat`](OpenMLTD.MilliSim.Extension.Imports.Unity3D/Unity3DScoreFormat.cs) (custom score format)
 - [`OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats.Vorbis.OggVorbisAudioFormat`](OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats/Vorbis/OggVorbisAudioFormat.cs) (custom audio format)
+- [`OpenMLTD.MilliSim.Extension.Animation.StandardAnimations.MltdNoteTraceCalculator`](OpenMLTD.MilliSim.Extension.Animation.StandardAnimations/MltdNoteTraceCalculator.cs) (custom note animation)
 
 Plugin assemblies should be placed at:
 

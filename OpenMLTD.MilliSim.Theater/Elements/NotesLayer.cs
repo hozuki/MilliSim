@@ -1,18 +1,21 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
 using OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions;
+using OpenMLTD.MilliSim.Extension.Animation.StandardAnimations;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Advanced;
 using OpenMLTD.MilliSim.Graphics.Extensions;
+using OpenMLTD.MilliSim.Theater.Animation;
+using OpenMLTD.MilliSim.Theater.Animation.Extending;
 using OpenMLTD.MilliSim.Theater.Extensions;
-using OpenMLTD.MilliSim.Theater.Internal;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public class NotesLayer : BufferedElement2D {
@@ -34,7 +37,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             }
         }
 
-        internal static readonly INoteTraceCalculator TraceCalculator = new MltdNoteTraceCalculator();
+        internal INoteTraceCalculator TraceCalculator { get; private set; }
 
         protected override void OnDrawBuffer(GameTime gameTime, RenderContext context) {
             base.OnDrawBuffer(gameTime, context);
@@ -77,8 +80,9 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             var opacity = settings.UI.NotesLayer.Opacity;
 
             var animationMetrics = new NoteAnimationMetrics {
-                ClientSize = clientSize,
                 GlobalSpeedScale = GlobalSpeedScale,
+                Width = clientSize.Width,
+                Height = clientSize.Height,
                 Top = notesLayerLayout.Y * clientSize.Height,
                 Bottom = tapPointsLayout.Y * clientSize.Height,
                 NoteStartXRatios = tapPoints.IncomingXRatios,
@@ -88,20 +92,18 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             var commonNoteMetrics = new NoteMetrics {
                 StartRadius = gamingArea.ScaleResults.Note.Start,
-                EndRadius = gamingArea.ScaleResults.Note.End,
-                GlobalSpeedScale = GlobalSpeedScale
+                EndRadius = gamingArea.ScaleResults.Note.End
             };
 
             var specialNoteMetrics = new NoteMetrics {
                 StartRadius = gamingArea.ScaleResults.SpecialNote.Start,
-                EndRadius = gamingArea.ScaleResults.SpecialNote.End,
-                GlobalSpeedScale = GlobalSpeedScale
+                EndRadius = gamingArea.ScaleResults.SpecialNote.End
             };
 
             context.Begin2D();
 
             foreach (var note in notes) {
-                if (!NoteAnimationHelper.IsNoteVisible(note, now, commonNoteMetrics)) {
+                if (!NoteAnimationHelper.IsNoteVisible(note, now, animationMetrics)) {
                     continue;
                 }
 
@@ -316,6 +318,25 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             var scoreLoader = Game.AsTheaterDays().FindSingleElement<ScoreLoader>();
             _score = scoreLoader?.RuntimeScore;
+
+            var settings = Program.Settings;
+
+            var traceCalculators = Program.PluginManager.NoteTraceCalculators;
+            if (traceCalculators.Count == 0) {
+                throw new InvalidOperationException("You need at least 1 note trace calculator.");
+            }
+
+            var debugOverlay = Game.AsTheaterDays().FindSingleElement<DebugOverlay>();
+
+            var calculator = traceCalculators.FirstOrDefault(calc => calc.PluginID == settings.Style.TracePluginID);
+            if (calculator == null) {
+                if (debugOverlay != null) {
+                    debugOverlay.AddLine($"Missing note trace calculator with plugin ID '{settings.Style.TracePluginID}'. Using the first loaded calculator '{traceCalculators[0].PluginID}'.");
+                }
+                calculator = traceCalculators[0];
+            }
+
+            TraceCalculator = calculator;
         }
 
         [CanBeNull]

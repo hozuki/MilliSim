@@ -1,12 +1,13 @@
 using System.Drawing;
 using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
 
-namespace OpenMLTD.MilliSim.Theater.Internal {
+namespace OpenMLTD.MilliSim.Theater.Animation.Extending {
     /// <summary>
     /// An interface used to calculate traces of notes.
     /// </summary>
-    internal interface INoteTraceCalculator {
+    public interface INoteTraceCalculator : IMilliSimPlugin {
 
         /// <summary>
         /// Calculate selected note's radius according to given data.

@@ -7,8 +7,8 @@ using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
 using OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions;
 using OpenMLTD.MilliSim.Foundation;
+using OpenMLTD.MilliSim.Theater.Animation;
 using OpenMLTD.MilliSim.Theater.Extensions;
-using OpenMLTD.MilliSim.Theater.Internal;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public class NoteSfxPlayer : Element {
@@ -41,16 +41,13 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             var sfxPaths = Program.Settings.Sfx;
             var player = theaterDays.AudioManager.Sfx;
             var now = syncTimer.CurrentTime.TotalSeconds;
-
-            var noteMetrics = new NoteMetrics {
-                GlobalSpeedScale = notesLayer.GlobalSpeedScale
-            };
+            var globalSpeedScale = notesLayer.GlobalSpeedScale;
 
             var states = _noteStates;
 
             foreach (var note in _notes) {
                 var oldState = states[note];
-                var newState = NoteAnimationHelper.GetOnStageStatusOf(note, now, noteMetrics);
+                var newState = NoteAnimationHelper.GetOnStageStatusOf(note, now, globalSpeedScale);
 
                 if (oldState == newState) {
                     continue;

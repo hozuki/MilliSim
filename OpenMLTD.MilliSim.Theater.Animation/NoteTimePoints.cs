@@ -1,4 +1,4 @@
-namespace OpenMLTD.MilliSim.Theater.Internal {
+namespace OpenMLTD.MilliSim.Theater.Animation {
     public struct NoteTimePoints {
 
         public NoteTimePoints(double enter, double leave) {
@@ -9,12 +9,12 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
         /// <summary>
         /// Gets/sets the time when this note enters the stage, in seconds.
         /// </summary>
-        public double Enter { get; set; }
+        public double Enter { get; private set; }
 
         /// <summary>
         /// Gets/sets the time when this note leaves the stage, in seconds.
         /// </summary>
-        public double Leave { get; set; }
+        public double Leave { get; private set; }
 
         /// <summary>
         /// Gets the duration of this note appearing on stage, in seconds.
