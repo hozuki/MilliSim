@@ -75,7 +75,7 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
                         notesToBeAdded = CreateSlide(note, conductors, ref currentID);
                         break;
                     case NoteType.Special:
-                        notesToBeAdded = CreateSpecial(note, conductors, ref currentID);
+                        notesToBeAdded = CreateSpecial(note, gameNotes, ref currentID);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -276,7 +276,7 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             return ret;
         }
 
-        private static RuntimeNote[] CreateSpecial(Note note, Conductor[] conductors, ref int currentID) {
+        private static RuntimeNote[] CreateSpecial(Note note, Note[] gamingNotes, ref int currentID) {
             var rn = new RuntimeNote();
 
             rn.ID = ++currentID;
@@ -290,8 +290,9 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             var end = new RuntimeNote();
 
             end.ID = ++currentID;
-            // 5 seconds (estimated). Didn't find any proof or ways to calculate this.
-            end.HitTime = rn.HitTime + 5;
+            // 1.5 seconds before next valid note (tap, flick, hold, slide).
+            // Just a guess. Didn't find any proof or ways to calculate this.
+            end.HitTime = gamingNotes.First(n => n.AbsoluteTime > note.AbsoluteTime).AbsoluteTime - 1.5;
             end.LeadTime = rn.LeadTime;
             end.RelativeSpeed = rn.RelativeSpeed;
             end.Type = RuntimeNoteType.SpecialEnd;
@@ -302,11 +303,10 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
         }
 
         /// <summary>
-        /// Convert a number of ticks to seconds, given a constant tempo.
+        /// Gets the absolute time of a given tick, according to a list of <see cref="Conductor"/> information.
         /// </summary>
-        /// <param name="deltaTicks">Number of ticks.</param>
-        /// <param name="tempo">Current tempo.</param>
-        /// <remarks>See remarks of <see cref="RuntimeNote.Ticks"/>.</remarks>
+        /// <param name="currentTick">A note's literal tick value.</param>
+        /// <param name="conductors">Conductor list.</param>
         /// <returns>Seconds.</returns>
         private static double TicksToSeconds(long currentTick, Conductor[] conductors) {
             var index = Array.FindLastIndex(conductors, conductor => conductor.Tick <= currentTick);
