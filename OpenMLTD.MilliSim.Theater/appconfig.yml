@@ -41,6 +41,10 @@ system_ui:
     use: yes # displays FPS overlay
     font_size: 15
     text_fill: '#ffff'
+  timer_overlay:
+    use: yes # displays timer overlay
+    font_size: 10
+    text_fill: '#ffffff'
 images:
   tap_point:
     file: res/images/ui/tap_point.png # 128x128
