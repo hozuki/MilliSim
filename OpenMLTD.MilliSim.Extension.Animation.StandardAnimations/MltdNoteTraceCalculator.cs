@@ -48,9 +48,9 @@ namespace OpenMLTD.MilliSim.Extension.Animation.StandardAnimations {
             switch (onStage) {
                 case OnStageStatus.Incoming:
                     if (note.HasPrevHold()) {
-                        xRatio = GetIncomingNoteXRatio(note.PrevHold, note, now, noteMetrics, animationMetrics);
+                        xRatio = GetIncomingNoteXRatio(note.PrevHold, note, now, animationMetrics);
                     } else if (note.HasPrevSlide()) {
-                        xRatio = GetIncomingNoteXRatio(note.PrevSlide, note, now, noteMetrics, animationMetrics);
+                        xRatio = GetIncomingNoteXRatio(note.PrevSlide, note, now, animationMetrics);
                     } else {
                         xRatio = endXRatio;
                     }
@@ -72,7 +72,13 @@ namespace OpenMLTD.MilliSim.Extension.Animation.StandardAnimations {
                     if (note.IsSlide()) {
                         whichStartToTake = note.EndX;
                     } else {
-                        whichStartToTake = note.StartX < 0 ? note.StartX * 0.5f : note.StartX;
+                        if (note.StartX < 0) {
+                            whichStartToTake = note.StartX * 0.5f;
+                        } else if (note.StartX > trackCount - 1) {
+                            whichStartToTake = (trackCount - 1) + (note.StartX - (trackCount - 1)) * 0.5f;
+                        } else {
+                            whichStartToTake = note.StartX;
+                        }
                     }
 
                     var startXRatio = startLeftMarginRatio + (startRightMarginRatio - startLeftMarginRatio) * (whichStartToTake / (trackCount - 1));
@@ -203,7 +209,7 @@ namespace OpenMLTD.MilliSim.Extension.Animation.StandardAnimations {
             return new RibbonParameters(x1, y1, cx1, cy1, cx2, cy2, x2, y2);
         }
 
-        private static float GetIncomingNoteXRatio(RuntimeNote prevNote, RuntimeNote thisNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
+        private static float GetIncomingNoteXRatio(RuntimeNote prevNote, RuntimeNote thisNote, double now, NoteAnimationMetrics animationMetrics) {
             var trackCount = animationMetrics.TrackCount;
             var startLeftMarginRatio = animationMetrics.NoteStartXRatios[0];
             var startRightMarginRatio = animationMetrics.NoteStartXRatios[trackCount - 1];
@@ -220,7 +226,14 @@ namespace OpenMLTD.MilliSim.Extension.Animation.StandardAnimations {
                 xRatio = MathHelper.Lerp(thisXRatio, nextXRatio, perc);
 
             } else {
-                var nextStartX = thisNote.StartX < 0 ? thisNote.StartX * 0.5f : thisNote.StartX;
+                float nextStartX;
+                if (thisNote.StartX < 0) {
+                    nextStartX = thisNote.StartX * 0.5f;
+                } else if (thisNote.StartX > trackCount - 1) {
+                    nextStartX = (trackCount - 1) + (thisNote.StartX - (trackCount - 1)) * 0.5f;
+                } else {
+                    nextStartX = thisNote.StartX;
+                }
                 xRatio = startLeftMarginRatio + (startRightMarginRatio - startLeftMarginRatio) * (nextStartX / (trackCount - 1));
             }
 
