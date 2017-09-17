@@ -126,7 +126,7 @@
     <Compile Include="Elements\BackgroundBase.cs" />
     <Compile Include="Elements\BackgroundImage.cs" />
     <Compile Include="Elements\BackgroundVideo.cs" />
-    <Compile Include="Elements\NoteSfxPlayer.cs" />
+    <Compile Include="Elements\NoteReactor.cs" />
     <Compile Include="Elements\SyncTimerOverlay.cs" />
     <Compile Include="Extensions\SfxManagerExtensions.cs" />
     <Compile Include="Elements\ScoreLoader.cs" />

@@ -30,9 +30,17 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             }
         }
 
-        public float[] TapPointXRatios => _tapPointsX;
+        /// <summary>
+        /// Plays the "transform" animation. At the end of the animation, opacity is set to 0.
+        /// </summary>
+        /// <param name="duration">Animation duration.</param>
+        public void PlayTransformAnimation(TimeSpan duration) {
+            throw new NotImplementedException();
+        }
 
-        public float[] IncomingXRatios => _incomingX;
+        public float[] EndXRatios => _tapPointsX;
+
+        public float[] StartXRatios => _incomingX;
 
         protected override void OnLayout() {
             base.OnLayout();

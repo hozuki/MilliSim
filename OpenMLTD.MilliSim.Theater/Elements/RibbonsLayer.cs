@@ -61,9 +61,9 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 Height = clientSize.Height,
                 Top = notesLayerLayout.Y * clientSize.Height,
                 Bottom = tapPointsLayout.Y * clientSize.Height,
-                NoteStartXRatios = tapPoints.IncomingXRatios,
-                NoteEndXRatios = tapPoints.TapPointXRatios,
-                TrackCount = tapPoints.TapPointXRatios.Length
+                NoteStartXRatios = tapPoints.StartXRatios,
+                NoteEndXRatios = tapPoints.EndXRatios,
+                TrackCount = tapPoints.EndXRatios.Length
             };
 
             var commonNoteMetrics = new NoteMetrics {

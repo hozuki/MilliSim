@@ -278,7 +278,6 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
 
         private static RuntimeNote[] CreateSpecial(Note note, Note[] gamingNotes, ref int currentID) {
             var rn = new RuntimeNote();
-
             rn.ID = ++currentID;
             rn.HitTime = note.AbsoluteTime;
             rn.LeadTime = note.LeadTime;
@@ -287,11 +286,25 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             rn.StartX = note.StartPosition;
             rn.EndX = note.EndPosition;
 
-            var end = new RuntimeNote();
+            var prepare = new RuntimeNote();
+            prepare.ID = ++currentID;
+            // 0.8 seconds before the Special note.
+            // Just a guess.
+            // This value must keep the same as tap points' "transform" animation length.
+            // See NoteReactor.Update() for more information.
+            prepare.HitTime = rn.HitTime - 0.8;
+            prepare.LeadTime = rn.LeadTime;
+            prepare.RelativeSpeed = rn.RelativeSpeed;
+            prepare.Type = RuntimeNoteType.SpecialPrepare;
+            prepare.StartX = rn.StartX;
+            prepare.EndX = rn.EndX;
 
+            var end = new RuntimeNote();
             end.ID = ++currentID;
             // 1.5 seconds before next valid note (tap, flick, hold, slide).
             // Just a guess. Didn't find any proof or ways to calculate this.
+            // This value must keep the same as tap points' "fade in" animation length.
+            // See NoteReactor.Update() for more information.
             end.HitTime = gamingNotes.First(n => n.AbsoluteTime > note.AbsoluteTime).AbsoluteTime - 1.5;
             end.LeadTime = rn.LeadTime;
             end.RelativeSpeed = rn.RelativeSpeed;
@@ -299,7 +312,8 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             end.StartX = rn.StartX;
             end.EndX = rn.EndX;
 
-            return new[] { rn, end };
+            // The order here is not very important because later they will all be sorted by HitTime.
+            return new[] { rn, prepare, end };
         }
 
         /// <summary>

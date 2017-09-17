@@ -11,9 +11,12 @@ using OpenMLTD.MilliSim.Theater.Animation;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
-    public class NoteSfxPlayer : Element {
+    /// <summary>
+    /// Reacting to note events.
+    /// </summary>
+    public class NoteReactor : Element {
 
-        public NoteSfxPlayer(GameBase game)
+        public NoteReactor(GameBase game)
             : base(game) {
         }
 
@@ -143,6 +146,25 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                             var specialStart = _notes.SingleOrDefault(n => n.Type == RuntimeNoteType.Special);
                             Debug.Assert(specialStart != null, "Wrong score format: there must be only exactly one special note and one special end note, if either of them exists.");
                             player.StopLooped(specialStart);
+
+                            var tapPoints = theaterDays.FindSingleElement<TapPoints>();
+                            if (tapPoints != null) {
+                                // The animation length must keep the same as the SpecialEnd note's delay.
+                                // See Unity3DScoreCompiler.CreateSpecial() for more information.
+                                tapPoints.FadeIn(TimeSpan.FromSeconds(1.5));
+                            }
+                        }
+                        break;
+                    case RuntimeNoteType.SpecialPrepare:
+                        if (newState == OnStageStatus.Passed) {
+                            var tapPoints = theaterDays.FindSingleElement<TapPoints>();
+                            if (tapPoints != null) {
+                                // This shall trigger tap points' "transform" animation.
+                                // See Unity3DScoreCompiler.CreateSpecial() for more information.
+                                // TODO: implement "transform" animation.
+                                //tapPoints.PlayTransformAnimation(TimeSpan.FromSeconds(0.8));
+                                tapPoints.Opacity = 0;
+                            }
                         }
                         break;
                     default:
