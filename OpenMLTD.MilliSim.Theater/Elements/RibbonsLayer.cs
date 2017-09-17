@@ -86,7 +86,16 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 EndRadius = gamingArea.ScaleResults.Note.End
             };
 
-            context.Begin3D(_posTexLayout, PrimitiveTopology.TriangleList);
+            // Enable depth buffer to allow drawing in layers.
+            // However the depth comparison always passes, and Z always decreases (see below), so the results looks like
+            // "later-drawn-on-top" inside this visual element.
+            // We are using Begin3DFast() here, so the states are specified in effect file (simple_texture.fx). Please
+            // open that file to see which settings we are selecting.
+            context.Begin3DFast(_posTexLayout, PrimitiveTopology.TriangleList);
+
+            // Z value should be decreasing to achieve this effect:
+            // when two ribbons cross, the one with the start note on the right is above the other.
+            var z = 0f;
 
             foreach (var note in notes) {
                 OnStageStatus thisStatus, nextStatus;
@@ -107,9 +116,11 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     }
 
                     var ribbonParams = traceCalculator.GetHoldRibbonParameters(note, nextNote, now, commonNoteMetrics, animationMetrics);
-                    using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, ribbonParams)) {
+                    using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, z, ribbonParams)) {
                         context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                     }
+
+                    z -= 0.1f;
                 }
 
                 if (note.HasNextSlide()) {
@@ -146,14 +157,19 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                             }
                         }
 
-                        using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, ribbonParamArray)) {
+                        using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, z, ribbonParamArray)) {
                             context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                         }
+
+                        z -= 0.1f;
                     } else {
                         var ribbonParams = traceCalculator.GetSlideRibbonParameters(note, nextNote, now, commonNoteMetrics, animationMetrics);
-                        using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, ribbonParams)) {
+
+                        using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, z, ribbonParams)) {
                             context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                         }
+
+                        z -= 0.1f;
                     }
                 }
             }
@@ -171,9 +187,9 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 throw new InvalidOperationException();
             }
 
-            _camera = new OrthoCamera(context.ClientSize.Width, context.ClientSize.Height, -1000, 1000);
+            _camera = new OrthoCamera(context.ClientSize.Width, context.ClientSize.Height, -1, 1000);
             var centerPoint = new PointF(context.ClientSize.Width / 2f, context.ClientSize.Height / 2f);
-            _camera.Position = new Vector3(centerPoint.X, centerPoint.Y, 100);
+            _camera.Position = new Vector3(centerPoint.X, centerPoint.Y, 1);
             _camera.LookAt(new Vector3(centerPoint.X, centerPoint.Y, 0), -Vector3.UnitY);
 
             _ribbonTexture = Direct3DHelper.LoadTexture2D(context, settings.Images.Ribbon.FileName);

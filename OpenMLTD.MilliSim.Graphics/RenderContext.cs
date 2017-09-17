@@ -102,11 +102,24 @@ namespace OpenMLTD.MilliSim.Graphics {
             return new RenderTarget(this, false);
         }
 
+        /// <summary>
+        /// Sets the input layout and primitive topology, then starts a new 3D drawing pass using the default state settings (<see cref="OpenMLTD.MilliSim.Graphics.Rendering.FrequentlyUsedStates.AlphaBlend"/>, <see cref="OpenMLTD.MilliSim.Graphics.Rendering.FrequentlyUsedStates.LessEqual"/>, <see cref="OpenMLTD.MilliSim.Graphics.Rendering.FrequentlyUsedStates.NoCull"/>).
+        /// </summary>
+        /// <param name="inputLayout">The input layout indicating how vertices are stored.</param>
+        /// <param name="topology">The primitive topology indicating how indices are stored.</param>
         public void Begin3D(InputLayout inputLayout, PrimitiveTopology topology) {
             var states = FrequentlyUsedStates;
-            Begin3D(inputLayout, topology, states.AlphaBlend, null, states.NoCull);
+            Begin3D(inputLayout, topology, states.AlphaBlend, states.LessEqual, states.NoCull);
         }
 
+        /// <summary>
+        /// Sets the input layout and primitive topology, then starts a new 3D drawing pass using custom state settings.
+        /// </summary>
+        /// <param name="inputLayout">The input layout indicating how vertices are stored.</param>
+        /// <param name="topology">The primitive topology indicating how indices are stored.</param>
+        /// <param name="blend">The alpha blend state.</param>
+        /// <param name="depthStencil">The depth-stencil comparer state.</param>
+        /// <param name="rasterizer">The rasterizer state.</param>
         public void Begin3D(InputLayout inputLayout, PrimitiveTopology topology, BlendState blend, DepthStencilState depthStencil, RasterizerState rasterizer) {
             var ctx = Direct3DDevice.ImmediateContext;
             ctx.InputAssembler.InputLayout = inputLayout;
@@ -116,6 +129,21 @@ namespace OpenMLTD.MilliSim.Graphics {
             ctx.OutputMerger.DepthStencilState = depthStencil;
         }
 
+        /// <summary>
+        /// Sets the input layout and primitive topology, then starts a new 3D drawing pass immediately.
+        /// </summary>
+        /// <param name="inputLayout">The input layout indicating how vertices are stored.</param>
+        /// <param name="topology">The primitive topology indicating how indices are stored.</param>
+        /// <remarks>All other states of the renderer are stay unchanged. If you use this method, you must specify the states in effects file (.fx).</remarks>
+        public void Begin3DFast(InputLayout inputLayout, PrimitiveTopology topology) {
+            var ctx = Direct3DDevice.ImmediateContext;
+            ctx.InputAssembler.InputLayout = inputLayout;
+            ctx.InputAssembler.PrimitiveTopology = topology;
+        }
+
+        /// <summary>
+        /// Ends current 3D drawing pass.
+        /// </summary>
         public void End3D() {
             var ctx = Direct3DDevice.ImmediateContext;
             ctx.InputAssembler.InputLayout = null;

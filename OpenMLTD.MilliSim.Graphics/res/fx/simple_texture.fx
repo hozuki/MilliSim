@@ -25,6 +25,36 @@ SamplerState samLinear {
 	AddressV = WRAP;
 };
 
+// Using standard alpha blend.
+// Equivalent to FrequentlyUsedStates.AlphaBlend.
+BlendState AlphaBlend {
+    BlendEnable[0] = true;
+    SrcBlend = SRC_ALPHA;
+    DestBlend = INV_SRC_ALPHA;
+    BlendOp = ADD;
+    SrcBlendAlpha = ONE;
+    DestBlendAlpha = ZERO;
+    BlendOpAlpha = ADD;
+    RenderTargetWriteMask[0] = 0x0F;
+};
+
+// Enable depth copmarison, but the comparison always passes.
+// Equivalent to FrequentlyUsedStates.NoDepth.
+DepthStencilState NoDepth {
+    DepthEnable = true;
+    DepthFunc = ALWAYS;
+    DepthWriteMask = ZERO;
+};
+
+// No culling.
+// Equivalent to FrequentlyUsedStates.NoCull.
+RasterizerState NoCull {
+    FillMode = SOLID;
+    CullMode = NONE;
+    FrontCounterClockwise = false;
+    DepthClipEnable = false;
+};
+
 struct PS_IN {
     float4 PosH : SV_POSITION;
     float3 PosW : POSITION;
@@ -76,7 +106,11 @@ float4 PS(PS_IN pin, uniform bool gUseTexure, uniform bool gAlphaClip) : SV_Targ
 
 technique11 SimpleTexture {
     pass P0 {
+        SetGeometryShader(NULL);
         SetVertexShader(CompileShader(vs_4_0, VS()));
         SetPixelShader(CompileShader(ps_4_0, PS(true, false)));
+        SetBlendState(AlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff);
+        SetDepthStencilState(NoDepth, 0);
+        SetRasterizerState(NoCull);
     }
 }

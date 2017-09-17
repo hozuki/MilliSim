@@ -24,6 +24,14 @@ namespace OpenMLTD.MilliSim.Graphics.Rendering {
 
         public BlendState Opaque => _opaque;
 
+        public DepthStencilState LessEqual => _lessEqual;
+
+        public DepthStencilState GreaterEqual => _greaterEqual;
+
+        public DepthStencilState Equal => _equal;
+
+        public DepthStencilState NoDepth => _noDepth;
+
         protected override void Dispose(bool disposing) {
             if (!disposing) {
                 return;
@@ -36,6 +44,11 @@ namespace OpenMLTD.MilliSim.Graphics.Rendering {
             Utilities.Dispose(ref _alphaBlend);
             Utilities.Dispose(ref _transparent);
             Utilities.Dispose(ref _opaque);
+
+            Utilities.Dispose(ref _lessEqual);
+            Utilities.Dispose(ref _greaterEqual);
+            Utilities.Dispose(ref _equal);
+            Utilities.Dispose(ref _noDepth);
         }
 
         private void Initialize() {
@@ -109,11 +122,42 @@ namespace OpenMLTD.MilliSim.Graphics.Rendering {
 
             var opaqueDesc = new BlendStateDescription {
                 AlphaToCoverageEnable = true,
-                IndependentBlendEnable = false,
+                IndependentBlendEnable = false
             };
             opaqueDesc.RenderTarget[0].IsBlendEnabled = false;
             opaqueDesc.RenderTarget[0].RenderTargetWriteMask = ColorWriteMaskFlags.All;
             _opaque = new BlendState(device, opaqueDesc);
+
+            var lessEqualDesc = new DepthStencilStateDescription {
+                IsDepthEnabled = true,
+                DepthWriteMask = DepthWriteMask.All,
+                DepthComparison = Comparison.LessEqual,
+                IsStencilEnabled = false
+            };
+            _lessEqual = new DepthStencilState(device, lessEqualDesc);
+
+            var greaterEqualDesc = new DepthStencilStateDescription {
+                IsDepthEnabled = true,
+                DepthWriteMask = DepthWriteMask.All,
+                DepthComparison = Comparison.GreaterEqual,
+                IsStencilEnabled = false
+            };
+            _greaterEqual = new DepthStencilState(device, greaterEqualDesc);
+
+            var equalDesc = new DepthStencilStateDescription {
+                IsDepthEnabled = true,
+                DepthWriteMask = DepthWriteMask.Zero,
+                DepthComparison = Comparison.LessEqual
+
+            };
+            _equal = new DepthStencilState(device, equalDesc);
+
+            var noDepthDesc = new DepthStencilStateDescription {
+                IsDepthEnabled = false,
+                DepthComparison = Comparison.Always,
+                DepthWriteMask = DepthWriteMask.Zero
+            };
+            _noDepth = new DepthStencilState(device, noDepthDesc);
         }
 
         private RasterizerState _wireframe;
@@ -124,6 +168,11 @@ namespace OpenMLTD.MilliSim.Graphics.Rendering {
         private BlendState _alphaBlend;
         private BlendState _transparent;
         private BlendState _opaque;
+
+        private DepthStencilState _lessEqual;
+        private DepthStencilState _greaterEqual;
+        private DepthStencilState _equal;
+        private DepthStencilState _noDepth;
 
         private readonly RenderContext _context;
 
