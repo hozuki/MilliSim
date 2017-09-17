@@ -36,6 +36,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 throw new InvalidOperationException();
             }
 
+            var audioFormats = Program.PluginManager.AudioFormats;
+
             var sfxPaths = Program.Settings.Sfx;
             var player = theaterDays.AudioManager.Sfx;
             var now = syncTimer.CurrentTime.TotalSeconds;
@@ -57,34 +59,34 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 switch (note.Type) {
                     case RuntimeNoteType.Tap:
                         if (newState == OnStageStatus.Passed) {
-                            player.Play(sfxPaths.Tap.Perfect);
+                            player.Play(sfxPaths.Tap.Perfect, audioFormats);
                         }
                         break;
                     case RuntimeNoteType.Flick:
                         if (newState == OnStageStatus.Passed) {
-                            player.Play(sfxPaths.Flick.Perfect);
+                            player.Play(sfxPaths.Flick.Perfect, audioFormats);
                         }
                         break;
                     case RuntimeNoteType.Hold:
                         if (note.IsHoldStart()) {
                             if (note.FlickDirection != FlickDirection.None) {
                                 if (newState == OnStageStatus.Passed) {
-                                    player.Play(sfxPaths.Flick.Perfect);
+                                    player.Play(sfxPaths.Flick.Perfect, audioFormats);
                                 }
                             } else {
                                 if (newState == OnStageStatus.Passed) {
-                                    player.Play(sfxPaths.Hold.Perfect);
-                                    player.PlayLooped(sfxPaths.HoldHold, note);
+                                    player.Play(sfxPaths.Hold.Perfect, audioFormats);
+                                    player.PlayLooped(sfxPaths.HoldHold, audioFormats, note);
                                 }
                             }
                         } else if (note.IsHoldEnd()) {
                             if (note.FlickDirection != FlickDirection.None) {
                                 if (newState == OnStageStatus.Passed) {
-                                    player.Play(sfxPaths.Flick.Perfect);
+                                    player.Play(sfxPaths.Flick.Perfect, audioFormats);
                                 }
                             } else {
                                 if (newState == OnStageStatus.Passed) {
-                                    player.Play(sfxPaths.HoldEnd.Perfect);
+                                    player.Play(sfxPaths.HoldEnd.Perfect, audioFormats);
                                 }
                             }
 
@@ -97,22 +99,22 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                         if (note.IsSlideStart()) {
                             if (note.FlickDirection != FlickDirection.None) {
                                 if (newState == OnStageStatus.Passed) {
-                                    player.Play(sfxPaths.Flick.Perfect);
+                                    player.Play(sfxPaths.Flick.Perfect, audioFormats);
                                 }
                             } else {
                                 if (newState == OnStageStatus.Passed) {
-                                    player.Play(sfxPaths.Slide.Perfect);
-                                    player.PlayLooped(sfxPaths.SlideHold, note);
+                                    player.Play(sfxPaths.Slide.Perfect, audioFormats);
+                                    player.PlayLooped(sfxPaths.SlideHold, audioFormats, note);
                                 }
                             }
                         } else if (note.IsSlideEnd()) {
                             if (note.FlickDirection != FlickDirection.None) {
                                 if (newState == OnStageStatus.Passed) {
-                                    player.Play(sfxPaths.Flick.Perfect);
+                                    player.Play(sfxPaths.Flick.Perfect, audioFormats);
                                 }
                             } else {
                                 if (newState == OnStageStatus.Passed) {
-                                    player.Play(sfxPaths.SlideEnd.Perfect);
+                                    player.Play(sfxPaths.SlideEnd.Perfect, audioFormats);
                                 }
                             }
 
@@ -123,22 +125,22 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                         break;
                     case RuntimeNoteType.Special:
                         if (newState == OnStageStatus.Passed) {
-                            player.Play(sfxPaths.Special.Perfect);
+                            player.Play(sfxPaths.Special.Perfect, audioFormats);
                             var shouts = sfxPaths.Shouts;
                             if (shouts != null && shouts.Length > 0) {
                                 var shoutIndex = MathHelper.Random.Next(shouts.Length);
-                                player.Play(shouts[shoutIndex]);
+                                player.Play(shouts[shoutIndex], audioFormats);
                             }
-                            player.PlayLooped(sfxPaths.SpecialHold, note);
+                            player.PlayLooped(sfxPaths.SpecialHold, audioFormats, note);
                         }
                         break;
                     case RuntimeNoteType.SpecialEnd:
                         if (newState == OnStageStatus.Passed) {
-                            player.Play(sfxPaths.SpecialEnd);
+                            player.Play(sfxPaths.SpecialEnd, audioFormats);
                             var shouts = sfxPaths.Shouts;
                             if (shouts != null && shouts.Length > 0) {
                                 var shoutIndex = MathHelper.Random.Next(shouts.Length);
-                                player.Play(shouts[shoutIndex]);
+                                player.Play(shouts[shoutIndex], audioFormats);
                             }
 
                             var specialStart = _notes.SingleOrDefault(n => n.Type == RuntimeNoteType.Special);

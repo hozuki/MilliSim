@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="AudioHelper.cs" />
     <Compile Include="AudioManager.cs" />
+    <Compile Include="Extending\IAudioFormat.cs" />
     <Compile Include="LoopedWaveStream.cs" />
     <Compile Include="Music.cs" />
     <Compile Include="InfiniteNullWaveStream.cs" />
@@ -65,29 +66,9 @@
       <Project>{bf644701-dfd5-49b6-90e8-a54c1bb331ae}</Project>
       <Name>OpenMLTD.MilliSim.Foundation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\thirdparty\NAudio.Flac\src\NAudio.Flac\NAudio.Flac.csproj">
-      <Project>{1bd0fa41-17b8-494c-bd88-5bf5835f6983}</Project>
-      <Name>NAudio.Flac</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\thirdparty\NAudio.Vorbis\NAudio.Vorbis\NAudio.Vorbis.csproj">
-      <Project>{6fc9aaa7-e7fe-4bd4-b813-582d4b3bda0c}</Project>
-      <Name>NAudio.Vorbis</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\thirdparty\NAudio.Wma\NAudio.WindowsMediaFormat\NAudio.WindowsMediaFormat.csproj">
-      <Project>{1868fc77-fd6f-4881-9cf5-de7451806bfa}</Project>
-      <Name>NAudio.WindowsMediaFormat</Name>
-    </ProjectReference>
     <ProjectReference Include="..\thirdparty\NAudio\NAudio\NAudio.csproj">
       <Project>{da4f02e3-0b5e-42cd-b8d9-5583fa51d66e}</Project>
       <Name>NAudio</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\thirdparty\NLayer\NLayer.NAudioSupport\NLayer.NAudioSupport.csproj">
-      <Project>{33828999-1003-403c-bf78-59d9e02ce6a2}</Project>
-      <Name>NLayer.NAudioSupport</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\thirdparty\NVorbis\NVorbis\NVorbis.csproj">
-      <Project>{a372e591-dfef-49c4-9c82-98c4361efccd}</Project>
-      <Name>NVorbis</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

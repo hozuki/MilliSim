@@ -1,7 +1,9 @@
 using System;
 using System.IO;
+using System.Linq;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Audio;
+using OpenMLTD.MilliSim.Audio.Extending;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Theater.Configuration.Primitives;
@@ -32,11 +34,13 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             var settings = Program.Settings;
             var theaterDays = Game.AsTheaterDays();
 
-            if (settings.Media.BackgroundMusic != null && File.Exists(settings.Media.BackgroundMusic) &&
-                AudioManager.IsFileSupported(settings.Media.BackgroundMusic)) {
-                var music = theaterDays.AudioManager.CreateMusic(settings.Media.BackgroundMusic, settings.Media.BackgroundMusicVolume.Value);
-                theaterDays.AudioManager.AddMusic(music);
-                Music = music;
+            if (settings.Media.BackgroundMusic != null && File.Exists(settings.Media.BackgroundMusic)) {
+                var format = GetFormatForFile(Program.PluginManager, settings.Media.BackgroundMusic);
+                if (format != null) {
+                    var music = theaterDays.AudioManager.CreateMusic(settings.Media.BackgroundMusic, format, settings.Media.BackgroundMusicVolume.Value);
+                    theaterDays.AudioManager.AddMusic(music);
+                    Music = music;
+                }
             }
 
             var sfx = theaterDays.AudioManager.Sfx;
@@ -61,16 +65,30 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             theaterDays.AudioManager.Sfx.Volume = settings.Media.SoundEffectsVolume.Value;
         }
 
-        private static void PreloadAudio(SfxManager sfx, string fileName) {
-            sfx.PreloadSfx(fileName);
+        private void PreloadAudio(SfxManager sfx, string fileName) {
+            var debugOverlay = Game.AsTheaterDays().FindSingleElement<DebugOverlay>();
+            var pluginManager = Program.PluginManager;
+            var format = GetFormatForFile(pluginManager, fileName);
+            if (format != null) {
+                sfx.PreloadSfx(fileName, format);
+            } else {
+                if (debugOverlay != null) {
+                    debugOverlay.AddLine($"Audio file '{fileName}' is not supported.");
+                }
+            }
         }
 
-        private static void PreloadAudio(SfxManager sfx, NoteSfxGroup @group) {
-            sfx.PreloadSfx(group.Perfect);
-            sfx.PreloadSfx(group.Great);
-            sfx.PreloadSfx(group.Nice);
-            sfx.PreloadSfx(group.Bad);
-            sfx.PreloadSfx(group.Miss);
+        private void PreloadAudio(SfxManager sfx, NoteSfxGroup group) {
+            PreloadAudio(sfx, group.Perfect);
+            PreloadAudio(sfx, group.Great);
+            PreloadAudio(sfx, group.Nice);
+            PreloadAudio(sfx, group.Bad);
+            PreloadAudio(sfx, group.Miss);
+        }
+
+        [CanBeNull]
+        private static IAudioFormat GetFormatForFile(PluginManager pluginManager, string fileName) {
+            return pluginManager.AudioFormats.FirstOrDefault(format => format.SupportsFileType(fileName));
         }
 
         protected override void OnDispose() {

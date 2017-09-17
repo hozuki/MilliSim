@@ -261,7 +261,7 @@ namespace OpenMLTD.MilliSim.Theater {
                     }
                     break;
                 case Keys.I:
-                    theaterDays.AudioManager.Sfx.Play(settings.Sfx.Tap.Perfect);
+                    theaterDays.AudioManager.Sfx.Play(settings.Sfx.Tap.Perfect, Program.PluginManager.AudioFormats);
                     break;
             }
         }

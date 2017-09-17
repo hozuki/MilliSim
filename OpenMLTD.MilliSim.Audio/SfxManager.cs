@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using JetBrains.Annotations;
 using NAudio.Wave;
+using OpenMLTD.MilliSim.Audio.Extending;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Extensions;
 
@@ -13,7 +14,7 @@ namespace OpenMLTD.MilliSim.Audio {
             _audioManager = audioManager;
         }
 
-        public void PreloadSfx([CanBeNull] string fileName) {
+        public void PreloadSfx([CanBeNull] string fileName, [NotNull] IAudioFormat format) {
             if (fileName == null) {
                 return;
             }
@@ -23,9 +24,6 @@ namespace OpenMLTD.MilliSim.Audio {
             if (!File.Exists(fileName)) {
                 throw new FileNotFoundException("Audio file is not found.", fileName);
             }
-            if (!AudioManager.IsFileSupported(fileName)) {
-                throw new FormatException($"File '{fileName}' is not supported.");
-            }
 
             var key = Environment.OSVersion.Platform == PlatformID.Win32NT ? fileName.ToLowerInvariant() : fileName;
 
@@ -33,7 +31,7 @@ namespace OpenMLTD.MilliSim.Audio {
                 return;
             }
 
-            using (var waveStream = AudioManager.LoadAudioFile(fileName)) {
+            using (var waveStream = format.Read(fileName)) {
                 byte[] data;
                 var buf = new byte[1024];
 
@@ -51,8 +49,8 @@ namespace OpenMLTD.MilliSim.Audio {
                     data = memoryStream.ToArray();
                 }
 
-                var format = waveStream.WaveFormat;
-                _preloaded.Add(key, (data, format));
+                var waveFormat = waveStream.WaveFormat;
+                _preloaded.Add(key, (data, waveFormat));
             }
         }
 
@@ -62,14 +60,14 @@ namespace OpenMLTD.MilliSim.Audio {
 
         public float Volume { get; set; } = 1f;
 
-        public void Play([CanBeNull] string fileName) {
+        public void Play([CanBeNull] string fileName, [NotNull] IAudioFormat format) {
             if (fileName == null) {
                 return;
             }
 
             fileName = Path.GetFullPath(fileName);
 
-            PreloadSfx(fileName);
+            PreloadSfx(fileName, format);
 
             var key = Environment.OSVersion.Platform == PlatformID.Win32NT ? fileName.ToLowerInvariant() : fileName;
 
@@ -84,13 +82,13 @@ namespace OpenMLTD.MilliSim.Audio {
                 return;
             }
 
-            var (data, format) = _preloaded[key];
+            var (data, waveFormat) = _preloaded[key];
 
-            var source = new RawSourceWaveStream(data, 0, data.Length, format);
+            var source = new RawSourceWaveStream(data, 0, data.Length, waveFormat);
 
             // Offset requires 16-bit integer input.
             WaveStream toOffset;
-            if (AudioHelper.NeedsFormatConversionFrom(format, RequiredFormat)) {
+            if (AudioHelper.NeedsFormatConversionFrom(waveFormat, RequiredFormat)) {
                 toOffset = new ResamplerDmoStream(source, RequiredFormat);
             } else {
                 toOffset = source;
@@ -107,7 +105,7 @@ namespace OpenMLTD.MilliSim.Audio {
             _playingStates.Add(true);
         }
 
-        public void PlayLooped([CanBeNull] string fileName, [NotNull] object state) {
+        public void PlayLooped([CanBeNull] string fileName, [NotNull] IAudioFormat format, [NotNull] object state) {
             if (fileName == null) {
                 return;
             }
@@ -122,21 +120,21 @@ namespace OpenMLTD.MilliSim.Audio {
 
             fileName = Path.GetFullPath(fileName);
 
-            PreloadSfx(fileName);
+            PreloadSfx(fileName, format);
 
             var key = Environment.OSVersion.Platform == PlatformID.Win32NT ? fileName.ToLowerInvariant() : fileName;
 
             var currentTime = _audioManager.MixerTime;
 
-            var (data, format) = _preloaded[key];
+            var (data, waveFormat) = _preloaded[key];
 
-            var source = new RawSourceWaveStream(data, 0, data.Length, format);
+            var source = new RawSourceWaveStream(data, 0, data.Length, waveFormat);
 
             var looped = new LoopedWaveStream(source, LoopedWaveStream.DefaultMaxLoops);
 
             // Offset requires 16-bit integer input.
             WaveStream toOffset;
-            if (AudioHelper.NeedsFormatConversionFrom(format, RequiredFormat)) {
+            if (AudioHelper.NeedsFormatConversionFrom(waveFormat, RequiredFormat)) {
                 toOffset = new ResamplerDmoStream(looped, RequiredFormat);
             } else {
                 toOffset = looped;

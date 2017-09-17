@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Theater", "OpenMLTD.MilliSim.Theater\OpenMLTD.MilliSim.Theater.csproj", "{DACE584A-867F-4625-BAD3-C50CC480A0A0}"
 EndProject
@@ -52,6 +52,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NAudio", "thirdparty\NAudio\NAudio\NAudio.csproj", "{DA4F02E3-0B5E-42CD-B8D9-5583FA51D66E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLayer", "thirdparty\NLayer\NLayer\NLayer.csproj", "{CF18CBD3-91A7-4917-B997-DBA89AE678CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats", "OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats\OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats.csproj", "{001C2077-8F69-4318-9096-A52C215B4C44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,6 +125,10 @@ Global
 		{CF18CBD3-91A7-4917-B997-DBA89AE678CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF18CBD3-91A7-4917-B997-DBA89AE678CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF18CBD3-91A7-4917-B997-DBA89AE678CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{001C2077-8F69-4318-9096-A52C215B4C44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{001C2077-8F69-4318-9096-A52C215B4C44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{001C2077-8F69-4318-9096-A52C215B4C44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{001C2077-8F69-4318-9096-A52C215B4C44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,6 +150,7 @@ Global
 		{33828999-1003-403C-BF78-59D9E02CE6A2} = {700A876B-F712-44FC-9513-CC1B6096D5FF}
 		{DA4F02E3-0B5E-42CD-B8D9-5583FA51D66E} = {700A876B-F712-44FC-9513-CC1B6096D5FF}
 		{CF18CBD3-91A7-4917-B997-DBA89AE678CC} = {700A876B-F712-44FC-9513-CC1B6096D5FF}
+		{001C2077-8F69-4318-9096-A52C215B4C44} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {27A82ED7-C1EE-4F03-B3AD-02534ACDB2B1}
