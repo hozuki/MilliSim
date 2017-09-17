@@ -5,16 +5,28 @@ using OpenMLTD.MilliSim.Core.Entities.Runtime;
 using OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
-using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
 using OpenMLTD.MilliSim.Graphics.Extensions;
+using OpenMLTD.MilliSim.Graphics.Rendering;
+using OpenMLTD.MilliSim.Graphics.Rendering.Direct3D;
+using OpenMLTD.MilliSim.Graphics.Rendering.Direct3D.Effects;
 using OpenMLTD.MilliSim.Theater.Animation;
 using OpenMLTD.MilliSim.Theater.Extensions;
+using OpenMLTD.MilliSim.Theater.Internal;
+using SharpDX;
+using SharpDX.Direct3D;
+using SharpDX.Direct3D11;
+using Color = System.Drawing.Color;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public class RibbonsLayer : VisualElement {
 
         public RibbonsLayer(GameBase game)
             : base(game) {
+        }
+
+        protected override void OnUpdate(GameTime gameTime) {
+            base.OnUpdate(gameTime);
+            _camera.UpdateViewMatrix();
         }
 
         protected override void OnDraw(GameTime gameTime, RenderContext context) {
@@ -55,6 +67,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             var traceCalculator = notesLayer.TraceCalculator;
 
+            var ribbonWidth = gamingArea.ScaleResults.Ribbon.Width;
+
             var animationMetrics = new NoteAnimationMetrics {
                 GlobalSpeedScale = notesLayer.GlobalSpeedScale,
                 Width = clientSize.Width,
@@ -71,7 +85,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 EndRadius = gamingArea.ScaleResults.Note.End
             };
 
-            context.Begin2D();
+            context.Begin3D(_posTexLayout, PrimitiveTopology.TriangleList);
 
             foreach (var note in notes) {
                 OnStageStatus thisStatus, nextStatus;
@@ -81,60 +95,82 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 if (note.HasNextHold()) {
                     thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, animationMetrics);
 
+                    if (thisStatus == OnStageStatus.Incoming) {
+                        continue;
+                    }
+
                     nextNote = note.NextHold;
                     nextStatus = NoteAnimationHelper.GetOnStageStatusOf(nextNote, now, animationMetrics);
 
-                    // Not even entered, or both left.
-                    if (thisStatus == OnStageStatus.Incoming || ((int)thisStatus * (int)nextStatus > 0)) {
+                    if ((int)thisStatus * (int)nextStatus > 0) {
                         continue;
                     }
 
                     ribbonParams = traceCalculator.GetHoldRibbonParameters(note, nextNote, now, commonNoteMetrics, animationMetrics);
-                    if (ribbonParams.IsLine) {
-                        context.DrawLine(_simpleRibbonPen, ribbonParams.X1, ribbonParams.Y1, ribbonParams.X2, ribbonParams.Y2);
-                    } else {
-                        context.DrawBezier(_simpleRibbonPen, ribbonParams.X1, ribbonParams.Y1, ribbonParams.ControlX1, ribbonParams.ControlY1, ribbonParams.ControlX2, ribbonParams.ControlY2, ribbonParams.X2, ribbonParams.Y2);
+                    using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, ribbonParams)) {
+                        context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                     }
                 }
 
                 if (note.HasNextSlide()) {
                     thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, animationMetrics);
 
+                    if (thisStatus == OnStageStatus.Incoming) {
+                        continue;
+                    }
+
                     nextNote = note.NextSlide;
                     nextStatus = NoteAnimationHelper.GetOnStageStatusOf(nextNote, now, animationMetrics);
 
-                    // Not even entered, or both left.
-                    if (thisStatus == OnStageStatus.Incoming || ((int)thisStatus * (int)nextStatus > 0)) {
+                    if ((int)thisStatus * (int)nextStatus > 0) {
                         continue;
                     }
 
                     ribbonParams = traceCalculator.GetSlideRibbonParameters(note, nextNote, now, commonNoteMetrics, animationMetrics);
-                    if (ribbonParams.IsLine) {
-                        context.DrawLine(_simpleRibbonPen, ribbonParams.X1, ribbonParams.Y1, ribbonParams.X2, ribbonParams.Y2);
-                    } else {
-                        context.DrawBezier(_simpleRibbonPen, ribbonParams.X1, ribbonParams.Y1, ribbonParams.ControlX1, ribbonParams.ControlY1, ribbonParams.ControlX2, ribbonParams.ControlY2, ribbonParams.X2, ribbonParams.Y2);
+                    using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, ribbonWidth, ribbonParams)) {
+                        context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                     }
                 }
             }
 
-            context.End2D();
+            context.End3D();
         }
 
         protected override void OnGotContext(RenderContext context) {
             base.OnGotContext(context);
 
+            var settings = Program.Settings;
             var gamingArea = Game.AsTheaterDays().FindSingleElement<GamingArea>();
+
             if (gamingArea == null) {
                 throw new InvalidOperationException();
             }
 
-            _simpleRibbonPen = new D2DPen(context, Color.White, gamingArea.ScaleResults.Ribbon.Width);
+            _camera = new OrthoCamera(context.ClientSize.Width, context.ClientSize.Height, -1000, 1000);
+            var centerPoint = new PointF(context.ClientSize.Width / 2f, context.ClientSize.Height / 2f);
+            _camera.Position = new Vector3(centerPoint.X, centerPoint.Y, 100);
+            _camera.LookAt(new Vector3(centerPoint.X, centerPoint.Y, 0), -Vector3.UnitY);
+
+            _ribbonTexture = Direct3DHelper.LoadTexture2D(context, settings.Images.Ribbon.FileName);
+            _ribbonTextureSrv = _ribbonTexture.CreateResourceView();
+
+            var textureEffect = context.CreateD3DEffectFromFile<D3DSimpleTextureEffect>("res/fx/simple_texture.fx");
+            _textureEffect = textureEffect;
+            textureEffect.WorldTransform = Matrix.Identity;
+            textureEffect.Texture = _ribbonTextureSrv;
+            textureEffect.TextureTransform = Matrix.Identity;
+
+            var pass = textureEffect.SimpleTextureTechnique.GetPassByIndex(0);
+            _posTexLayout = context.CreateInputLayout(pass, InputLayoutDescriptions.PosNormTexTan);
         }
 
         protected override void OnLostContext(RenderContext context) {
             base.OnLostContext(context);
 
-            _simpleRibbonPen.Dispose();
+            _posTexLayout?.Dispose();
+            _textureEffect?.Dispose();
+            _ribbonTextureSrv?.Dispose();
+            _ribbonTexture?.Dispose();
         }
 
         protected override void OnInitialize() {
@@ -142,9 +178,21 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             var scoreLoader = Game.AsTheaterDays().FindSingleElement<ScoreLoader>();
             _score = scoreLoader?.RuntimeScore;
+
+            _ribbonMaterial = new D3DMaterial {
+                Diffuse = Color.White.ToC4()
+            };
         }
 
-        private D2DPen _simpleRibbonPen;
+        private static readonly int SliceCount = 48;
+
+        private OrthoCamera _camera;
+
+        private Texture2D _ribbonTexture;
+        private ShaderResourceView _ribbonTextureSrv;
+        private D3DSimpleTextureEffect _textureEffect;
+        private InputLayout _posTexLayout;
+        private D3DMaterial _ribbonMaterial;
 
         private RuntimeScore _score;
 

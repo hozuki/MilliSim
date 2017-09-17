@@ -2,7 +2,7 @@ using System;
 using SharpDX;
 
 namespace OpenMLTD.MilliSim.Graphics {
-    internal static class MathF {
+    public static class MathF {
 
         static MathF() {
             Rand = new Random();

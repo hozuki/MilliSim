@@ -186,10 +186,10 @@ namespace OpenMLTD.MilliSim.Extension.Animation.StandardAnimations {
             var perc = (float)((now - startNote.HitTime) / (endNote.HitTime - startNote.HitTime));
             var x1Ratio = MathHelper.Lerp(startXRatio, endXRatio, perc);
 
-            var x1 = GetNoteX(endNote, now, noteMetrics, animationMetrics);
-            var y1 = GetNoteOnStageY(t2, animationMetrics);
-            var x2 = animationMetrics.Width * x1Ratio;
-            var y2 = animationMetrics.Bottom;
+            var x1 = animationMetrics.Width * x1Ratio;
+            var y1 = animationMetrics.Bottom;
+            var x2 = GetNoteX(endNote, now, noteMetrics, animationMetrics);
+            var y2 = GetNoteOnStageY(t2, animationMetrics);
 
             // CGSS-like
             //var xm = GetNoteOnStageX(endNote.StartX, endNote.EndX, tm, animationMetrics);

@@ -122,7 +122,7 @@ scaling:
     start: 200x200
     end: 280x280
   sync_line: 5x0
-  ribbon: 20x0
+  ribbon: 60x0
 ui:
   tap_points:
     layout:

@@ -104,7 +104,7 @@ namespace OpenMLTD.MilliSim.Graphics {
 
         public void Begin3D(InputLayout inputLayout, PrimitiveTopology topology) {
             var states = FrequentlyUsedStates;
-            Begin3D(inputLayout, topology, states.AlphaBlend, null, states.CullCounterclockwise);
+            Begin3D(inputLayout, topology, states.AlphaBlend, null, states.NoCull);
         }
 
         public void Begin3D(InputLayout inputLayout, PrimitiveTopology topology, BlendState blend, DepthStencilState depthStencil, RasterizerState rasterizer) {

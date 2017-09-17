@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace OpenMLTD.MilliSim.Theater.Animation.Extensions {
     public static class RibbonParametersExtensions {
 
@@ -11,6 +13,10 @@ namespace OpenMLTD.MilliSim.Theater.Animation.Extensions {
             x2 = rp.X2;
             y2 = rp.Y2;
             isLine = rp.IsLine;
+        }
+
+        public static PointF CalculateCubicBezier(this RibbonParameters rp, float t) {
+            return RibbonMathHelper.CubicBezier(rp, t);
         }
 
     }
