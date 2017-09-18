@@ -2,7 +2,7 @@ using System;
 using JetBrains.Annotations;
 
 namespace OpenMLTD.MilliSim.Core {
-    public interface IMilliSimPlugin {
+    public interface IMilliSimPlugin : IApiVersionProvider {
 
         /// <summary>
         /// Gets the plugin ID.

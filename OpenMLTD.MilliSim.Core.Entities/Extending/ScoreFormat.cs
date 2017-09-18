@@ -23,5 +23,7 @@ namespace OpenMLTD.MilliSim.Core.Entities.Extending {
 
         public abstract string FormatDescription { get; }
 
+        public int ApiVersion => 1;
+
     }
 }

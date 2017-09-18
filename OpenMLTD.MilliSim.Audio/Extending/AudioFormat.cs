@@ -22,5 +22,7 @@ namespace OpenMLTD.MilliSim.Audio.Extending {
 
         public abstract string FormatDescription { get; }
 
+        public int ApiVersion => 1;
+
     }
 }

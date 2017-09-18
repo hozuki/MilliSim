@@ -52,6 +52,7 @@
     <Compile Include="DisposableBase.cs" />
     <Compile Include="Extensions\KeyValuePairExtensions.cs" />
     <Compile Include="GameTime.cs" />
+    <Compile Include="IApiVersionProvider.cs" />
     <Compile Include="IMilliSimPlugin.cs" />
     <Compile Include="InteropHelper.cs" />
     <Compile Include="Interop\NativeMethods.cs" />
