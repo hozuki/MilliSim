@@ -145,6 +145,11 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     nextNote = note.NextSlide;
                     nextStatus = NoteAnimationHelper.GetOnStageStatusOf(nextNote, now, animationMetrics);
 
+                    if (thisStatus == OnStageStatus.Visible && note.HasPrevSlide()) {
+                        // We have already drawn this slide group.
+                        continue;
+                    }
+
                     if ((int)thisStatus * (int)nextStatus > 0) {
                         continue;
                     }

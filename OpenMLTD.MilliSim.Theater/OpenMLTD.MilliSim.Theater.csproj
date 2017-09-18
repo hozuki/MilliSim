@@ -152,6 +152,7 @@
     <Compile Include="Elements\TimerSyncTarget.cs" />
     <Compile Include="Elements\VideoStateChangedEventArgs.cs" />
     <Compile Include="Extensions\TheaterDaysExtensions.cs" />
+    <Compile Include="GlobalDebug.cs" />
     <Compile Include="Internal\RibbonMesh.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Program.cs" />

@@ -263,6 +263,11 @@ namespace OpenMLTD.MilliSim.Theater {
                 case Keys.I:
                     theaterDays.AudioManager.Sfx.Play(settings.Sfx.Tap.Perfect, Program.PluginManager.AudioFormats);
                     break;
+#if DEBUG
+                case Keys.D:
+                    GlobalDebug.Enabled = !GlobalDebug.Enabled;
+                    break;
+#endif
             }
         }
 

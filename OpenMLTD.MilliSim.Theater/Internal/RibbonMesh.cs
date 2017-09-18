@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using OpenMLTD.MilliSim.Core;
@@ -13,7 +14,7 @@ using Buffer = SharpDX.Direct3D11.Buffer;
 namespace OpenMLTD.MilliSim.Theater.Internal {
     internal struct RibbonMesh : IDisposable {
 
-        internal RibbonMesh(Device device, int slice, float topYRatio, float bottomYRatio, float z, RibbonParameters[] rps, INoteTraceCalculator traceCalculator, double now, (RuntimeNote Start, RuntimeNote End)[] notePairs, NoteMetrics visualNoteMetrics, NoteAnimationMetrics animationMetrics) {
+        internal RibbonMesh(Device device, int slice, float textureTopYRatio, float textureBottomYRatio, float z, RibbonParameters[] rps, INoteTraceCalculator traceCalculator, double now, (RuntimeNote Start, RuntimeNote End)[] notePairs, NoteMetrics visualNoteMetrics, NoteAnimationMetrics animationMetrics) {
             _vertexBuffer = null;
             _indexBuffer = null;
             _vertexStride = 0;
@@ -23,7 +24,7 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             _vertexDataStream = null;
             _indexDataStream = null;
 
-            SetMeshParameters(device, slice, topYRatio, bottomYRatio, z, rps, traceCalculator, now, notePairs, visualNoteMetrics, animationMetrics);
+            SetMeshParameters(device, slice, textureTopYRatio, textureBottomYRatio, z, rps, traceCalculator, now, notePairs, visualNoteMetrics, animationMetrics);
         }
 
         public void Dispose() {
@@ -33,18 +34,30 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             Utilities.Dispose(ref _indexDataStream);
         }
 
-        internal void SetMeshParameters(Device device, int slice, float topYRatio, float bottomYRatio, float z, RibbonParameters[] rps, INoteTraceCalculator traceCalculator, double now, (RuntimeNote Start, RuntimeNote End)[] notePairs, NoteMetrics visualNoteMetrics, NoteAnimationMetrics animationMetrics) {
-            Dispose();
-
-            if (rps == null || rps.Length == 0) {
+        private void SetMeshParameters(Device device, int slice, float textureTopYRatio, float textureBottomYRatio, float z, RibbonParameters[] rps, INoteTraceCalculator traceCalculator, double now, (RuntimeNote Start, RuntimeNote End)[] notePairs, NoteMetrics visualNoteMetrics, NoteAnimationMetrics animationMetrics) {
+            if (rps == null) {
                 return;
             }
+            if (notePairs == null) {
+                return;
+            }
+
+            if (rps.Length == 0 || notePairs.Length == 0 || rps.Length != notePairs.Length) {
+                throw new ArgumentException();
+            }
+
+            Dispose();
 
             var vertexCount = 0;
             var indexCount = 0;
 
-            var startY = rps[0].Y1;
-            var endY = rps[rps.Length - 1].Y2;
+            var allRibbonsBottomY = rps[0].Y1;
+            var allRibbonsTopY = rps[rps.Length - 1].Y2;
+#if DEBUG
+            if (GlobalDebug.Enabled) {
+                Debug.Print("Top: {0}, Bottom: {1}", allRibbonsTopY, allRibbonsBottomY);
+            }
+#endif
 
             foreach (var rp in rps) {
                 if (rp.IsLine) {
@@ -67,7 +80,7 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             // 3---4
             // (1,2,3) (4,3,2)
 
-            for (var i = 0; i < rps.Length; i++) {
+            for (var i = 0; i < rps.Length; ++i) {
                 var rp = rps[i];
                 var notePair = notePairs[i];
 
@@ -78,12 +91,12 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                     var startRadius = traceCalculator.GetNoteRadius(notePair.Start, now, visualNoteMetrics, animationMetrics);
                     var endRadius = traceCalculator.GetNoteRadius(notePair.End, now, visualNoteMetrics, animationMetrics);
 
-                    perc = (rp.Y1 - startY) / (endY - startY);
-                    v = MathHelper.Lerp(topYRatio, bottomYRatio, perc);
+                    perc = (rp.Y1 - allRibbonsBottomY) / (allRibbonsTopY - allRibbonsBottomY);
+                    v = MathHelper.Lerp(textureTopYRatio, textureBottomYRatio, perc);
                     var leftTopVertex = new MeshVertex(rp.X1 - endRadius.Width / 2, rp.Y1, z, 0, 0, 1, 1, 0, 0, 0, v);
                     var rightTopVertex = new MeshVertex(rp.X1 + endRadius.Width / 2, rp.Y1, z, 0, 0, 1, 1, 0, 0, 1, v);
-                    perc = (rp.Y2 - startY) / (endY - startY);
-                    v = MathHelper.Lerp(topYRatio, bottomYRatio, perc);
+                    perc = (rp.Y2 - allRibbonsBottomY) / (allRibbonsTopY - allRibbonsBottomY);
+                    v = MathHelper.Lerp(textureTopYRatio, textureBottomYRatio, perc);
                     var leftBottomVertex = new MeshVertex(rp.X2 - startRadius.Width / 2, rp.Y2, z, 0, 0, 1, 1, 0, 0, 0, v);
                     var rightBottomVertex = new MeshVertex(rp.X2 + startRadius.Width / 2, rp.Y2, z, 0, 0, 1, 1, 0, 0, 1, v);
 
@@ -127,8 +140,8 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                         var pt = RibbonMathHelper.CubicBezier(rp, t);
 
                         var noteRadius = traceCalculator.GetNoteRadius(notePair.Start, ribbonTime, visualNoteMetrics, animationMetrics);
-                        perc = (pt.Y - startY) / (endY - startY);
-                        v = MathHelper.Lerp(topYRatio, bottomYRatio, perc);
+                        perc = (pt.Y - allRibbonsBottomY) / (allRibbonsTopY - allRibbonsBottomY);
+                        v = MathHelper.Lerp(textureTopYRatio, textureBottomYRatio, perc);
                         var leftVertex = new MeshVertex(pt.X - noteRadius.Width / 2, pt.Y, z, 0, 0, 1, 1, 0, 0, 0, v);
                         var rightVertex = new MeshVertex(pt.X + noteRadius.Width / 2, pt.Y, z, 0, 0, 1, 1, 0, 0, 1, v);
 

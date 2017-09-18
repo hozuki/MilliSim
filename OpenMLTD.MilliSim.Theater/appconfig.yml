@@ -8,9 +8,9 @@ metadata:
 game:
   difficulty: mm # 2m, 2m+, 4m, 6m, mm; number of tracks is set accordingly
   title: "Blue Symphony"
-  scoreobj: game/scrobj_shtstr.unity3d # .unity3d (raw format from MLTD), .json
+  scoreobj: game/scrobj_blsymp.unity3d # .unity3d (raw format from MLTD), .json
 media:
-  bgm: game/song3_shtstr_bgm.ogg # path to background music (BGM)
+  bgm: game/song3_blsymp_bgm.ogg # path to background music (BGM)
   #bga: media/bga.mp4 # path to background animation (BGA), a video
   #bga: F:\Independent Software\JiJiDown\Download\1.偶像大师MLTD手游Shooting Stars MM难度FC-1.1(Av13332401,P1).flv-muxed.mp4
   #bga: F:\Independent Software\JiJiDown\Download\4.【ミリシタMLTD】偶像大师百万现场Theater Days初始曲目Million Mix难度谱面-4.Blue Symphony(Av11726668,P4).mp4
