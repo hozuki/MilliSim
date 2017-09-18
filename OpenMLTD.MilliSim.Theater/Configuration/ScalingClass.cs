@@ -17,7 +17,9 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public SizeF SyncLine { get; set; }
 
-        public SizeF Ribbon { get; set; }
+        public NoteScaling VisualNoteSmall { get; set; } = new NoteScaling();
+
+        public NoteScaling VisualNoteLarge { get; set; } = new NoteScaling();
 
         public sealed class NoteScaling {
 

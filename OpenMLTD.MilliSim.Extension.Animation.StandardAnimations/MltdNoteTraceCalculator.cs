@@ -29,11 +29,21 @@ namespace OpenMLTD.MilliSim.Extension.Animation.StandardAnimations {
 
         public override SizeF GetNoteRadius(RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
             var timePoints = NoteAnimationHelper.CalculateNoteTimePoints(note, animationMetrics);
-            var passed = now - timePoints.Enter;
-            var perc = passed / timePoints.Duration;
-            var w = (float)MathHelper.Lerp(noteMetrics.StartRadius.Width, noteMetrics.EndRadius.Width, perc);
-            var h = (float)MathHelper.Lerp(noteMetrics.StartRadius.Height, noteMetrics.EndRadius.Height, perc);
-            return new SizeF(w, h);
+            var onStageStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, timePoints);
+            switch (onStageStatus) {
+                case OnStageStatus.Incoming:
+                    return noteMetrics.StartRadius;
+                case OnStageStatus.Visible:
+                    var passed = now - timePoints.Enter;
+                    var perc = passed / timePoints.Duration;
+                    var w = (float)MathHelper.Lerp(noteMetrics.StartRadius.Width, noteMetrics.EndRadius.Width, perc);
+                    var h = (float)MathHelper.Lerp(noteMetrics.StartRadius.Height, noteMetrics.EndRadius.Height, perc);
+                    return new SizeF(w, h);
+                case OnStageStatus.Passed:
+                    return noteMetrics.EndRadius;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         public override float GetNoteX(RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {

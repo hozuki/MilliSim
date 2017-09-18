@@ -127,7 +127,13 @@ scaling:
     start: 200x200
     end: 280x280
   sync_line: 5x0
-  ribbon: 100x0
+  # used for scaling ribbon width
+  visual_note_small:
+    start: 40x40
+    end: 80x80
+  visual_note_large:
+    start: 50x50
+    end: 100x100
 ui:
   tap_points:
     layout:

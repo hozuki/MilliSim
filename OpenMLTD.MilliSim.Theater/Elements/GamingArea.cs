@@ -34,7 +34,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             t.SpecialNote.Start = new SizeF(s.SpecialNote.Start.Width * xRatio, s.SpecialNote.Start.Height * yRatio);
             t.SpecialNote.End = new SizeF(s.SpecialNote.End.Width * xRatio, s.SpecialNote.End.Height * yRatio);
             t.SyncLine = new SizeF(s.SyncLine.Width * xRatio, s.SyncLine.Height * yRatio);
-            t.Ribbon = new SizeF(s.Ribbon.Width * xRatio, s.Ribbon.Height * yRatio);
+            t.VisualNoteSmall.Start = new SizeF(s.VisualNoteSmall.Start.Width * xRatio, s.VisualNoteSmall.Start.Height * yRatio);
+            t.VisualNoteSmall.End = new SizeF(s.VisualNoteSmall.End.Width * xRatio, s.VisualNoteSmall.End.Height * yRatio);
+            t.VisualNoteLarge.Start = new SizeF(s.VisualNoteLarge.Start.Width * xRatio, s.VisualNoteLarge.Start.Height * yRatio);
+            t.VisualNoteLarge.End = new SizeF(s.VisualNoteLarge.End.Width * xRatio, s.VisualNoteLarge.End.Height * yRatio);
 
             ScaledRatio = new SizeF(xRatio, yRatio);
 
