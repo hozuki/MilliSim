@@ -13,8 +13,6 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
         public event EventHandler<EventArgs> TextChanged;
 
-        public override string Name { get; set; } = "Text Overlay Base";
-
         public virtual string Text {
             get => _text;
             set {

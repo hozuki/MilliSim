@@ -18,8 +18,6 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             : base(game) {
         }
 
-        public override string Name { get; set; } = "Text Overlay";
-
         protected override void OnDraw(GameTime gameTime, RenderContext context) {
             base.OnDraw(gameTime, context);
 

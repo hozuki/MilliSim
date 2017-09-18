@@ -6,7 +6,6 @@ using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
 using OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions;
-using OpenMLTD.MilliSim.Extension.Animation.StandardAnimations;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
@@ -38,6 +37,116 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
         }
 
         internal INoteTraceCalculator TraceCalculator { get; private set; }
+
+        internal static (int ImageIndex, bool IsHugeNote) GetImageIndex(RuntimeNoteType type, RuntimeNoteSize size, FlickDirection flickDirection, bool isHoldStart, bool isHoldEnd, bool isSlideStart, bool isSlideEnd) {
+            if (isHoldStart && isHoldEnd) {
+                throw new ArgumentException();
+            }
+            if (isSlideStart && isSlideEnd) {
+                throw new ArgumentException();
+            }
+            if ((isHoldStart || isHoldEnd) && (isSlideStart || isSlideEnd)) {
+                throw new ArgumentException();
+            }
+
+            var imageIndex = -1;
+            var isHugeNote = false;
+            switch (type) {
+                case RuntimeNoteType.Tap:
+                    switch (size) {
+                        case RuntimeNoteSize.Small:
+                            imageIndex = 0;
+                            break;
+                        case RuntimeNoteSize.Large:
+                            imageIndex = 1;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    break;
+                case RuntimeNoteType.Flick:
+                    switch (flickDirection) {
+                        case FlickDirection.Left:
+                            imageIndex = 4;
+                            break;
+                        case FlickDirection.Up:
+                            imageIndex = 5;
+                            break;
+                        case FlickDirection.Right:
+                            imageIndex = 6;
+                            break;
+                        case FlickDirection.Down:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    break;
+                case RuntimeNoteType.Hold:
+                    switch (flickDirection) {
+                        case FlickDirection.None:
+                        case FlickDirection.Down:
+                            switch (size) {
+                                case RuntimeNoteSize.Small:
+                                    imageIndex = 2;
+                                    break;
+                                case RuntimeNoteSize.Large:
+                                    imageIndex = 3;
+                                    break;
+                                default:
+                                    throw new ArgumentOutOfRangeException();
+                            }
+                            break;
+                        case FlickDirection.Left:
+                            imageIndex = 4;
+                            break;
+                        case FlickDirection.Up:
+                            imageIndex = 5;
+                            break;
+                        case FlickDirection.Right:
+                            imageIndex = 6;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    break;
+                case RuntimeNoteType.Slide:
+                    switch (flickDirection) {
+                        case FlickDirection.None:
+                        case FlickDirection.Down:
+                            if (isSlideStart) {
+                                imageIndex = 7;
+                            } else if (isSlideEnd) {
+                                imageIndex = 9;
+                            } else {
+                                imageIndex = 8;
+                            }
+                            break;
+                        case FlickDirection.Left:
+                            imageIndex = 4;
+                            break;
+                        case FlickDirection.Up:
+                            imageIndex = 5;
+                            break;
+                        case FlickDirection.Right:
+                            imageIndex = 6;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    break;
+                case RuntimeNoteType.Special:
+                    isHugeNote = true;
+                    break;
+                case RuntimeNoteType.SpecialEnd:
+                case RuntimeNoteType.SpecialPrepare:
+                    // We don't draw these notes.
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return (imageIndex, isHugeNote);
+        }
 
         protected override void OnDrawBuffer(GameTime gameTime, RenderContext context) {
             base.OnDrawBuffer(gameTime, context);
@@ -107,101 +216,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     continue;
                 }
 
-                var imageIndex = -1;
-                var isHugeNote = false;
-                switch (note.Type) {
-                    case RuntimeNoteType.Tap:
-                        switch (note.Size) {
-                            case RuntimeNoteSize.Small:
-                                imageIndex = 0;
-                                break;
-                            case RuntimeNoteSize.Large:
-                                imageIndex = 1;
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                        break;
-                    case RuntimeNoteType.Flick:
-                        switch (note.FlickDirection) {
-                            case FlickDirection.Left:
-                                imageIndex = 4;
-                                break;
-                            case FlickDirection.Up:
-                                imageIndex = 5;
-                                break;
-                            case FlickDirection.Right:
-                                imageIndex = 6;
-                                break;
-                            case FlickDirection.Down:
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                        break;
-                    case RuntimeNoteType.Hold:
-                        switch (note.FlickDirection) {
-                            case FlickDirection.None:
-                            case FlickDirection.Down:
-                                switch (note.Size) {
-                                    case RuntimeNoteSize.Small:
-                                        imageIndex = 2;
-                                        break;
-                                    case RuntimeNoteSize.Large:
-                                        imageIndex = 3;
-                                        break;
-                                    default:
-                                        throw new ArgumentOutOfRangeException();
-                                }
-                                break;
-                            case FlickDirection.Left:
-                                imageIndex = 4;
-                                break;
-                            case FlickDirection.Up:
-                                imageIndex = 5;
-                                break;
-                            case FlickDirection.Right:
-                                imageIndex = 6;
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                        break;
-                    case RuntimeNoteType.Slide:
-                        switch (note.FlickDirection) {
-                            case FlickDirection.None:
-                            case FlickDirection.Down:
-                                if (note.IsSlideStart()) {
-                                    imageIndex = 7;
-                                } else if (note.IsSlideEnd()) {
-                                    imageIndex = 9;
-                                } else {
-                                    imageIndex = 8;
-                                }
-                                break;
-                            case FlickDirection.Left:
-                                imageIndex = 4;
-                                break;
-                            case FlickDirection.Up:
-                                imageIndex = 5;
-                                break;
-                            case FlickDirection.Right:
-                                imageIndex = 6;
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                        break;
-                    case RuntimeNoteType.Special:
-                        isHugeNote = true;
-                        break;
-                    case RuntimeNoteType.SpecialEnd:
-                    case RuntimeNoteType.SpecialPrepare:
-                        // We don't draw these notes.
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                var (imageIndex, isHugeNote) = GetImageIndex(note);
 
                 if (imageIndex < 0 && !isHugeNote) {
                     continue;
@@ -340,9 +355,13 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             TraceCalculator = calculator;
         }
 
+        private static (int ImageIndex, bool IsHugeNote) GetImageIndex(RuntimeNote note) {
+            return GetImageIndex(note.Type, note.Size, note.FlickDirection, note.IsHoldStart(), note.IsHoldEnd(), note.IsSlideStart(), note.IsSlideEnd());
+        }
+
         [CanBeNull]
         private D2DBitmap _specialNoteImage;
-        [ItemCanBeNull]
+        [CanBeNull, ItemCanBeNull]
         private D2DImageStrip[] _noteImages;
 
         [CanBeNull]

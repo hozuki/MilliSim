@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
@@ -8,9 +9,7 @@ using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Effects;
 using OpenMLTD.MilliSim.Graphics.Extensions;
 using OpenMLTD.MilliSim.Theater.Extensions;
-using SharpDX;
 using SharpDX.Direct2D1;
-using SharpDX.Mathematics.Interop;
 using RectangleF = System.Drawing.RectangleF;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
@@ -144,16 +143,17 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
             _tapPointImage = Direct2DHelper.LoadBitmap(context, settings.Images.TapPoint.FileName);
 
-            _tapBarChainImage = Direct2DHelper.LoadBitmap(context, settings.Images.TapBarChain.FileName);
+            var tapBarChainImage = Direct2DHelper.LoadBitmap(context, settings.Images.TapBarChain.FileName);
+            _tapBarChainImage = tapBarChainImage;
 
             _tapBarNodeImage = Direct2DHelper.LoadBitmap(context, settings.Images.TapBarNode.FileName);
 
             var scaledTapBarChainSize = gamingArea.ScaleResults.TapBarChain;
-            var tapBarChainScaledRatio = new SizeF(scaledTapBarChainSize.Width / _tapBarChainImage.Width, scaledTapBarChainSize.Height / _tapBarChainImage.Height);
+            var tapBarChainScaledRatio = new SizeF(scaledTapBarChainSize.Width / tapBarChainImage.Width, scaledTapBarChainSize.Height / tapBarChainImage.Height);
             _tapBarChainScaleEffect = new D2DScaleEffect(context) {
                 Scale = tapBarChainScaledRatio
             };
-            _tapBarChainScaleEffect.SetInput(0, _tapBarChainImage);
+            _tapBarChainScaleEffect.SetInput(0, tapBarChainImage);
 
             var tapBarBrushRect = new RectangleF(0, 0, scaledTapBarChainSize.Width, scaledTapBarChainSize.Height);
             _tapBarChainBrush = new D2DImageBrush(context, _tapBarChainScaleEffect, ExtendMode.Wrap, ExtendMode.Wrap, InterpolationMode.Linear, tapBarBrushRect);
@@ -165,9 +165,9 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             _tapBarChainPen.Dispose();
             _tapBarChainBrush.Dispose();
             _tapBarChainScaleEffect.Dispose();
-            _tapPointImage.Dispose();
-            _tapBarChainImage.Dispose();
-            _tapBarNodeImage.Dispose();
+            _tapPointImage?.Dispose();
+            _tapBarChainImage?.Dispose();
+            _tapBarNodeImage?.Dispose();
         }
 
         private float[] _tapPointsX;
@@ -175,8 +175,11 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
         private float[] _tapNodesX;
 
+        [CanBeNull]
         private D2DBitmap _tapPointImage;
+        [CanBeNull]
         private D2DBitmap _tapBarChainImage;
+        [CanBeNull]
         private D2DBitmap _tapBarNodeImage;
 
         private D2DScaleEffect _tapBarChainScaleEffect;

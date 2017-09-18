@@ -3,6 +3,7 @@ using System.IO;
 using OpenMLTD.MilliSim.Audio;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
+using OpenMLTD.MilliSim.Theater.Configuration.Primitives;
 using OpenMLTD.MilliSim.Theater.Elements;
 
 namespace OpenMLTD.MilliSim.Theater {
@@ -42,7 +43,13 @@ namespace OpenMLTD.MilliSim.Theater {
             var gamingAreaElements = new List<Element>();
 
             gamingAreaElements.Add(new NoteReactor(this));
+            if (settings.Style.SlideMotionPosition == SlideMotionPosition.Below) {
+                gamingAreaElements.Add(new SlideMotion(this));
+            }
             gamingAreaElements.Add(new RibbonsLayer(this));
+            if (settings.Style.SlideMotionPosition == SlideMotionPosition.Above) {
+                gamingAreaElements.Add(new SlideMotion(this));
+            }
             gamingAreaElements.Add(new NotesLayer(this) {
                 GlobalSpeedScale = 1.3f
             });

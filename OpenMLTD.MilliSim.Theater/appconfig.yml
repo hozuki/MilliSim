@@ -31,6 +31,8 @@ style:
   sync_line: yes # true, yes, y, on, 1
   flick_ribbon: no # false, no, n, off, 0
   slide_middle_sync_line: no
+  slide_motion_icon: tap # none, tap, slide
+  slide_motion_position: below # above, below
 system_ui:
   debug_overlay:
     use: yes # displays debug info overlay

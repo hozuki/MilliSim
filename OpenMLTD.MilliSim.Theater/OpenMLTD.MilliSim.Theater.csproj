@@ -113,6 +113,8 @@
     <Compile Include="Configuration\Primitives\LayoutValue2D.cs" />
     <Compile Include="Configuration\Primitives\NoteSfxGroup.cs" />
     <Compile Include="Configuration\Primitives\SimpleRectangleF.cs" />
+    <Compile Include="Configuration\Primitives\SlideMotionIcon.cs" />
+    <Compile Include="Configuration\Primitives\SlideMotionPosition.cs" />
     <Compile Include="Configuration\Primitives\UIElementConfig.cs" />
     <Compile Include="Configuration\ScalingClass.cs" />
     <Compile Include="Configuration\SfxClass.cs" />
@@ -127,6 +129,7 @@
     <Compile Include="Elements\BackgroundImage.cs" />
     <Compile Include="Elements\BackgroundVideo.cs" />
     <Compile Include="Elements\NoteReactor.cs" />
+    <Compile Include="Elements\SlideMotion.cs" />
     <Compile Include="Elements\SyncTimerOverlay.cs" />
     <Compile Include="Extensions\RenderContextExtensions.Direct3D.cs" />
     <Compile Include="Extensions\SfxManagerExtensions.cs" />

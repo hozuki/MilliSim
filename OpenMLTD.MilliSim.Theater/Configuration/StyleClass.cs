@@ -1,3 +1,4 @@
+using OpenMLTD.MilliSim.Theater.Configuration.Primitives;
 using YamlDotNet.Serialization;
 
 namespace OpenMLTD.MilliSim.Theater.Configuration {
@@ -11,6 +12,10 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
         public bool FlickRibbon { get; set; }
 
         public bool SlideMiddleSyncLine { get; set; }
+
+        public SlideMotionIcon SlideMotionIcon { get; set; }
+
+        public SlideMotionPosition SlideMotionPosition { get; set; }
 
     }
 }

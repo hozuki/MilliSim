@@ -23,8 +23,6 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             : base(game) {
         }
 
-        public override string Name { get; set; } = "Outlined Text Overlay";
-
         public virtual Color StrokeColor { get; set; } = Color.Black;
 
         public virtual float StrokeWidth { get; set; } = 2;

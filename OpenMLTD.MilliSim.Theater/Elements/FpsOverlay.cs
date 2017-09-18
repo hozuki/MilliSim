@@ -11,8 +11,6 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             : base(game) {
         }
 
-        public override string Name { get; set; } = "FPS Overlay";
-
         public override float FontSize { get; set; } = 15;
 
         protected override void OnBeforeTextRendering(RenderContext context, SizeF textSize, float lineHeight) {

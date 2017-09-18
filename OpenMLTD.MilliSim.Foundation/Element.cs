@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 
@@ -11,7 +12,19 @@ namespace OpenMLTD.MilliSim.Foundation {
         public GameBase Game { get; }
 
         [NotNull]
-        public virtual string Name { get; set; } = string.Empty;
+        public virtual string Name {
+            get {
+                if (_isNameSet) {
+                    return _name;
+                } else {
+                    return _cachedTypeName ?? (_cachedTypeName = GetType().Name);
+                }
+            }
+            set {
+                _name = value ?? throw new ArgumentNullException(nameof(value));
+                _isNameSet = true;
+            }
+        }
 
         public virtual bool Enabled { get; set; } = true;
 
@@ -23,10 +36,11 @@ namespace OpenMLTD.MilliSim.Foundation {
         }
 
         public override string ToString() {
+            var typeName = _cachedTypeName ?? (_cachedTypeName = GetType().Name);
             if (!string.IsNullOrEmpty(Name)) {
-                return Name;
+                return $"{Name} {{{typeName}}}";
             }
-            return base.ToString();
+            return $"{{{typeName}}}";
         }
 
         void IElement.OnInitialize() {
@@ -59,6 +73,9 @@ namespace OpenMLTD.MilliSim.Foundation {
         }
 
         private bool _isInitialized;
+        private bool _isNameSet;
+        private string _name;
+        private string _cachedTypeName;
 
     }
 }

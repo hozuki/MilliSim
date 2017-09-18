@@ -17,8 +17,6 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             : base(game) {
         }
 
-        public override string Name { get; set; } = "Background Video";
-
         public event EventHandler<VideoStateChangedEventArgs> VideoStateChanged;
 
         public TimeSpan CurrentTime {
