@@ -64,7 +64,6 @@
     <Compile Include="Mltd\MltdNoteEndType.cs" />
     <Compile Include="Serialization\EventConductorData.cs" />
     <Compile Include="Serialization\EventNoteData.cs" />
-    <Compile Include="Extensions\ScoreObjectExtensions.cs" />
     <Compile Include="Mltd\MltdNoteType.cs" />
     <Compile Include="Serialization\PolyPointData.cs" />
     <Compile Include="Mltd\ScoreHelper.cs" />

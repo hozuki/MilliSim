@@ -1,10 +1,6 @@
 using System;
-using System.Diagnostics;
 using System.IO;
 using JetBrains.Annotations;
-using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Core.Entities;
-using OpenMLTD.MilliSim.Core.Entities.Extending;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
 using OpenMLTD.MilliSim.Core.Entities.Source;
 using OpenMLTD.MilliSim.Foundation;
