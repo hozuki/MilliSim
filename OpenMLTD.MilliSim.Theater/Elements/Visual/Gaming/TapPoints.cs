@@ -38,9 +38,19 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
 
             var settings = Program.Settings;
 
-            var workingAreaWidth = settings.UI.TapPoints.Layout.Width.Value;
-            var l = (1 - workingAreaWidth) / 2;
-            var r = l + workingAreaWidth;
+            var tapPointsLayout = settings.UI.TapPoints.Layout;
+            float workingAreaWidthRatio;
+            if (tapPointsLayout.Width.IsPercentage) {
+                workingAreaWidthRatio = tapPointsLayout.Width.Value;
+            } else {
+                var workingAreaWidth = tapPointsLayout.Width.Value;
+                // TODO: we should get RenderContext.ClientSize instead of using user-specified client size. Current method does not seems contain a method to know this.
+                // Suggested method: replace Game with Root-Parent in constructor.
+                workingAreaWidthRatio = workingAreaWidth / settings.Window.Width;
+            }
+
+            var l = (1 - workingAreaWidthRatio) / 2;
+            var r = l + workingAreaWidthRatio;
             var n = TrackCount;
 
             var tracks = new float[n];
@@ -68,8 +78,14 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
 
             var settings = Program.Settings;
             var clientSize = context.ClientSize;
+            var tapPointsLayout = settings.UI.TapPoints.Layout;
 
-            var centerY = settings.UI.TapPoints.Layout.Y * clientSize.Height;
+            float centerY;
+            if (tapPointsLayout.Y.IsPercentage) {
+                centerY = tapPointsLayout.Y.Value * clientSize.Height;
+            } else {
+                centerY = tapPointsLayout.Y.Value;
+            }
 
             float[] tapPointXPercArray = _tapPointsX, nodeXPercArray = _tapNodesX;
 
@@ -133,7 +149,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                 throw new InvalidOperationException();
             }
 
-            Opacity = settings.UI.TapPoints.Opacity;
+            Opacity = settings.UI.TapPoints.Opacity.Value;
 
             _tapPointImage = Direct2DHelper.LoadBitmap(context, settings.Images.TapPoint.FileName);
 

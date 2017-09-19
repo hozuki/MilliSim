@@ -32,7 +32,7 @@ namespace OpenMLTD.MilliSim.Theater.Configuration.Primitives {
             }
         }
 
-        public static implicit operator float(PercentOrRealValue value) {
+        public static explicit operator float(PercentOrRealValue value) {
             return value.Value;
         }
 
@@ -42,22 +42,6 @@ namespace OpenMLTD.MilliSim.Theater.Configuration.Primitives {
                 s += "%";
             }
             return s;
-        }
-
-        public static float operator *(float f, PercentOrRealValue value) {
-            return value * f;
-        }
-
-        public static float operator *(PercentOrRealValue value, float f) {
-            if (value.IsPercentage) {
-                if (Math.Abs(value.RawValue) < 1000) {
-                    return (value.RawValue * f) / 100;
-                } else {
-                    return (value.RawValue / 100) * f;
-                }
-            } else {
-                return value.RawValue * f;
-            }
         }
 
     }

@@ -66,11 +66,12 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
             var clientSize = context.ClientSize;
             var scalingResults = gamingArea.ScaleResults;
             var settings = Program.Settings;
+            var tapPointsLayout = settings.UI.TapPoints.Layout;
 
             context.Begin2D();
 
             float perc;
-            var y = settings.UI.TapPoints.Layout.Y * clientSize.Height;
+            var y = tapPointsLayout.Y.IsPercentage ? tapPointsLayout.Y.Value * clientSize.Height : tapPointsLayout.Y.Value;
             if (animationTime <= _phase1Duration) {
                 perc = (float)animationTime / (float)_phase1Duration;
 

@@ -74,8 +74,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                 GlobalSpeedScale = notesLayer.GlobalSpeedScale,
                 Width = clientSize.Width,
                 Height = clientSize.Height,
-                Top = notesLayerLayout.Y * clientSize.Height,
-                Bottom = tapPointsLayout.Y * clientSize.Height,
+                Top = notesLayerLayout.Y.IsPercentage ? notesLayerLayout.Y.Value * clientSize.Height : notesLayerLayout.Y.Value,
+                Bottom = tapPointsLayout.Y.IsPercentage ? tapPointsLayout.Y.Value * clientSize.Height : tapPointsLayout.Y.Value,
                 NoteStartXRatios = tapPoints.StartXRatios,
                 NoteEndXRatios = tapPoints.EndXRatios,
                 TrackCount = tapPoints.EndXRatios.Length

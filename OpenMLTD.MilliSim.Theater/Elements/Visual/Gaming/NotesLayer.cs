@@ -188,15 +188,12 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
             var notesLayerLayout = settings.UI.NotesLayer.Layout;
             var clientSize = context.ClientSize;
 
-
-            var opacity = settings.UI.NotesLayer.Opacity;
-
             var animationMetrics = new NoteAnimationMetrics {
                 GlobalSpeedScale = GlobalSpeedScale,
                 Width = clientSize.Width,
                 Height = clientSize.Height,
-                Top = notesLayerLayout.Y * clientSize.Height,
-                Bottom = tapPointsLayout.Y * clientSize.Height,
+                Top = notesLayerLayout.Y.IsPercentage ? notesLayerLayout.Y.Value * clientSize.Height : notesLayerLayout.Y.Value,
+                Bottom = tapPointsLayout.Y.IsPercentage ? tapPointsLayout.Y.Value * clientSize.Height : tapPointsLayout.Y.Value,
                 NoteStartXRatios = tapPoints.StartXRatios,
                 NoteEndXRatios = tapPoints.EndXRatios,
                 TrackCount = tapPoints.EndXRatios.Length
@@ -243,6 +240,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                             }
                         }
                     }
+
+                    var opacity = settings.UI.NotesLayer.Opacity.Value;
 
                     // Then draw the note.
                     context.DrawImageStripUnit(noteImages[0], imageIndex, thisX - thisRadius.Width / 2, thisY - thisRadius.Height / 2, thisRadius.Width, thisRadius.Height, opacity);
