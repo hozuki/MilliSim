@@ -11,8 +11,6 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime {
         [NotNull, ItemNotNull]
         public IReadOnlyList<RuntimeNote> Notes { get; }
 
-        public double OffsetToMusic { get; set; }
-
         public int TrackCount { get; set; }
 
     }

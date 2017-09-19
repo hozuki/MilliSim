@@ -15,22 +15,20 @@ namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd {
         /// A <see cref="ScoreCompileOptions"/> object can be specified.
         /// </summary>
         /// <param name="score">The <see cref="SourceScore"/> to compile.</param>
-        /// <param name="options">Compile options.</param>
+        /// <param name="compileOptions">Compile options.</param>
         /// <returns>Compiled score.</returns>
-        public RuntimeScore Compile(SourceScore score, ScoreCompileOptions options) {
+        public RuntimeScore Compile(SourceScore score, ScoreCompileOptions compileOptions) {
             if (score == null) {
                 throw new ArgumentNullException(nameof(score));
             }
-            if (options == null) {
-                throw new ArgumentNullException(nameof(options));
+            if (compileOptions == null) {
+                throw new ArgumentNullException(nameof(compileOptions));
             }
 
             // ReSharper cannot infer from "(score.Notes?.Count ?? 0) == 0" that score.Notes is later no longer null.
             if (score.Notes.Length == 0) {
                 var notes = new RuntimeNote[0];
-                return new RuntimeScore(notes) {
-                    OffsetToMusic = options.GetValue<float>(ScoreCompileOptions.GlobalSpeedKey)
-                };
+                return new RuntimeScore(notes);
             }
 
             var gameNotes = score.Notes;
@@ -81,9 +79,14 @@ namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd {
 
             // TODO: Fix flick/slide group.
 
+            // Fix offsets
+            var scoreOffset = compileOptions.Offset;
+            foreach (var note in list) {
+                note.HitTime += scoreOffset;
+            }
+
             var runtimeNotes = list.ToArray();
             return new RuntimeScore(runtimeNotes) {
-                OffsetToMusic = score.MusicOffset,
                 TrackCount = score.TrackCount
             };
         }

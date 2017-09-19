@@ -10,5 +10,8 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
         [YamlMember(Alias = "scoreobj")]
         public string ScoreFile { get; set; }
 
+        [YamlMember(Alias = "offset")]
+        public double ScoreOffset { get; set; }
+
     }
 }

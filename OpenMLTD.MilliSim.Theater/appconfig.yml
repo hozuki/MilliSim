@@ -2,13 +2,15 @@
 # 1. Please save this configuration file with UTF-8 encoding without BOM, codepage 65001.
 # 2. Numeric values in 'layout' section can appear in 2 forms, integer (interpreted as pixels)
 # or percentage (calculated based on window size).
+# 3. MilliSim uses BGM time as the standard time. If BGM is not loaded, uses BGA instead. If neither is loaded, uses game time.
 
 metadata:
   version: 1 # format version
 game:
-  score_index: 4 # 0=2m, 1=2m+, 2=4m, 3=6m, 4=mm
+  score_index: 4 # for MLTD: 0=2m, 1=2m+, 2=4m, 3=6m, 4=mm
   title: "Blue Symphony"
   scoreobj: game/scrobj_shtstr.unity3d # .unity3d (raw format from MLTD), .json
+  offset: 0 # score offset relative to standard time, in seconds
 media:
   bgm: game/song3_shtstr_bgm.ogg # path to background music (BGM)
   #bga: media/bga.mp4 # path to background animation (BGA), a video

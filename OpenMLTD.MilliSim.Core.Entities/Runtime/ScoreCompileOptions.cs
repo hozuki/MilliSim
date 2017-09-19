@@ -3,6 +3,7 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime {
 
         public ScoreCompileOptions() {
             GlobalSpeed = 1;
+            Offset = 0;
         }
 
         /// <summary>
@@ -14,6 +15,16 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime {
         }
 
         public static string GlobalSpeedKey => nameof(GlobalSpeed);
+
+        /// <summary>
+        /// Offset of the score, relative to standard time, in seconds.
+        /// </summary>
+        public double Offset {
+            get => GetValue<double>(OffsetKey);
+            set => SetValue(OffsetKey, value);
+        }
+
+        public static string OffsetKey => nameof(Offset);
 
     }
 }

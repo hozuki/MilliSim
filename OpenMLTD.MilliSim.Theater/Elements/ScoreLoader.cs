@@ -48,7 +48,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 ScoreIndex = settings.Game.ScoreIndex
             };
             var compileOptions = new ScoreCompileOptions {
-                GlobalSpeed = 1
+                GlobalSpeed = 1,
+                Offset = settings.Game.ScoreOffset
             };
 
             var successful = false;
