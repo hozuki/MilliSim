@@ -53,7 +53,7 @@ namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd {
 
         public override string FormatDescription => "MLTD Unity3D Score File";
 
-        internal static string[] Unity3DReadExtensions = { ".unit3d", ".unity3d.lz4" };
+        internal static string[] Unity3DReadExtensions = { ".unity3d", ".unity3d.lz4" };
 
         internal static string[] Unity3DWriteExtensions = new string[0];
 
