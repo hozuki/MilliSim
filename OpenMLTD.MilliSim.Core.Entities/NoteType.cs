@@ -17,7 +17,12 @@ namespace OpenMLTD.MilliSim.Core.Entities {
         /// <summary>
         /// A virtual note representing the start of tap points animation.
         /// </summary>
-        SpecialPrepare = 102
+        SpecialPrepare = 102,
+        /// <summary>
+        /// The user should prepare to play the score. It is usually 1.5 seconds before the first playable note.
+        /// The tap points will respond to this type of note and play "fade-in" animation.
+        /// </summary>
+        ScorePrepare = 103
 
     }
 }

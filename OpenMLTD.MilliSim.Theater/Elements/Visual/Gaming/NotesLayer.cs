@@ -142,6 +142,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                     break;
                 case NoteType.SpecialEnd:
                 case NoteType.SpecialPrepare:
+                case NoteType.ScorePrepare:
                     // We don't draw these notes.
                     break;
                 default:

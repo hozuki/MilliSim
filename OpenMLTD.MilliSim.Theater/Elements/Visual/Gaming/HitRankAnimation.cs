@@ -41,6 +41,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
             if (currentTime < _animationStartedTime) {
                 // Automatically cancels the animation if the user steps back in UI.
                 _isAnimationStarted = false;
+                Opacity = 0;
                 return;
             }
 

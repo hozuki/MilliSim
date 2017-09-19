@@ -170,7 +170,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                             if (tapPoints != null) {
                                 // The animation length must keep the same as the SpecialEnd note's delay.
                                 // See Unity3DScoreCompiler.CreateSpecial() for more information.
-                                tapPoints.FadeIn(TimeSpan.FromSeconds(1.5));
+                                tapPoints.PlaySpecialEndAnimation();
                             }
                         }
                         break;
@@ -185,6 +185,14 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                                     tapPointsMergingAnimation.StartAnimation();
                                 }
                                 tapPoints.Opacity = 0;
+                            }
+                        }
+                        break;
+                    case NoteType.ScorePrepare:
+                        if (newState == OnStageStatus.Passed) {
+                            var tapPoints = theaterDays.FindSingleElement<TapPoints>();
+                            if (tapPoints != null) {
+                                tapPoints.PlayScorePrepareAnimation();
                             }
                         }
                         break;

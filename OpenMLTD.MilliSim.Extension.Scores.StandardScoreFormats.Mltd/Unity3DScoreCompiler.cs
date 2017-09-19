@@ -85,6 +85,14 @@ namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd {
                 note.HitTime += scoreOffset;
             }
 
+            // Generate ScorePrepare note.
+            var scorePrepareNote = new RuntimeNote();
+            scorePrepareNote.Type = NoteType.ScorePrepare;
+            // This value should correspond to TapPoints' "score-prepare fade-in" animation duration.
+            scorePrepareNote.HitTime = list[0].HitTime - 1.5;
+            scorePrepareNote.ID = ++currentID;
+            list.Insert(0, scorePrepareNote);
+
             var runtimeNotes = list.ToArray();
             return new RuntimeScore(runtimeNotes) {
                 TrackCount = score.TrackCount

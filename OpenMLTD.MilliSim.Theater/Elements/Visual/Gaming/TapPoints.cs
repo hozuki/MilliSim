@@ -1,13 +1,16 @@
 using System;
 using System.Drawing;
+using System.Linq;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Core.Entities;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Effects;
 using OpenMLTD.MilliSim.Graphics.Extensions;
+using OpenMLTD.MilliSim.Theater.Elements.Logical;
 using OpenMLTD.MilliSim.Theater.Extensions;
 using SharpDX.Direct2D1;
 using RectangleF = System.Drawing.RectangleF;
@@ -32,6 +35,100 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
         public float[] EndXRatios => _tapPointsX;
 
         public float[] StartXRatios => _incomingX;
+
+        public void PlayScorePrepareAnimation() {
+            var syncTimer = Game.AsTheaterDays().FindSingleElement<SyncTimer>();
+            if (syncTimer == null) {
+                throw new InvalidOperationException();
+            }
+
+            _animationStartedTime = syncTimer.CurrentTime;
+            _ongoingAnimation = OngoingAnimation.ScorePrepare;
+        }
+
+        public void PlaySpecialEndAnimation() {
+            var syncTimer = Game.AsTheaterDays().FindSingleElement<SyncTimer>();
+            if (syncTimer == null) {
+                throw new InvalidOperationException();
+            }
+
+            _animationStartedTime = syncTimer.CurrentTime;
+            _ongoingAnimation = OngoingAnimation.SpecialEnd;
+        }
+
+        protected override void OnUpdate(GameTime gameTime) {
+            base.OnUpdate(gameTime);
+
+            var theaterDays = Game.AsTheaterDays();
+
+            var syncTimer = theaterDays.FindSingleElement<SyncTimer>();
+            if (syncTimer == null) {
+                throw new InvalidOperationException();
+            }
+
+            var currentTime = syncTimer.CurrentTime;
+            if (currentTime < _animationStartedTime) {
+                var score = theaterDays.FindSingleElement<ScoreLoader>()?.RuntimeScore;
+                if (score == null) {
+                    throw new InvalidOperationException();
+                }
+
+                var scorePrepareNote = score.Notes.Single(n => n.Type == NoteType.ScorePrepare);
+
+                if (currentTime.TotalSeconds < scorePrepareNote.HitTime) {
+                    Opacity = 0;
+                } else {
+                    // Automatically cancels the animation if the user steps back in UI.
+                    Opacity = 1;
+                }
+
+                _ongoingAnimation = OngoingAnimation.None;
+                return;
+            }
+
+            if (_ongoingAnimation == OngoingAnimation.None) {
+                return;
+            }
+
+            var animationTime = (currentTime - _animationStartedTime).TotalSeconds;
+
+            switch (_ongoingAnimation) {
+                case OngoingAnimation.ScorePrepare:
+                    if (animationTime > _scorePrepareDuration) {
+                        Opacity = 1;
+                        _ongoingAnimation = OngoingAnimation.None;
+                        return;
+                    }
+                    break;
+                case OngoingAnimation.SpecialEnd:
+                    if (animationTime > _specialEndDuration) {
+                        Opacity = 1;
+                        _ongoingAnimation = OngoingAnimation.None;
+                        return;
+                    }
+                    break;
+                case OngoingAnimation.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            float perc;
+            switch (_ongoingAnimation) {
+                case OngoingAnimation.ScorePrepare:
+                    perc = (float)animationTime / (float)_scorePrepareDuration;
+                    Opacity = perc;
+                    break;
+                case OngoingAnimation.SpecialEnd:
+                    perc = (float)animationTime / (float)_specialEndDuration;
+                    Opacity = perc;
+                    break;
+                case OngoingAnimation.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
         protected override void OnLayout() {
             base.OnLayout();
@@ -75,6 +172,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
 
         protected override void OnDrawBuffer(GameTime gameTime, RenderContext context) {
             base.OnDrawBuffer(gameTime, context);
+
+            if (Opacity.Equals(0)) {
+                return;
+            }
 
             var settings = Program.Settings;
             var clientSize = context.ClientSize;
@@ -149,7 +250,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                 throw new InvalidOperationException();
             }
 
-            Opacity = settings.UI.TapPoints.Opacity.Value;
+            //Opacity = settings.UI.TapPoints.Opacity.Value;
 
             _tapPointImage = Direct2DHelper.LoadBitmap(context, settings.Images.TapPoint.FileName);
 
@@ -180,10 +281,22 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
             _tapBarNodeImage?.Dispose();
         }
 
+        protected override void OnInitialize() {
+            base.OnInitialize();
+
+            Opacity = 0;
+        }
+
         private float[] _tapPointsX;
         private float[] _incomingX;
 
         private float[] _tapNodesX;
+
+        private OngoingAnimation _ongoingAnimation = OngoingAnimation.None;
+        private TimeSpan _animationStartedTime = TimeSpan.Zero;
+
+        private readonly double _scorePrepareDuration = 1.5;
+        private readonly double _specialEndDuration = 1.5;
 
         [CanBeNull]
         private D2DBitmap _tapPointImage;
@@ -198,6 +311,14 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
         private D2DPen _tapBarChainPen;
 
         private int _trackCount = 2;
+
+        private enum OngoingAnimation {
+
+            None = 0,
+            ScorePrepare = 1,
+            SpecialEnd = 2
+
+        }
 
     }
 }
