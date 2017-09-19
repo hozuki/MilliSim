@@ -117,11 +117,17 @@ images:
   difficulty_badges:
     file: res/images/difficulty_badges.png
     count: 6
+  special_note_aura:
+    file: res/images/ui/special_note_aura.png
+  special_note_socket:
+    file: res/images/ui/special_note_socket.png
 localization:
   press_space_to_start: Press space key to play #スペースで再生
 scaling:
   base: 960x540
-  tap_point: 114x114
+  tap_point:
+    start: 114x114
+    end: 140x140
   tap_bar_chain: 4x4
   tap_bar_node: 16x16
   note:
@@ -138,6 +144,10 @@ scaling:
   visual_note_large:
     start: 50x50
     end: 100x100
+  special_note_aura:
+    start: 100x100
+    end: 280x280
+  special_note_socket: 280x280
 ui:
   tap_points:
     layout:

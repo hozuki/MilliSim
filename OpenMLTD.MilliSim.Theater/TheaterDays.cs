@@ -50,6 +50,7 @@ namespace OpenMLTD.MilliSim.Theater {
             if (settings.Style.SlideMotionPosition == SlideMotionPosition.Above) {
                 gamingAreaElements.Add(new SlideMotion(this));
             }
+            gamingAreaElements.Add(new TapPointsMergingAnimation(this));
             gamingAreaElements.Add(new NotesLayer(this) {
                 GlobalSpeedScale = 1.3f
             });

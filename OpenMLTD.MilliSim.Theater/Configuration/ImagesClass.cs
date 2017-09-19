@@ -37,6 +37,10 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public ImageStrip DifficultyBadges { get; set; }
 
+        public ImageWithBlankEdge SpecialNoteAura { get; set; }
+
+        public ImageWithBlankEdge SpecialNoteSocket { get; set; }
+
         public sealed class HpGaugeClass {
 
             public ImageWithBlankEdge Base { get; set; }

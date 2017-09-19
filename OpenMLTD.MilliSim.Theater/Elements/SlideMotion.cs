@@ -111,7 +111,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                         throw new InvalidOperationException();
                     case SlideMotionIcon.Tap:
                         if (_tapPointImage != null) {
-                            imageSize = gamingArea.ScaleResults.TapPoint;
+                            imageSize = gamingArea.ScaleResults.TapPoint.Start;
                             context.DrawBitmap(_tapPointImage, x - imageSize.Width / 2, y - imageSize.Height / 2, imageSize.Width, imageSize.Height);
                         }
                         break;

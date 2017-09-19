@@ -7,7 +7,6 @@ using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities;
 using OpenMLTD.MilliSim.Core.Entities.Extensions;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
-using OpenMLTD.MilliSim.Core.Entities.Source;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Theater.Animation;
 using OpenMLTD.MilliSim.Theater.Extensions;
@@ -168,8 +167,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                             if (tapPoints != null) {
                                 // This shall trigger tap points' "transform" animation.
                                 // See Unity3DScoreCompiler.CreateSpecial() for more information.
-                                // TODO: implement "transform" animation.
-                                //tapPoints.PlayTransformAnimation(TimeSpan.FromSeconds(0.8));
+                                var tapPointsMergingAnimation = theaterDays.FindSingleElement<TapPointsMergingAnimation>();
+                                if (tapPointsMergingAnimation != null) {
+                                    tapPointsMergingAnimation.StartAnimation();
+                                }
                                 tapPoints.Opacity = 0;
                             }
                         }

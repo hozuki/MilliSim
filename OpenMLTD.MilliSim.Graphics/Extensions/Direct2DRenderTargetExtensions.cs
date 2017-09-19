@@ -150,6 +150,11 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
             target.DrawBitmap(bitmap, destX, destY, destWidth, destHeight, BitmapInterpolationMode.Linear);
         }
 
+        public static void DrawBitmap(this SharpDX.Direct2D1.RenderTarget target, D2DBitmap bitmap, float destX, float destY, float destWidth, float destHeight, float opacity) {
+            var destRect = new RawRectangleF(destX, destY, destX + destWidth, destY + destHeight);
+            target.DrawBitmap(bitmap.NativeImage, destRect, opacity, BitmapInterpolationMode.Linear);
+        }
+
         public static void DrawBitmap(this SharpDX.Direct2D1.RenderTarget target, D2DBitmap bitmap, float destX, float destY, float destWidth, float destHeight, BitmapInterpolationMode interpolationMode) {
             var destRect = new RawRectangleF(destX, destY, destX + destWidth, destY + destHeight);
             target.DrawBitmap(bitmap.NativeImage, destRect, 1f, interpolationMode);

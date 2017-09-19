@@ -5,23 +5,27 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public SizeF Base { get; set; }
 
-        public SizeF TapPoint { get; set; }
+        public SizableScaling TapPoint { get; set; }
 
         public SizeF TapBarChain { get; set; }
 
         public SizeF TapBarNode { get; set; }
 
-        public NoteScaling Note { get; set; } = new NoteScaling();
+        public SizableScaling Note { get; set; }
 
-        public NoteScaling SpecialNote { get; set; } = new NoteScaling();
+        public SizableScaling SpecialNote { get; set; }
 
         public SizeF SyncLine { get; set; }
 
-        public NoteScaling VisualNoteSmall { get; set; } = new NoteScaling();
+        public SizableScaling VisualNoteSmall { get; set; }
 
-        public NoteScaling VisualNoteLarge { get; set; } = new NoteScaling();
+        public SizableScaling VisualNoteLarge { get; set; }
 
-        public sealed class NoteScaling {
+        public SizableScaling SpecialNoteAura { get; set; }
+
+        public SizeF SpecialNoteSocket { get; set; }
+
+        public sealed class SizableScaling {
 
             public SizeF Start { get; set; }
 

@@ -5,6 +5,7 @@ using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Theater.Configuration;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Reflection;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public class GamingArea : ContainerElement {
@@ -26,22 +27,35 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             var xRatio = clientSize.Width / baseScaling.Width;
             var yRatio = clientSize.Height / baseScaling.Height;
 
-            t.TapBarChain = new SizeF(s.TapBarChain.Width * xRatio, s.TapBarChain.Height * yRatio);
-            t.TapBarNode = new SizeF(s.TapBarNode.Width * xRatio, s.TapBarNode.Height * yRatio);
-            t.TapPoint = new SizeF(s.TapPoint.Width * xRatio, s.TapPoint.Height * yRatio);
-            t.Note.Start = new SizeF(s.Note.Start.Width * xRatio, s.Note.Start.Height * yRatio);
-            t.Note.End = new SizeF(s.Note.End.Width * xRatio, s.Note.End.Height * yRatio);
-            t.SpecialNote.Start = new SizeF(s.SpecialNote.Start.Width * xRatio, s.SpecialNote.Start.Height * yRatio);
-            t.SpecialNote.End = new SizeF(s.SpecialNote.End.Width * xRatio, s.SpecialNote.End.Height * yRatio);
-            t.SyncLine = new SizeF(s.SyncLine.Width * xRatio, s.SyncLine.Height * yRatio);
-            t.VisualNoteSmall.Start = new SizeF(s.VisualNoteSmall.Start.Width * xRatio, s.VisualNoteSmall.Start.Height * yRatio);
-            t.VisualNoteSmall.End = new SizeF(s.VisualNoteSmall.End.Width * xRatio, s.VisualNoteSmall.End.Height * yRatio);
-            t.VisualNoteLarge.Start = new SizeF(s.VisualNoteLarge.Start.Width * xRatio, s.VisualNoteLarge.Start.Height * yRatio);
-            t.VisualNoteLarge.End = new SizeF(s.VisualNoteLarge.End.Width * xRatio, s.VisualNoteLarge.End.Height * yRatio);
+            var ty = typeof(ScalingClass);
+            var props = ty.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+
+            foreach (var prop in props) {
+                if (prop.PropertyType == typeof(SizeF)) {
+                    var source = (SizeF)prop.GetValue(s);
+                    var scaled = Resize(source, xRatio, yRatio);
+                    prop.SetValue(t, scaled);
+                } else if (prop.PropertyType == typeof(ScalingClass.SizableScaling)) {
+                    var source = (ScalingClass.SizableScaling)prop.GetValue(s);
+                    var scaled = Resize(source, xRatio, yRatio);
+                    prop.SetValue(t, scaled);
+                }
+            }
 
             ScaledRatio = new SizeF(xRatio, yRatio);
 
             base.OnGotContext(context);
+        }
+
+        private static SizeF Resize(SizeF source, float xRatio, float yRatio) {
+            return new SizeF(source.Width * xRatio, source.Height * yRatio);
+        }
+
+        private static ScalingClass.SizableScaling Resize(ScalingClass.SizableScaling source, float xRatio, float yRatio) {
+            var r = new ScalingClass.SizableScaling();
+            r.Start = Resize(source.Start, xRatio, yRatio);
+            r.End = Resize(source.End, xRatio, yRatio);
+            return r;
         }
 
     }
