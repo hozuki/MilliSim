@@ -1,7 +1,7 @@
 using System;
 using SharpDX.MediaFoundation;
 
-namespace OpenMLTD.MilliSim.Theater.Elements {
+namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Background {
     public sealed class VideoStateChangedEventArgs : EventArgs {
 
         internal VideoStateChangedEventArgs(MediaEngineEvent oldValidState, MediaEngineEvent newState) {

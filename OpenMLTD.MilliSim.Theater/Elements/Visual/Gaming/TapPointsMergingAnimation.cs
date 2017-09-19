@@ -5,9 +5,10 @@ using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
 using OpenMLTD.MilliSim.Graphics.Extensions;
+using OpenMLTD.MilliSim.Theater.Elements.Logical;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
-namespace OpenMLTD.MilliSim.Theater.Elements {
+namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
     public class TapPointsMergingAnimation : Element2D {
 
         public TapPointsMergingAnimation(GameBase game)

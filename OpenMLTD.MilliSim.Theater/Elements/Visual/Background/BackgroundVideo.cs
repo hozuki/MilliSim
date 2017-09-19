@@ -10,7 +10,7 @@ using OpenMLTD.MilliSim.Graphics;
 using SharpDX.DXGI;
 using SharpDX.MediaFoundation;
 
-namespace OpenMLTD.MilliSim.Theater.Elements {
+namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Background {
     public sealed class BackgroundVideo : BackgroundBase {
 
         public BackgroundVideo(GameBase game)

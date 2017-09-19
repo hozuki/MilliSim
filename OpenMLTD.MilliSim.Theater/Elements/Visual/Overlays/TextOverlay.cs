@@ -7,7 +7,7 @@ using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
 using OpenMLTD.MilliSim.Graphics.Extensions;
 using FontStyle = OpenMLTD.MilliSim.Graphics.Drawing.FontStyle;
 
-namespace OpenMLTD.MilliSim.Theater.Elements {
+namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
     /// <summary>
     /// A basic text overlay.
     /// Suggested for dynamic texts or long texts.

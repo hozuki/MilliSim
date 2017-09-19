@@ -4,9 +4,10 @@ using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
 using OpenMLTD.MilliSim.Core.Entities.Source;
 using OpenMLTD.MilliSim.Foundation;
+using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
-namespace OpenMLTD.MilliSim.Theater.Elements {
+namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
     public sealed class ScoreLoader : Element {
 
         public ScoreLoader(GameBase game)

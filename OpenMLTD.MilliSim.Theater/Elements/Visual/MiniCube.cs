@@ -30,7 +30,7 @@ using SharpDX.DXGI;
 using Buffer = SharpDX.Direct3D11.Buffer;
 using Device = SharpDX.Direct3D11.Device;
 
-namespace OpenMLTD.MilliSim.Theater.Elements {
+namespace OpenMLTD.MilliSim.Theater.Elements.Visual {
     /// <summary>
     /// Adapted from the MiniCube example of SharpDX. Its function is to test Direct2D-Direct3D mixed rendering,
     /// and to observe if Z order between different rendering calls can be preserved.

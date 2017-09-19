@@ -11,7 +11,7 @@ using OpenMLTD.MilliSim.Graphics.Extensions;
 using SharpDX.DirectWrite;
 using FontStyle = OpenMLTD.MilliSim.Graphics.Drawing.FontStyle;
 
-namespace OpenMLTD.MilliSim.Theater.Elements {
+namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
     /// <summary>
     /// A text overlay with an extra outline.
     /// The outline makes the text easier to read on complex backgrounds, but it also requires more resources to render.

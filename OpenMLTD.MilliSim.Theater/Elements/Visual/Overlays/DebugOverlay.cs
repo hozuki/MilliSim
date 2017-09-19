@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using OpenMLTD.MilliSim.Foundation;
 
-namespace OpenMLTD.MilliSim.Theater.Elements {
+namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
     public class DebugOverlay : TextOverlay {
 
         public DebugOverlay(GameBase game)

@@ -1,9 +1,10 @@
 using System;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
+using OpenMLTD.MilliSim.Theater.Elements.Visual.Background;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
-namespace OpenMLTD.MilliSim.Theater.Elements {
+namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
     public sealed class SyncTimer : Element {
 
         public SyncTimer(GameBase game)

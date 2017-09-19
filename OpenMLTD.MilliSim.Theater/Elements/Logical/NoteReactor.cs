@@ -9,9 +9,10 @@ using OpenMLTD.MilliSim.Core.Entities.Extensions;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Theater.Animation;
+using OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
-namespace OpenMLTD.MilliSim.Theater.Elements {
+namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
     /// <summary>
     /// Reacting to note events.
     /// </summary>

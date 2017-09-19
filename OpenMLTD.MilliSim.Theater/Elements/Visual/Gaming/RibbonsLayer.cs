@@ -5,7 +5,6 @@ using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities;
 using OpenMLTD.MilliSim.Core.Entities.Extensions;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
-using OpenMLTD.MilliSim.Core.Entities.Source;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Extensions;
@@ -13,6 +12,7 @@ using OpenMLTD.MilliSim.Graphics.Rendering;
 using OpenMLTD.MilliSim.Graphics.Rendering.Direct3D;
 using OpenMLTD.MilliSim.Graphics.Rendering.Direct3D.Effects;
 using OpenMLTD.MilliSim.Theater.Animation;
+using OpenMLTD.MilliSim.Theater.Elements.Logical;
 using OpenMLTD.MilliSim.Theater.Extensions;
 using OpenMLTD.MilliSim.Theater.Internal;
 using SharpDX;
@@ -20,7 +20,7 @@ using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using Color = System.Drawing.Color;
 
-namespace OpenMLTD.MilliSim.Theater.Elements {
+namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
     public class RibbonsLayer : VisualElement {
 
         public RibbonsLayer(GameBase game)

@@ -2,6 +2,7 @@ using System.Windows.Forms;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Theater.Elements;
+using OpenMLTD.MilliSim.Theater.Elements.Visual.Background;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater {

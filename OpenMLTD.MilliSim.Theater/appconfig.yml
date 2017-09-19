@@ -8,7 +8,7 @@ metadata:
   version: 1 # format version
 game:
   score_index: 4 # for MLTD: 0=2m, 1=2m+, 2=4m, 3=6m, 4=mm
-  title: "Blue Symphony"
+  title: "Shooting Stars"
   scoreobj: game/scrobj_shtstr.unity3d # .unity3d (raw format from MLTD), .json
   offset: 0 # score offset relative to standard time, in seconds
 media:
@@ -35,6 +35,17 @@ style:
   slide_middle_sync_line: no
   slide_motion_icon: tap # none, tap, slide
   slide_motion_position: below # above, below
+animation:
+  song_title:
+    enter: 8.5
+    fade_in: 0.8
+    hold: 10
+    fade_out: 0.8
+  song_title_reappear:
+    enter: 130.5
+    fade_in: 0.4
+    hold: 2
+    fade_out: 0.4
 system_ui:
   debug_overlay:
     use: yes # displays debug info overlay
@@ -177,10 +188,12 @@ ui:
     opacity: 80%
   ribbons_layer:
     opacity: 100%
-  title:
+  song_title:
     layout:
-      x: 5% # x position (anchor: left)
-      y: 30% # y position (anchor: top)
+      x: 4.5% # x position (anchor: left)
+      y: 20% # y position (anchor: top)
+    font_size: 18
+    text_stroke_width: 5
   hit_rank:
     layout:
       x: 50% # x position (anchor: center)

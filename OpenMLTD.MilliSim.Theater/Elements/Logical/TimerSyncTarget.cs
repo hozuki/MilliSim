@@ -1,4 +1,6 @@
-namespace OpenMLTD.MilliSim.Theater.Elements {
+using OpenMLTD.MilliSim.Theater.Elements.Visual.Background;
+
+namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
     public enum TimerSyncTarget {
 
         /// <summary>

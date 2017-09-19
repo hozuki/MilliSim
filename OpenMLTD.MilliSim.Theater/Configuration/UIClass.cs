@@ -1,4 +1,5 @@
 using OpenMLTD.MilliSim.Theater.Configuration.Primitives;
+using YamlDotNet.Serialization;
 
 namespace OpenMLTD.MilliSim.Theater.Configuration {
     public sealed class UIClass {
@@ -17,9 +18,20 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public UICommonConfig RibbonsLayer { get; set; }
 
-        public UICommonConfig Title { get; set; }
+        public SongTitleClass SongTitle { get; set; }
 
         public UICommonConfig HitRank { get; set; }
+
+        public sealed class SongTitleClass {
+
+            public LayoutValue2D Layout { get; set; }
+
+            public float FontSize { get; set; }
+
+            [YamlMember(Alias = "text_stroke_width")]
+            public float StrokeWidth { get; set; }
+
+        }
 
         public sealed class UICommonConfig {
 

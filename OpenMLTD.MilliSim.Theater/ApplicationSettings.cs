@@ -29,5 +29,7 @@ namespace OpenMLTD.MilliSim.Theater {
 
         public ScalingClass Scaling { get; set; }
 
+        public AnimationClass Animation { get; set; }
+
     }
 }

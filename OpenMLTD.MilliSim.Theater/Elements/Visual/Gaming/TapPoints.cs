@@ -12,7 +12,7 @@ using OpenMLTD.MilliSim.Theater.Extensions;
 using SharpDX.Direct2D1;
 using RectangleF = System.Drawing.RectangleF;
 
-namespace OpenMLTD.MilliSim.Theater.Elements {
+namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
     public class TapPoints : BufferedElement2D {
 
         public TapPoints(GameBase game)

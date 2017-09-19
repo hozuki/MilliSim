@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
@@ -7,9 +6,10 @@ using OpenMLTD.MilliSim.Audio.Extending;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Theater.Configuration.Primitives;
+using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
-namespace OpenMLTD.MilliSim.Theater.Elements {
+namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
     public sealed class AudioController : Element {
 
         public AudioController(GameBase game)
