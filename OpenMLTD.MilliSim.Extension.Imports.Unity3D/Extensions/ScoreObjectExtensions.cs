@@ -78,7 +78,7 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D.Extensions {
 
                         var generatedPolyPoints = new[] { new PolyPoint(), new PolyPoint() };
                         generatedPolyPoints[0].Subtick = 0;
-                        generatedPolyPoints[0].PositionX = note.EndX;
+                        generatedPolyPoints[0].PositionX = note.StartX;
                         // MLTD tick is divided by 8.
                         generatedPolyPoints[1].Subtick = noteData.Duration * (NoteBase.TicksPerBeat / 8);
                         generatedPolyPoints[1].PositionX = note.EndX;

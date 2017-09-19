@@ -140,13 +140,15 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
                 throw new ArgumentException("A hold or slide note must have at least 2 polypoints.", nameof(note));
             }
 
+            var noteType = note.Type;
+
             var rn = new RuntimeNote();
 
             rn.ID = ++currentID;
             rn.HitTime = TicksToSeconds(note.Ticks, conductors);
             rn.LeadTime = note.LeadTime;
             rn.RelativeSpeed = note.Speed;
-            rn.Type = NoteType.Slide;
+            rn.Type = noteType;
             rn.StartX = note.StartX;
             rn.EndX = note.EndX;
 
@@ -160,15 +162,25 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
                 n.HitTime = TicksToSeconds(note.Ticks + polyPoint.Subtick, conductors);
                 n.LeadTime = rn.LeadTime;
                 n.RelativeSpeed = rn.RelativeSpeed;
-                n.Type = NoteType.Slide;
-                n.StartX = ret[i - 1].EndX;
+                n.Type = noteType;
+                n.StartX = note.PolyPoints[i - 1].PositionX;
                 n.EndX = polyPoint.PositionX;
                 ret[i] = n;
             }
 
-            for (var i = 0; i < ret.Length - 1; ++i) {
-                ret[i].NextSlide = ret[i + 1];
-                ret[i + 1].PrevSlide = ret[i];
+            switch (noteType) {
+                case NoteType.Hold:
+                    for (var i = 0; i < ret.Length - 1; ++i) {
+                        ret[i].NextHold = ret[i + 1];
+                        ret[i + 1].PrevHold = ret[i];
+                    }
+                    break;
+                case NoteType.Slide:
+                    for (var i = 0; i < ret.Length - 1; ++i) {
+                        ret[i].NextSlide = ret[i + 1];
+                        ret[i + 1].PrevSlide = ret[i];
+                    }
+                    break;
             }
 
             ret[ret.Length - 1].FlickDirection = note.FlickDirection;
