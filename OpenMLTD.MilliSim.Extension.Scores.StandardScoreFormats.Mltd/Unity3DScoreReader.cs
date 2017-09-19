@@ -13,18 +13,16 @@ using UnityStudio.Models;
 using UnityStudio.Serialization;
 
 namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd {
-    public sealed class Unity3DScoreReader : DisposableBase, IScoreReader {
+    internal sealed class Unity3DScoreReader : DisposableBase, IScoreReader {
 
-        internal Unity3DScoreReader() {
-        }
-
-        public SourceScore ReadSourceScore(Stream stream, string fileName, ReadSourceOptions options) {
+        public SourceScore ReadSourceScore(Stream stream, string fileName, ReadSourceOptions sourceOptions) {
             var extension = Path.GetExtension(fileName);
             if (extension == null) {
                 throw new ArgumentException();
             }
 
-            var isCompressed = extension.ToLowerInvariant().EndsWith(".lz4");
+            var lz4Extension = Unity3DScoreFormat.Unity3DReadExtensions[1];
+            var isCompressed = extension.ToLowerInvariant().EndsWith(lz4Extension);
             ScoreObject scoreObject = null;
 
             using (var bundle = new BundleFile(stream, fileName, isCompressed)) {
@@ -51,7 +49,7 @@ namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd {
                 throw new FormatException();
             }
 
-            return ToSourceScore(scoreObject, options);
+            return ToSourceScore(scoreObject, sourceOptions);
         }
 
         public RuntimeScore ReadCompiledScore(Stream stream, string fileName, ReadSourceOptions sourceOptions, ScoreCompileOptions compileOptions) {

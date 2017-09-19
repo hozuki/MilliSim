@@ -49,6 +49,7 @@
     <Compile Include="Extending\IScoreCompiler.cs" />
     <Compile Include="Extending\IScoreFormat.cs" />
     <Compile Include="Extending\IScoreReader.cs" />
+    <Compile Include="Extending\IScoreWriter.cs" />
     <Compile Include="Extending\ScoreFormat.cs" />
     <Compile Include="Extensions\RuntimeNoteExtensions.cs" />
     <Compile Include="FlickDirection.cs" />

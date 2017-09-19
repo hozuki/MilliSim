@@ -8,10 +8,7 @@ using OpenMLTD.MilliSim.Core.Entities.Runtime;
 using OpenMLTD.MilliSim.Core.Entities.Source;
 
 namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd {
-    public sealed class Unity3DScoreCompiler : DisposableBase, IScoreCompiler {
-
-        internal Unity3DScoreCompiler() {
-        }
+    internal sealed class Unity3DScoreCompiler : DisposableBase, IScoreCompiler {
 
         /// <summary>
         /// Compiles a <see cref="SourceScore"/> to a <see cref="RuntimeScore"/>, which will be used by the player.

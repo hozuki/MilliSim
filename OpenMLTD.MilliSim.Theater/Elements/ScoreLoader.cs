@@ -55,7 +55,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             RuntimeScore runtimeScore = null;
             SourceScore sourceScore = null;
             foreach (var format in Program.PluginManager.ScoreFormats) {
-                if (!format.SupportsFileType(scoreFileName)) {
+                if (!format.SupportsReadingFileType(scoreFileName)) {
                     continue;
                 }
 
@@ -65,6 +65,9 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                             if (format.CanReadAsSource) {
                                 try {
                                     sourceScore = reader.ReadSourceScore(fileStream, scoreFileName, sourceOptions);
+                                    if (!format.CanBeCompiled) {
+                                        throw new InvalidOperationException("This format must support compiling source score to runtime score.");
+                                    }
                                     using (var compiler = format.CreateCompiler()) {
                                         runtimeScore = compiler.Compile(sourceScore, compileOptions);
                                     }
