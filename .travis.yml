@@ -5,7 +5,7 @@ language: csharp
 solution: MilliSim.sln
 
 env:
-  - MAIN_VER=0.1.0 SOLUTION_NAME=MilliSim.sln CONFIGURATION=Release
+  - MAIN_VER=0.1.0 SOLUTION_NAME=MilliSim.sln CONFIGURATION=Release RELEASE_SUFFIX=-alpha
 
 before_install:
   - sudo apt-get install -y gtk-sharp2 p7zip-full nodejs npm
@@ -27,9 +27,10 @@ deploy:
   provider: releases
   api_key:
      secure: "iB09xBTm5f23zSoWtUJA/tu5dfPs+6Qq3r1SR55QZbN9AvgPyPY9WpvB4ZE7In+Ozyfi86WPjDxlxaocZ3KPc0vqj/aSdVRkOcyC9WDLismLDgQITG58HkElYuVFwrD9wmclhNvV05ToxhKattiB9tYgIJ5MLhIYn7C17ybtj+WDOV3DRJruj2pQ0egYzF5+Dl2pdTF4uoEkfRf0o0E/jTsEnViUiD8I80p1VpGkELROMl1kUJNDw6qeL6QJaHyVqf3xCNdizUn9SxK3gHgkKX6EYZthlOQ/nlks7UlrcXNyYc/Y/54CpygDwrKpAZXzzzDBc3q3v/BEEEga6uANYs5lIBL6NRPt1idrRlVLfQFD4u5VVBNs/p/9gcmjCi7F49VPcPC511hhZ0uXeJVwTY1Edq07vCyWutth+iVUm7fP5AC9F8i7ouA1Tn5K7XNuI1JgYsokJ5kmxvw0SOX4i4AU272ciM4WBMy2cBnOw649+6MU18Xe+gSStWYaR9UM8X7trtpxcKIDyrX7Jg7oXcBUBRiiD8ECYrPaEkA015hev9G/apGvD8SBzzT5NUgpNJyHxwkIgBwdaxgwrcYnGR09H+FdFHZfwvVW/DRzyZ+P8Kfif32FtYNciKVDNnv6HJi9iraSrsnriF4jtymWBpsJ1xp8eF9wzK/RGeHhc+o="
+  prerelease: true
   file:
     - millisim-travis-latest.zip
-    - millisim-travis-v${MAIN_VER}.${TRAVIS_BUILD_NUMBER}.zip
+    - millisim-travis-v${MAIN_VER}.${TRAVIS_BUILD_NUMBER}${RELEASE_SUFFIX}.zip
   on:
     tags: true
     all_branches: true
