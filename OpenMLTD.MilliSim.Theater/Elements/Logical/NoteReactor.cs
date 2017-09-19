@@ -41,6 +41,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                 throw new InvalidOperationException();
             }
 
+            var hitRankAnimation = theaterDays.FindSingleElement<HitRankAnimation>();
+
             var audioFormats = Program.PluginManager.AudioFormats;
 
             var sfxPaths = Program.Settings.Sfx;
@@ -58,15 +60,18 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                     continue;
                 }
 
+                var shouldPlayHitRankAnimation = false;
                 switch (note.Type) {
                     case NoteType.Tap:
                         if (newState == OnStageStatus.Passed) {
                             player.Play(sfxPaths.Tap.Perfect, audioFormats);
+                            shouldPlayHitRankAnimation = true;
                         }
                         break;
                     case NoteType.Flick:
                         if (newState == OnStageStatus.Passed) {
                             player.Play(sfxPaths.Flick.Perfect, audioFormats);
+                            shouldPlayHitRankAnimation = true;
                         }
                         break;
                     case NoteType.Hold:
@@ -74,11 +79,13 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                             if (note.FlickDirection != FlickDirection.None) {
                                 if (newState == OnStageStatus.Passed) {
                                     player.Play(sfxPaths.Flick.Perfect, audioFormats);
+                                    shouldPlayHitRankAnimation = true;
                                 }
                             } else {
                                 if (newState == OnStageStatus.Passed) {
                                     player.Play(sfxPaths.Hold.Perfect, audioFormats);
                                     player.PlayLooped(sfxPaths.HoldHold, audioFormats, note);
+                                    shouldPlayHitRankAnimation = true;
                                 }
                             }
                         } else if (note.IsHoldEnd()) {
@@ -94,6 +101,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
 
                             if (newState == OnStageStatus.Passed) {
                                 player.StopLooped(FindFirstHold(note));
+                                shouldPlayHitRankAnimation = true;
                             }
                         }
                         break;
@@ -102,11 +110,13 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                             if (note.FlickDirection != FlickDirection.None) {
                                 if (newState == OnStageStatus.Passed) {
                                     player.Play(sfxPaths.Flick.Perfect, audioFormats);
+                                    shouldPlayHitRankAnimation = true;
                                 }
                             } else {
                                 if (newState == OnStageStatus.Passed) {
                                     player.Play(sfxPaths.Slide.Perfect, audioFormats);
                                     player.PlayLooped(sfxPaths.SlideHold, audioFormats, note);
+                                    shouldPlayHitRankAnimation = true;
                                 }
                             }
                         } else if (note.IsSlideEnd()) {
@@ -122,6 +132,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
 
                             if (newState == OnStageStatus.Passed) {
                                 player.StopLooped(FindFirstSlide(note));
+                                shouldPlayHitRankAnimation = true;
                             }
                         }
                         break;
@@ -134,6 +145,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                                 player.Play(shouts[shoutIndex], audioFormats);
                             }
                             player.PlayLooped(sfxPaths.SpecialHold, audioFormats, note);
+                            shouldPlayHitRankAnimation = true;
                         }
                         break;
                     case NoteType.SpecialEnd:
@@ -178,6 +190,13 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
+                }
+
+                if (shouldPlayHitRankAnimation) {
+                    if (hitRankAnimation != null) {
+                        // "Perfect"
+                        hitRankAnimation.StartAnimation(0);
+                    }
                 }
 
                 states[note] = newState;

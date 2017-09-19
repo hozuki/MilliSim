@@ -6,6 +6,7 @@ using OpenMLTD.MilliSim.Graphics.Extensions;
 using SharpDX.Direct2D1;
 using SharpDX.DXGI;
 using AlphaMode = SharpDX.Direct2D1.AlphaMode;
+using Bitmap = SharpDX.Direct2D1.Bitmap;
 
 namespace OpenMLTD.MilliSim.Graphics.Drawing {
     /// <summary>
@@ -120,20 +121,20 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing {
                 base.OnDraw(gameTime, context);
                 OnDrawBuffer(gameTime, context);
             }
-            OnCopyBufferedContents(context, _offscreenBitmap);
+            OnCopyBufferedContents(gameTime, context, _offscreenBitmap);
         }
 
         protected virtual void OnDrawBuffer(GameTime gameTime, RenderContext context) {
         }
 
-        protected virtual void OnCopyBufferedContents(RenderContext context, SharpDX.Direct2D1.Bitmap buffer) {
+        protected virtual void OnCopyBufferedContents(GameTime gameTime, RenderContext context, Bitmap buffer) {
             context.Begin2D();
             context.DrawBitmap(buffer, Opacity);
             context.End2D();
         }
 
-        void IBufferedElement2D.OnCopyBufferedContents(RenderContext context, SharpDX.Direct2D1.Bitmap buffer) {
-            OnCopyBufferedContents(context, buffer);
+        void IBufferedElement2D.OnCopyBufferedContents(GameTime gameTime, RenderContext context, Bitmap buffer) {
+            OnCopyBufferedContents(gameTime, context, buffer);
         }
 
         private Bitmap1 _offscreenBitmap;

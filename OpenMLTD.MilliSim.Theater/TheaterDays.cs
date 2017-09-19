@@ -4,7 +4,6 @@ using OpenMLTD.MilliSim.Audio;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Theater.Configuration.Primitives;
-using OpenMLTD.MilliSim.Theater.Elements;
 using OpenMLTD.MilliSim.Theater.Elements.Logical;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Background;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming;
@@ -59,6 +58,7 @@ namespace OpenMLTD.MilliSim.Theater {
                 GlobalSpeedScale = 1.3f
             });
             gamingAreaElements.Add(new TapPoints(this));
+            gamingAreaElements.Add(new HitRankAnimation(this));
 
             var stage = new GamingArea(this, gamingAreaElements.ToArray());
             elements.Add(stage);

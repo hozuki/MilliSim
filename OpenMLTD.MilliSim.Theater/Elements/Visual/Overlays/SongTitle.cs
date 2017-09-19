@@ -10,6 +10,7 @@ using OpenMLTD.MilliSim.Theater.Extensions;
 using SharpDX.Direct2D1;
 using SharpDX.DXGI;
 using AlphaMode = SharpDX.Direct2D1.AlphaMode;
+using Bitmap = SharpDX.Direct2D1.Bitmap;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
     public class SongTitle : OutlinedTextOverlay, IBufferedElement2D {
@@ -119,7 +120,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
             context.End2D();
         }
 
-        void IBufferedElement2D.OnCopyBufferedContents(RenderContext context, SharpDX.Direct2D1.Bitmap buffer) {
+        void IBufferedElement2D.OnCopyBufferedContents(GameTime gameTime, RenderContext context, Bitmap buffer) {
             OnCopyBufferedContents(context, buffer);
         }
 

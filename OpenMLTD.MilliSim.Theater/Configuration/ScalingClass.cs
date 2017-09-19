@@ -25,6 +25,8 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public SizeF SpecialNoteSocket { get; set; }
 
+        public SizeF HitRank { get; set; }
+
         public sealed class SizableScaling {
 
             public SizeF Start { get; set; }

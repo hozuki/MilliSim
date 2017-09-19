@@ -104,8 +104,9 @@ images:
   combo_numbers:
     file: res/images/numbers/combo.png # 0-9
   hit_rank:
-    file: res/images/ui/hit_rank.png # perfect, great, good, fast, slow, miss; left to right
-    count: 10 # top to bottom
+    file: res/images/ui/hit_rank.png # perfect, great, good, fast, slow, miss; left to right, each 256x64
+    count: 6
+    orientation: horizontal
   notes: # notes: tap (small, large), hold (small, large), flick (left, up, right), slide (start, middle, end)
     - file: res/images/notes/default.png # style=0 (default notes set), 160x160
       count: 10
@@ -159,6 +160,7 @@ scaling:
     start: 100x100
     end: 280x280
   special_note_socket: 280x280
+  hit_rank: 180x45
 ui:
   tap_points:
     layout:
@@ -197,7 +199,7 @@ ui:
   hit_rank:
     layout:
       x: 50% # x position (anchor: center)
-      y: 70% # y position (anchor: middle)
+      y: 68% # y position (anchor: middle)
 sfx: # sound effect files; format: 44100 Hz, 16-bit integer, 2 channels
   tap:
     perfect: res/sfx/rhy_tap.wav
