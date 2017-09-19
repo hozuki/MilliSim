@@ -4,8 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Core.Entities;
+using OpenMLTD.MilliSim.Core.Entities.Extensions;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
-using OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions;
+using OpenMLTD.MilliSim.Core.Entities.Source;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Theater.Animation;
 using OpenMLTD.MilliSim.Theater.Extensions;
@@ -57,17 +59,17 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 }
 
                 switch (note.Type) {
-                    case RuntimeNoteType.Tap:
+                    case NoteType.Tap:
                         if (newState == OnStageStatus.Passed) {
                             player.Play(sfxPaths.Tap.Perfect, audioFormats);
                         }
                         break;
-                    case RuntimeNoteType.Flick:
+                    case NoteType.Flick:
                         if (newState == OnStageStatus.Passed) {
                             player.Play(sfxPaths.Flick.Perfect, audioFormats);
                         }
                         break;
-                    case RuntimeNoteType.Hold:
+                    case NoteType.Hold:
                         if (note.IsHoldStart()) {
                             if (note.FlickDirection != FlickDirection.None) {
                                 if (newState == OnStageStatus.Passed) {
@@ -95,7 +97,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                             }
                         }
                         break;
-                    case RuntimeNoteType.Slide:
+                    case NoteType.Slide:
                         if (note.IsSlideStart()) {
                             if (note.FlickDirection != FlickDirection.None) {
                                 if (newState == OnStageStatus.Passed) {
@@ -123,7 +125,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                             }
                         }
                         break;
-                    case RuntimeNoteType.Special:
+                    case NoteType.Special:
                         if (newState == OnStageStatus.Passed) {
                             player.Play(sfxPaths.Special.Perfect, audioFormats);
                             var shouts = sfxPaths.Shouts;
@@ -134,7 +136,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                             player.PlayLooped(sfxPaths.SpecialHold, audioFormats, note);
                         }
                         break;
-                    case RuntimeNoteType.SpecialEnd:
+                    case NoteType.SpecialEnd:
                         if (newState == OnStageStatus.Passed) {
                             player.Play(sfxPaths.SpecialEnd, audioFormats);
                             var shouts = sfxPaths.Shouts;
@@ -143,7 +145,12 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                                 player.Play(shouts[shoutIndex], audioFormats);
                             }
 
-                            var specialStart = _notes.SingleOrDefault(n => n.Type == RuntimeNoteType.Special);
+                            RuntimeNote specialStart = null;
+                            try {
+                                specialStart = _notes.SingleOrDefault(n => n.Type == NoteType.Special);
+                            } catch (InvalidOperationException) {
+                                // Multiple Special Start notes.
+                            }
                             Debug.Assert(specialStart != null, "Wrong score format: there must be only exactly one special note and one special end note, if either of them exists.");
                             player.StopLooped(specialStart);
 
@@ -155,7 +162,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                             }
                         }
                         break;
-                    case RuntimeNoteType.SpecialPrepare:
+                    case NoteType.SpecialPrepare:
                         if (newState == OnStageStatus.Passed) {
                             var tapPoints = theaterDays.FindSingleElement<TapPoints>();
                             if (tapPoints != null) {

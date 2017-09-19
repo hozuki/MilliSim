@@ -2,9 +2,11 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities;
 using OpenMLTD.MilliSim.Core.Entities.Extending;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
+using OpenMLTD.MilliSim.Core.Entities.Source;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
@@ -46,52 +48,57 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                 return;
             }
 
+            var sourceOptions = new ReadSourceOptions {
+                ScoreIndex = settings.Game.ScoreIndex
+            };
+            var compileOptions = new ScoreCompileOptions {
+                GlobalSpeed = 1
+            };
+
             var successful = false;
-            IScoreFormat usedFormat = null;
+            RuntimeScore runtimeScore = null;
+            SourceScore sourceScore = null;
             foreach (var format in Program.PluginManager.ScoreFormats) {
                 if (!format.SupportsFileType(scoreFileName)) {
                     continue;
                 }
 
-                usedFormat = format;
                 using (var reader = format.CreateReader()) {
                     using (var fileStream = File.Open(scoreFileName, FileMode.Open, FileAccess.Read, FileShare.Read)) {
-                        successful = reader.TryRead(fileStream, fileStream.Name, FlexibleOptions.Empty, out var score);
-
-                        if (successful) {
-                            _score = score;
-                            break;
-                        } else {
-                            if (debug != null) {
-                                debug.AddLine($"Warning: Unable to read score using reader <{format.FormatDescription}>. Continue searching.");
+                        if (!successful) {
+                            if (format.CanReadAsSource) {
+                                try {
+                                    sourceScore = reader.ReadSourceScore(fileStream, scoreFileName, sourceOptions);
+                                    using (var compiler = format.CreateCompiler()) {
+                                        runtimeScore = compiler.Compile(sourceScore, compileOptions);
+                                    }
+                                    successful = true;
+                                } catch (Exception ex) {
+                                    if (debug != null) {
+                                        debug.AddLine($"An exception is thrown while trying to read the score using <{format.FormatDescription}>: {ex.Message}");
+                                        debug.AddLine(ex.StackTrace);
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-            }
 
-            if (_score != null) {
-                if (usedFormat == null) {
-                    // Not likely.
-                    throw new InvalidOperationException();
-                }
+                        if (!successful) {
+                            if (format.CanReadAsCompiled) {
+                                try {
+                                    runtimeScore = reader.ReadCompiledScore(fileStream, scoreFileName, sourceOptions, compileOptions);
+                                } catch (Exception ex) {
+                                    if (debug != null) {
+                                        debug.AddLine($"An exception is thrown while trying to read the score using <{format.FormatDescription}>: {ex.Message}");
+                                        debug.AddLine(ex.StackTrace);
+                                    }
+                                }
+                            }
+                        }
 
-                try {
-                    var options = new ScoreCompileOptions {
-                        Difficulty = settings.Game.Difficulty
-                    };
-                    using (var compiler = usedFormat.CreateCompiler()) {
-                        RuntimeScore = compiler.Compile(_score, options);
+                        if (successful) {
+                            break;
+                        }
                     }
-                } catch (Exception ex) {
-                    successful = false;
-                    if (debug != null) {
-                        var siteInfo = ex.TargetSite.DeclaringType != null ?
-                            $"{ex.TargetSite.DeclaringType.Name}:{ex.TargetSite.Name}" :
-                            ex.TargetSite.Name;
-                        debug.AddLine($"ERROR: {ex.Message} @ {siteInfo}");
-                    }
-                    Debug.Print(ex.StackTrace);
                 }
             }
 
@@ -100,13 +107,15 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     debug.AddLine($"ERROR: No score reader can read score file <{scoreFileName}>.");
                 }
             } else {
+                _score = sourceScore;
+                RuntimeScore = runtimeScore;
                 if (debug != null) {
                     debug.AddLine($"Loaded score file: {scoreFileName}");
                 }
             }
         }
 
-        private Score _score;
+        private SourceScore _score;
 
     }
 }

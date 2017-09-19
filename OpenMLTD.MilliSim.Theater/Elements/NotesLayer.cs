@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Core.Entities;
+using OpenMLTD.MilliSim.Core.Entities.Extensions;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
-using OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions;
+using OpenMLTD.MilliSim.Core.Entities.Source;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
@@ -38,7 +40,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
 
         internal INoteTraceCalculator TraceCalculator { get; private set; }
 
-        internal static (int ImageIndex, bool IsHugeNote) GetImageIndex(RuntimeNoteType type, RuntimeNoteSize size, FlickDirection flickDirection, bool isHoldStart, bool isHoldEnd, bool isSlideStart, bool isSlideEnd) {
+        internal static (int ImageIndex, bool IsHugeNote) GetImageIndex(NoteType type, NoteSize size, FlickDirection flickDirection, bool isHoldStart, bool isHoldEnd, bool isSlideStart, bool isSlideEnd) {
             if (isHoldStart && isHoldEnd) {
                 throw new ArgumentException();
             }
@@ -52,19 +54,19 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             var imageIndex = -1;
             var isHugeNote = false;
             switch (type) {
-                case RuntimeNoteType.Tap:
+                case NoteType.Tap:
                     switch (size) {
-                        case RuntimeNoteSize.Small:
+                        case NoteSize.Small:
                             imageIndex = 0;
                             break;
-                        case RuntimeNoteSize.Large:
+                        case NoteSize.Large:
                             imageIndex = 1;
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
                     break;
-                case RuntimeNoteType.Flick:
+                case NoteType.Flick:
                     switch (flickDirection) {
                         case FlickDirection.Left:
                             imageIndex = 4;
@@ -81,15 +83,15 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                             throw new ArgumentOutOfRangeException();
                     }
                     break;
-                case RuntimeNoteType.Hold:
+                case NoteType.Hold:
                     switch (flickDirection) {
                         case FlickDirection.None:
                         case FlickDirection.Down:
                             switch (size) {
-                                case RuntimeNoteSize.Small:
+                                case NoteSize.Small:
                                     imageIndex = 2;
                                     break;
-                                case RuntimeNoteSize.Large:
+                                case NoteSize.Large:
                                     imageIndex = 3;
                                     break;
                                 default:
@@ -109,7 +111,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                             throw new ArgumentOutOfRangeException();
                     }
                     break;
-                case RuntimeNoteType.Slide:
+                case NoteType.Slide:
                     switch (flickDirection) {
                         case FlickDirection.None:
                         case FlickDirection.Down:
@@ -134,11 +136,11 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                             throw new ArgumentOutOfRangeException();
                     }
                     break;
-                case RuntimeNoteType.Special:
+                case NoteType.Special:
                     isHugeNote = true;
                     break;
-                case RuntimeNoteType.SpecialEnd:
-                case RuntimeNoteType.SpecialPrepare:
+                case NoteType.SpecialEnd:
+                case NoteType.SpecialPrepare:
                     // We don't draw these notes.
                     break;
                 default:

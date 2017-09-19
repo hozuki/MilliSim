@@ -1,14 +1,17 @@
+using JetBrains.Annotations;
 using System;
 using System.IO;
-using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Core.Entities.Runtime;
+using OpenMLTD.MilliSim.Core.Entities.Source;
 
 namespace OpenMLTD.MilliSim.Core.Entities.Extending {
     public interface IScoreReader : IDisposable {
 
         [NotNull]
-        Score Read([NotNull] Stream stream, [NotNull] string fileName, [NotNull] IFlexibleOptions options);
+        SourceScore ReadSourceScore([NotNull] Stream stream, [NotNull] string fileName, [NotNull] ReadSourceOptions options);
 
-        bool TryRead([NotNull] Stream stream, [NotNull] string fileName, [NotNull] IFlexibleOptions options, [CanBeNull] out Score score);
+        [NotNull]
+        RuntimeScore ReadCompiledScore([NotNull] Stream stream, [NotNull] string fileName, [NotNull] ReadSourceOptions sourceOptions, ScoreCompileOptions compileOptions);
 
     }
 }

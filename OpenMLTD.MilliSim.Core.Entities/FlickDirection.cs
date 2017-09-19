@@ -1,4 +1,4 @@
-namespace OpenMLTD.MilliSim.Core.Entities.Runtime {
+namespace OpenMLTD.MilliSim.Core.Entities {
     public enum FlickDirection {
 
         None,

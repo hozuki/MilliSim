@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities;
 using OpenMLTD.MilliSim.Core.Entities.Extending;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
+using OpenMLTD.MilliSim.Core.Entities.Source;
 
 namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
     public sealed class Unity3DScoreCompiler : DisposableBase, IScoreCompiler {
@@ -14,22 +14,13 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
         }
 
         /// <summary>
-        /// Compiles a <see cref="Score"/> to a <see cref="RuntimeScore"/>, which will be used by the player.
-        /// </summary>
-        /// <param name="score">The <see cref="Score"/> to compile.</param>
-        /// <returns>Compiled score.</returns>
-        public RuntimeScore Compile([NotNull] Score score) {
-            return Compile(score, ScoreCompileOptions.Default);
-        }
-
-        /// <summary>
-        /// Compiles a <see cref="Score"/> to a <see cref="RuntimeScore"/>, which will be used by the player.
+        /// Compiles a <see cref="SourceScore"/> to a <see cref="RuntimeScore"/>, which will be used by the player.
         /// A <see cref="ScoreCompileOptions"/> object can be specified.
         /// </summary>
-        /// <param name="score">The <see cref="Score"/> to compile.</param>
+        /// <param name="score">The <see cref="SourceScore"/> to compile.</param>
         /// <param name="options">Compile options.</param>
         /// <returns>Compiled score.</returns>
-        public RuntimeScore Compile(Score score, IFlexibleOptions options) {
+        public RuntimeScore Compile(SourceScore score, ScoreCompileOptions options) {
             if (score == null) {
                 throw new ArgumentNullException(nameof(score));
             }
@@ -38,17 +29,14 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             }
 
             // ReSharper cannot infer from "(score.Notes?.Count ?? 0) == 0" that score.Notes is later no longer null.
-            if (score.Notes == null || score.Notes.Length == 0) {
+            if (score.Notes.Length == 0) {
                 var notes = new RuntimeNote[0];
                 return new RuntimeScore(notes) {
-                    Difficulty = options.GetValue<Difficulty>(ScoreCompileOptions.DifficultyKey),
                     OffsetToMusic = options.GetValue<float>(ScoreCompileOptions.GlobalSpeedKey)
                 };
             }
 
-            var trackType = ScoreHelper.MapDifficultyToTrackType(options.GetValue<Difficulty>(ScoreCompileOptions.DifficultyKey));
-            var trackIndices = ScoreHelper.GetTrackIndicesFromTrackType(trackType);
-            var gameNotes = score.Notes.Where(n => Array.IndexOf(trackIndices, n.TrackIndex) >= 0).ToArray();
+            var gameNotes = score.Notes;
 
             var list = new List<RuntimeNote>();
 
@@ -58,24 +46,20 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
                 RuntimeNote[] notesToBeAdded;
 
                 switch (note.Type) {
-                    case NoteType.TapSmall:
-                    case NoteType.TapLarge:
+                    case NoteType.Tap:
                         notesToBeAdded = CreateTap(note, conductors, ref currentID);
                         break;
-                    case NoteType.FlickLeft:
-                    case NoteType.FlickUp:
-                    case NoteType.FlickRight:
+                    case NoteType.Flick:
                         notesToBeAdded = CreateFlick(note, conductors, ref currentID);
                         break;
-                    case NoteType.HoldSmall:
-                    case NoteType.HoldLarge:
-                        notesToBeAdded = CreateHold(note, conductors, ref currentID);
+                    case NoteType.Hold:
+                        notesToBeAdded = CreateHoldOrSlide(note, conductors, ref currentID);
                         break;
-                    case NoteType.SlideSmall:
-                        notesToBeAdded = CreateSlide(note, conductors, ref currentID);
+                    case NoteType.Slide:
+                        notesToBeAdded = CreateHoldOrSlide(note, conductors, ref currentID);
                         break;
                     case NoteType.Special:
-                        notesToBeAdded = CreateSpecial(note, gameNotes, ref currentID);
+                        notesToBeAdded = CreateSpecial(note, conductors, gameNotes, ref currentID);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -102,139 +86,69 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
 
             var runtimeNotes = list.ToArray();
             return new RuntimeScore(runtimeNotes) {
-                Difficulty = options.GetValue<Difficulty>(ScoreCompileOptions.DifficultyKey),
-                OffsetToMusic = score.MusicOffset
+                OffsetToMusic = score.MusicOffset,
+                TrackCount = score.TrackCount
             };
         }
 
         protected override void Dispose(bool disposing) {
         }
 
-        private static RuntimeNote[] CreateTap(Note note, Conductor[] conductors, ref int currentID) {
+        private static RuntimeNote[] CreateTap(SourceNote note, Conductor[] conductors, ref int currentID) {
             var rn = new RuntimeNote();
 
+            rn.Type = note.Type;
+            rn.Size = note.Size;
+            rn.FlickDirection = note.FlickDirection;
+
             rn.ID = ++currentID;
-            rn.HitTime = note.AbsoluteTime;
+            rn.HitTime = TicksToSeconds(note.Ticks, conductors);
             rn.LeadTime = note.LeadTime;
             rn.RelativeSpeed = note.Speed;
-            rn.StartX = note.StartPosition;
-            rn.EndX = note.EndPosition;
-
-            switch (note.Type) {
-                case NoteType.TapSmall:
-                    rn.Type = RuntimeNoteType.Tap;
-                    rn.Size = RuntimeNoteSize.Small;
-                    break;
-                case NoteType.TapLarge:
-                    rn.Type = RuntimeNoteType.Tap;
-                    rn.Size = RuntimeNoteSize.Large;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            rn.StartX = note.StartX;
+            rn.EndX = note.EndX;
 
             return new[] { rn };
         }
 
-        private static RuntimeNote[] CreateFlick(Note note, Conductor[] conductors, ref int currentID) {
+        private static RuntimeNote[] CreateFlick(SourceNote note, Conductor[] conductors, ref int currentID) {
             var rn = new RuntimeNote();
 
+            rn.Type = note.Type;
+            rn.Size = note.Size;
+            rn.FlickDirection = note.FlickDirection;
+
             rn.ID = ++currentID;
-            rn.HitTime = note.AbsoluteTime;
+            rn.HitTime = TicksToSeconds(note.Ticks, conductors);
             rn.LeadTime = note.LeadTime;
             rn.RelativeSpeed = note.Speed;
-            rn.Type = RuntimeNoteType.Flick;
-            rn.StartX = note.StartPosition;
-            rn.EndX = note.EndPosition;
-
-            switch (note.Type) {
-                case NoteType.FlickLeft:
-                    rn.FlickDirection = FlickDirection.Left;
-                    break;
-                case NoteType.FlickUp:
-                    rn.FlickDirection = FlickDirection.Up;
-                    break;
-                case NoteType.FlickRight:
-                    rn.FlickDirection = FlickDirection.Right;
-                    break;
-            }
+            rn.Type = NoteType.Flick;
+            rn.StartX = note.StartX;
+            rn.EndX = note.EndX;
 
             // Space reserved for GroupID which may be used in the future.
 
             return new[] { rn };
         }
 
-        private static RuntimeNote[] CreateHold(Note note, Conductor[] conductors, ref int currentID) {
-            var rn = new RuntimeNote();
-
-            rn.ID = ++currentID;
-            rn.HitTime = note.AbsoluteTime;
-            rn.LeadTime = note.LeadTime;
-            rn.RelativeSpeed = note.Speed;
-            rn.Type = RuntimeNoteType.Hold;
-            rn.StartX = note.StartPosition;
-            rn.EndX = note.EndPosition;
-
-            switch (note.Type) {
-                case NoteType.HoldSmall:
-                    rn.Size = RuntimeNoteSize.Small;
-                    break;
-                case NoteType.HoldLarge:
-                    rn.Size = RuntimeNoteSize.Large;
-                    break;
-            }
-
-            // Creates a HoldEnd note.
-            var holdEnd = new RuntimeNote();
-            holdEnd.ID = ++currentID;
-            holdEnd.HitTime = TicksToSeconds(note.Tick + note.Duration, conductors);
-            holdEnd.LeadTime = rn.LeadTime;
-            holdEnd.RelativeSpeed = rn.RelativeSpeed;
-            holdEnd.Type = rn.Type;
-            holdEnd.StartX = rn.StartX;
-            holdEnd.EndX = rn.EndX;
-
-            switch (note.EndType) {
-                case NoteEndType.Tap:
-                    holdEnd.Size = rn.Size;
-                    break;
-                case NoteEndType.FlickLeft:
-                    holdEnd.FlickDirection = FlickDirection.Left;
-                    break;
-                case NoteEndType.FlickUp:
-                    holdEnd.FlickDirection = FlickDirection.Up;
-                    break;
-                case NoteEndType.FlickRight:
-                    holdEnd.FlickDirection = FlickDirection.Right;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            rn.NextHold = holdEnd;
-            holdEnd.PrevHold = rn;
-
-            return new[] { rn, holdEnd };
-        }
-
-        private static RuntimeNote[] CreateSlide(Note note, Conductor[] conductors, ref int currentID) {
+        private static RuntimeNote[] CreateHoldOrSlide(SourceNote note, Conductor[] conductors, ref int currentID) {
             // The first polypoint is always the slide start, indicating the end position.
             if (note.PolyPoints == null) {
-                throw new ArgumentException("A slide note must have polypoints.", nameof(note));
+                throw new ArgumentException("A hold or slide note must have polypoints.", nameof(note));
             }
             if (note.PolyPoints.Length < 2) {
-                throw new ArgumentException("A slide note must have at least 2 polypoints.", nameof(note));
+                throw new ArgumentException("A hold or slide note must have at least 2 polypoints.", nameof(note));
             }
 
             var rn = new RuntimeNote();
 
             rn.ID = ++currentID;
-            rn.HitTime = note.AbsoluteTime;
+            rn.HitTime = TicksToSeconds(note.Ticks, conductors);
             rn.LeadTime = note.LeadTime;
             rn.RelativeSpeed = note.Speed;
-            rn.Type = RuntimeNoteType.Slide;
-            rn.StartX = note.StartPosition;
-            rn.EndX = note.EndPosition;
+            rn.Type = NoteType.Slide;
+            rn.StartX = note.StartX;
+            rn.EndX = note.EndX;
 
             var ret = new RuntimeNote[note.PolyPoints.Length];
             ret[0] = rn;
@@ -243,10 +157,10 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
                 var polyPoint = note.PolyPoints[i];
                 var n = new RuntimeNote();
                 n.ID = ++currentID;
-                n.HitTime = TicksToSeconds(note.Tick + polyPoint.Subtick, conductors);
+                n.HitTime = TicksToSeconds(note.Ticks + polyPoint.Subtick, conductors);
                 n.LeadTime = rn.LeadTime;
                 n.RelativeSpeed = rn.RelativeSpeed;
-                n.Type = RuntimeNoteType.Slide;
+                n.Type = NoteType.Slide;
                 n.StartX = ret[i - 1].EndX;
                 n.EndX = polyPoint.PositionX;
                 ret[i] = n;
@@ -257,34 +171,20 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
                 ret[i + 1].PrevSlide = ret[i];
             }
 
-            switch (note.EndType) {
-                case NoteEndType.Tap:
-                    break;
-                case NoteEndType.FlickLeft:
-                    ret[ret.Length - 1].FlickDirection = FlickDirection.Left;
-                    break;
-                case NoteEndType.FlickUp:
-                    ret[ret.Length - 1].FlickDirection = FlickDirection.Up;
-                    break;
-                case NoteEndType.FlickRight:
-                    ret[ret.Length - 1].FlickDirection = FlickDirection.Right;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            ret[ret.Length - 1].FlickDirection = note.FlickDirection;
 
             return ret;
         }
 
-        private static RuntimeNote[] CreateSpecial(Note note, Note[] gamingNotes, ref int currentID) {
+        private static RuntimeNote[] CreateSpecial(SourceNote note, Conductor[] conductors, SourceNote[] gamingNotes, ref int currentID) {
             var rn = new RuntimeNote();
             rn.ID = ++currentID;
-            rn.HitTime = note.AbsoluteTime;
+            rn.HitTime = TicksToSeconds(note.Ticks, conductors);
             rn.LeadTime = note.LeadTime;
             rn.RelativeSpeed = note.Speed;
-            rn.Type = RuntimeNoteType.Special;
-            rn.StartX = note.StartPosition;
-            rn.EndX = note.EndPosition;
+            rn.Type = NoteType.Special;
+            rn.StartX = note.StartX;
+            rn.EndX = note.EndX;
 
             var prepare = new RuntimeNote();
             prepare.ID = ++currentID;
@@ -295,7 +195,7 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             prepare.HitTime = rn.HitTime - 0.8;
             prepare.LeadTime = rn.LeadTime;
             prepare.RelativeSpeed = rn.RelativeSpeed;
-            prepare.Type = RuntimeNoteType.SpecialPrepare;
+            prepare.Type = NoteType.SpecialPrepare;
             prepare.StartX = rn.StartX;
             prepare.EndX = rn.EndX;
 
@@ -305,10 +205,15 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
             // Just a guess. Didn't find any proof or ways to calculate this.
             // This value must keep the same as tap points' "fade in" animation length.
             // See NoteReactor.Update() for more information.
-            end.HitTime = gamingNotes.First(n => n.AbsoluteTime > note.AbsoluteTime).AbsoluteTime - 1.5;
+            var firstNoteAfterSpecial = gamingNotes.FirstOrDefault(n => n.Ticks > note.Ticks);
+            if (firstNoteAfterSpecial == null) {
+                throw new ArgumentException("Malformed score: no note after special note.");
+            }
+
+            end.HitTime = TicksToSeconds(firstNoteAfterSpecial.Ticks, conductors) - 1.5;
             end.LeadTime = rn.LeadTime;
             end.RelativeSpeed = rn.RelativeSpeed;
-            end.Type = RuntimeNoteType.SpecialEnd;
+            end.Type = NoteType.SpecialEnd;
             end.StartX = rn.StartX;
             end.EndX = rn.EndX;
 
@@ -319,20 +224,26 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
         /// <summary>
         /// Gets the absolute time of a given tick, according to a list of <see cref="Conductor"/> information.
         /// </summary>
-        /// <param name="currentTick">A note's literal tick value.</param>
+        /// <param name="currentTicks">A note's literal tick value.</param>
         /// <param name="conductors">Conductor list.</param>
         /// <returns>Seconds.</returns>
-        private static double TicksToSeconds(long currentTick, Conductor[] conductors) {
-            var index = Array.FindLastIndex(conductors, conductor => conductor.Tick <= currentTick);
+        private static double TicksToSeconds(long currentTicks, Conductor[] conductors) {
+            var index = Array.FindLastIndex(conductors, conductor => conductor.Ticks <= currentTicks);
 
             if (index < 0) {
                 throw new IndexOutOfRangeException();
             }
 
-            var tempo = conductors[index].Tempo;
-            var deltaTicks = currentTick - conductors[index].Tick;
-            var deltaTime = deltaTicks / (tempo * 8);
-            return conductors[index].AbsoluteTime + deltaTime;
+            double absoluteTime = 0;
+            for (var i = 0; i <= index; ++i) {
+                var tempo = conductors[i].Tempo;
+                var thisTicks = i < index ? conductors[i + 1].Ticks : currentTicks;
+                var deltaTicks = thisTicks - conductors[i].Ticks;
+                var deltaTime = deltaTicks / (tempo * NoteBase.TicksPerBeat);
+                absoluteTime += deltaTime;
+            }
+
+            return absoluteTime;
         }
 
     }

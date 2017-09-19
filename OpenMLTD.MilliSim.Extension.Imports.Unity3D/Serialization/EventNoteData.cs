@@ -1,7 +1,7 @@
 using UnityStudio.Serialization;
 using UnityStudio.Serialization.Naming;
 
-namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
+namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D.Serialization {
     [MonoBehavior(NamingConventionType = typeof(CamelCaseNamingConvetion))]
     internal sealed class EventNoteData {
 

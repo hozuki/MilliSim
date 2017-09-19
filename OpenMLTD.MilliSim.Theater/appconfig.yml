@@ -6,7 +6,7 @@
 metadata:
   version: 1 # format version
 game:
-  difficulty: mm # 2m, 2m+, 4m, 6m, mm; number of tracks is set accordingly
+  score_index: 4 # 0=2m, 1=2m+, 2=4m, 3=6m, 4=mm
   title: "Blue Symphony"
   scoreobj: game/scrobj_blsymp.unity3d # .unity3d (raw format from MLTD), .json
 media:

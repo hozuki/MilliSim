@@ -43,7 +43,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -51,30 +50,21 @@
     <Compile Include="Extending\IScoreFormat.cs" />
     <Compile Include="Extending\IScoreReader.cs" />
     <Compile Include="Extending\ScoreFormat.cs" />
-    <Compile Include="FlexibleOptions.cs" />
-    <Compile Include="EmptyFlexibleOptions.cs" />
-    <Compile Include="Runtime\Extensions\RuntimeNoteExtensions.cs" />
-    <Compile Include="Runtime\FlickDirection.cs" />
-    <Compile Include="IFlexibleOptions.cs" />
+    <Compile Include="Extensions\RuntimeNoteExtensions.cs" />
+    <Compile Include="FlickDirection.cs" />
     <Compile Include="Runtime\RuntimeNote.cs" />
     <Compile Include="Runtime\RuntimeNoteComparisons.cs" />
-    <Compile Include="Runtime\RuntimeNoteSize.cs" />
-    <Compile Include="Runtime\RuntimeNoteType.cs" />
+    <Compile Include="NoteSize.cs" />
+    <Compile Include="NoteType.cs" />
     <Compile Include="Runtime\RuntimeScore.cs" />
     <Compile Include="Runtime\ScoreCompileOptions.cs" />
-    <Compile Include="Score.cs" />
-    <Compile Include="Conductor.cs" />
-    <Compile Include="Difficulty.cs" />
-    <Compile Include="Extensions\NoteBaseExtensions.cs" />
-    <Compile Include="Note.cs" />
-    <Compile Include="NoteBase.cs" />
-    <Compile Include="NoteType.cs" />
-    <Compile Include="NoteEndType.cs" />
-    <Compile Include="ScoreHelper.cs" />
-    <Compile Include="PolyPoint.cs" />
+    <Compile Include="Source\ReadSourceOptions.cs" />
+    <Compile Include="Source\SourceScore.cs" />
+    <Compile Include="Source\Conductor.cs" />
+    <Compile Include="Source\SourceNote.cs" />
+    <Compile Include="Source\NoteBase.cs" />
+    <Compile Include="Source\PolyPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TrackHelper.cs" />
-    <Compile Include="TrackType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

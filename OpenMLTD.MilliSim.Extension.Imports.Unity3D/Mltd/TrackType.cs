@@ -1,5 +1,5 @@
-namespace OpenMLTD.MilliSim.Core.Entities {
-    public enum TrackType {
+namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D.Mltd {
+    internal enum TrackType {
 
         Block = -1,
         Conductor = 0,

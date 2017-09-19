@@ -15,6 +15,10 @@ namespace OpenMLTD.MilliSim.Core.Entities.Extending {
 
         public string PluginCategory => "Score";
 
+        public abstract bool CanReadAsSource { get; }
+
+        public abstract bool CanReadAsCompiled { get; }
+
         public abstract IScoreReader CreateReader();
 
         public abstract IScoreCompiler CreateCompiler();

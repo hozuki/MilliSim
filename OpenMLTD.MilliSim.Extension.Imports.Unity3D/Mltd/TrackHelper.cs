@@ -1,9 +1,9 @@
 using System;
 
-namespace OpenMLTD.MilliSim.Core.Entities {
-    public static class TrackHelper {
+namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D.Mltd {
+    internal static class TrackHelper {
 
-        public static int GetTrackCount(Difficulty difficulty) {
+        internal static int GetTrackCount(Difficulty difficulty) {
             switch (difficulty) {
                 case Difficulty.D2Mix:
                 case Difficulty.D2MixPlus:

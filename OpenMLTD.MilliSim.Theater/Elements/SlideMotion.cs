@@ -3,8 +3,10 @@ using System.Drawing;
 using System.IO;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Core.Entities;
+using OpenMLTD.MilliSim.Core.Entities.Extensions;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
-using OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions;
+using OpenMLTD.MilliSim.Core.Entities.Source;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
@@ -14,7 +16,6 @@ using OpenMLTD.MilliSim.Graphics.Extensions;
 using OpenMLTD.MilliSim.Theater.Animation;
 using OpenMLTD.MilliSim.Theater.Configuration.Primitives;
 using OpenMLTD.MilliSim.Theater.Extensions;
-using SharpDX.Direct3D;
 
 namespace OpenMLTD.MilliSim.Theater.Elements {
     public class SlideMotion : VisualElement {
@@ -116,7 +117,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                         break;
                     case SlideMotionIcon.Slide:
                         if (_noteImages?[0] != null) {
-                            var (imageIndex, _) = NotesLayer.GetImageIndex(RuntimeNoteType.Slide, RuntimeNoteSize.Small, FlickDirection.None, false, false, false, false);
+                            var (imageIndex, _) = NotesLayer.GetImageIndex(NoteType.Slide, NoteSize.Small, FlickDirection.None, false, false, false, false);
                             imageSize = gamingArea.ScaleResults.Note.End;
                             context.DrawImageStripUnit(_noteImages[0], imageIndex, x - imageSize.Width / 2, y - imageSize.Height / 2, imageSize.Width, imageSize.Height);
                         }

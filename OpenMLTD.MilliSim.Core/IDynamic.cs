@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
-namespace OpenMLTD.MilliSim.Core.Entities {
-    public interface IFlexibleOptions : IReadOnlyDictionary<string, object> {
+namespace OpenMLTD.MilliSim.Core {
+    /// <summary>
+    /// Represents a dynamic object.
+    /// </summary>
+    public interface IDynamic : IReadOnlyDictionary<string, object> {
 
         object GetValue([NotNull] string key);
 

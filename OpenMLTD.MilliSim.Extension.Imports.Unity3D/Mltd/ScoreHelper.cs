@@ -1,9 +1,9 @@
 using System;
 
-namespace OpenMLTD.MilliSim.Core.Entities {
-    public static class ScoreHelper {
+namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D.Mltd {
+    internal static class ScoreHelper {
 
-        public static TrackType GetTrackTypeFromTrackIndex(int trackIndex) {
+        internal static TrackType GetTrackTypeFromTrackIndex(int trackIndex) {
             /*
                 -1                        (block data)  
                 0                         (conductor data)  
@@ -48,7 +48,7 @@ namespace OpenMLTD.MilliSim.Core.Entities {
             }
         }
 
-        public static int[] GetTrackIndicesFromTrackType(TrackType trackType) {
+        internal static int[] GetTrackIndicesFromTrackType(TrackType trackType) {
             switch (trackType) {
                 case TrackType.Block:
                     return TracksList[0];
@@ -69,7 +69,7 @@ namespace OpenMLTD.MilliSim.Core.Entities {
             }
         }
 
-        public static TrackType MapDifficultyToTrackType(Difficulty difficulty) {
+        internal static TrackType MapDifficultyToTrackType(Difficulty difficulty) {
             switch (difficulty) {
                 case Difficulty.D2Mix:
                     return TrackType.D2Mix;

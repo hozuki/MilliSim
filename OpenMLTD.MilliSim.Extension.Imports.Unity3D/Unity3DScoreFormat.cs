@@ -18,6 +18,10 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
 
         public override Version PluginVersion => MyVersion;
 
+        public override bool CanReadAsSource => true;
+
+        public override bool CanReadAsCompiled => true;
+
         public override IScoreReader CreateReader() {
             return new Unity3DScoreReader();
         }

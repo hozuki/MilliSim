@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using OpenMLTD.MilliSim.Core.Entities;
 using OpenMLTD.MilliSim.Graphics.Extensions;
 using OpenMLTD.MilliSim.Theater.Elements;
 using OpenMLTD.MilliSim.Theater.Extensions;
@@ -29,16 +28,24 @@ namespace OpenMLTD.MilliSim.Theater {
             if (video != null) {
                 video.VideoStateChanged += Video_VideoStateChanged;
             }
-
-            var tapPoints = theaterDays.FindSingleElement<TapPoints>();
-            if (tapPoints != null) {
-                tapPoints.TrackCount = TrackHelper.GetTrackCount(settings.Game.Difficulty);
-            }
         }
 
         private void TheaterStage_StageReady(object sender, EventArgs e) {
             var settings = Program.Settings;
             var theaterDays = Game.AsTheaterDays();
+
+            var scoreLoader = theaterDays.FindSingleElement<ScoreLoader>();
+            if (scoreLoader == null) {
+                throw new InvalidOperationException();
+            }
+            var tapPoints = theaterDays.FindSingleElement<TapPoints>();
+            if (tapPoints == null) {
+                throw new InvalidOperationException();
+            }
+            if (scoreLoader.RuntimeScore != null) {
+                tapPoints.TrackCount = scoreLoader.RuntimeScore.TrackCount;
+                tapPoints.PerformLayout();
+            }
 
             var debugOverlay = theaterDays.FindSingleElement<DebugOverlay>();
 

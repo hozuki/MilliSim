@@ -1,4 +1,6 @@
-namespace OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions {
+using OpenMLTD.MilliSim.Core.Entities.Runtime;
+
+namespace OpenMLTD.MilliSim.Core.Entities.Extensions {
     public static class RuntimeNoteExtensions {
 
         public static bool IsSync(this RuntimeNote note) {

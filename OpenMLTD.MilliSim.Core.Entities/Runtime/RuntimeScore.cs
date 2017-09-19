@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 
 namespace OpenMLTD.MilliSim.Core.Entities.Runtime {
-    public sealed class RuntimeScore {
+    public class RuntimeScore {
 
         public RuntimeScore([NotNull, ItemNotNull] IReadOnlyList<RuntimeNote> notes) {
             Notes = notes;
@@ -11,9 +11,9 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime {
         [NotNull, ItemNotNull]
         public IReadOnlyList<RuntimeNote> Notes { get; }
 
-        public float OffsetToMusic { get; set; }
+        public double OffsetToMusic { get; set; }
 
-        public Difficulty Difficulty { get; set; }
+        public int TrackCount { get; set; }
 
     }
 }

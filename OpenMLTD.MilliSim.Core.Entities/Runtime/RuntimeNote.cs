@@ -20,11 +20,11 @@ namespace OpenMLTD.MilliSim.Core.Entities.Runtime {
 
         public float RelativeSpeed { get; set; }
 
-        public RuntimeNoteType Type { get; set; }
+        public NoteType Type { get; set; }
 
         public FlickDirection FlickDirection { get; set; }
 
-        public RuntimeNoteSize Size { get; set; }
+        public NoteSize Size { get; set; }
 
         public int GroupID { get; set; }
 

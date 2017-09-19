@@ -1,9 +1,11 @@
 using System;
 using System.IO;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Core.Entities;
 using OpenMLTD.MilliSim.Core.Entities.Extending;
+using OpenMLTD.MilliSim.Core.Entities.Runtime;
+using OpenMLTD.MilliSim.Core.Entities.Source;
 using OpenMLTD.MilliSim.Extension.Imports.Unity3D.Extensions;
+using OpenMLTD.MilliSim.Extension.Imports.Unity3D.Serialization;
 using UnityStudio.Extensions;
 using UnityStudio.Models;
 using UnityStudio.Serialization;
@@ -14,7 +16,7 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
         internal Unity3DScoreReader() {
         }
 
-        public Score Read(Stream stream, string fileName, IFlexibleOptions options) {
+        public SourceScore ReadSourceScore(Stream stream, string fileName, ReadSourceOptions options) {
             var extension = Path.GetExtension(fileName);
             if (extension == null) {
                 throw new ArgumentException();
@@ -43,16 +45,13 @@ namespace OpenMLTD.MilliSim.Extension.Imports.Unity3D {
                 throw new FormatException();
             }
 
-            return scoreObject.ToMilliSimScore();
+            return scoreObject.ToSourceScore(options);
         }
 
-        public bool TryRead(Stream stream, string fileName, IFlexibleOptions options, out Score score) {
-            try {
-                score = Read(stream, fileName, options);
-                return true;
-            } catch {
-                score = null;
-                return false;
+        public RuntimeScore ReadCompiledScore(Stream stream, string fileName, ReadSourceOptions sourceOptions, ScoreCompileOptions compileOptions) {
+            var score = ReadSourceScore(stream, fileName, sourceOptions);
+            using (var compiler = new Unity3DScoreCompiler()) {
+                return compiler.Compile(score, compileOptions);
             }
         }
 

@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace OpenMLTD.MilliSim.Core.Entities {
-    public class FlexibleOptions : IFlexibleOptions {
+namespace OpenMLTD.MilliSim.Core {
+    public class Dynamic : IDynamic {
 
-        protected FlexibleOptions() {
+        protected Dynamic() {
         }
 
         public virtual object GetValue(string key) {
@@ -23,7 +24,7 @@ namespace OpenMLTD.MilliSim.Core.Entities {
             _options[key] = value;
         }
 
-        public static readonly FlexibleOptions Empty = new EmptyFlexibleOptions();
+        public static readonly Dynamic Empty = new EmptyDynamic();
 
         #region IDictionary<TKey, TValue>
         IEnumerator<KeyValuePair<string, object>> IEnumerable<KeyValuePair<string, object>>.GetEnumerator() => _options.GetEnumerator();
@@ -48,6 +49,18 @@ namespace OpenMLTD.MilliSim.Core.Entities {
         #endregion
 
         private readonly Dictionary<string, object> _options = new Dictionary<string, object>();
+
+        private sealed class EmptyDynamic : Dynamic {
+
+            public override void SetValue(string key, object value) {
+                throw new NotSupportedException();
+            }
+
+            public override void SetValue<T>(string key, T value) {
+                throw new NotSupportedException();
+            }
+
+        }
 
     }
 }

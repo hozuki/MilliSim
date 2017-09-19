@@ -25,7 +25,6 @@ namespace OpenMLTD.MilliSim.Theater {
                 .WithNamingConvention(new UnderscoredNamingConvention())
                 .IgnoreUnmatchedProperties()
                 .WithTypeConverter(new PercentOrRealValueConverter())
-                .WithTypeConverter(new DifficultyConverter())
                 .WithTypeConverter(new ColorConverter())
                 .WithTypeConverter(new SizeFConverter())
                 .WithTypeConverter(new PointFConverter());

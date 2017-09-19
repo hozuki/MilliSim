@@ -138,7 +138,6 @@
     <Compile Include="Elements\FpsOverlay.cs" />
     <Compile Include="Elements\HelpOverlay.cs" />
     <Compile Include="Configuration\Primitives\PercentOrRealValue.cs" />
-    <Compile Include="Configuration\Yaml\DifficultyConverter.cs" />
     <Compile Include="Configuration\Yaml\PercentOrRealValueConverter.cs" />
     <Compile Include="Elements\MiniCube.cs" />
     <Compile Include="Elements\NotesLayer.cs" />

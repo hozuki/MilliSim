@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Core.Entities;
+using OpenMLTD.MilliSim.Core.Entities.Extensions;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
-using OpenMLTD.MilliSim.Core.Entities.Runtime.Extensions;
+using OpenMLTD.MilliSim.Core.Entities.Source;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Extensions;
@@ -125,7 +127,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     while (firstHoldInGroup.HasPrevHold()) {
                         firstHoldInGroup = firstHoldInGroup.PrevHold;
                     }
-                    visualNoteMetrics = firstHoldInGroup.IsFlick() || firstHoldInGroup.Size == RuntimeNoteSize.Large ? largeNoteMetrics : smallNoteMetrics;
+                    visualNoteMetrics = firstHoldInGroup.IsFlick() || firstHoldInGroup.Size == NoteSize.Large ? largeNoteMetrics : smallNoteMetrics;
 
                     var ribbonParams = traceCalculator.GetHoldRibbonParameters(note, nextNote, now, visualNoteMetrics, animationMetrics);
                     using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, new[] { ribbonParams }, traceCalculator, now, new[] { (note, note.NextHold) }, visualNoteMetrics, animationMetrics)) {
@@ -158,7 +160,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                     while (firstSlideInGroup.HasPrevSlide()) {
                         firstSlideInGroup = firstSlideInGroup.PrevSlide;
                     }
-                    visualNoteMetrics = firstSlideInGroup.IsFlick() || firstSlideInGroup.Size == RuntimeNoteSize.Large ? largeNoteMetrics : smallNoteMetrics;
+                    visualNoteMetrics = firstSlideInGroup.IsFlick() || firstSlideInGroup.Size == NoteSize.Large ? largeNoteMetrics : smallNoteMetrics;
 
                     if (nextStatus == OnStageStatus.Visible && nextNote.HasNextSlide()) {
                         var nextSlides = new List<RuntimeNote>();

@@ -60,11 +60,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventConductorData.cs" />
-    <Compile Include="EventNoteData.cs" />
+    <Compile Include="Difficulty.cs" />
+    <Compile Include="Mltd\MltdNoteEndType.cs" />
+    <Compile Include="Serialization\EventConductorData.cs" />
+    <Compile Include="Serialization\EventNoteData.cs" />
     <Compile Include="Extensions\ScoreObjectExtensions.cs" />
-    <Compile Include="PolyPointData.cs" />
-    <Compile Include="ScoreObject.cs" />
+    <Compile Include="Mltd\MltdNoteType.cs" />
+    <Compile Include="Serialization\PolyPointData.cs" />
+    <Compile Include="Mltd\ScoreHelper.cs" />
+    <Compile Include="Serialization\ScoreObject.cs" />
+    <Compile Include="Mltd\TrackHelper.cs" />
+    <Compile Include="Mltd\TrackType.cs" />
     <Compile Include="Unity3DScoreCompiler.cs" />
     <Compile Include="Unity3DScoreFormat.cs" />
     <Compile Include="Unity3DScoreReader.cs" />
