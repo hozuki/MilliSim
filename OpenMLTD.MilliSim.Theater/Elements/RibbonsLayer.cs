@@ -84,6 +84,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
             var topYRatio = _ribbonTopYRatio;
             var bottomYRatio = _ribbonBottomYRatio;
 
+            _textureEffect.CurrentTime = (float)now;
+
             // Enable depth buffer to allow drawing in layers.
             // However the depth comparison always passes, and Z always decreases (see below), so the results looks like
             // "later-drawn-on-top" inside this visual element.

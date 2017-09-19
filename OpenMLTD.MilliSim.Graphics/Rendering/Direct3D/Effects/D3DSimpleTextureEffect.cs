@@ -40,6 +40,11 @@ namespace OpenMLTD.MilliSim.Graphics.Rendering.Direct3D.Effects {
             set => WriteStruct(_material, value);
         }
 
+        public float CurrentTime {
+            get => ReadStruct<float>(_currentTime);
+            set => WriteStruct(_currentTime, value);
+        }
+
         [CanBeNull]
         public ShaderResourceView Texture {
             get => _diffuseMap.GetResource();
@@ -57,6 +62,7 @@ namespace OpenMLTD.MilliSim.Graphics.Rendering.Direct3D.Effects {
             _worldInvTranspose = effect.GetVariableByName("gWorldInvTranspose").AsMatrix();
             _worldViewProj = effect.GetVariableByName("gWorldViewProj").AsMatrix();
             _texTransform = effect.GetVariableByName("gTexTransform").AsMatrix();
+            _currentTime = effect.GetVariableByName("gCurrentTime");
             _material = effect.GetVariableByName("gMaterial");
 
             _diffuseMap = effect.GetVariableByName("gDiffuseMap").AsShaderResource();
@@ -68,6 +74,7 @@ namespace OpenMLTD.MilliSim.Graphics.Rendering.Direct3D.Effects {
         private EffectMatrixVariable _worldInvTranspose;
         private EffectMatrixVariable _worldViewProj;
         private EffectMatrixVariable _texTransform;
+        private EffectVariable _currentTime;
         private EffectVariable _material;
 
         private EffectShaderResourceVariable _diffuseMap;

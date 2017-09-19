@@ -16,6 +16,10 @@ cbuffer cbPerObject {
     Material gMaterial;
 };
 
+cbuffer cbPerFrame {
+    float gCurrentTime; // Used for animations in CGSS.
+}
+
 // Nonnumeric values cannot be added to a cbuffer.
 Texture2D gDiffuseMap;
 
@@ -71,7 +75,7 @@ PS_IN VS(VS_IN vin) {
 
 	// Transform to homogeneous clip space.
     vout.PosH = mul(float4(vin.Position, 1.0f), gWorldViewProj);
-	
+
 	// Output vertex attributes for interpolation across triangle.
     vout.Tex = mul(float4(vin.TexCoord, 0.0f, 1.0f), gTexTransform).xy;
 
@@ -100,6 +104,10 @@ float4 PS(PS_IN pin, uniform bool gUseTexure, uniform bool gAlphaClip) : SV_Targ
     } else {
         texColor = gMaterial.Diffuse;
     }
+
+    // Demostration of using gCurrentTime to achieve ribbon animation like CGSS.
+    //float d = 0.3f * sin(gCurrentTime * 3.0f) + 0.3f;
+    //texColor.rgb += float3(d, d, d);
 	 
 	return texColor;
 }
