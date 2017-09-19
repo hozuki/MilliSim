@@ -251,13 +251,13 @@
       <Project>{a2211c66-972c-4fc5-ad53-70c5b901a361}</Project>
       <Name>OpenMLTD.MilliSim.Extension.Animation.StandardAnimations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats\OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats.csproj">
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats\OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats.csproj">
       <Project>{001c2077-8f69-4318-9096-a52c215b4c44}</Project>
-      <Name>OpenMLTD.MilliSim.Extension.Imports.StandardAudioFormats</Name>
+      <Name>OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Imports.Unity3D\OpenMLTD.MilliSim.Extension.Imports.Unity3D.csproj">
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd\OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd.csproj">
       <Project>{22aeef23-15ff-4b6c-941d-550c63f50329}</Project>
-      <Name>OpenMLTD.MilliSim.Extension.Imports.Unity3D</Name>
+      <Name>OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Foundation\OpenMLTD.MilliSim.Foundation.csproj">
       <Project>{BF644701-DFD5-49B6-90E8-A54C1BB331AE}</Project>

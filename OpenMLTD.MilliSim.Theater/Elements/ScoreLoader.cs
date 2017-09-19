@@ -71,7 +71,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                                     successful = true;
                                 } catch (Exception ex) {
                                     if (debug != null) {
-                                        debug.AddLine($"An exception is thrown while trying to read the score using <{format.FormatDescription}>: {ex.Message}");
+                                        debug.AddLine($"An exception is thrown while trying to read the score using <{format.PluginDescription}>: {ex.Message}");
                                         debug.AddLine(ex.StackTrace);
                                     }
                                 }
@@ -84,7 +84,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements {
                                     runtimeScore = reader.ReadCompiledScore(fileStream, scoreFileName, sourceOptions, compileOptions);
                                 } catch (Exception ex) {
                                     if (debug != null) {
-                                        debug.AddLine($"An exception is thrown while trying to read the score using <{format.FormatDescription}>: {ex.Message}");
+                                        debug.AddLine($"An exception is thrown while trying to read the score using <{format.PluginDescription}>: {ex.Message}");
                                         debug.AddLine(ex.StackTrace);
                                     }
                                 }
