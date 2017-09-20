@@ -1,9 +1,12 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Graphics.Extensions;
 using OpenMLTD.MilliSim.Theater.Elements.Logical;
+using OpenMLTD.MilliSim.Theater.Elements.Visual;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Background;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays;
@@ -238,13 +241,6 @@ namespace OpenMLTD.MilliSim.Theater {
 
                     theaterDays.AudioManager.Sfx.StopAll();
                     break;
-                case Keys.P:
-                    if (theaterDays.IsSuspended) {
-                        theaterDays.Resume();
-                    } else {
-                        theaterDays.Suspend();
-                    }
-                    break;
                 case Keys.Right:
                 case Keys.Left: {
                         var timer = theaterDays.FindSingleElement<SyncTimer>();
@@ -270,16 +266,42 @@ namespace OpenMLTD.MilliSim.Theater {
                         video.CurrentTime = newTime;
                     }
                     break;
-                case Keys.I:
-                    theaterDays.AudioManager.Sfx.Play(settings.Sfx.Tap.Perfect, Program.PluginManager.AudioFormats);
-                    break;
 #if DEBUG
                 case Keys.D:
                     GlobalDebug.Enabled = !GlobalDebug.Enabled;
                     break;
 #endif
             }
+
+            if (!_easterEggActivated) {
+                if (e.KeyCode == EasterEggKeyStrokes[_easterEggIndex]) {
+                    ++_easterEggIndex;
+                } else {
+                    _easterEggIndex = 0;
+                    if (e.KeyCode == EasterEggKeyStrokes[_easterEggIndex]) {
+                        ++_easterEggIndex;
+                    }
+                }
+                Debug.Print(_easterEggIndex.ToString());
+
+                if (_easterEggIndex >= EasterEggKeyStrokes.Length) {
+                    _easterEggActivated = true;
+
+                    var cuties = theaterDays.FindSingleElement<CuteIdol>();
+                    if (cuties != null) {
+                        cuties.SelectedCharacterIndex = MathHelper.Random.Next(cuties.NumberOfCharacters);
+                        cuties.Visible = true;
+                    }
+                }
+            }
         }
+
+        private bool _easterEggActivated;
+        private int _easterEggIndex;
+        private static readonly Keys[] EasterEggKeyStrokes = {
+            Keys.M, Keys.I, Keys.L, Keys.L, Keys.I, Keys.O, Keys.N, Keys.L, Keys.I, Keys.V, Keys.E,
+            Keys.D7, Keys.D6, Keys.D5, Keys.P, Keys.R, Keys.O
+        };
 
     }
 }

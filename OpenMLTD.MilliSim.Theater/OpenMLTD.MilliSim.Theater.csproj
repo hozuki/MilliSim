@@ -130,6 +130,7 @@
     <Compile Include="Elements\Visual\Background\BackgroundImage.cs" />
     <Compile Include="Elements\Visual\Background\BackgroundVideo.cs" />
     <Compile Include="Elements\Logical\NoteReactor.cs" />
+    <Compile Include="Elements\Visual\CuteIdol.cs" />
     <Compile Include="Elements\Visual\Overlays\HitRankAnimation.cs" />
     <Compile Include="Elements\Visual\Gaming\SlideMotion.cs" />
     <Compile Include="Elements\Visual\Overlays\AvatarDisplay.cs" />
@@ -170,6 +171,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Content Include="res\ex\chara_strip.png" />
     <Content Include="res\fx\minicube.fx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -5,6 +5,7 @@ using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Theater.Configuration.Primitives;
 using OpenMLTD.MilliSim.Theater.Elements.Logical;
+using OpenMLTD.MilliSim.Theater.Elements.Visual;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Background;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays;
@@ -81,6 +82,8 @@ namespace OpenMLTD.MilliSim.Theater {
             elements.Add(new AvatarDisplay(this));
 
             elements.Add(new SongTitle(this));
+
+            elements.Add(new CuteIdol(this));
 
             elements.Add(new HelpOverlay(this) {
                 Text = settings.LocalStrings.PressSpaceToStart,
