@@ -1,7 +1,6 @@
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Foundation;
-using OpenMLTD.MilliSim.Theater.Elements;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Background;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
@@ -53,7 +52,7 @@ namespace OpenMLTD.MilliSim.Theater {
             Load += TheaterStage_Load;
         }
 
-        private static readonly string TitleTemplate = "MilliSim: {0}";
+        private static readonly string TitleTemplate = "MilliSim (\"{0}\"): {1}";
 
     }
 }

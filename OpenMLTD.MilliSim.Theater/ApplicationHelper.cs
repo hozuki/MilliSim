@@ -1,4 +1,5 @@
 using System.Reflection;
+using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Theater {
     public static class ApplicationHelper {
@@ -18,7 +19,23 @@ namespace OpenMLTD.MilliSim.Theater {
             return _title;
         }
 
+        public static string GetCodeName() {
+            if (_codeName != null) {
+                return _codeName;
+            }
+
+            var assembly = Assembly.GetAssembly(typeof(ApplicationHelper));
+            var codeNameAttr = assembly.GetCustomAttribute<MilliSimCodeNameAttribute>();
+            if (codeNameAttr == null) {
+                return MilliSimCodeNameAttribute.DefaultCodeName;
+            }
+
+            _codeName = codeNameAttr.CodeName;
+            return _codeName;
+        }
+
         private static string _title;
+        private static string _codeName;
 
     }
 }

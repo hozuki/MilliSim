@@ -17,7 +17,7 @@ namespace OpenMLTD.MilliSim.Theater {
         private void TheaterStage_Load(object sender, EventArgs e) {
             var settings = Program.Settings;
 
-            Text = string.Format(TitleTemplate, settings.Game.Title);
+            Text = string.Format(TitleTemplate, ApplicationHelper.GetCodeName(), settings.Game.Title);
 
             Icon = Resources.MLTD_Icon;
 
