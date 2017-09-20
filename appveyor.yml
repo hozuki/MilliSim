@@ -1,0 +1,51 @@
+# https://www.appveyor.com/docs/appveyor-yml/
+
+version: 0.1.4.{build}
+branches:
+  only:
+    - master
+skip_tags: true
+image: Visual Studio 2017
+platform:
+  - "Any CPU"
+configuration:
+  - Release
+build:
+  parallel: true
+  project: MilliSim.sln
+environment:
+  EnableNuGetPackageRestore: true
+  Release_Suffix: -alpha
+before_build:
+  - git submodule update --init --recursive
+  - npm install glob chalk
+  - node before_script-nuget_restore.js
+after_build:
+  - del %APPVEYOR_BUILD_FOLDER%/OpenMLTD.MilliSim.Theater/bin/%CONFIGURATION%/*.xml
+  - del %APPVEYOR_BUILD_FOLDER%/OpenMLTD.MilliSim.Theater/bin/%CONFIGURATION%/*.pdb
+  - 7z a millisim.zip -r %APPVEYOR_BUILD_FOLDER%/OpenMLTD.MilliSim.Theater/bin/%CONFIGURATION%/*
+  - copy millisim.zip millisim-appveyor-latest.zip
+  - copy millisim.zip millisim-appveyor-v%APPVEYOR_BUILD_VERSION%%RELEASE_SUFFIX%.zip
+artifacts:
+  - path: millisim-appveyor-v%APPVEYOR_BUILD_VERSION%%RELEASE_SUFFIX%.zip
+    name: WithVersion
+  - path: millisim-appveyor-latest.zip
+    name: Static
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "{version}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
+deploy:
+  - provider: GitHub
+    description: MilliSim
+    auth_token:
+      secure: u+MFjjY665AT4PHJ2bFMINBLnnnwSj1jLnNeFZoWfeYbomTNSPOmdahffmZa+dRH
+    artifact:
+      - WithVersion
+      - Static
+    draft: false
+    prerelease: true
+    on:
+      appveyor_repo_tag: true        # deploy on tag push only
