@@ -112,7 +112,6 @@
     <Compile Include="Drawing\Direct2D\D2DEffect.cs" />
     <Compile Include="Drawing\Direct2D\D2DFont.cs" />
     <Compile Include="Drawing\Direct2D\D2DImage.cs" />
-    <Compile Include="Drawing\Direct2D\D2DImageBase.cs" />
     <Compile Include="Drawing\Direct2D\D2DImageBrush.cs" />
     <Compile Include="Drawing\Direct2D\D2DLinearGradientBrush.cs" />
     <Compile Include="Drawing\Direct2D\D2DMesh.cs" />

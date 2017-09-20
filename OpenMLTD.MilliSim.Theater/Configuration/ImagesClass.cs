@@ -11,7 +11,7 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public HpGaugeClass HpGauge { get; set; }
 
-        public AvatarsClass Avatars { get; set; }
+        public ImageWithBlankEdge[] Avatars { get; set; }
 
         public ScoreRankClass ScoreRank { get; set; }
 
@@ -46,14 +46,6 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
             public ImageWithBlankEdge Base { get; set; }
 
             public ImageWithBlankEdge Progress { get; set; }
-
-        }
-
-        public sealed class AvatarsClass {
-
-            public ImageWithBlankEdge Mask { get; set; }
-
-            public ImageWithBlankEdge[] Icons { get; set; }
 
         }
 

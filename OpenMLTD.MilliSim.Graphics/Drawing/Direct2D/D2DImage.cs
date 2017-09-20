@@ -1,9 +1,10 @@
+using OpenMLTD.MilliSim.Core;
 using SharpDX.Direct2D1;
 
 namespace OpenMLTD.MilliSim.Graphics.Drawing.Direct2D {
-    public sealed class D2DImage : D2DImageBase, ID2DImage {
+    public class D2DImage : DisposableBase, ID2DImage {
 
-        public D2DImage(Image image) {
+        internal D2DImage(Image image) {
             NativeImage = image;
         }
 

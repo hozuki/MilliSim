@@ -27,6 +27,8 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public SizeF HitRank { get; set; }
 
+        public SizeF AvatarBorder { get; set; }
+
         public sealed class SizableScaling {
 
             public SizeF Start { get; set; }

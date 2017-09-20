@@ -78,14 +78,11 @@ images:
     progress:
       file: res/images/ui/hp_gauge_progress.png
   avatars:
-    mask:
-      file: res/images/ui/avatars_mask.png
-    icons:
-      - file: res/images/avatars/1.png
-      - file: res/images/avatars/2.png
-      - file: res/images/avatars/3.png
-      - file: res/images/avatars/4.png
-      - file: res/images/avatars/5.png
+    - file: res/images/avatars/1.png
+    - file: res/images/avatars/2.png
+    - file: res/images/avatars/3.png
+    - file: res/images/avatars/4.png
+    - file: res/images/avatars/5.png
   score_rank:
     base:
       file: res/images/ui/score_rank.png
@@ -161,6 +158,7 @@ scaling:
     end: 280x280
   special_note_socket: 280x280
   hit_rank: 180x45
+  avatar_border: 3x0
 ui:
   tap_points:
     layout:
@@ -173,9 +171,14 @@ ui:
       x: 5% # x position (anchor: left)
       y: 5% # y position (anchor: top)
   avatars:
+    # will try to create N circles, where N is the length of avatar image entries
+    # empty or invalid (e.g. file missing) entries count, but they will not be drawn
+    # use this feature to create "empty" avatars
     layout:
-      x: 5% # x position (anchor: left)
-      y: 10% # y position (anchor: top)
+      x: 0.8% # x position (anchor: left)
+      y: 6% # y position (anchor: top)
+      width: 25.5%
+      height: 8.5%
   score_rank:
     layout:
       x: 80% # x position (anchor: left)
@@ -193,7 +196,7 @@ ui:
   song_title:
     layout:
       x: 4.5% # x position (anchor: left)
-      y: 20% # y position (anchor: top)
+      y: 17% # y position (anchor: top)
     font_size: 18
     text_stroke_width: 5
   hit_rank:

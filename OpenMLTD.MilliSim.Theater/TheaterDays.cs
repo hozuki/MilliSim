@@ -65,6 +65,8 @@ namespace OpenMLTD.MilliSim.Theater {
 
             // Overlays
 
+            elements.Add(new AvatarDisplay(this));
+
             elements.Add(new SongTitle(this));
 
             elements.Add(new HelpOverlay(this) {

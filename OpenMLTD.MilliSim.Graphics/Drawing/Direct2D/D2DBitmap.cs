@@ -1,34 +1,29 @@
 using SharpDX.Direct2D1;
 
 namespace OpenMLTD.MilliSim.Graphics.Drawing.Direct2D {
-    public class D2DBitmap : D2DImageBase, ID2DImage {
+    public class D2DBitmap : D2DImage, ID2DImage {
 
-        public D2DBitmap(Bitmap bitmap) {
-            NativeImage = bitmap;
+        public D2DBitmap(Bitmap bitmap)
+            : base(bitmap) {
+            NativeBitmap = bitmap;
         }
 
-        public float Width => NativeImage.Size.Width;
+        public float Width => NativeBitmap.Size.Width;
 
-        public float Height => NativeImage.Size.Height;
+        public float Height => NativeBitmap.Size.Height;
 
         public D2DBitmap ShareWith(RenderContext context) {
             return ShareWith(context.RenderTarget.DeviceContext2D);
         }
 
         public D2DBitmap ShareWith(DeviceContext context) {
-            var bitmap = new Bitmap(context, NativeImage);
+            var bitmap = new Bitmap(context, NativeBitmap);
             return new D2DBitmap(bitmap);
         }
 
-        internal Bitmap NativeImage { get; }
+        internal Bitmap NativeBitmap { get; }
 
-        Image ID2DImage.NativeImage => NativeImage;
-
-        protected override void Dispose(bool disposing) {
-            if (disposing) {
-                NativeImage.Dispose();
-            }
-        }
+        Image ID2DImage.NativeImage => NativeBitmap;
 
     }
 }

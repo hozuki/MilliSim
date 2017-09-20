@@ -1,9 +1,10 @@
 using SharpDX.Direct2D1;
 
 namespace OpenMLTD.MilliSim.Graphics.Drawing.Direct2D {
-    public abstract class D2DEffect : D2DImageBase, ID2DImage {
+    public abstract class D2DEffect : D2DImage, ID2DImage {
 
-        protected D2DEffect(Effect effect) {
+        protected D2DEffect(Effect effect)
+            : base(effect.Output) {
             NativeEffect = effect;
         }
 
