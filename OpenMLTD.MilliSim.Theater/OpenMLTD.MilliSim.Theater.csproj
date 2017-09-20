@@ -130,7 +130,7 @@
     <Compile Include="Elements\Visual\Background\BackgroundImage.cs" />
     <Compile Include="Elements\Visual\Background\BackgroundVideo.cs" />
     <Compile Include="Elements\Logical\NoteReactor.cs" />
-    <Compile Include="Elements\Visual\Gaming\HitRankAnimation.cs" />
+    <Compile Include="Elements\Visual\Overlays\HitRankAnimation.cs" />
     <Compile Include="Elements\Visual\Gaming\SlideMotion.cs" />
     <Compile Include="Elements\Visual\Overlays\AvatarDisplay.cs" />
     <Compile Include="Elements\Visual\Overlays\Combo\ComboAura.cs" />

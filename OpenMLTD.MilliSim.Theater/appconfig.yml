@@ -197,8 +197,8 @@ ui:
   combo:
     aura:
       layout:
-        x: 80% # x position (anchor: left)
-        y: 20% # y position (anchor: top)
+        x: 74% # x position (anchor: left)
+        y: 7% # y position (anchor: top)
     text:
       layout:
         x: 77% # x position (anchor: left)

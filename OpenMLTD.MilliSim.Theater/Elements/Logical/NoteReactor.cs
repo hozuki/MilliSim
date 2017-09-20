@@ -216,6 +216,11 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                             if (avatarDisplay != null) {
                                 avatarDisplay.PlayScorePrepareAnimation();
                             }
+                            var comboDisplay = theaterDays.FindSingleElement<ComboDisplay>();
+                            if (comboDisplay != null) {
+                                // Force setting it to 0. Or the number will be wierd if replaying the score.
+                                comboDisplay.Numbers.Value = 0;
+                            }
                         }
                         break;
                     default:
@@ -247,6 +252,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                             });
 
                             comboDisplay.Numbers.Value = (uint)combo;
+
+                            if (Array.IndexOf(ComboAura.ComboCountTriggers, combo) >= 0) {
+                                comboDisplay.Aura.StartAnimation();
+                            }
 
                             // So if it is playing a fade-in animation, we don't interrupt the animation.
                             if (comboDisplay.Opacity <= 0) {
@@ -305,7 +314,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
             NoteType.Tap,
             NoteType.Flick,
             NoteType.Hold,
-            NoteType.Slide
+            NoteType.Slide,
+            NoteType.Special
         };
 
     }

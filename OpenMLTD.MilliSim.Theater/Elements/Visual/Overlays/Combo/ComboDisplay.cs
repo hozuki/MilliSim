@@ -115,47 +115,53 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays.Combo {
                 return;
             }
 
-            if (_ongoingAnimation == OngoingAnimation.None) {
-                return;
-            }
+            if (_ongoingAnimation != OngoingAnimation.None) {
+                var animationTime = (currentTime - _animationStartedTime).TotalSeconds;
 
-            var animationTime = (currentTime - _animationStartedTime).TotalSeconds;
+                do {
+                    var exitDo = false;
 
-            switch (_ongoingAnimation) {
-                case OngoingAnimation.ScorePrepare:
-                    if (animationTime > _scorePrepareDuration) {
-                        Opacity = 1;
-                        _ongoingAnimation = OngoingAnimation.None;
-                        return;
+                    switch (_ongoingAnimation) {
+                        case OngoingAnimation.ScorePrepare:
+                            if (animationTime > _scorePrepareDuration) {
+                                Opacity = 1;
+                                _ongoingAnimation = OngoingAnimation.None;
+                                exitDo = true;
+                            }
+                            break;
+                        case OngoingAnimation.SpecialEnd:
+                            if (animationTime > _specialEndDuration) {
+                                Opacity = 1;
+                                _ongoingAnimation = OngoingAnimation.None;
+                                exitDo = true;
+                            }
+                            break;
+                        case OngoingAnimation.None:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
-                    break;
-                case OngoingAnimation.SpecialEnd:
-                    if (animationTime > _specialEndDuration) {
-                        Opacity = 1;
-                        _ongoingAnimation = OngoingAnimation.None;
-                        return;
-                    }
-                    break;
-                case OngoingAnimation.None:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
 
-            float perc;
-            switch (_ongoingAnimation) {
-                case OngoingAnimation.ScorePrepare:
-                    perc = (float)animationTime / (float)_scorePrepareDuration;
-                    Opacity = perc;
-                    break;
-                case OngoingAnimation.SpecialEnd:
-                    perc = (float)animationTime / (float)_specialEndDuration;
-                    Opacity = perc;
-                    break;
-                case OngoingAnimation.None:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                    if (exitDo) {
+                        break;
+                    }
+
+                    float perc;
+                    switch (_ongoingAnimation) {
+                        case OngoingAnimation.ScorePrepare:
+                            perc = (float)animationTime / (float)_scorePrepareDuration;
+                            Opacity = perc;
+                            break;
+                        case OngoingAnimation.SpecialEnd:
+                            perc = (float)animationTime / (float)_specialEndDuration;
+                            Opacity = perc;
+                            break;
+                        case OngoingAnimation.None:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                } while (false);
             }
 
             base.OnUpdate(gameTime);

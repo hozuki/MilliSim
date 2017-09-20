@@ -6,10 +6,10 @@ using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Advanced;
 using OpenMLTD.MilliSim.Graphics.Extensions;
 using OpenMLTD.MilliSim.Theater.Elements.Logical;
+using OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming;
 using OpenMLTD.MilliSim.Theater.Extensions;
-using SharpDX.Direct2D1;
 
-namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
+namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
     public class HitRankAnimation : BufferedElement2D {
 
         public HitRankAnimation(GameBase game)
