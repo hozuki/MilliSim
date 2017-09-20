@@ -1,10 +1,13 @@
 using System;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Advanced;
 using OpenMLTD.MilliSim.Graphics.Extensions;
+using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays;
+using OpenMLTD.MilliSim.Theater.Extensions;
 using OpenMLTD.MilliSim.Theater.Properties;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual {
@@ -22,6 +25,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual {
 
         protected override void OnDraw(GameTime gameTime, RenderContext context) {
             base.OnDraw(gameTime, context);
+
+            if (_characterImages == null) {
+                return;
+            }
 
             var index = SelectedCharacterIndex;
             if (index < 0 || index >= CharacterCount) {
@@ -46,15 +53,24 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual {
         protected override void OnGotContext(RenderContext context) {
             base.OnGotContext(context);
 
-            _characterImages = Direct2DHelper.LoadImageStrip(context, Resources.CharacterIcons, CharacterCount, CharacterImagesOrientation);
+            try {
+                _characterImages = Direct2DHelper.LoadImageStrip(context, Resources.CharacterIcons, CharacterCount, CharacterImagesOrientation);
+            } catch (Exception ex) {
+                var debugOverlay = Game.AsTheaterDays().FindSingleElement<DebugOverlay>();
+                if (debugOverlay != null) {
+                    debugOverlay.AddLine(ex.StackTrace);
+                    debugOverlay.AddLine($"Failed to load easter egg: {ex.Message}");
+                }
+            }
         }
 
         protected override void OnLostContext(RenderContext context) {
-            _characterImages.Dispose();
+            _characterImages?.Dispose();
 
             base.OnLostContext(context);
         }
 
+        [CanBeNull]
         private D2DImageStrip _characterImages;
 
         private static readonly int CharacterCount = 52;
