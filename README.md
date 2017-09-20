@@ -2,13 +2,22 @@
 
 A simulator for [THE iDOLM@STER Million Live Theater Days](https://millionlive.idolmaster.jp/theaterdays/).
 
+| Build Status | |
+|--|--|
+| Travis | [![AppVeyor](https://img.shields.io/travis/hozuki/MilliSim.svg)](https://travis-ci.org/hozuki/MilliSim) |
+| AppVeyor | [![AppVeyor](https://img.shields.io/appveyor/ci/hozuki/MilliSim.svg)](https://ci.appveyor.com/project/hozuki/MilliSim) |
 
-[![AppVeyor](https://img.shields.io/travis/hozuki/MilliSim.svg)](https://travis-ci.org/hozuki/MilliSim)
-[![GitHub contributors](https://img.shields.io/github/contributors/hozuki/MilliSim.svg)](https://github.com/hozuki/MilliSim/graphs/contributors)
-[![Libraries.io for GitHub](https://img.shields.io/librariesio/github/hozuki/MilliSim.svg)](https://github.com/hozuki/MilliSim)
-[![Github All Releases](https://img.shields.io/github/downloads/hozuki/MilliSim/total.svg)](https://github.com/hozuki/MilliSim/releases)
+| Downloads| |
+|--|--|
+| GitHub Releases | :arrow_down: [![Github All Releases](https://img.shields.io/github/downloads/hozuki/MilliSim/total.svg)](https://github.com/hozuki/MilliSim/releases) (choose AppVeyor builds please) |
+| Latest Release | :arrow_down: [![GitHub (pre-)release](https://img.shields.io/github/release/hozuki/MilliSim/all.svg)](https://ci.appveyor.com/api/projects/hozuki/MilliSim/artifacts/millisim-appveyor-latest.zip) |
 
 **Stage:** alpha
+
+**Miscellaneous:**
+
+[![GitHub contributors](https://img.shields.io/github/contributors/hozuki/MilliSim.svg)](https://github.com/hozuki/MilliSim/graphs/contributors)
+[![Libraries.io for GitHub](https://img.shields.io/librariesio/github/hozuki/MilliSim.svg)](https://github.com/hozuki/MilliSim)
 
 ## Usage
 
@@ -75,6 +84,10 @@ To update external projects, use this command:
 ```bash
 git submodule foreach --recursive git pull origin master
 ```
+
+Although the build by Travis seems unable to bootstrap on Windows,
+manual builds on an Ubunty 16.04 machine is verified to function
+normally.
 
 ## Extensions
 
