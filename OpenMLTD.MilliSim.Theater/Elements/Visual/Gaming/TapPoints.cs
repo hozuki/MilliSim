@@ -77,6 +77,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                 var scorePrepareNote = score.Notes.Single(n => n.Type == NoteType.ScorePrepare);
                 var specialPrepareNote = score.Notes.Single(n => n.Type == NoteType.SpecialPrepare);
                 var specialEndNote = score.Notes.Single(n => n.Type == NoteType.SpecialEnd);
+
                 if (now < scorePrepareNote.HitTime || (specialPrepareNote.HitTime < now && now < specialEndNote.HitTime)) {
                     Opacity = 0;
                 } else {
@@ -85,6 +86,9 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                 }
 
                 _ongoingAnimation = OngoingAnimation.None;
+                // Fix suddent appearance.
+                _animationStartedTime = currentTime;
+
                 return;
             }
 

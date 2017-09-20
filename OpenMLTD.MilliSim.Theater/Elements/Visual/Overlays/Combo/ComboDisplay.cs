@@ -65,16 +65,6 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays.Combo {
             }
         }
 
-        public void PlayScorePrepareAnimation() {
-            var syncTimer = Game.AsTheaterDays().FindSingleElement<SyncTimer>();
-            if (syncTimer == null) {
-                throw new InvalidOperationException();
-            }
-
-            _animationStartedTime = syncTimer.CurrentTime;
-            _ongoingAnimation = OngoingAnimation.ScorePrepare;
-        }
-
         public void PlaySpecialEndAnimation() {
             var syncTimer = Game.AsTheaterDays().FindSingleElement<SyncTimer>();
             if (syncTimer == null) {
@@ -104,6 +94,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays.Combo {
                 var scorePrepareNote = score.Notes.Single(n => n.Type == NoteType.ScorePrepare);
                 var specialNote = score.Notes.Single(n => n.Type == NoteType.Special);
                 var specialEndNote = score.Notes.Single(n => n.Type == NoteType.SpecialEnd);
+
                 if (now < scorePrepareNote.HitTime || (specialNote.HitTime < now && now < specialEndNote.HitTime)) {
                     Opacity = 0;
                 } else {
@@ -112,6 +103,9 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays.Combo {
                 }
 
                 _ongoingAnimation = OngoingAnimation.None;
+                // Fix suddent appearance.
+                _animationStartedTime = currentTime;
+
                 return;
             }
 

@@ -98,8 +98,8 @@ images:
       count: 10
       orientation: horizontal
       blank_edge:
-        left: 8
-        right: 8
+        left: 6
+        right: 6
   full_combo:
     file: res/images/ui/full_combo.png
     count: 10
@@ -197,7 +197,7 @@ ui:
   combo:
     aura:
       layout:
-        x: 74% # x position (anchor: left)
+        x: 73% # x position (anchor: left)
         y: 7% # y position (anchor: top)
     text:
       layout:

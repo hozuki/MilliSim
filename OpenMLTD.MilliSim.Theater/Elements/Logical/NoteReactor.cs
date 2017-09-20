@@ -49,10 +49,20 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
 
             var sfxPaths = Program.Settings.Sfx;
             var player = theaterDays.AudioManager.Sfx;
+
             var now = syncTimer.CurrentTime.TotalSeconds;
             var globalSpeedScale = notesLayer.GlobalSpeedScale;
-
             var states = _noteStates;
+
+            if (now < _lastUpdatedSeconds) {
+                // Force updating all states.
+                // TODO: TRICK
+                var refTime = now - double.Epsilon;
+                foreach (var note in _notes) {
+                    var forcedOldState = NoteAnimationHelper.GetOnStageStatusOf(note, refTime, globalSpeedScale);
+                    states[note] = forcedOldState;
+                }
+            }
 
             foreach (var note in _notes) {
                 var oldState = states[note];
@@ -220,6 +230,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                             if (comboDisplay != null) {
                                 // Force setting it to 0. Or the number will be wierd if replaying the score.
                                 comboDisplay.Numbers.Value = 0;
+                                comboDisplay.Opacity = 0;
                             }
                         }
                         break;
@@ -239,20 +250,16 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                 if (shouldPlayHitRankAnimation) {
                     var comboDisplay = theaterDays.FindSingleElement<ComboDisplay>();
                     if (comboDisplay != null) {
-                        const bool comboContinues = true;
-                        if (!comboContinues) {
-                            comboDisplay.Numbers.Value = 0;
-                            comboDisplay.Opacity = 0;
-                        } else {
-                            var combo = states.Count(kv => {
-                                if (kv.Value < OnStageStatus.Passed) {
-                                    return false;
-                                }
-                                return Array.IndexOf(GamingNoteTypes, kv.Key.Type) >= 0;
-                            });
+                        var combo = states.Count(kv => {
+                            if (kv.Value < OnStageStatus.Passed) {
+                                return false;
+                            }
+                            return Array.IndexOf(GamingNoteTypes, kv.Key.Type) >= 0;
+                        });
 
-                            comboDisplay.Numbers.Value = (uint)combo;
+                        comboDisplay.Numbers.Value = (uint)combo;
 
+                        if (combo > 0) {
                             if (Array.IndexOf(ComboAura.ComboCountTriggers, combo) >= 0) {
                                 comboDisplay.Aura.StartAnimation();
                             }
@@ -261,6 +268,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                             if (comboDisplay.Opacity <= 0) {
                                 comboDisplay.Opacity = 1;
                             }
+                        } else {
+                            comboDisplay.Opacity = 0;
                         }
                     }
                 }
@@ -273,6 +282,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                     }
                 }
             }
+
+            _lastUpdatedSeconds = now;
         }
 
         protected override void OnInitialize() {
@@ -309,6 +320,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
         [CanBeNull]
         private IReadOnlyList<RuntimeNote> _notes;
         private readonly Dictionary<RuntimeNote, OnStageStatus> _noteStates = new Dictionary<RuntimeNote, OnStageStatus>();
+        private double _lastUpdatedSeconds;
 
         private static readonly NoteType[] GamingNoteTypes = {
             NoteType.Tap,
