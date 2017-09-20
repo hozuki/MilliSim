@@ -73,9 +73,11 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                     throw new InvalidOperationException();
                 }
 
+                var now = currentTime.TotalSeconds;
                 var scorePrepareNote = score.Notes.Single(n => n.Type == NoteType.ScorePrepare);
-
-                if (currentTime.TotalSeconds < scorePrepareNote.HitTime) {
+                var specialPrepareNote = score.Notes.Single(n => n.Type == NoteType.SpecialPrepare);
+                var specialEndNote = score.Notes.Single(n => n.Type == NoteType.SpecialEnd);
+                if (now < scorePrepareNote.HitTime || (specialPrepareNote.HitTime < now && now < specialEndNote.HitTime)) {
                     Opacity = 0;
                 } else {
                     // Automatically cancels the animation if the user steps back in UI.
@@ -173,7 +175,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
         protected override void OnDrawBuffer(GameTime gameTime, RenderContext context) {
             base.OnDrawBuffer(gameTime, context);
 
-            if (Opacity.Equals(0)) {
+            if (Opacity <= 0) {
                 return;
             }
 

@@ -10,6 +10,7 @@ using OpenMLTD.MilliSim.Core.Entities.Runtime;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Theater.Animation;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming;
+using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
@@ -145,6 +146,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                                 player.Play(shouts[shoutIndex], audioFormats);
                             }
                             player.PlayLooped(sfxPaths.SpecialHold, audioFormats, note);
+                            var avatarDisplay = theaterDays.FindSingleElement<AvatarDisplay>();
+                            if (avatarDisplay != null) {
+                                avatarDisplay.Opacity = 0;
+                            }
                             shouldPlayHitRankAnimation = true;
                         }
                         break;
@@ -172,6 +177,11 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                                 // See Unity3DScoreCompiler.CreateSpecial() for more information.
                                 tapPoints.PlaySpecialEndAnimation();
                             }
+
+                            var avatarDisplay = theaterDays.FindSingleElement<AvatarDisplay>();
+                            if (avatarDisplay != null) {
+                                avatarDisplay.PlaySpecialEndAnimation();
+                            }
                         }
                         break;
                     case NoteType.SpecialPrepare:
@@ -193,6 +203,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                             var tapPoints = theaterDays.FindSingleElement<TapPoints>();
                             if (tapPoints != null) {
                                 tapPoints.PlayScorePrepareAnimation();
+                            }
+                            var avatarDisplay = theaterDays.FindSingleElement<AvatarDisplay>();
+                            if (avatarDisplay != null) {
+                                avatarDisplay.PlayScorePrepareAnimation();
                             }
                         }
                         break;
