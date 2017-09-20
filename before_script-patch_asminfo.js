@@ -70,7 +70,7 @@ For custom build environments, you must set these environment variables:
                 process.exit(1);
             }
         case CiEnvironment.appveyor:
-            MAIN_VER = process.env("MAIN_VER");
+            MAIN_VER = process.env["MAIN_VER"];
             if (MAIN_VER === void (0)) {
                 const buildVersion = process.env["APPVEYOR_BUILD_VERSION"];
                 if (buildVersion === void (0)) {
