@@ -18,10 +18,10 @@ function runAssemblyPatcher() {
 
     const AlienProjectPattern = /thirdparty/i;
 
-    const AssemblyVersionPattern = /AssemblyVersion\("([^"]+)"\)/;
-    const AssemblyFileVersionPattern = /AssemblyFileVersion\("([^"]+)"\)/;
-    const MilliSimCodeNamePattern = /MilliSimCodeName\(("[^"]+"|[^)]+)\)/;
-    const AssemblyBuildTimePattern = /AssemblyBuildTime\(("[^"]+"|[^)]+)\)/;
+    const AssemblyVersionPattern = /AssemblyVersion\("[^"]+"\)/;
+    const AssemblyFileVersionPattern = /AssemblyFileVersion\("[^"]+"\)/;
+    const MilliSimCodeNamePattern = /MilliSimCodeName\((?:"[^"]+"|[^)]+)\)/;
+    const AssemblyBuildTimePattern = /AssemblyBuildTime\((?:"[^"]+"|[^)]+)\)/;
 
     /**
      * E.g. "0.1.0"
@@ -97,10 +97,10 @@ function runAssemblyPatcher() {
      */
     function patchAssemblyInfo(fileName) {
         let fileContent = fs.readFileSync(fileName, "utf-8");
-        fileContent.replace(AssemblyVersionPattern, `AssemblyVersion("${VERSION_TO_BE_PATCHED}")`);
-        fileContent.replace(AssemblyFileVersionPattern, `AssemblyFileVersion("${VERSION_TO_BE_PATCHED}")`);
-        fileContent.replace(MilliSimCodeNamePattern, `MilliSimCodeName("${CODE_NAME_TO_BE_PATCHED}")`);
-        fileContent.replace(AssemblyBuildTimePattern, `AssemblyBuildTime("${BUILD_TIME_TO_BE_PATCHED}")`);
+        fileContent = fileContent.replace(AssemblyVersionPattern, `AssemblyVersion("${VERSION_TO_BE_PATCHED}")`);
+        fileContent = fileContent.replace(AssemblyFileVersionPattern, `AssemblyFileVersion("${VERSION_TO_BE_PATCHED}")`);
+        fileContent = fileContent.replace(MilliSimCodeNamePattern, `MilliSimCodeName("${CODE_NAME_TO_BE_PATCHED}")`);
+        fileContent = fileContent.replace(AssemblyBuildTimePattern, `AssemblyBuildTime("${BUILD_TIME_TO_BE_PATCHED}")`);
         fs.writeFileSync(fileName, fileContent);
     }
 
