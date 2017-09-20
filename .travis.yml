@@ -5,7 +5,7 @@ language: csharp
 solution: MilliSim.sln
 
 env:
-  - MAIN_VER=0.1.1 SOLUTION_NAME=MilliSim.sln CONFIGURATION=Release RELEASE_SUFFIX=-alpha
+  - MAIN_VER=0.1.2 SOLUTION_NAME=MilliSim.sln CONFIGURATION=Release RELEASE_SUFFIX=-alpha
 
 before_install:
   - sudo apt-get install -y gtk-sharp2 p7zip-full nodejs npm
@@ -19,7 +19,7 @@ before_deploy:
   - rm -f ${TRAVIS_BUILD_DIR}/OpenMLTD.MilliSim.Theater/bin/${CONFIGURATION}/*.xml
   - rm -f ${TRAVIS_BUILD_DIR}/OpenMLTD.MilliSim.Theater/bin/${CONFIGURATION}/*.pdb
   - 7z a millisim.zip -r ${TRAVIS_BUILD_DIR}/OpenMLTD.MilliSim.Theater/bin/${CONFIGURATION}/*
-  - cp millisim.zip millisim-travis-v${MAIN_VER}.${TRAVIS_BUILD_NUMBER}.zip
+  - cp millisim.zip millisim-travis-v${MAIN_VER}.${TRAVIS_BUILD_NUMBER}${RELEASE_SUFFIX}.zip
   - mv millisim.zip millisim-travis-latest.zip
 
 deploy:
