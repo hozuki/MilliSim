@@ -5,7 +5,7 @@ language: csharp
 solution: MilliSim.sln
 
 env:
-  - MAIN_VER=0.1.4 SOLUTION_NAME=MilliSim.sln CONFIGURATION=Release RELEASE_SUFFIX=-alpha
+  - MAIN_VER=0.1.5 SOLUTION_NAME=MilliSim.sln CONFIGURATION=Release RELEASE_SUFFIX=-alpha
 
 before_install:
   - sudo apt-get install -y gtk-sharp2 p7zip-full nodejs npm
