@@ -131,8 +131,8 @@ function runAssemblyPatcher() {
 
         switch (major) {
             case 0:
-                if (minor < nameList.length) {
-                    return nameList[minor];
+                if (minor <= nameList.length) {
+                    return nameList[minor - 1];
                 }
                 break;
         }
