@@ -21,9 +21,9 @@ before_build:
   - npm install glob chalk
   - node before_script-nuget_restore.js
 after_build:
-  - del %APPVEYOR_BUILD_FOLDER%/OpenMLTD.MilliSim.Theater/bin/%CONFIGURATION%/*.xml
-  - del %APPVEYOR_BUILD_FOLDER%/OpenMLTD.MilliSim.Theater/bin/%CONFIGURATION%/*.pdb
-  - 7z a millisim.zip -r %APPVEYOR_BUILD_FOLDER%/OpenMLTD.MilliSim.Theater/bin/%CONFIGURATION%/*
+  - del %APPVEYOR_BUILD_FOLDER%\OpenMLTD.MilliSim.Theater\bin\%CONFIGURATION%\*.xml
+  - del %APPVEYOR_BUILD_FOLDER%\OpenMLTD.MilliSim.Theater\bin\%CONFIGURATION%\*.pdb
+  - 7z a millisim.zip -r %APPVEYOR_BUILD_FOLDER%\OpenMLTD.MilliSim.Theater\bin\%CONFIGURATION%\*
   - copy millisim.zip millisim-appveyor-latest.zip
   - copy millisim.zip millisim-appveyor-v%APPVEYOR_BUILD_VERSION%%RELEASE_SUFFIX%.zip
 artifacts:
