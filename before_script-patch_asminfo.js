@@ -2,6 +2,7 @@
 
 const path = require("path");
 const fs = require("fs");
+const os = require("os");
 const glob = require("glob");
 const chalk = require("chalk");
 
@@ -11,12 +12,22 @@ function runAssemblyPatcher() {
     // Supports C# source files. VB probably works but not tested.
 
     const welcomeScreen = `
-    |===================================|
-    |=== AssemblyInfo Patcher by MIC ===|
-    |===  for Travis CI environment  ===|
-    |===================================|
+    |===============================================|
+    |========= AssemblyInfo Patcher by MIC =========|
+    |==== for Travis / AppVeyor CI environments ====|
+    |===============================================|
     `;
     console.info(chalk.yellow(welcomeScreen));
+
+    const forCustomBuildHelp = `
+In supported CI environments, the variables are detected automatically.
+For custom build environments, you must set these environment variables:
+
+    - MAIN_VER: like "0.5.0", the format is "major.minor.revision".
+    - BUILD_NUMBER: like "1", an integer.
+
+`;
+    console.info(forCustomBuildHelp);
 
     const AlienProjectPattern = /thirdparty/i;
 
@@ -25,18 +36,88 @@ function runAssemblyPatcher() {
     const MilliSimCodeNamePattern = /MilliSimCodeName\((?:"[^"]+"|[^)]+)\)/g;
     const AssemblyBuildTimePattern = /AssemblyBuildTime\((?:"[^"]+"|[^)]+)\)/g;
 
+    const CiEnvironment = {
+        invalid: 0,
+        travis: 1,
+        appveyor: 2
+    };
+
+    let thisCi;
+    if (process.env["TRAVIS"]) {
+        thisCi = CiEnvironment.travis;
+    } else if (process.env["APPVEYOR"]) {
+        thisCi = CiEnvironment.appveyor;
+    } else {
+        const platform = os.platform();
+        if (platform === "win32") {
+            thisCi = CiEnvironment.appveyor;
+        } else {
+            thisCi = CiEnvironment.travis;
+        }
+    }
+
     /**
      * E.g. "0.1.0"
      * @type {string}
      */
-    const MAIN_VER = process.env["MAIN_VER"];
+    let MAIN_VER;
+    switch (thisCi) {
+        case CiEnvironment.travis:
+            // Used together with .travis.yml.
+            MAIN_VER = process.env["MAIN_VER"];
+            if (MAIN_VER === void (0)) {
+                console.error(chalk.red("Unable to detect MAIN_VER."));
+                process.exit(1);
+            }
+        case CiEnvironment.appveyor:
+            MAIN_VER = process.env("MAIN_VER");
+            if (MAIN_VER === void (0)) {
+                const buildVersion = process.env["APPVEYOR_BUILD_VERSION"];
+                if (buildVersion === void (0)) {
+                    console.error(chalk.red("Unable to detect MAIN_VER or APPVEYOR_BUILD_VERSION."));
+                    process.exit(1);
+                }
+                const bvs = buildVersion.split(".");
+                // Remove the "build number" part.
+                bvs.pop();
+                MAIN_VER = bvs.join(".");
+            }
+            break;
+        default:
+            break;
+    }
+    if (MAIN_VER === void (0)) {
+        console.error(chalk.red("Unable to handle MAIN_VER."));
+        process.exit(1);
+    }
+
     /**
      * E.g. "5"
      * @type {string}
      */
-    const TRAVIS_BUILD_NUMBER = process.env["TRAVIS_BUILD_NUMBER"];
+    let BUILD_NUMBER;
+    switch (thisCi) {
+        case CiEnvironment.travis:
+            BUILD_NUMBER = process.env["TRAVIS_BUILD_NUMBER"];
+            if (BUILD_NUMBER === void (0)) {
+                BUILD_NUMBER = process.env["BUILD_NUMBER"];
+            }
+            break;
+        case CiEnvironment.appveyor:
+            BUILD_NUMBER = process.env["APPVEYOR_BUILD_NUMBER"];
+            if (BUILD_NUMBER === void (0)) {
+                BUILD_NUMBER = process.env["BUILD_NUMBER"];
+            }
+            break;
+        default:
+            break;
+    }
+    if (BUILD_NUMBER === void (0)) {
+        console.error(chalk.red("Unable to handle BUILD_NUMBER."));
+        process.exit(1);
+    }
 
-    const VERSION_TO_BE_PATCHED = `${MAIN_VER}.${TRAVIS_BUILD_NUMBER}`;
+    const VERSION_TO_BE_PATCHED = `${MAIN_VER}.${BUILD_NUMBER}`;
 
     const versionStrings = MAIN_VER.split(".");
     const versionObject = {

@@ -11,7 +11,6 @@ function runNuGetRestore() {
     const welcomeScreen = `
     |=======================================|
     |=== Recursive NuGet Restorer by MIC ===|
-    |=====  for Travis CI environment  =====|
     |=======================================|
     `;
     console.info(chalk.yellow(welcomeScreen));
