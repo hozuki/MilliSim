@@ -29,6 +29,12 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public SizeF AvatarBorder { get; set; }
 
+        public SizeF ComboAura { get; set; }
+
+        public SizeF ComboText { get; set; }
+
+        public SizeF ComboNumber { get; set; }
+
         public sealed class SizableScaling {
 
             public SizeF Start { get; set; }

@@ -88,8 +88,18 @@ images:
       file: res/images/ui/score_rank.png
     icons:
       file: res/images/ui/score_rank_icons.png
-  combo_counter:
-    file: res/images/ui/combo_counter.png
+  combo:
+    text:
+      file: res/images/ui/combo_text.png # 296x48
+    aura:
+      file: res/images/ui/combo_aura.png # 336x168
+    numbers:
+      file: res/images/numbers/combo.png # 0-9, 48x48 each
+      count: 10
+      orientation: horizontal
+      blank_edge:
+        left: 8
+        right: 8
   full_combo:
     file: res/images/ui/full_combo.png
     count: 10
@@ -98,8 +108,6 @@ images:
     count: 10
   score_numbers:
     file: res/images/numbers/score.png # 0-9
-  combo_numbers:
-    file: res/images/numbers/combo.png # 0-9
   hit_rank:
     file: res/images/ui/hit_rank.png # perfect, great, good, fast, slow, miss; left to right, each 256x64
     count: 6
@@ -159,6 +167,9 @@ scaling:
   special_note_socket: 280x280
   hit_rank: 180x45
   avatar_border: 3x0
+  combo_aura: 240x120
+  combo_text: 222x36
+  combo_number: 48x48 # real image size, including blank edges
 ui:
   tap_points:
     layout:
@@ -183,10 +194,19 @@ ui:
     layout:
       x: 80% # x position (anchor: left)
       y: 10% # y position (anchor: top)
-  combo_counter:
-    layout:
-      x: 80% # x position (anchor: left)
-      y: 20% # y position (anchor: top)
+  combo:
+    aura:
+      layout:
+        x: 80% # x position (anchor: left)
+        y: 20% # y position (anchor: top)
+    text:
+      layout:
+        x: 77% # x position (anchor: left)
+        y: 17% # y position (anchor: top)
+    numbers:
+      layout:
+        x: 89% # x position (anchor: right)
+        y: 22% # y position (anchor: bottom)
   notes_layer:
     layout:
       y: 20% # (anchor: top)

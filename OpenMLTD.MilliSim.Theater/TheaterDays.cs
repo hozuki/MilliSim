@@ -8,6 +8,7 @@ using OpenMLTD.MilliSim.Theater.Elements.Logical;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Background;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays;
+using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays.Combo;
 
 namespace OpenMLTD.MilliSim.Theater {
     public sealed class TheaterDays : VisualGame {
@@ -42,28 +43,40 @@ namespace OpenMLTD.MilliSim.Theater {
 #endif
 
             // ** Stage ** //
+            {
+                var gamingAreaElements = new List<Element>();
 
-            var gamingAreaElements = new List<Element>();
+                gamingAreaElements.Add(new NoteReactor(this));
+                if (settings.Style.SlideMotionPosition == SlideMotionPosition.Below) {
+                    gamingAreaElements.Add(new SlideMotion(this));
+                }
+                gamingAreaElements.Add(new RibbonsLayer(this));
+                if (settings.Style.SlideMotionPosition == SlideMotionPosition.Above) {
+                    gamingAreaElements.Add(new SlideMotion(this));
+                }
+                gamingAreaElements.Add(new TapPointsMergingAnimation(this));
+                gamingAreaElements.Add(new NotesLayer(this) {
+                    GlobalSpeedScale = 1.3f
+                });
+                gamingAreaElements.Add(new TapPoints(this));
+                gamingAreaElements.Add(new HitRankAnimation(this));
 
-            gamingAreaElements.Add(new NoteReactor(this));
-            if (settings.Style.SlideMotionPosition == SlideMotionPosition.Below) {
-                gamingAreaElements.Add(new SlideMotion(this));
+                var stage = new GamingArea(this, gamingAreaElements.ToArray());
+                elements.Add(stage);
             }
-            gamingAreaElements.Add(new RibbonsLayer(this));
-            if (settings.Style.SlideMotionPosition == SlideMotionPosition.Above) {
-                gamingAreaElements.Add(new SlideMotion(this));
-            }
-            gamingAreaElements.Add(new TapPointsMergingAnimation(this));
-            gamingAreaElements.Add(new NotesLayer(this) {
-                GlobalSpeedScale = 1.3f
-            });
-            gamingAreaElements.Add(new TapPoints(this));
-            gamingAreaElements.Add(new HitRankAnimation(this));
-
-            var stage = new GamingArea(this, gamingAreaElements.ToArray());
-            elements.Add(stage);
 
             // Overlays
+
+            {
+                var comboDisplayElements = new List<Element>();
+
+                comboDisplayElements.Add(new ComboAura(this));
+                comboDisplayElements.Add(new ComboText(this));
+                comboDisplayElements.Add(new ComboNumbers(this));
+
+                var comboDisplay = new ComboDisplay(this, comboDisplayElements.ToArray());
+                elements.Add(comboDisplay);
+            }
 
             elements.Add(new AvatarDisplay(this));
 

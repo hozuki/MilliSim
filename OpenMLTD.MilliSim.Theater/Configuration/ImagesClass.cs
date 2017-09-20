@@ -15,15 +15,13 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public ScoreRankClass ScoreRank { get; set; }
 
-        public ImageWithBlankEdge ComboCounter { get; set; }
+        public ComboClass Combo { get; set; }
 
         public ImageStrip FullCombo { get; set; }
 
         public ImageStrip LiveClear { get; set; }
 
         public ImageWithBlankEdge ScoreNumbers { get; set; }
-
-        public ImageWithBlankEdge ComboNumbers { get; set; }
 
         public ImageStrip HitRank { get; set; }
 
@@ -54,6 +52,16 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
             public ImageWithBlankEdge Base { get; set; }
 
             public ImageWithBlankEdge Icons { get; set; }
+
+        }
+
+        public sealed class ComboClass {
+
+            public ImageWithBlankEdge Text { get; set; }
+
+            public ImageWithBlankEdge Aura { get; set; }
+
+            public ImageStrip Numbers { get; set; }
 
         }
 

@@ -11,6 +11,7 @@ using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Theater.Animation;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays;
+using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays.Combo;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
@@ -182,6 +183,13 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                             if (avatarDisplay != null) {
                                 avatarDisplay.PlaySpecialEndAnimation();
                             }
+
+                            var comboDisplay = theaterDays.FindSingleElement<ComboDisplay>();
+                            if (comboDisplay != null) {
+                                if (comboDisplay.Numbers.Value > 0) {
+                                    comboDisplay.PlaySpecialEndAnimation();
+                                }
+                            }
                         }
                         break;
                     case NoteType.SpecialPrepare:
@@ -222,6 +230,39 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                 }
 
                 states[note] = newState;
+
+                if (shouldPlayHitRankAnimation) {
+                    var comboDisplay = theaterDays.FindSingleElement<ComboDisplay>();
+                    if (comboDisplay != null) {
+                        const bool comboContinues = true;
+                        if (!comboContinues) {
+                            comboDisplay.Numbers.Value = 0;
+                            comboDisplay.Opacity = 0;
+                        } else {
+                            var combo = states.Count(kv => {
+                                if (kv.Value < OnStageStatus.Passed) {
+                                    return false;
+                                }
+                                return Array.IndexOf(GamingNoteTypes, kv.Key.Type) >= 0;
+                            });
+
+                            comboDisplay.Numbers.Value = (uint)combo;
+
+                            // So if it is playing a fade-in animation, we don't interrupt the animation.
+                            if (comboDisplay.Opacity <= 0) {
+                                comboDisplay.Opacity = 1;
+                            }
+                        }
+                    }
+                }
+
+                // We have to handle this event after we play ComboDisplay's animation.
+                if (note.Type == NoteType.Special && newState == OnStageStatus.Passed) {
+                    var comboDisplay = theaterDays.FindSingleElement<ComboDisplay>();
+                    if (comboDisplay != null) {
+                        comboDisplay.Opacity = 0;
+                    }
+                }
             }
         }
 
@@ -259,6 +300,13 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
         [CanBeNull]
         private IReadOnlyList<RuntimeNote> _notes;
         private readonly Dictionary<RuntimeNote, OnStageStatus> _noteStates = new Dictionary<RuntimeNote, OnStageStatus>();
+
+        private static readonly NoteType[] GamingNoteTypes = {
+            NoteType.Tap,
+            NoteType.Flick,
+            NoteType.Hold,
+            NoteType.Slide
+        };
 
     }
 }

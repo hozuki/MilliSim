@@ -12,7 +12,7 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
         public UICommonConfig ScoreRank { get; set; }
 
-        public UICommonConfig ComboCounter { get; set; }
+        public ComboClass Combo { get; set; }
 
         public UICommonConfig NotesLayer { get; set; }
 
@@ -30,6 +30,16 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
             [YamlMember(Alias = "text_stroke_width")]
             public float StrokeWidth { get; set; }
+
+        }
+
+        public sealed class ComboClass {
+
+            public UICommonConfig Aura { get; set; }
+
+            public UICommonConfig Text { get; set; }
+
+            public UICommonConfig Numbers { get; set; }
 
         }
 

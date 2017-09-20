@@ -36,12 +36,29 @@ namespace OpenMLTD.MilliSim.Theater.Configuration.Primitives {
             return value.Value;
         }
 
+        /// <summary>
+        /// Gets string representation of this <see cref="PercentOrRealValue"/>.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString() {
             var s = RawValue.ToString(CultureInfo.InvariantCulture);
             if (IsPercentage) {
                 s += "%";
             }
             return s;
+        }
+
+        /// <summary>
+        /// Calculates the actual value according to a reference.
+        /// </summary>
+        /// <param name="reference">The reference value. It will be used if this <see cref="PercentOrRealValue"/> is a percentage.</param>
+        /// <returns>Actual value.</returns>
+        public float ToActualValue(float reference) {
+            if (IsPercentage) {
+                return reference * Value;
+            } else {
+                return Value;
+            }
         }
 
     }

@@ -4,7 +4,7 @@ using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 
 namespace OpenMLTD.MilliSim.Graphics.Drawing {
-    public abstract class BufferedContainerElement : Element2D, IVisualContainerElement {
+    public abstract class BufferedContainerElement : BufferedElement2D, IVisualContainerElement {
 
         protected BufferedContainerElement(GameBase game, [CanBeNull, ItemNotNull] IReadOnlyList<IElement> elements)
             : base(game) {
@@ -27,8 +27,8 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing {
             }
         }
 
-        protected override void OnDraw(GameTime gameTime, RenderContext context) {
-            base.OnDraw(gameTime, context);
+        protected override void OnDrawBuffer(GameTime gameTime, RenderContext context) {
+            base.OnDrawBuffer(gameTime, context);
             foreach (var element in Elements) {
                 (element as IDrawable)?.Draw(gameTime, context);
             }

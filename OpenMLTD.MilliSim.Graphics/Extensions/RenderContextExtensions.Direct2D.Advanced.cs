@@ -112,12 +112,26 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
             context.DrawBitmap(imageStrip, destX, destY, destWidth, destHeight, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height);
         }
 
+        public static void DrawImageStripUnit(this RenderContext context, D2DImageStrip imageStrip, int index, float destX, float destY, float destFullWidth, float destFullHeight, float blankLeft, float blankTop, float blankRight, float blankBottom) {
+            if (index < 0 || index >= imageStrip.Count) {
+                throw new ArgumentOutOfRangeException(nameof(index), index, null);
+            }
+            var blankEdge = RectangleF.FromLTRB(blankLeft, blankTop, blankRight, blankBottom);
+            var srcRect = GetSourceRect(imageStrip, index, blankEdge);
+            context.DrawBitmap(imageStrip, destX, destY, destFullWidth, destFullHeight, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height);
+        }
+
         public static void DrawImageStripUnit(this RenderContext context, D2DImageStrip imageStrip, int index, float destX, float destY, float destWidth, float destHeight, float opacity) {
             if (index < 0 || index >= imageStrip.Count) {
                 throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
             var srcRect = GetSourceRect(imageStrip, index);
             context.DrawBitmap(imageStrip, destX, destY, destWidth, destHeight, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, opacity);
+        }
+
+        private static RectangleF GetSourceRect(D2DImageStrip imageStrip, int index, RectangleF blankEdge) {
+            var rect = GetSourceRect(imageStrip, index);
+            return new RectangleF(rect.Left + blankEdge.Left, rect.Top + blankEdge.Top, rect.Width - (blankEdge.Left + blankEdge.Right), rect.Height - (blankEdge.Top + blankEdge.Bottom));
         }
 
         private static RectangleF GetSourceRect(D2DImageStrip imageStrip, int index) {
