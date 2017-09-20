@@ -8,7 +8,7 @@ A simulator for [THE iDOLM@STER Million Live Theater Days](https://millionlive.i
 [![Libraries.io for GitHub](https://img.shields.io/librariesio/github/hozuki/MilliSim.svg)](https://github.com/hozuki/MilliSim)
 [![Github All Releases](https://img.shields.io/github/downloads/hozuki/MilliSim/total.svg)](https://github.com/hozuki/MilliSim/releases)
 
-**Stage:** pre-alpha
+**Stage:** alpha
 
 ## Usage
 
