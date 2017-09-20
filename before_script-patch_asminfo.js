@@ -20,10 +20,10 @@ function runAssemblyPatcher() {
 
     const AlienProjectPattern = /thirdparty/i;
 
-    const AssemblyVersionPattern = /AssemblyVersion\("[^"]+"\)/;
-    const AssemblyFileVersionPattern = /AssemblyFileVersion\("[^"]+"\)/;
-    const MilliSimCodeNamePattern = /MilliSimCodeName\((?:"[^"]+"|[^)]+)\)/;
-    const AssemblyBuildTimePattern = /AssemblyBuildTime\((?:"[^"]+"|[^)]+)\)/;
+    const AssemblyVersionPattern = /AssemblyVersion\("[^"]+"\)/g;
+    const AssemblyFileVersionPattern = /AssemblyFileVersion\("[^"]+"\)/g;
+    const MilliSimCodeNamePattern = /MilliSimCodeName\((?:"[^"]+"|[^)]+)\)/g;
+    const AssemblyBuildTimePattern = /AssemblyBuildTime\((?:"[^"]+"|[^)]+)\)/g;
 
     /**
      * E.g. "0.1.0"
