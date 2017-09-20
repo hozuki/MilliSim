@@ -85,8 +85,8 @@ To update external projects, use this command:
 git submodule foreach --recursive git pull origin master
 ```
 
-Although the build by Travis seems unable to bootstrap on Windows,
-manual builds on an Ubunty 16.04 machine is verified to function
+Although the builds by Travis seem unable to bootstrap on Windows,
+manual builds on an Ubunty 16.04 machine are verified to function
 normally.
 
 ## Extensions
