@@ -1,6 +1,6 @@
 # MilliSim
 
-A simulator for [THE iDOLM@STER Million Live Theater Days](https://millionlive.idolmaster.jp/theaterdays/).
+A simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.idolmaster.jp/theaterdays/).
 
 | Build Status | |
 |--|--|
@@ -38,12 +38,15 @@ is just a stub. So up till September 2017, MilliSim is only able to run on Windo
 
 **Requirements:**
 
-- Visual Studio 2017 Community (optional if using MSBuild CLI)
-- .NET Framework 4.5 Toolchain
-- [Mono](http://www.mono-project.com/download/) (required if you are using macOS or Linux) (≥ 5.0)
+- OS: Windows, macOS or Linux
+- Compiler and Toolchain:
+    - Windows:
+        - Visual Studio 2017 Community
+        - .NET Framework 4.5 Toolchain
+    - macOS/Linux: 
+        - [Mono](http://www.mono-project.com/download/) (≥ 5.0)
 - [Node.js](https://nodejs.org/en/download/) (≥ 5.0)
 - [NuGet CLI](https://www.nuget.org/downloads) (≥ 2.8.12)
-- Windows, macOS, or Linux
 
 > **Remember** to [update your Mono version](http://www.mono-project.com/download/#download-lin) and
 > [update your NuGet version](https://docs.microsoft.com/en-us/nuget/guides/install-nuget) before
@@ -51,18 +54,40 @@ is just a stub. So up till September 2017, MilliSim is only able to run on Windo
 
 **Step 1**: Clone this repo:
 
+With newer versions of Git:
+
+```bash
+git clone https://github.com/hozuki/MilliSim.git --recursive
+cd MilliSim
+```
+
+With older versions of Git:
+
 ```bash
 git clone https://github.com/hozuki/MilliSim.git
 cd MillSim
 git submodule update --init --recursive
-cd ..
 ```
 
 **Step 2**: Restore dependencies using NuGet CLI.
 
 ```bash
 npm install glob chalk --save
-sudo node before_script-nuget_restore.js
+node before_script-nuget_restore.js
+```
+
+(Optional) Patch `Assembly.cs`:
+
+```cmd
+REM On Windows
+set MAIN_VER=0.0.0
+set BUILD_NUMBER=0
+node before_script-patch_asminfo.js
+```
+
+```bash
+# On macOS/Linux
+MAIN_VER=0.0.0 BUILD_NUMBER=0 node before_script-patch_asminfo.js
 ```
 
 **Step 3**: Build the solution.
@@ -82,19 +107,19 @@ msbuild MilliSim.sln /p:Configuration=Release /m:1
 To update external projects, use this command:
 
 ```bash
-git submodule foreach --recursive git pull origin master
+git submodule update --recursive
 ```
 
 Although the builds by Travis seem unable to bootstrap on Windows,
-manual builds on an Ubunty 16.04 machine are verified to function
+manual builds on an Ubuntu 16.04 machine are verified to function
 normally.
 
 ## Extensions
 
-MilliSim is designed to support extensions. Please check out examples:
+MilliSim is designed to support extensions. Please check out the examples:
 
-- [`OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd`](OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd/Unity3DScoreFormat.cs) (custom score format)
-- [`OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats`](OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats/Vorbis/OggVorbisAudioFormat.cs) (custom audio format)
+- [`OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd.Unity3DScoreFormat`](OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd/Unity3DScoreFormat.cs) (custom score format)
+- [`OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats.OggVorbisAudioFormat`](OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats/Vorbis/OggVorbisAudioFormat.cs) (custom audio format)
 - [`OpenMLTD.MilliSim.Extension.Animation.StandardAnimations.MltdNoteTraceCalculator`](OpenMLTD.MilliSim.Extension.Animation.StandardAnimations/MltdNoteTraceCalculator.cs) (custom note animation)
 
 Plugin assemblies should be placed at:
