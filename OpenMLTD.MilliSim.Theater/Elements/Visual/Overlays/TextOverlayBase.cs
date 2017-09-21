@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
@@ -33,6 +34,11 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
         }
 
         protected virtual void OnBeforeTextRendering(RenderContext context, SizeF textSize, float lineHeight) {
+        }
+
+        [NotNull]
+        protected virtual string GetFontFilePath() {
+            return Program.Settings.Window.Fonts.UI;
         }
 
         private string _text;

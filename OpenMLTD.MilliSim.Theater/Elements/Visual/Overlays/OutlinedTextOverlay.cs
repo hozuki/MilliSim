@@ -59,7 +59,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
 
         protected override void OnGotContext(RenderContext context) {
             base.OnGotContext(context);
-            var fontPath = Path.GetFullPath(Program.Settings.Window.Fonts.UI);
+            var fontPath = Path.GetFullPath(GetFontFilePath());
             var familyName = DirectWriteHelper.GetFontFamilyName(fontPath);
             _font = new D2DFont(context.DirectWriteFactory, familyName, FontSize, FontStyle.Regular, 10);
             _textFill = new D2DSolidBrush(context, FillColor);

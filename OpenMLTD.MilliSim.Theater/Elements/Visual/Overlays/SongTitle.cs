@@ -114,6 +114,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
             StrokeWidth = settings.UI.SongTitle.StrokeWidth;
         }
 
+        protected override string GetFontFilePath() {
+            return Program.Settings.Window.Fonts.SongTitle;
+        }
+
         private void OnCopyBufferedContents(RenderContext context, SharpDX.Direct2D1.Bitmap buffer) {
             context.Begin2D();
             context.DrawBitmap(buffer, Opacity);
