@@ -11,6 +11,7 @@ namespace OpenMLTD.MilliSim.Theater.Animation {
             X2 = x2;
             Y2 = y2;
             IsLine = true;
+            Visible = true;
         }
 
         public RibbonParameters(float x1, float y1, float cx1, float cy1, float cx2, float cy2, float x2, float y2) {
@@ -23,6 +24,7 @@ namespace OpenMLTD.MilliSim.Theater.Animation {
             X2 = x2;
             Y2 = y2;
             IsLine = false;
+            Visible = true;
         }
 
         public RibbonParameters(float x1, float y1, float cx1, float cy1, float cx2, float cy2, float x2, float y2, bool isLine) {
@@ -35,6 +37,7 @@ namespace OpenMLTD.MilliSim.Theater.Animation {
             X2 = x2;
             Y2 = y2;
             IsLine = isLine;
+            Visible = true;
         }
 
         public float X1 { get; }
@@ -54,6 +57,8 @@ namespace OpenMLTD.MilliSim.Theater.Animation {
         public float Y2 { get; }
 
         public bool IsLine { get; }
+
+        public bool Visible { get; set; }
 
     }
 }

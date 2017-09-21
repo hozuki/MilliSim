@@ -109,6 +109,14 @@ namespace OpenMLTD.MilliSim.Extension.Animation.StandardAnimations {
             return new RibbonParameters(x1, y1, x2, y2);
         }
 
+        public override RibbonParameters GetFlickRibbonParameters(RuntimeNote startNote, RuntimeNote endNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
+            var x1 = GetNoteX(startNote, now, noteMetrics, animationMetrics);
+            var y1 = GetNoteY(startNote, now, noteMetrics, animationMetrics);
+            var x2 = GetNoteX(endNote, now, noteMetrics, animationMetrics);
+            var y2 = GetNoteY(endNote, now, noteMetrics, animationMetrics);
+            return new RibbonParameters(x1, y1, x2, y2);
+        }
+
         public override RibbonParameters GetSlideRibbonParameters(RuntimeNote startNote, RuntimeNote endNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
             var x1 = GetNoteX(startNote, now, noteMetrics, animationMetrics);
             var y1 = GetNoteY(startNote, now, noteMetrics, animationMetrics);

@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
@@ -46,6 +47,10 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                 throw new ArgumentException();
             }
 
+            if (!rps.Any(rp => rp.Visible)) {
+                throw new ArgumentException();
+            }
+
             Dispose();
 
             var vertexCount = 0;
@@ -60,6 +65,10 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
 #endif
 
             foreach (var rp in rps) {
+                if (!rp.Visible) {
+                    continue;
+                }
+
                 if (rp.IsLine) {
                     vertexCount += 4;
                     indexCount += 6;
@@ -82,6 +91,11 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
 
             for (var i = 0; i < rps.Length; ++i) {
                 var rp = rps[i];
+
+                if (!rp.Visible) {
+                    continue;
+                }
+
                 var notePair = notePairs[i];
 
                 float perc;
