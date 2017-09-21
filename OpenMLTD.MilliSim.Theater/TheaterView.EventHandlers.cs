@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -273,30 +272,26 @@ namespace OpenMLTD.MilliSim.Theater {
 #endif
             }
 
-            if (!_easterEggActivated) {
+            if (e.KeyCode == EasterEggKeyStrokes[_easterEggIndex]) {
+                ++_easterEggIndex;
+            } else {
+                _easterEggIndex = 0;
                 if (e.KeyCode == EasterEggKeyStrokes[_easterEggIndex]) {
                     ++_easterEggIndex;
-                } else {
-                    _easterEggIndex = 0;
-                    if (e.KeyCode == EasterEggKeyStrokes[_easterEggIndex]) {
-                        ++_easterEggIndex;
-                    }
                 }
-                Debug.Print(_easterEggIndex.ToString());
+            }
 
-                if (_easterEggIndex >= EasterEggKeyStrokes.Length) {
-                    _easterEggActivated = true;
+            if (_easterEggIndex >= EasterEggKeyStrokes.Length) {
+                _easterEggIndex = 0;
 
-                    var cuties = theaterDays.FindSingleElement<CuteIdol>();
-                    if (cuties != null) {
-                        cuties.SelectedCharacterIndex = MathHelper.Random.Next(cuties.NumberOfCharacters);
-                        cuties.Visible = true;
-                    }
+                var cuties = theaterDays.FindSingleElement<CuteIdol>();
+                if (cuties != null) {
+                    cuties.SelectedCharacterIndex = MathHelper.Random.Next(cuties.NumberOfCharacters);
+                    cuties.Visible = true;
                 }
             }
         }
 
-        private bool _easterEggActivated;
         private int _easterEggIndex;
         private static readonly Keys[] EasterEggKeyStrokes = {
             Keys.M, Keys.I, Keys.L, Keys.L, Keys.I, Keys.O, Keys.N, Keys.L, Keys.I, Keys.V, Keys.E,
