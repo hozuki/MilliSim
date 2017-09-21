@@ -205,7 +205,7 @@ For custom build environments, you must set these environment variables:
             "Tomoka", "Emily", "Shiho", "Ayumu", "Hinata", "Kana",
             "Nao", "Chizuru", "Konomi", "Tamaki", "Fuuka", "Miya",
             "Noriko", "Mizuki", "Karen", "Rio", "Subaru", "Reika",
-            "Momoko", "Julia", "Tsumigi", "Kaori",
+            "Momoko", "Julia", "Tsumugi", "Kaori",
 
             "Kotori", "Misaki",
             // So what is this?
