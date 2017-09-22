@@ -9,8 +9,8 @@ A simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.
 
 | Downloads| |
 |--|--|
-| GitHub Releases | :arrow_down: [![Github All Releases](https://img.shields.io/github/downloads/hozuki/MilliSim/total.svg)](https://github.com/hozuki/MilliSim/releases) (choose AppVeyor builds please) |
-| Latest Release | :arrow_down: [![GitHub (pre-)release](https://img.shields.io/github/release/hozuki/MilliSim/all.svg)](https://ci.appveyor.com/api/projects/hozuki/MilliSim/artifacts/millisim-appveyor-latest.zip) |
+| GitHub Releases | [![GitHub (pre-)release](https://img.shields.io/github/release/hozuki/MilliSim/all.svg) ![Github All Releases](https://img.shields.io/github/downloads/hozuki/MilliSim/total.svg)](https://github.com/hozuki/MilliSim/releases) (choose AppVeyor builds please) |
+| Latest Development Build | [AppVeyor](https://ci.appveyor.com/api/projects/hozuki/MilliSim/artifacts/millisim-appveyor-latest.zip) |
 
 **Stage:** alpha
 
@@ -18,6 +18,7 @@ A simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.
 
 [![GitHub contributors](https://img.shields.io/github/contributors/hozuki/MilliSim.svg)](https://github.com/hozuki/MilliSim/graphs/contributors)
 [![Libraries.io for GitHub](https://img.shields.io/librariesio/github/hozuki/MilliSim.svg)](https://github.com/hozuki/MilliSim)
+[![license](https://img.shields.io/github/license/hozuki/MilliSim.svg)](LICENSE.txt)
 
 ## Usage
 
