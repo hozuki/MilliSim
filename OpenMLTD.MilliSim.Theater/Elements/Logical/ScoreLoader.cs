@@ -87,6 +87,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
                             if (format.CanReadAsCompiled) {
                                 try {
                                     runtimeScore = reader.ReadCompiledScore(fileStream, scoreFileName, sourceOptions, compileOptions);
+                                    successful = true;
                                 } catch (Exception ex) {
                                     if (debug != null) {
                                         debug.AddLine($"An exception is thrown while trying to read the score using <{format.PluginDescription}>: {ex.Message}");
