@@ -2,7 +2,7 @@ using UnityStudio.Serialization;
 using UnityStudio.Serialization.Naming;
 
 namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd.Serialization {
-    [MonoBehavior(NamingConventionType = typeof(CamelCaseNamingConvetion))]
+    [MonoBehavior(NamingConventionType = typeof(CamelCaseNamingConvention))]
     internal sealed class EventNoteData {
 
         [MonoBehaviorProperty(Name = "absTime")]
