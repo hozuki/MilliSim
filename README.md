@@ -23,7 +23,7 @@ A simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.
 
 **Requirements:**
 
-- Windows 7 or later
+- Windows 7 or later *(Windows 7 is supposed to be supported but seems broken; Windows 8 and above is guaranteed.)*
 - [.NET Framework 4.5](https://www.microsoft.com/en-us/download/details.aspx?id=42642)
 - Direct3D 11 and Direct2D
 
