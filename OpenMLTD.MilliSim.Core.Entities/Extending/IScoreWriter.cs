@@ -7,9 +7,9 @@ using OpenMLTD.MilliSim.Core.Entities.Source;
 namespace OpenMLTD.MilliSim.Core.Entities.Extending {
     public interface IScoreWriter : IDisposable {
 
-        void WriteSourceScore([NotNull] Stream stream, [NotNull] SourceScore score);
+        void WriteSourceScore([NotNull] Stream stream, [NotNull] string fileName, [NotNull] SourceScore score);
 
-        void WriteCompiledScore([NotNull] Stream stream, [NotNull] RuntimeScore score);
+        void WriteCompiledScore([NotNull] Stream stream, [NotNull] string fileName, [NotNull] RuntimeScore score);
 
     }
 }

@@ -8,11 +8,11 @@ using OpenMLTD.MilliSim.Core.Entities.Source;
 namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd {
     internal sealed class Unity3DScoreWriter : DisposableBase, IScoreWriter {
 
-        public void WriteSourceScore(Stream stream, SourceScore score) {
+        public void WriteSourceScore(Stream stream, string fileName, SourceScore score) {
             throw new NotSupportedException();
         }
 
-        public void WriteCompiledScore(Stream stream, RuntimeScore score) {
+        public void WriteCompiledScore(Stream stream, string fileName, RuntimeScore score) {
             throw new NotSupportedException();
         }
 
