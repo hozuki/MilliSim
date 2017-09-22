@@ -9,7 +9,7 @@ A simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.
 
 | Downloads| |
 |--|--|
-| GitHub Releases | [![GitHub (pre-)release](https://img.shields.io/github/release/hozuki/MilliSim/all.svg) ![Github All Releases](https://img.shields.io/github/downloads/hozuki/MilliSim/total.svg)](https://github.com/hozuki/MilliSim/releases) (choose AppVeyor builds please) |
+| GitHub Releases | [![GitHub (pre-)release](https://img.shields.io/github/release/hozuki/MilliSim/all.svg) ![Github All Releases](https://img.shields.io/github/downloads/hozuki/MilliSim/total.svg)](https://github.com/hozuki/MilliSim/releases) |
 | Latest Development Build | [AppVeyor](https://ci.appveyor.com/api/projects/hozuki/MilliSim/artifacts/millisim-appveyor-latest.zip) |
 
 **Stage:** alpha

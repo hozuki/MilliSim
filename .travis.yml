@@ -22,16 +22,16 @@ before_deploy:
   - cp millisim.zip millisim-travis-v${MAIN_VER}.${TRAVIS_BUILD_NUMBER}${RELEASE_SUFFIX}.zip
   - mv millisim.zip millisim-travis-latest.zip
 
-deploy:
-  skip_cleanup: true
-  provider: releases
-  api_key:
-     secure: "TzHOHduzJDYF2xBvU7vMYLKfP0Vv/xkaLb5xr2otTRaeSzE+t/ePH9E3il/LBurcx3d4UYnqY8cz6mifcB3xV9Ktd5KXL6eIpJOoAMdKgEZune7+eN7F4Z3mPa3XuYfDy8NBeiSUxDnsKwVkb4VqJ+b4+Iz/2Pl87W5fd26TcuJCQPiuyPLJZl0s29wYLxyQzgKpakGAOwUs0IIiuZxFNddn6ZtCZKancAw2fXb8xlWLtEVyzCbTdmeyXTHXLkqYYdRbAeyEBOcrObzYi8x9SPRUsKNhNedUHIfyEUX2aeMiSpsptPcLlxOG0XHohuajfKGPQw8gxuxu4+K2H+HCSHgeTFEs/Hl490gUOHSUcTnSFEk8Eit1eQxd0i31Obd3yZsldkLD6fj1WygRil8RNwj+pyDU2nejoe28CiIF4R5kykUjFHIBnpYCOR815YWWuSjGGl1xR1CU26hZBOXEK6VGkwUe2EoNeGiR0rsSKzmED0exlKtqxqJSfWpsQHkF0GeHlCTDkcJTI4hOVcfv7LcwoDp4vlQMic++J0Pl5sI1lAUqvtgARmN3ESOjiztrxQ/5TwKtUC0SDW75HyLmly8QR00QPAg7aa6UMVTHM3sn0OHkdj8RwEArq/EZkEUfRrENsqaqC89/1Cc2dwuNpi0EuT6ajRGKeHwfrq9R9nc="
-  prerelease: true
-  file:
-    - millisim-travis-latest.zip
-    - millisim-travis-v${MAIN_VER}.${TRAVIS_BUILD_NUMBER}${RELEASE_SUFFIX}.zip
-  on:
-    tags: true
-    all_branches: true
-    condition: '${TRAVIS_TAG} != ""' # this is a tag push, not a commit push
+#deploy:
+#  skip_cleanup: true
+#  provider: releases
+#  api_key:
+#     secure: "TzHOHduzJDYF2xBvU7vMYLKfP0Vv/xkaLb5xr2otTRaeSzE+t/ePH9E3il/LBurcx3d4UYnqY8cz6mifcB3xV9Ktd5KXL6eIpJOoAMdKgEZune7+eN7F4Z3mPa3XuYfDy8NBeiSUxDnsKwVkb4VqJ+b4+Iz/2Pl87W5fd26TcuJCQPiuyPLJZl0s29wYLxyQzgKpakGAOwUs0IIiuZxFNddn6ZtCZKancAw2fXb8xlWLtEVyzCbTdmeyXTHXLkqYYdRbAeyEBOcrObzYi8x9SPRUsKNhNedUHIfyEUX2aeMiSpsptPcLlxOG0XHohuajfKGPQw8gxuxu4+K2H+HCSHgeTFEs/Hl490gUOHSUcTnSFEk8Eit1eQxd0i31Obd3yZsldkLD6fj1WygRil8RNwj+pyDU2nejoe28CiIF4R5kykUjFHIBnpYCOR815YWWuSjGGl1xR1CU26hZBOXEK6VGkwUe2EoNeGiR0rsSKzmED0exlKtqxqJSfWpsQHkF0GeHlCTDkcJTI4hOVcfv7LcwoDp4vlQMic++J0Pl5sI1lAUqvtgARmN3ESOjiztrxQ/5TwKtUC0SDW75HyLmly8QR00QPAg7aa6UMVTHM3sn0OHkdj8RwEArq/EZkEUfRrENsqaqC89/1Cc2dwuNpi0EuT6ajRGKeHwfrq9R9nc="
+#  prerelease: true
+#  file:
+#    - millisim-travis-latest.zip
+#    - millisim-travis-v${MAIN_VER}.${TRAVIS_BUILD_NUMBER}${RELEASE_SUFFIX}.zip
+#  on:
+#    tags: true
+#    all_branches: true
+#    condition: '${TRAVIS_TAG} != ""' # this is a tag push, not a commit push
