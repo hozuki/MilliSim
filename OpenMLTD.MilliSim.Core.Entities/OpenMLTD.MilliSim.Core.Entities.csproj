@@ -64,7 +64,6 @@
     <Compile Include="Source\Conductor.cs" />
     <Compile Include="Source\SourceNote.cs" />
     <Compile Include="Source\NoteBase.cs" />
-    <Compile Include="Source\PolyPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -32,14 +32,19 @@ namespace OpenMLTD.MilliSim.Core.Entities.Source {
         public float Speed { get; set; }
 
         /// <summary>
-        /// <see cref="PolyPoint"/> data of this note. For a Hold Start or Slide Start note, this array must contain
-        /// at least 1 <see cref="PolyPoint"/>.
+        /// An array of <see cref="SourceNote"/>s following this note. For a Hold Start, Flick Start or Slide Start note, this array must contain
+        /// at least 1 <see cref="SourceNote"/>.
         /// </summary>
+        /// <remarks>
+        /// <para>For example, a standard Hold Start note in MLTD/CGSS has 1 following note.</para>
+        /// <para>Each following note's <see cref="SourceNote.Ticks"/> property should be an absolute value, not a relative value to this note.</para>
+        /// <para>Types of notes in this array may differ. A slide group in CGSS can end in a slide note (normal slide group) or a series of flick notes ("tail flicking"). Both situtations can be represented by <see cref="FollowingNotes"/>.</para>
+        /// </remarks>
         [CanBeNull, ItemNotNull]
-        public PolyPoint[] PolyPoints { get; set; }
+        public SourceNote[] FollowingNotes { get; set; }
 
         /// <summary>
-        /// Flick direction of this this note. For a Hold Start or Slide Start note, this is the flick direction of corresponding Hold End or Slide End note.
+        /// Flick direction of this this note.
         /// </summary>
         public FlickDirection FlickDirection { get; set; }
 

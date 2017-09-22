@@ -45,13 +45,9 @@ namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd {
                         notesToBeAdded = CreateTap(note, conductors, ref currentID);
                         break;
                     case NoteType.Flick:
-                        notesToBeAdded = CreateFlick(note, conductors, ref currentID);
-                        break;
                     case NoteType.Hold:
-                        notesToBeAdded = CreateHoldOrSlide(note, conductors, ref currentID);
-                        break;
                     case NoteType.Slide:
-                        notesToBeAdded = CreateHoldOrSlide(note, conductors, ref currentID);
+                        notesToBeAdded = CreateContinuousNote(note, conductors, ref currentID);
                         break;
                     case NoteType.Special:
                         notesToBeAdded = CreateSpecial(note, conductors, gameNotes, ref currentID);
@@ -119,36 +115,22 @@ namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd {
             return new[] { rn };
         }
 
-        private static RuntimeNote[] CreateFlick(SourceNote note, Conductor[] conductors, ref int currentID) {
-            var rn = new RuntimeNote();
-
-            rn.Type = note.Type;
-            rn.Size = note.Size;
-            rn.FlickDirection = note.FlickDirection;
-
-            rn.ID = ++currentID;
-            rn.HitTime = TicksToSeconds(note.Ticks, conductors);
-            rn.LeadTime = note.LeadTime;
-            rn.RelativeSpeed = note.Speed;
-            rn.Type = NoteType.Flick;
-            rn.StartX = note.StartX;
-            rn.EndX = note.EndX;
-
-            // Space reserved for GroupID which may be used in the future.
-
-            return new[] { rn };
-        }
-
-        private static RuntimeNote[] CreateHoldOrSlide(SourceNote note, Conductor[] conductors, ref int currentID) {
-            // The first polypoint is always the slide start, indicating the end position.
-            if (note.PolyPoints == null) {
-                throw new ArgumentException("A hold or slide note must have polypoints.", nameof(note));
-            }
-            if (note.PolyPoints.Length < 2) {
-                throw new ArgumentException("A hold or slide note must have at least 2 polypoints.", nameof(note));
-            }
-
+        private static RuntimeNote[] CreateContinuousNote(SourceNote note, Conductor[] conductors, ref int currentID) {
             var noteType = note.Type;
+
+            switch (noteType) {
+                case NoteType.Flick:
+                    break;
+                case NoteType.Hold:
+                case NoteType.Slide:
+                    if (note.FollowingNotes == null) {
+                        throw new ArgumentException("A hold or slide note must have following note(s).", nameof(note));
+                    }
+                    if (note.FollowingNotes.Length == 0) {
+                        throw new ArgumentException("A hold or slide note must have at least 1 following note.", nameof(note));
+                    }
+                    break;
+            }
 
             var rn = new RuntimeNote();
 
@@ -157,41 +139,60 @@ namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd {
             rn.LeadTime = note.LeadTime;
             rn.RelativeSpeed = note.Speed;
             rn.Type = noteType;
+            rn.FlickDirection = note.FlickDirection;
             rn.StartX = note.StartX;
             rn.EndX = note.EndX;
 
-            var ret = new RuntimeNote[note.PolyPoints.Length];
+            var followingNoteCount = note.FollowingNotes?.Length ?? 0;
+            var ret = new RuntimeNote[followingNoteCount + 1];
             ret[0] = rn;
 
-            for (var i = 1; i < note.PolyPoints.Length; ++i) {
-                var polyPoint = note.PolyPoints[i];
-                var n = new RuntimeNote();
-                n.ID = ++currentID;
-                n.HitTime = TicksToSeconds(note.Ticks + polyPoint.Subtick, conductors);
-                n.LeadTime = rn.LeadTime;
-                n.RelativeSpeed = rn.RelativeSpeed;
-                n.Type = noteType;
-                n.StartX = note.PolyPoints[i - 1].PositionX;
-                n.EndX = polyPoint.PositionX;
-                ret[i] = n;
+            if (note.FollowingNotes != null) {
+                for (var i = 0; i < followingNoteCount; ++i) {
+                    var following = note.FollowingNotes[i];
+                    var n = new RuntimeNote();
+                    n.ID = ++currentID;
+                    n.HitTime = TicksToSeconds(following.Ticks, conductors);
+                    n.LeadTime = following.LeadTime;
+                    n.RelativeSpeed = following.Speed;
+                    n.Type = following.Type;
+                    n.FlickDirection = following.FlickDirection;
+                    n.StartX = following.StartX;
+                    n.EndX = following.EndX;
+                    ret[i + 1] = n;
+                }
             }
 
-            switch (noteType) {
-                case NoteType.Hold:
-                    for (var i = 0; i < ret.Length - 1; ++i) {
-                        ret[i].NextHold = ret[i + 1];
+            for (var i = 0; i < ret.Length - 1; ++i) {
+                switch (ret[i].Type) {
+                    case NoteType.Flick:
+                        ret[i + 1].PrevFlick = ret[i];
+                        break;
+                    case NoteType.Hold:
                         ret[i + 1].PrevHold = ret[i];
-                    }
-                    break;
-                case NoteType.Slide:
-                    for (var i = 0; i < ret.Length - 1; ++i) {
-                        ret[i].NextSlide = ret[i + 1];
+                        break;
+                    case NoteType.Slide:
                         ret[i + 1].PrevSlide = ret[i];
-                    }
-                    break;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                switch (ret[i + 1].Type) {
+                    case NoteType.Flick:
+                        ret[i].NextFlick = ret[i + 1];
+                        break;
+                    case NoteType.Hold:
+                        ret[i].NextHold = ret[i + 1];
+                        break;
+                    case NoteType.Slide:
+                        ret[i].NextSlide = ret[i + 1];
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
 
-            ret[ret.Length - 1].FlickDirection = note.FlickDirection;
+            // Space reserved for GroupID which may be used in the future.
 
             return ret;
         }

@@ -1,10 +1,12 @@
 namespace OpenMLTD.MilliSim.Core.Entities {
     public enum NoteType {
 
-        Tap = 0,
-        Flick = 1,
-        Hold = 2,
-        Slide = 3,
+        Invalid = 0,
+
+        Tap = 1,
+        Flick = 2,
+        Hold = 3,
+        Slide = 4,
 
         /// <summary>
         /// The Special note.

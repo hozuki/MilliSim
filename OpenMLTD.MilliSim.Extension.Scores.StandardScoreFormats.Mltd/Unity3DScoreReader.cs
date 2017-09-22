@@ -130,52 +130,82 @@ namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd {
                         note.Type = NoteType.Hold;
                         note.Size = mltdNoteType == MltdNoteType.HoldSmall ? NoteSize.Small : NoteSize.Large;
 
-                        var generatedPolyPoints = new[] { new PolyPoint(), new PolyPoint() };
-                        generatedPolyPoints[0].Subtick = 0;
-                        generatedPolyPoints[0].PositionX = note.StartX;
+                        var n = new SourceNote();
+                        var followingNotes = new[] { n };
+                        n.StartX = note.StartX;
+                        n.EndX = note.EndX;
                         // MLTD tick is divided by 8.
-                        generatedPolyPoints[1].Subtick = noteData.Duration * (NoteBase.TicksPerBeat / 8);
-                        generatedPolyPoints[1].PositionX = note.EndX;
-                        note.PolyPoints = generatedPolyPoints;
+                        n.Ticks = note.Ticks + noteData.Duration * (NoteBase.TicksPerBeat / 8);
+                        n.Speed = noteData.Speed;
+                        n.LeadTime = noteData.LeadTime;
+                        n.Type = note.Type;
+
+                        switch ((MltdNoteEndType)noteData.EndType) {
+                            case MltdNoteEndType.Tap:
+                                break;
+                            case MltdNoteEndType.FlickLeft:
+                                n.FlickDirection = FlickDirection.Left;
+                                break;
+                            case MltdNoteEndType.FlickUp:
+                                n.FlickDirection = FlickDirection.Up;
+                                break;
+                            case MltdNoteEndType.FlickRight:
+                                n.FlickDirection = FlickDirection.Right;
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+
+                        note.FollowingNotes = followingNotes;
                     }
                     break;
-                case MltdNoteType.SlideSmall:
-                    note.Type = NoteType.Slide;
-                    note.Size = NoteSize.Small;
-                    note.PolyPoints = noteData.Polypoints.Select(poly => new PolyPoint {
-                        PositionX = poly.PositionX,
-                        // MLTD tick is divided by 8.
-                        Subtick = poly.SubTick * (NoteBase.TicksPerBeat / 8)
-                    }).ToArray();
+                case MltdNoteType.SlideSmall: {
+                        note.Type = NoteType.Slide;
+                        note.Size = NoteSize.Small;
+
+                        var followingNotes = new SourceNote[noteData.Polypoints.Length - 1];
+
+                        for (var i = 1; i < noteData.Polypoints.Length; ++i) {
+                            var poly = noteData.Polypoints[i];
+                            var followingNote = new SourceNote {
+                                StartX = noteData.Polypoints[i - 1].PositionX,
+                                EndX = poly.PositionX,
+                                // MLTD tick is divided by 8.
+                                Ticks = note.Ticks + poly.SubTick * (NoteBase.TicksPerBeat / 8),
+                                Speed = noteData.Speed,
+                                LeadTime = noteData.LeadTime,
+                                Type = note.Type
+                            };
+
+                            if (i == noteData.Polypoints.Length - 1) {
+                                switch ((MltdNoteEndType)noteData.EndType) {
+                                    case MltdNoteEndType.Tap:
+                                        break;
+                                    case MltdNoteEndType.FlickLeft:
+                                        followingNote.FlickDirection = FlickDirection.Left;
+                                        break;
+                                    case MltdNoteEndType.FlickUp:
+                                        followingNote.FlickDirection = FlickDirection.Up;
+                                        break;
+                                    case MltdNoteEndType.FlickRight:
+                                        followingNote.FlickDirection = FlickDirection.Right;
+                                        break;
+                                    default:
+                                        throw new ArgumentOutOfRangeException();
+                                }
+                            }
+
+                            followingNotes[i - 1] = followingNote;
+                        }
+
+                        note.FollowingNotes = followingNotes;
+                    }
                     break;
                 case MltdNoteType.Special:
                     note.Type = NoteType.Special;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }
-
-            switch (mltdNoteType) {
-                case MltdNoteType.HoldSmall:
-                case MltdNoteType.SlideSmall:
-                case MltdNoteType.HoldLarge:
-                    switch ((MltdNoteEndType)noteData.EndType) {
-                        case MltdNoteEndType.Tap:
-                            note.FlickDirection = FlickDirection.None;
-                            break;
-                        case MltdNoteEndType.FlickLeft:
-                            note.FlickDirection = FlickDirection.Left;
-                            break;
-                        case MltdNoteEndType.FlickUp:
-                            note.FlickDirection = FlickDirection.Up;
-                            break;
-                        case MltdNoteEndType.FlickRight:
-                            note.FlickDirection = FlickDirection.Right;
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                    break;
             }
 
             return note;
@@ -191,6 +221,30 @@ namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd {
             conductor.SignatureNumerator = conductorData.SignatureNumerator;
             conductor.SignatureDenominator = conductorData.SignatureDenominator;
             return conductor;
+        }
+
+        private static NoteType MapMltdNoteType(MltdNoteType mltdNoteType) {
+            switch (mltdNoteType) {
+                case MltdNoteType.TapSmall:
+                case MltdNoteType.TapLarge:
+                    return NoteType.Tap;
+                case MltdNoteType.FlickLeft:
+                case MltdNoteType.FlickUp:
+                case MltdNoteType.FlickRight:
+                    return NoteType.Flick;
+                case MltdNoteType.HoldSmall:
+                case MltdNoteType.HoldLarge:
+                    return NoteType.Hold;
+                case MltdNoteType.SlideSmall:
+                    return NoteType.Slide;
+                case MltdNoteType.Special:
+                    return NoteType.Special;
+                case MltdNoteType.PrimaryBeat:
+                case MltdNoteType.SecondaryBeat:
+                    return NoteType.Invalid;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mltdNoteType), mltdNoteType, null);
+            }
         }
 
     }
