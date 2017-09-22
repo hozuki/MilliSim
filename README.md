@@ -4,7 +4,7 @@ A simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.
 
 | Build Status | |
 |--|--|
-| Travis | [![AppVeyor](https://img.shields.io/travis/hozuki/MilliSim.svg)](https://travis-ci.org/hozuki/MilliSim) |
+| Travis | [![Travis](https://img.shields.io/travis/hozuki/MilliSim.svg)](https://travis-ci.org/hozuki/MilliSim) |
 | AppVeyor | [![AppVeyor](https://img.shields.io/appveyor/ci/hozuki/MilliSim.svg)](https://ci.appveyor.com/project/hozuki/MilliSim) |
 
 | Downloads| |
