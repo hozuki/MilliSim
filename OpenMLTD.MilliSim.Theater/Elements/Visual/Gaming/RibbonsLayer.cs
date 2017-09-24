@@ -28,6 +28,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
             : base(game) {
         }
 
+        internal static readonly float LayerDepth = 0.1f;
+
         protected override void OnUpdate(GameTime gameTime) {
             base.OnUpdate(gameTime);
             _camera.UpdateViewMatrix();
@@ -135,11 +137,11 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                     var ribbonParams = traceCalculator.GetHoldRibbonParameters(note, nextNote, now, visualNoteMetrics, animationMetrics);
 
                     if (ribbonParams.Visible) {
-                        using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, new[] { ribbonParams }, traceCalculator, now, new[] { (note, note.NextHold) }, visualNoteMetrics, animationMetrics)) {
+                        using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, LayerDepth, new[] { ribbonParams }, traceCalculator, now, new[] { (note, note.NextHold) }, visualNoteMetrics, animationMetrics)) {
                             context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                         }
 
-                        z -= 0.1f;
+                        z -= LayerDepth;
                     }
                 }
 
@@ -192,21 +194,21 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                         }
 
                         if (ribbonParamArray.Any(rp => rp.Visible)) {
-                            using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, ribbonParamArray, traceCalculator, now, flickNotePairs, visualNoteMetrics, animationMetrics)) {
+                            using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, LayerDepth, ribbonParamArray, traceCalculator, now, flickNotePairs, visualNoteMetrics, animationMetrics)) {
                                 context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                             }
 
-                            z -= 0.1f;
+                            z -= LayerDepth;
                         }
                     } else {
                         var ribbonParams = traceCalculator.GetSlideRibbonParameters(note, nextNote, now, visualNoteMetrics, animationMetrics);
 
                         if (ribbonParams.Visible) {
-                            using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, new[] { ribbonParams }, traceCalculator, now, new[] { (note, note.NextSlide) }, visualNoteMetrics, animationMetrics)) {
+                            using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, LayerDepth, new[] { ribbonParams }, traceCalculator, now, new[] { (note, note.NextSlide) }, visualNoteMetrics, animationMetrics)) {
                                 context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                             }
 
-                            z -= 0.1f;
+                            z -= LayerDepth;
                         }
                     }
                 }
@@ -260,21 +262,21 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                         }
 
                         if (ribbonParamArray.Any(rp => rp.Visible)) {
-                            using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, ribbonParamArray, traceCalculator, now, slideNotePairs, visualNoteMetrics, animationMetrics)) {
+                            using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, LayerDepth, ribbonParamArray, traceCalculator, now, slideNotePairs, visualNoteMetrics, animationMetrics)) {
                                 context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                             }
 
-                            z -= 0.1f;
+                            z -= LayerDepth;
                         }
                     } else {
                         var ribbonParams = traceCalculator.GetSlideRibbonParameters(note, nextNote, now, visualNoteMetrics, animationMetrics);
 
                         if (ribbonParams.Visible) {
-                            using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, new[] { ribbonParams }, traceCalculator, now, new[] { (note, note.NextSlide) }, visualNoteMetrics, animationMetrics)) {
+                            using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, LayerDepth, new[] { ribbonParams }, traceCalculator, now, new[] { (note, note.NextSlide) }, visualNoteMetrics, animationMetrics)) {
                                 context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                             }
 
-                            z -= 0.1f;
+                            z -= LayerDepth;
                         }
                     }
                 }

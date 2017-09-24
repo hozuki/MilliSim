@@ -28,6 +28,15 @@ namespace OpenMLTD.MilliSim.Extension.Animation.StandardAnimations {
         public override Version PluginVersion => MyVersion;
 
         public override SizeF GetNoteRadius(RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics) {
+            var onStageStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, animationMetrics);
+
+            switch (onStageStatus) {
+                case OnStageStatus.Incoming:
+                    return SizeF.Empty;
+                case OnStageStatus.Passed:
+                    return noteMetrics.EndRadius;
+            }
+
             var timeRemaining = note.HitTime - now;
             var timePoints = NoteAnimationHelper.CalculateNoteTimePoints(note, animationMetrics);
             var timeTransformed = NoteTimeTransform((float)timeRemaining / timePoints.Duration);
