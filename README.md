@@ -24,11 +24,16 @@ A simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.
 
 **Requirements:**
 
-- Windows 7 or later *(Windows 7 is supposed to be supported but seems broken; Windows 8 and above is guaranteed.)*
+- Windows 7 or later <sup>1</sup> <sup>2</sup>
 - [.NET Framework 4.5](https://www.microsoft.com/en-us/download/details.aspx?id=42642)
 - Direct3D 11 and Direct2D
 
-<del>Theoratically, MilliSim can also run on a UNIX-compliant machine using [Wine](https://www.winehq.org/download)
+After downloading, run `OpenMLTD.MilliSim.Theater.exe` and enjoy.
+
+<sup>1</sup> *Windows 8.1 and above is guaranteed. Windows 7 is supposed to be supported but now having serious app crashes.
+Please help by making PRs since I don't have a second computer to run Windows 7 and debug on it. See issue #6 .*
+
+<sup>2</sup> <del>Theoratically, MilliSim can also run on a UNIX-compliant machine using [Wine](https://www.winehq.org/download)
 and [Mono](http://www.mono-project.com/download/), though this is not tested.</del> Tested
 on Wine 2.0.2. Media Foundation APIs and WAS APIs are still having tons of errors. Even after
 bypassing OS version check (Wine seems to always return an OS major version less than 6),
@@ -130,7 +135,11 @@ Plugin assemblies should be placed at:
 
 where `$WORK_DIR` is MilliSim's working directory.
 
-## Notes
+## Other
+
+### Wiki
+
+MilliSim has a [wiki](https://github.com/hozuki/MilliSim/wiki) on GitHub. It is still under construction but you may find some useful information there.
 
 ### Naming
 
