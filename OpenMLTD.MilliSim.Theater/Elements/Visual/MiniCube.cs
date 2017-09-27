@@ -91,11 +91,11 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual {
 
         private void Init(Device device) {
             // Compile Vertex and Pixel shaders
-            var vertexShaderByteCode = ShaderBytecode.CompileFromFile("res/fx/minicube.fx", "VS", "vs_4_0");
+            var vertexShaderByteCode = ShaderBytecode.CompileFromFile("res/fx/minicube.fx", "VS", "vs_4_0_level_9_1");
             var vertexShader = new VertexShader(device, vertexShaderByteCode);
             _vertexShader = vertexShader;
 
-            var pixelShaderByteCode = ShaderBytecode.CompileFromFile("res/fx/minicube.fx", "PS", "ps_4_0");
+            var pixelShaderByteCode = ShaderBytecode.CompileFromFile("res/fx/minicube.fx", "PS", "ps_4_0_level_9_1");
             var pixelShader = new PixelShader(device, pixelShaderByteCode);
             _pixelShader = pixelShader;
 
