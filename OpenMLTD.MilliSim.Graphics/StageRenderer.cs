@@ -69,7 +69,7 @@ namespace OpenMLTD.MilliSim.Graphics {
             _dxgiFactory.Dispose();
             _swapChain.Dispose();
             _direct3DDevice.Dispose();
-            _dxgiDeviceManager.Dispose();
+            _dxgiDeviceManager?.Dispose();
         }
 
         protected abstract void CreateSwapChainAndDevice(out SwapChainDescription swapChainDescription, out SwapChain swapChain, out Device device);
@@ -91,9 +91,13 @@ namespace OpenMLTD.MilliSim.Graphics {
             var multithread = _direct3DDevice.QueryInterface<DeviceMultithread>();
             multithread.SetMultithreadProtected(true);
             if (_dxgiDeviceManager == null) {
-                _dxgiDeviceManager = new DXGIDeviceManager();
+                try {
+                    _dxgiDeviceManager = new DXGIDeviceManager();
+                } catch (System.EntryPointNotFoundException) {
+                    // Windows 7
+                }
             }
-            _dxgiDeviceManager.ResetDevice(_direct3DDevice);
+            _dxgiDeviceManager?.ResetDevice(_direct3DDevice);
 
             _directWriteFactory = new SharpDX.DirectWrite.Factory();
 

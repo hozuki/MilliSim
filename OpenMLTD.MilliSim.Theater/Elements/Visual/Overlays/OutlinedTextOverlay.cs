@@ -65,7 +65,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
             _textFill = new D2DSolidBrush(context, FillColor);
             _textStroke = new D2DPen(context, StrokeColor, StrokeWidth);
             _fontFile = new FontFile(context.DirectWriteFactory, fontPath);
-            _fontFace = new FontFace(context.DirectWriteFactory, FontFaceType.Unknown, new[] { _fontFile }, 0, FontSimulations.None);
+            _fontFace = new FontFace(context.DirectWriteFactory, FontFaceType.OpenTypeCollection, new[] { _fontFile }, 0, FontSimulations.None);
             _glyphRun = new GlyphRun {
                 FontFace = _fontFace,
                 FontSize = FontSize
