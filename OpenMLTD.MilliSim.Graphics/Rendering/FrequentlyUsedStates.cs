@@ -121,7 +121,7 @@ namespace OpenMLTD.MilliSim.Graphics.Rendering {
             _transparent = new BlendState(device, transparentDesc);
 
             var opaqueDesc = new BlendStateDescription {
-                AlphaToCoverageEnable = true,
+                AlphaToCoverageEnable = false,
                 IndependentBlendEnable = false
             };
             opaqueDesc.RenderTarget[0].IsBlendEnabled = false;
