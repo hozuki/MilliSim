@@ -19,11 +19,11 @@ before_build:
   - node before_script-nuget_restore.js
   - node before_script-patch_asminfo.js
 after_build:
+  - marked ./README.md -o ./README.html
   - del %APPVEYOR_BUILD_FOLDER%\OpenMLTD.MilliSim.Theater\bin\%CONFIGURATION%\*.xml
   - del %APPVEYOR_BUILD_FOLDER%\OpenMLTD.MilliSim.Theater\bin\%CONFIGURATION%\*.pdb
   - 7z a millisim.zip -r %APPVEYOR_BUILD_FOLDER%\OpenMLTD.MilliSim.Theater\bin\%CONFIGURATION%\*
-  - 7z a millisim.zip %APPVEYOR_BUILD_FOLDER%\REAMDE.html
-  - marked ./README.md -o ./README.html
+  - 7z a millisim.zip %APPVEYOR_BUILD_FOLDER%\README.html
   - copy millisim.zip millisim-appveyor-latest.zip
   - copy millisim.zip millisim-appveyor-v%APPVEYOR_BUILD_VERSION%%RELEASE_SUFFIX%.zip
 artifacts:
