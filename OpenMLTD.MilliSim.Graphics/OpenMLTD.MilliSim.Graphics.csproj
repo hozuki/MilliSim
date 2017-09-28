@@ -193,10 +193,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="D3DCompiler_47.dll">
+    <Content Include="lib\x86\D3DCompiler_47.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="D3DCompiler_47_x64.dll">
+    <Content Include="lib\x64\D3DCompiler_47.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="res\fx\helper.fx">

@@ -59,6 +59,7 @@
     <Compile Include="IMilliSimPlugin.cs" />
     <Compile Include="InteropHelper.cs" />
     <Compile Include="Interop\NativeMethods.cs" />
+    <Compile Include="LibraryPreloader.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="MilliSimCodeNameAttribute.cs" />
     <Compile Include="PerformanceCounter.cs" />
