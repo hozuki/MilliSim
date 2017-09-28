@@ -286,7 +286,7 @@ namespace OpenMLTD.MilliSim.Theater {
 
                 var cuties = theaterDays.FindSingleElement<CuteIdol>();
                 if (cuties != null) {
-                    cuties.SelectedCharacterIndex = MathHelper.Random.Next(cuties.NumberOfCharacters);
+                    cuties.PickRandomCharacter();
                     cuties.Visible = true;
                 }
             }

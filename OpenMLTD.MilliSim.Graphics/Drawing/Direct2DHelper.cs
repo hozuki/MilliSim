@@ -1,6 +1,4 @@
-using System.Drawing;
 using System.Drawing.Imaging;
-using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Advanced;
 using SharpDX;
@@ -18,6 +16,11 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing {
             return new D2DImageStrip(bitmap, count, orientation);
         }
 
+        public static D2DImageStrip2D LoadImageStrip2D(RenderContext context, string fileName, float unitWidth, float unitHeight, int count, int arrayCount, ImageStripOrientation orientation) {
+            var bitmap = LoadBitmap(context.RenderTarget.DeviceContext2D, fileName);
+            return new D2DImageStrip2D(bitmap, unitWidth, unitHeight, count, arrayCount, orientation);
+        }
+
         public static D2DBitmap LoadBitmap(RenderContext context, string fileName) {
             var bitmap = LoadBitmap(context.RenderTarget.DeviceContext2D, fileName);
             return new D2DBitmap(bitmap);
@@ -26,6 +29,11 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing {
         public static D2DImageStrip LoadImageStrip(RenderContext context, System.Drawing.Bitmap bitmap, int count, ImageStripOrientation orientation) {
             var bmp = LoadBitmap(context.RenderTarget.DeviceContext2D, bitmap);
             return new D2DImageStrip(bmp, count, orientation);
+        }
+
+        public static D2DImageStrip2D LoadImageStrip2D(RenderContext context, System.Drawing.Bitmap bitmap, float unitWidth, float unitHeight, int count, int arrayCount, ImageStripOrientation orientation) {
+            var bmp = LoadBitmap(context.RenderTarget.DeviceContext2D, bitmap);
+            return new D2DImageStrip2D(bmp, unitWidth, unitHeight, count, arrayCount, orientation);
         }
 
         public static D2DBitmap LoadBitmap(RenderContext context, System.Drawing.Bitmap bitmap) {

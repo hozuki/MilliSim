@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Drawing\Direct2D\Advanced\D2DImageStrip2D.cs" />
     <Compile Include="Extensions\BasicModelInstanceExtensions.cs" />
     <Compile Include="Extensions\DrawableExtensions.cs" />
     <Compile Include="Extensions\Texture2DExtensions.cs" />

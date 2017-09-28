@@ -17,21 +17,45 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual {
             : base(game) {
         }
 
-        public int SelectedCharacterIndex { get; set; }
+        public int PickRandomCharacter() {
+            // 85% chance to roll out Project 39 members (39)
+            // 12% chance to roll out 765 All Stars members (13)
+            // 3% chance to roll out the easter egg of the easter egg (1)
+            var firstRoll = MathHelper.Random.NextDouble();
+            int upper, lower;
 
-        public int NumberOfCharacters => CharacterCount;
+            if (firstRoll < 0.85) {
+                lower = 0;
+                upper = 39;
+            } else if (firstRoll < 0.97) {
+                lower = 39;
+                upper = 52;
+            } else {
+                lower = 52;
+                upper = 52;
+            }
+
+            var characterIndex = MathHelper.Random.Next(lower, upper);
+            _selectedCharacterIndex = characterIndex;
+
+            return characterIndex;
+        }
 
         public override bool Visible { get; set; } = false;
 
         protected override void OnDraw(GameTime gameTime, RenderContext context) {
             base.OnDraw(gameTime, context);
 
+            var index = _selectedCharacterIndex;
+            if (index < 0) {
+                return;
+            }
+
             if (_characterImages == null) {
                 return;
             }
 
-            var index = SelectedCharacterIndex;
-            if (index < 0 || index >= CharacterCount) {
+            if (index < 0 || index >= TotalCharacterCount) {
                 return;
             }
 
@@ -54,7 +78,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual {
             base.OnGotContext(context);
 
             try {
-                _characterImages = Direct2DHelper.LoadImageStrip(context, Resources.CharacterIcons, CharacterCount, CharacterImagesOrientation);
+                _characterImages = Direct2DHelper.LoadImageStrip2D(context, Resources.CharacterIcons, CharacterWidth, CharacterHeight, TotalCharacterCount, ArrayCount, CharacterImagesOrientation);
             } catch (Exception ex) {
                 var debugOverlay = Game.AsTheaterDays().FindSingleElement<DebugOverlay>();
                 if (debugOverlay != null) {
@@ -71,12 +95,18 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual {
         }
 
         [CanBeNull]
-        private D2DImageStrip _characterImages;
+        private D2DImageStrip2D _characterImages;
 
-        private static readonly int CharacterCount = 52;
+        private int _selectedCharacterIndex = -1;
+
+        private static readonly int BaseCharacterCount = 52;
+        private static readonly int ExtraCharacterCount = 1;
+        private static readonly int TotalCharacterCount = BaseCharacterCount + ExtraCharacterCount;
         private static readonly int CharacterWidth = 162;
         private static readonly int CharacterHeight = 162;
-        private static readonly ImageStripOrientation CharacterImagesOrientation = ImageStripOrientation.Vertical;
+        // 12 columns
+        private static readonly int ArrayCount = 12;
+        private static readonly ImageStripOrientation CharacterImagesOrientation = ImageStripOrientation.Horizontal;
 
     }
 }

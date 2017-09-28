@@ -1,4 +1,3 @@
-using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
 using SharpDX.Direct2D1;
 using SharpDX.Mathematics.Interop;

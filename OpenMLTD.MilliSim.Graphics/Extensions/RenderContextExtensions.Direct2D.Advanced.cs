@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Advanced;
 using SharpDX.Direct2D1;
@@ -129,22 +128,58 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
             context.DrawBitmap(imageStrip, destX, destY, destWidth, destHeight, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, opacity);
         }
 
+        public static void DrawImageStripUnit(this RenderContext context, D2DImageStrip2D imageStrip, int index, float destX, float destY) {
+            if (index < 0 || index >= imageStrip.Count) {
+                throw new ArgumentOutOfRangeException(nameof(index), index, null);
+            }
+            var srcRect = GetSourceRect(imageStrip, index);
+            context.DrawImage(imageStrip, destX, destY, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height);
+        }
+
+        public static void DrawImageStripUnit(this RenderContext context, D2DImageStrip2D imageStrip, int index, float destX, float destY, InterpolationMode interpolationMode, CompositeMode compositeMode) {
+            if (index < 0 || index >= imageStrip.Count) {
+                throw new ArgumentOutOfRangeException(nameof(index), index, null);
+            }
+            var srcRect = GetSourceRect(imageStrip, index);
+            context.DrawImage(imageStrip, destX, destY, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, interpolationMode, compositeMode);
+        }
+
+        public static void DrawImageStripUnit(this RenderContext context, D2DImageStrip2D imageStrip, int index, float destX, float destY, float destWidth, float destHeight) {
+            if (index < 0 || index >= imageStrip.Count) {
+                throw new ArgumentOutOfRangeException(nameof(index), index, null);
+            }
+            var srcRect = GetSourceRect(imageStrip, index);
+            context.DrawBitmap(imageStrip, destX, destY, destWidth, destHeight, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height);
+        }
+
+        public static void DrawImageStripUnit(this RenderContext context, D2DImageStrip2D imageStrip, int index, float destX, float destY, float destWidth, float destHeight, float opacity) {
+            if (index < 0 || index >= imageStrip.Count) {
+                throw new ArgumentOutOfRangeException(nameof(index), index, null);
+            }
+            var srcRect = GetSourceRect(imageStrip, index);
+            context.DrawBitmap(imageStrip, destX, destY, destWidth, destHeight, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, opacity);
+        }
+
         private static RectangleF GetSourceRect(D2DImageStrip imageStrip, int index, RectangleF blankEdge) {
             var rect = GetSourceRect(imageStrip, index);
             return new RectangleF(rect.Left + blankEdge.Left, rect.Top + blankEdge.Top, rect.Width - (blankEdge.Left + blankEdge.Right), rect.Height - (blankEdge.Top + blankEdge.Bottom));
         }
 
         private static RectangleF GetSourceRect(D2DImageStrip imageStrip, int index) {
+            if (index < 0 || index >= imageStrip.Count) {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
             float x, y, w, h;
             switch (imageStrip.Orientation) {
                 case ImageStripOrientation.Horizontal:
                     w = imageStrip.UnitWidth;
-                    h = imageStrip.Height;
+                    h = imageStrip.UnitHeight;
                     x = index * w;
                     y = 0;
                     break;
                 case ImageStripOrientation.Vertical:
-                    w = imageStrip.Width;
+                    w = imageStrip.UnitWidth;
                     h = imageStrip.UnitHeight;
                     x = 0;
                     y = index * h;
@@ -152,6 +187,36 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            return new RectangleF(x, y, w, h);
+        }
+
+        private static RectangleF GetSourceRect(D2DImageStrip2D imageStrip, int index) {
+            if (index < 0 || index >= imageStrip.Count) {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
+            int xIndex, yIndex;
+            float w, h;
+            switch (imageStrip.Orientation) {
+                case ImageStripOrientation.Horizontal:
+                    w = imageStrip.UnitWidth;
+                    h = imageStrip.UnitHeight;
+                    xIndex = index % imageStrip.ArrayCount;
+                    yIndex = index / imageStrip.ArrayCount;
+                    break;
+                case ImageStripOrientation.Vertical:
+                    w = imageStrip.UnitWidth;
+                    h = imageStrip.UnitHeight;
+                    xIndex = index / imageStrip.ArrayCount;
+                    yIndex = index % imageStrip.ArrayCount;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            var x = xIndex * w;
+            var y = yIndex * h;
+
             return new RectangleF(x, y, w, h);
         }
 
