@@ -40,7 +40,7 @@ BlendState AlphaBlend {
     BlendEnable[5] = true;
     BlendEnable[6] = true;
     BlendEnable[7] = true;
-    SrcBlend = SRC_ALPHA;
+    SrcBlend = ONE;
     DestBlend = INV_SRC_ALPHA;
     BlendOp = ADD;
     SrcBlendAlpha = ONE;

@@ -96,8 +96,10 @@ namespace OpenMLTD.MilliSim.Graphics.Rendering {
                 AlphaToCoverageEnable = false,
                 IndependentBlendEnable = false
             };
-            alphaBlendDesc.RenderTarget[0].IsBlendEnabled = true;
-            alphaBlendDesc.RenderTarget[0].SourceBlend = BlendOption.SourceAlpha;
+            for (var i = 0; i < 8; ++i) {
+                alphaBlendDesc.RenderTarget[i].IsBlendEnabled = true;
+            }
+            alphaBlendDesc.RenderTarget[0].SourceBlend = BlendOption.One;
             alphaBlendDesc.RenderTarget[0].DestinationBlend = BlendOption.InverseSourceAlpha;
             alphaBlendDesc.RenderTarget[0].BlendOperation = BlendOperation.Add;
             alphaBlendDesc.RenderTarget[0].SourceAlphaBlend = BlendOption.One;
