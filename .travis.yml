@@ -5,14 +5,16 @@ language: csharp
 solution: MilliSim.sln
 
 env:
-  - MAIN_VER=0.1.5 SOLUTION_NAME=MilliSim.sln CONFIGURATION=Release RELEASE_SUFFIX=-alpha
+  - MAIN_VER=0.2.0 SOLUTION_NAME=MilliSim.sln CONFIGURATION=Release RELEASE_SUFFIX=-alpha
 
 before_install:
   - sudo apt-get install -y gtk-sharp2 p7zip-full nodejs npm
   - sudo npm install glob chalk
 
-before_script:
+install:
   - node before_script-nuget_restore.js
+
+before_script:
   - node before_script-patch_asminfo.js
 
 before_deploy:
