@@ -1,7 +1,7 @@
 # Contributing Guide
 
 This repository incorporates [GitLab Flow](https://about.gitlab.com/2014/09/29/gitlab-flow/).
-For the releations between branches, please see [here](https://about.gitlab.com/2014/09/29/gitlab-flow/#release-branches-with-gitlab-flow).
+For the releations among branches, please see [here](https://about.gitlab.com/2014/09/29/gitlab-flow/#release-branches-with-gitlab-flow).
 
 In short, "upstream first" policy:
 

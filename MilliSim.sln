@@ -24,7 +24,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".dir", ".dir", "{9D3D7DAF-5
 		before_script-nuget_restore.js = before_script-nuget_restore.js
 		before_script-patch_asminfo.js = before_script-patch_asminfo.js
 		CONTRIBUTING.md = CONTRIBUTING.md
-		.github\ISSUE_TEMPLATE.md = .github\ISSUE_TEMPLATE.md
 		LICENSE.txt = LICENSE.txt
 		.github\PULL_REQUEST_TEMPLATE.md = .github\PULL_REQUEST_TEMPLATE.md
 		push.cmd = push.cmd
