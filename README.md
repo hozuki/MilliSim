@@ -26,6 +26,7 @@ A simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.
 
 - Windows 7 or later <sup>1</sup>
 - [.NET Framework 4.5](https://www.microsoft.com/en-us/download/details.aspx?id=42642)
+- Visual C++ 2010 Runtime ([32-bit](https://www.microsoft.com/en-us/download/details.aspx?id=8328) | [64-bit](https://www.microsoft.com/en-us/download/details.aspx?id=13523))
 - [Visual C++ 2015 Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=53587)
 - Direct3D 11 and Direct2D
 
