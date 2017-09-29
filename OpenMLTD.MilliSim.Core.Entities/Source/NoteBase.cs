@@ -1,3 +1,7 @@
+using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Core.Entities.Extending;
+using OpenMLTD.MilliSim.Core.Entities.Runtime;
+
 namespace OpenMLTD.MilliSim.Core.Entities.Source {
     /// <summary>
     /// The base class of all kinds of notes.
@@ -18,6 +22,16 @@ namespace OpenMLTD.MilliSim.Core.Entities.Source {
         /// Accurate number of ticks. In the standard format, each beat is equally divided into <see cref="TicksPerBeat"/> ticks.
         /// </summary>
         public long Ticks { get; set; }
+
+        /// <summary>
+        /// Stores extra information in this note.
+        /// </summary>
+        /// <remarks>
+        /// The information stored can be read by <see cref="IScoreCompiler"/>s to generate <see cref="RuntimeNote"/>s.
+        /// This property is ignored by the default compile methods in <see cref="ScoreCompileHelper"/>.
+        /// </remarks>
+        [CanBeNull]
+        public IDynamic ExtraInfo { get; set; }
 
         /// <summary>
         /// Ticks per beat.
