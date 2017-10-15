@@ -164,8 +164,17 @@
     <Compile Include="Elements\Logical\TimerSyncTarget.cs" />
     <Compile Include="Elements\Visual\Background\VideoStateChangedEventArgs.cs" />
     <Compile Include="Extensions\TheaterDaysExtensions.cs" />
+    <Compile Include="Forms\AboutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AboutWindow.Designer.cs">
+      <DependentUpon>AboutWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="GlobalDebug.cs" />
     <Compile Include="Internal\RibbonMesh.cs" />
+    <Compile Include="Interop\NativeConstants.cs" />
+    <Compile Include="Interop\NativeMethods.cs" />
+    <Compile Include="Interop\NativeStructures.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -179,11 +188,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="TheaterDays.cs" />
-    <Compile Include="TheaterView.cs">
+    <Compile Include="Forms\TheaterView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Configuration\Primitives\WindowOrientation.cs" />
-    <Compile Include="TheaterView.EventHandlers.cs">
+    <Compile Include="Forms\TheaterView.EventHandlers.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Configuration\WindowClass.cs" />
@@ -393,6 +402,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\AboutWindow.resx">
+      <DependentUpon>AboutWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using OpenMLTD.MilliSim.Theater.Configuration.Yaml;
+using OpenMLTD.MilliSim.Theater.Forms;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 

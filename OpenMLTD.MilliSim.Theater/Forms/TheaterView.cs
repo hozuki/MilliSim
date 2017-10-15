@@ -4,7 +4,7 @@ using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Background;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
-namespace OpenMLTD.MilliSim.Theater {
+namespace OpenMLTD.MilliSim.Theater.Forms {
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]
     public sealed partial class TheaterView : GameWindow {
 

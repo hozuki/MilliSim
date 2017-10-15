@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Graphics.Extensions;
 using OpenMLTD.MilliSim.Theater.Elements.Logical;
 using OpenMLTD.MilliSim.Theater.Elements.Visual;
@@ -13,7 +12,7 @@ using OpenMLTD.MilliSim.Theater.Extensions;
 using OpenMLTD.MilliSim.Theater.Properties;
 using SharpDX.MediaFoundation;
 
-namespace OpenMLTD.MilliSim.Theater {
+namespace OpenMLTD.MilliSim.Theater.Forms {
     partial class TheaterView {
 
         private void TheaterStage_Load(object sender, EventArgs e) {
@@ -193,7 +192,6 @@ namespace OpenMLTD.MilliSim.Theater {
 
         private void TheaterStage_KeyDown(object sender, KeyEventArgs e) {
             var theaterDays = Game.AsTheaterDays();
-            var settings = Program.Settings;
 
             var video = theaterDays.FindSingleElement<BackgroundVideo>();
             var audio = theaterDays.FindSingleElement<AudioController>();
@@ -270,6 +268,11 @@ namespace OpenMLTD.MilliSim.Theater {
                     GlobalDebug.Enabled = !GlobalDebug.Enabled;
                     break;
 #endif
+                case Keys.F1:
+                    using (var form = new AboutWindow()) {
+                        form.ShowDialog(this);
+                    }
+                    break;
             }
 
             if (e.KeyCode == EasterEggKeyStrokes[_easterEggIndex]) {
