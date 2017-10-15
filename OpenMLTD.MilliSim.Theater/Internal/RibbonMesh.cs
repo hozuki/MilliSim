@@ -1,14 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Core.Entities.Runtime;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Theater.Animation;
-using OpenMLTD.MilliSim.Theater.Animation.Extending;
 using SharpDX;
 using SharpDX.Direct3D11;
 using Buffer = SharpDX.Direct3D11.Buffer;
@@ -16,7 +12,7 @@ using Buffer = SharpDX.Direct3D11.Buffer;
 namespace OpenMLTD.MilliSim.Theater.Internal {
     internal struct RibbonMesh : IDisposable {
 
-        internal RibbonMesh(Device device, int slice, float textureTopYRatio, float textureBottomYRatio, float z, float layerDepth, RibbonParameters[] rps, INoteTraceCalculator traceCalculator, double now, (RuntimeNote Start, RuntimeNote End)[] notePairs, NoteMetrics visualNoteMetrics, NoteAnimationMetrics animationMetrics) {
+        internal RibbonMesh(RibbonMeshCreateParams createParams) {
             _vertexBuffer = null;
             _indexBuffer = null;
             _vertexStride = 0;
@@ -26,29 +22,18 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             _vertexDataStream = null;
             _indexDataStream = null;
 
-            SetMeshParameters(device, slice, textureTopYRatio, textureBottomYRatio, z, layerDepth, rps, traceCalculator, now, notePairs, visualNoteMetrics, animationMetrics);
-        }
-
-        public void Dispose() {
-            Utilities.Dispose(ref _indexBuffer);
-            Utilities.Dispose(ref _vertexBuffer);
-            Utilities.Dispose(ref _vertexDataStream);
-            Utilities.Dispose(ref _indexDataStream);
-        }
-
-        private void SetMeshParameters(Device device, int slice, float textureTopYRatio, float textureBottomYRatio, float z, float layerDepth, RibbonParameters[] rps, INoteTraceCalculator traceCalculator, double now, (RuntimeNote Start, RuntimeNote End)[] notePairs, NoteMetrics visualNoteMetrics, NoteAnimationMetrics animationMetrics) {
-            if (rps == null) {
+            if (createParams.RibbonParameters == null) {
                 return;
             }
-            if (notePairs == null) {
+            if (createParams.NotePairs == null) {
                 return;
             }
 
-            if (rps.Length == 0 || notePairs.Length == 0 || rps.Length != notePairs.Length) {
+            if (createParams.RibbonParameters.Length == 0 || createParams.NotePairs.Length == 0 || createParams.RibbonParameters.Length != createParams.NotePairs.Length) {
                 throw new ArgumentException();
             }
 
-            if (!rps.Any(rp => rp.Visible)) {
+            if (!createParams.RibbonParameters.Any(rp => rp.Visible)) {
                 throw new ArgumentException();
             }
 
@@ -57,18 +42,25 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             var vertexCount = 0;
             var indexCount = 0;
 
+            var now = createParams.Now;
+            var slice = createParams.Slice;
+            var visualNoteMetrics = createParams.VisualNoteMetrics;
+            var animationMetrics = createParams.AnimationMetrics;
+
             // First, calculate the total ribbon length.
             // Since CGSS allows ribbon to "fold", we cannot simply use Y coord value to calculate texture V value.
-            var ribbonCache = new List<RibbonPointCache>(rps.Length);
+            var bezierCount = createParams.RibbonParameters.Count(rp => rp.Visible && !rp.IsLine);
+            var ribbonCache = bezierCount > 0 ? new RibbonPointCache[bezierCount] : null;
             var ribbonLength = 0f;
-            for (var i = 0; i < rps.Length; ++i) {
-                var rp = rps[i];
+            var bezierIndex = 0;
+            for (var i = 0; i < createParams.RibbonParameters.Length; ++i) {
+                var rp = createParams.RibbonParameters[i];
 
                 if (!rp.Visible) {
                     continue;
                 }
 
-                var notePair = notePairs[i];
+                var notePair = createParams.NotePairs[i];
 
                 if (rp.IsLine) {
                     ribbonLength += Math.Abs(rp.Y1 - rp.Y2);
@@ -107,7 +99,11 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                         EndTime = endTime,
                         Locations = pts
                     };
-                    ribbonCache.Add(pointCache);
+                    if (ribbonCache == null) {
+                        throw new InvalidOperationException();
+                    }
+                    ribbonCache[bezierIndex] = pointCache;
+                    ++bezierIndex;
                 }
             }
 
@@ -115,7 +111,7 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                 throw new InvalidOperationException();
             }
 
-            foreach (var rp in rps) {
+            foreach (var rp in createParams.RibbonParameters) {
                 if (!rp.Visible) {
                     continue;
                 }
@@ -129,29 +125,41 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                 }
             }
 
+            var z = createParams.Z;
+            var foldedZ = z - createParams.LayerDepth / 2;
+
             var vertices = new MeshVertex[vertexCount];
             var indices = new ushort[indexCount];
 
             var vertexStart = 0;
             var indexStart = 0;
 
+            // Generated vertex order for a non-folded fragment:
             // 1---2
             // | / |
             // 3---4
             // (1,2,3) (4,3,2)
 
             var processedRibbonLength = 0f;
-            var bezierIndex = 0;
-            for (var i = 0; i < rps.Length; ++i) {
-                var rp = rps[i];
+            bezierIndex = 0;
+
+            var traceCalculator = createParams.TraceCalculator;
+            var textureTopYRatio = createParams.TextureTopYRatio;
+            var textureBottomYRatio = createParams.TextureBottomYRatio;
+
+            for (var i = 0; i < createParams.RibbonParameters.Length; ++i) {
+                var rp = createParams.RibbonParameters[i];
 
                 if (!rp.Visible) {
                     continue;
                 }
 
-                var notePair = notePairs[i];
+                var notePair = createParams.NotePairs[i];
 
                 // Normal ribbon is flowing from top to bottom (Y1 < Y2); CGSS would have a part from downside to upside.
+                // If this fragment is folded, we must place it under the normal layer (z - layerDepth / 2).
+                bool isFragmentFolded;
+                float zToUse;
 
                 float perc;
                 float v;
@@ -160,31 +168,47 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                     var startRadius = traceCalculator.GetNoteRadius(notePair.Start, now, visualNoteMetrics, animationMetrics);
                     var endRadius = traceCalculator.GetNoteRadius(notePair.End, now, visualNoteMetrics, animationMetrics);
 
+                    isFragmentFolded = rp.Y1 > rp.Y2;
+                    zToUse = isFragmentFolded ? foldedZ : z;
+
                     perc = processedRibbonLength / ribbonLength;
                     v = MathHelper.Lerp(textureTopYRatio, textureBottomYRatio, perc);
-                    var leftTopVertex = new MeshVertex(rp.X1 - endRadius.Width / 2, rp.Y1, z, 0, 0, 1, 1, 0, 0, 0, v);
-                    var rightTopVertex = new MeshVertex(rp.X1 + endRadius.Width / 2, rp.Y1, z, 0, 0, 1, 1, 0, 0, 1, v);
+                    var leftTopVertex = new MeshVertex(rp.X1 - endRadius.Width / 2, rp.Y1, zToUse, 0, 0, 1, 1, 0, 0, 0, v);
+                    var rightTopVertex = new MeshVertex(rp.X1 + endRadius.Width / 2, rp.Y1, zToUse, 0, 0, 1, 1, 0, 0, 1, v);
                     perc = (processedRibbonLength + Math.Abs(rp.Y1 - rp.Y2)) / ribbonLength;
                     v = MathHelper.Lerp(textureTopYRatio, textureBottomYRatio, perc);
-                    var leftBottomVertex = new MeshVertex(rp.X2 - startRadius.Width / 2, rp.Y2, z, 0, 0, 1, 1, 0, 0, 0, v);
-                    var rightBottomVertex = new MeshVertex(rp.X2 + startRadius.Width / 2, rp.Y2, z, 0, 0, 1, 1, 0, 0, 1, v);
+                    var leftBottomVertex = new MeshVertex(rp.X2 - startRadius.Width / 2, rp.Y2, zToUse, 0, 0, 1, 1, 0, 0, 0, v);
+                    var rightBottomVertex = new MeshVertex(rp.X2 + startRadius.Width / 2, rp.Y2, zToUse, 0, 0, 1, 1, 0, 0, 1, v);
 
                     vertices[vertexStart] = leftTopVertex;
                     vertices[vertexStart + 1] = rightTopVertex;
                     vertices[vertexStart + 2] = leftBottomVertex;
                     vertices[vertexStart + 3] = rightBottomVertex;
 
-                    indices[indexStart] = (ushort)vertexStart;
-                    indices[indexStart + 1] = (ushort)(vertexStart + 1);
-                    indices[indexStart + 2] = (ushort)(vertexStart + 2);
-                    indices[indexStart + 3] = (ushort)(vertexStart + 3);
-                    indices[indexStart + 4] = (ushort)(vertexStart + 2);
-                    indices[indexStart + 5] = (ushort)(vertexStart + 1);
+                    if (isFragmentFolded) {
+                        indices[indexStart] = (ushort)(vertexStart + 2);
+                        indices[indexStart + 1] = (ushort)(vertexStart + 1);
+                        indices[indexStart + 2] = (ushort)vertexStart;
+                        indices[indexStart + 3] = (ushort)(vertexStart + 1);
+                        indices[indexStart + 4] = (ushort)(vertexStart + 2);
+                        indices[indexStart + 5] = (ushort)(vertexStart + 3);
+                    } else {
+                        indices[indexStart] = (ushort)vertexStart;
+                        indices[indexStart + 1] = (ushort)(vertexStart + 1);
+                        indices[indexStart + 2] = (ushort)(vertexStart + 2);
+                        indices[indexStart + 3] = (ushort)(vertexStart + 3);
+                        indices[indexStart + 4] = (ushort)(vertexStart + 2);
+                        indices[indexStart + 5] = (ushort)(vertexStart + 1);
+                    }
 
                     vertexStart += 4;
                     indexStart += 6;
                     processedRibbonLength += Math.Abs(rp.Y1 - rp.Y2);
                 } else {
+                    if (ribbonCache == null) {
+                        throw new InvalidOperationException();
+                    }
+
                     var cache = ribbonCache[bezierIndex];
                     var deltaTime = cache.EndTime - cache.StartTime;
 
@@ -193,27 +217,42 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                         var ribbonTime = cache.EndTime - deltaTime * t;
                         var pt = cache.Locations[j];
 
+                        if (j < slice) {
+                            isFragmentFolded = pt.Y > cache.Locations[j + 1].Y;
+                        } else {
+                            // Here, j = slice
+                            isFragmentFolded = cache.Locations[slice - 1].Y > pt.Y;
+                        }
+                        zToUse = isFragmentFolded ? foldedZ : z;
+
                         var noteRadius = traceCalculator.GetNoteRadius(notePair.Start, ribbonTime, visualNoteMetrics, animationMetrics);
                         perc = processedRibbonLength / ribbonLength;
                         v = MathHelper.Lerp(textureTopYRatio, textureBottomYRatio, perc);
-                        var leftVertex = new MeshVertex(pt.X - noteRadius.Width / 2, pt.Y, z, 0, 0, 1, 1, 0, 0, 0, v);
-                        var rightVertex = new MeshVertex(pt.X + noteRadius.Width / 2, pt.Y, z, 0, 0, 1, 1, 0, 0, 1, v);
+                        var leftVertex = new MeshVertex(pt.X - noteRadius.Width / 2, pt.Y, zToUse, 0, 0, 1, 1, 0, 0, 0, v);
+                        var rightVertex = new MeshVertex(pt.X + noteRadius.Width / 2, pt.Y, zToUse, 0, 0, 1, 1, 0, 0, 1, v);
 
                         vertices[vertexStart + j * 2] = leftVertex;
                         vertices[vertexStart + j * 2 + 1] = rightVertex;
 
                         if (j < slice) {
+                            if (isFragmentFolded) {
+                                indices[indexStart + j * 6] = (ushort)(vertexStart + j * 2 + 2);
+                                indices[indexStart + j * 6 + 1] = (ushort)(vertexStart + j * 2 + 1);
+                                indices[indexStart + j * 6 + 2] = (ushort)(vertexStart + j * 2);
+                                indices[indexStart + j * 6 + 3] = (ushort)(vertexStart + j * 2 + 1);
+                                indices[indexStart + j * 6 + 4] = (ushort)(vertexStart + j * 2 + 2);
+                                indices[indexStart + j * 6 + 5] = (ushort)(vertexStart + j * 2 + 3);
+                            } else {
+                                indices[indexStart + j * 6] = (ushort)(vertexStart + j * 2);
+                                indices[indexStart + j * 6 + 1] = (ushort)(vertexStart + j * 2 + 1);
+                                indices[indexStart + j * 6 + 2] = (ushort)(vertexStart + j * 2 + 2);
+                                indices[indexStart + j * 6 + 3] = (ushort)(vertexStart + j * 2 + 3);
+                                indices[indexStart + j * 6 + 4] = (ushort)(vertexStart + j * 2 + 2);
+                                indices[indexStart + j * 6 + 5] = (ushort)(vertexStart + j * 2 + 1);
+                            }
+
                             processedRibbonLength += Math.Abs(cache.Locations[j + 1].Y - cache.Locations[j].Y);
                         }
-                    }
-
-                    for (var j = 0; j < slice; ++j) {
-                        indices[indexStart + j * 6] = (ushort)(vertexStart + j * 2);
-                        indices[indexStart + j * 6 + 1] = (ushort)(vertexStart + j * 2 + 1);
-                        indices[indexStart + j * 6 + 2] = (ushort)(vertexStart + j * 2 + 2);
-                        indices[indexStart + j * 6 + 3] = (ushort)(vertexStart + j * 2 + 3);
-                        indices[indexStart + j * 6 + 4] = (ushort)(vertexStart + j * 2 + 2);
-                        indices[indexStart + j * 6 + 5] = (ushort)(vertexStart + j * 2 + 1);
                     }
 
                     vertexStart += (slice + 1) * 2;
@@ -225,8 +264,15 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             _vertices = vertices;
             _indices = indices;
 
-            SetVertices(device, vertices);
-            SetIndices(device, indices);
+            SetVertices(createParams.Device, vertices);
+            SetIndices(createParams.Device, indices);
+        }
+
+        public void Dispose() {
+            Utilities.Dispose(ref _indexBuffer);
+            Utilities.Dispose(ref _vertexBuffer);
+            Utilities.Dispose(ref _vertexDataStream);
+            Utilities.Dispose(ref _indexDataStream);
         }
 
         internal void Draw(DeviceContext deviceContext) {

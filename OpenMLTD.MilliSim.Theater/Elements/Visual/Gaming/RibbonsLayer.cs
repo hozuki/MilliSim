@@ -28,8 +28,6 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
             : base(game) {
         }
 
-        internal static readonly float LayerDepth = 0.1f;
-
         protected override void OnUpdate(GameTime gameTime) {
             base.OnUpdate(gameTime);
             _camera.UpdateViewMatrix();
@@ -113,6 +111,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                 OnStageStatus thisStatus, nextStatus;
                 RuntimeNote nextNote;
                 NoteMetrics visualNoteMetrics;
+                RibbonMeshCreateParams rmcp;
 
                 if (note.HasNextHold()) {
                     thisStatus = NoteAnimationHelper.GetOnStageStatusOf(note, now, animationMetrics);
@@ -137,7 +136,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                     var ribbonParams = traceCalculator.GetHoldRibbonParameters(note, nextNote, now, visualNoteMetrics, animationMetrics);
 
                     if (ribbonParams.Visible) {
-                        using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, LayerDepth, new[] { ribbonParams }, traceCalculator, now, new[] { (note, note.NextHold) }, visualNoteMetrics, animationMetrics)) {
+                        rmcp = new RibbonMeshCreateParams(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, LayerDepth, new[] { ribbonParams }, traceCalculator, now, new[] { (note, note.NextHold) }, visualNoteMetrics, animationMetrics);
+                        using (var mesh = new RibbonMesh(rmcp)) {
                             context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                         }
 
@@ -194,7 +194,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                         }
 
                         if (ribbonParamArray.Any(rp => rp.Visible)) {
-                            using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, LayerDepth, ribbonParamArray, traceCalculator, now, flickNotePairs, visualNoteMetrics, animationMetrics)) {
+                            rmcp = new RibbonMeshCreateParams(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, LayerDepth, ribbonParamArray, traceCalculator, now, flickNotePairs, visualNoteMetrics, animationMetrics);
+                            using (var mesh = new RibbonMesh(rmcp)) {
                                 context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                             }
 
@@ -204,7 +205,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                         var ribbonParams = traceCalculator.GetSlideRibbonParameters(note, nextNote, now, visualNoteMetrics, animationMetrics);
 
                         if (ribbonParams.Visible) {
-                            using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, LayerDepth, new[] { ribbonParams }, traceCalculator, now, new[] { (note, note.NextSlide) }, visualNoteMetrics, animationMetrics)) {
+                            rmcp = new RibbonMeshCreateParams(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, LayerDepth, new[] { ribbonParams }, traceCalculator, now, new[] { (note, note.NextSlide) }, visualNoteMetrics, animationMetrics);
+                            using (var mesh = new RibbonMesh(rmcp)) {
                                 context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                             }
 
@@ -262,7 +264,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                         }
 
                         if (ribbonParamArray.Any(rp => rp.Visible)) {
-                            using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, LayerDepth, ribbonParamArray, traceCalculator, now, slideNotePairs, visualNoteMetrics, animationMetrics)) {
+                            rmcp = new RibbonMeshCreateParams(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, LayerDepth, ribbonParamArray, traceCalculator, now, slideNotePairs, visualNoteMetrics, animationMetrics);
+                            using (var mesh = new RibbonMesh(rmcp)) {
                                 context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                             }
 
@@ -272,7 +275,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                         var ribbonParams = traceCalculator.GetSlideRibbonParameters(note, nextNote, now, visualNoteMetrics, animationMetrics);
 
                         if (ribbonParams.Visible) {
-                            using (var mesh = new RibbonMesh(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, LayerDepth, new[] { ribbonParams }, traceCalculator, now, new[] { (note, note.NextSlide) }, visualNoteMetrics, animationMetrics)) {
+                            rmcp = new RibbonMeshCreateParams(context.Direct3DDevice, SliceCount, topYRatio, bottomYRatio, z, LayerDepth, new[] { ribbonParams }, traceCalculator, now, new[] { (note, note.NextSlide) }, visualNoteMetrics, animationMetrics);
+                            using (var mesh = new RibbonMesh(rmcp)) {
                                 context.DrawRibbon(mesh, _textureEffect, _ribbonMaterial, _camera.ViewProjectionMatrix, _ribbonTextureSrv);
                             }
 
@@ -295,7 +299,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
                 throw new InvalidOperationException();
             }
 
-            _camera = new OrthoCamera(context.ClientSize.Width, context.ClientSize.Height, -1, 1000);
+            _camera = new OrthoCamera(context.ClientSize.Width, context.ClientSize.Height, 0.1f, ViewFrustrumDepth);
             var centerPoint = new PointF(context.ClientSize.Width / 2f, context.ClientSize.Height / 2f);
             _camera.Position = new Vector3(centerPoint.X, centerPoint.Y, 1);
             _camera.LookAt(new Vector3(centerPoint.X, centerPoint.Y, 0), -Vector3.UnitY);
@@ -339,6 +343,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
         }
 
         private static readonly int SliceCount = 48;
+        private static readonly float LayerDepth = 1f;
+        private static readonly float ViewFrustrumDepth = 100f;
 
         private OrthoCamera _camera;
 

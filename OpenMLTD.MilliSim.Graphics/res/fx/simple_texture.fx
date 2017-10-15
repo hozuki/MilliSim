@@ -29,6 +29,24 @@ SamplerState samLinear {
 	AddressV = WRAP;
 };
 
+// https://blogs.msdn.microsoft.com/shawnhar/2009/02/18/depth-sorting-alpha-blended-objects/
+BlendState PrepassBlend {
+    BlendEnable[0] = false;
+    SrcBlend = SRC_ALPHA;
+    DestBlend = INV_SRC_ALPHA;
+    BlendOp = ADD;
+    SrcBlendAlpha = ONE;
+    DestBlendAlpha = ZERO;
+    BlendOpAlpha = ADD;
+    RenderTargetWriteMask[0] = 0x00;
+};
+
+DepthStencilState PrepassDepthStencil {
+    DepthEnable = true;
+    DepthFunc = LESS_EQUAL;
+    DepthWriteMask = ALL;
+};
+
 // Using standard alpha blend.
 // Equivalent to FrequentlyUsedStates.AlphaBlend.
 BlendState AlphaBlend {
@@ -50,18 +68,20 @@ BlendState AlphaBlend {
 };
 
 // Enable depth copmarison, but the comparison always passes.
-// Equivalent to FrequentlyUsedStates.NoDepth.
-DepthStencilState NoDepth {
+DepthStencilState NaiveDepth {
     DepthEnable = true;
     DepthFunc = ALWAYS;
-    DepthWriteMask = ZERO;
+    //DepthFunc = LESS_EQUAL;
+    DepthWriteMask = ALL;
+    //DepthWriteMask = ZERO;
 };
 
 // No culling.
 // Equivalent to FrequentlyUsedStates.NoCull.
 RasterizerState NoCull {
     FillMode = SOLID;
-    CullMode = NONE;
+    //CullMode = NONE;
+    CullMode = BACK;
     FrontCounterClockwise = false;
     DepthClipEnable = true;
 };
@@ -120,12 +140,20 @@ float4 PS(PS_IN pin, uniform bool gUseTexure, uniform bool gAlphaClip) : SV_Targ
 }
 
 technique11 SimpleTexture {
-    pass P0 {
+    //pass P0 {
+    //    SetGeometryShader(NULL);
+    //    SetVertexShader(CompileShader(vs_4_0, VS()));
+    //    SetPixelShader(CompileShader(ps_4_0, PS(true, false)));
+    //    SetBlendState(PrepassBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff);
+    //    SetDepthStencilState(PrepassDepthStencil, 0);
+    //    SetRasterizerState(NoCull);
+    //}
+    pass P1 {
         SetGeometryShader(NULL);
         SetVertexShader(CompileShader(vs_4_0_level_9_1, VS()));
         SetPixelShader(CompileShader(ps_4_0_level_9_1, PS(true, false)));
         SetBlendState(AlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff);
-        SetDepthStencilState(NoDepth, 0);
+        SetDepthStencilState(NaiveDepth, 0);
         SetRasterizerState(NoCull);
     }
 }
