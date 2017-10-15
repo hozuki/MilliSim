@@ -24,16 +24,17 @@ A simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.
 
 **Requirements:**
 
-- Windows 7 or later <sup>1</sup> <sup>2</sup>
+- Windows 7 or later <sup>1</sup>
 - [.NET Framework 4.5](https://www.microsoft.com/en-us/download/details.aspx?id=42642)
+- Visual C++ 2010 Runtime ([32-bit](https://www.microsoft.com/en-us/download/details.aspx?id=8328) | [64-bit](https://www.microsoft.com/en-us/download/details.aspx?id=13523))
+- [Visual C++ 2015 Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=53587)
 - Direct3D 11 and Direct2D
+- For Windows 7 users:
+  - [Platform Update for Windows 7](https://www.microsoft.com/en-us/download/details.aspx?id=36805)
 
 After downloading, run `OpenMLTD.MilliSim.Theater.exe` and enjoy.
 
-<sup>1</sup> *Windows 8.1 and above is guaranteed. Windows 7 is supposed to be supported but now having serious app crashes.
-Please help by making PRs since I don't have a second computer to run Windows 7 and debug on it. See issue #6 .*
-
-<sup>2</sup> <del>Theoratically, MilliSim can also run on a UNIX-compliant machine using [Wine](https://www.winehq.org/download)
+<sup>1</sup> <del>Theoratically, MilliSim can also run on a UNIX-compliant machine using [Wine](https://www.winehq.org/download)
 and [Mono](http://www.mono-project.com/download/), though this is not tested.</del> Tested
 on Wine 2.0.2. Media Foundation APIs and WAS APIs are still having tons of errors. Even after
 bypassing OS version check (Wine seems to always return an OS major version less than 6),
@@ -120,20 +121,9 @@ Although the builds by Travis seem unable to bootstrap on Windows,
 manual builds on an Ubuntu 16.04 machine are verified to function
 normally.
 
-## Extensions
+## Developing Plugins
 
-MilliSim is designed to support extensions. Please check out the examples:
-
-- [`OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd.Unity3DScoreFormat`](OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd/Unity3DScoreFormat.cs) (custom score format)
-- [`OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats.OggVorbisAudioFormat`](OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats/Vorbis/OggVorbisAudioFormat.cs) (custom audio format)
-- [`OpenMLTD.MilliSim.Extension.Animation.StandardAnimations.MltdNoteTraceCalculator`](OpenMLTD.MilliSim.Extension.Animation.StandardAnimations/MltdNoteTraceCalculator.cs) (custom note animation)
-
-Plugin assemblies should be placed at:
-
-- `$WORK_DIR`
-- `$WORK_DIR/plugins`
-
-where `$WORK_DIR` is MilliSim's working directory.
+MilliSim is designed to support plugins. Please read the [wiki page](https://github.com/hozuki/MilliSim/wiki/Creating-Plugins) for more information.
 
 ## Other
 

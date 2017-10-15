@@ -5,20 +5,25 @@ language: csharp
 solution: MilliSim.sln
 
 env:
-  - MAIN_VER=0.1.5 SOLUTION_NAME=MilliSim.sln CONFIGURATION=Release RELEASE_SUFFIX=-alpha
+  - MAIN_VER=0.2.0 SOLUTION_NAME=MilliSim.sln CONFIGURATION=Release RELEASE_SUFFIX=-alpha
 
 before_install:
   - sudo apt-get install -y gtk-sharp2 p7zip-full nodejs npm
   - sudo npm install glob chalk
+  - sudo npm install -g marked
+
+install:
+  - node before_script-nuget_restore.js
 
 before_script:
-  - node before_script-nuget_restore.js
   - node before_script-patch_asminfo.js
 
 before_deploy:
+  - marked ./README.md -o README.html
   - rm -f ${TRAVIS_BUILD_DIR}/OpenMLTD.MilliSim.Theater/bin/${CONFIGURATION}/*.xml
   - rm -f ${TRAVIS_BUILD_DIR}/OpenMLTD.MilliSim.Theater/bin/${CONFIGURATION}/*.pdb
   - 7z a millisim.zip -r ${TRAVIS_BUILD_DIR}/OpenMLTD.MilliSim.Theater/bin/${CONFIGURATION}/*
+  - 7z a millisim.zip ${TRAVIS_BUILD_DIR}/README.html
   - cp millisim.zip millisim-travis-v${MAIN_VER}.${TRAVIS_BUILD_NUMBER}${RELEASE_SUFFIX}.zip
   - mv millisim.zip millisim-travis-latest.zip
 

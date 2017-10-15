@@ -65,7 +65,30 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
             _textFill = new D2DSolidBrush(context, FillColor);
             _textStroke = new D2DPen(context, StrokeColor, StrokeWidth);
             _fontFile = new FontFile(context.DirectWriteFactory, fontPath);
-            _fontFace = new FontFace(context.DirectWriteFactory, FontFaceType.Unknown, new[] { _fontFile }, 0, FontSimulations.None);
+
+            FontFaceType fontFaceType;
+
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
+                // Remmeber to use app.manifest to make OS return the correct version.
+                var ver = Environment.OSVersion.Version;
+                if (ver.Major < 6) {
+                    fontFaceType = FontFaceType.Unknown;
+                } else if (ver.Major == 6) {
+                    if (ver.Minor < 2) {
+                        fontFaceType = GetFontFaceTypeFromFileName(fontPath);
+                    } else {
+                        // The "unknown" here means D2D can determine by itself.
+                        fontFaceType = FontFaceType.Unknown;
+                    }
+                } else {
+                    // The "unknown" here means D2D can determine by itself.
+                    fontFaceType = FontFaceType.Unknown;
+                }
+            } else {
+                fontFaceType = FontFaceType.Unknown;
+            }
+
+            _fontFace = new FontFace(context.DirectWriteFactory, fontFaceType, new[] { _fontFile }, 0, FontSimulations.None);
             _glyphRun = new GlyphRun {
                 FontFace = _fontFace,
                 FontSize = FontSize
@@ -90,6 +113,30 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
                 return;
             }
             _fontPath = new D2DFontPathData(text, context, _font, _fontFace);
+        }
+
+        private static FontFaceType GetFontFaceTypeFromFileName(string fileName) {
+            var ext = Path.GetExtension(fileName);
+            if (string.IsNullOrEmpty(ext)) {
+                return FontFaceType.Unknown;
+            }
+
+            // https://fileinfo.com/filetypes/font
+            switch (ext.ToLowerInvariant()) {
+                case ".eot":
+                case ".otf":
+                    return FontFaceType.OpenTypeCollection;
+                case ".ttf":
+                    return FontFaceType.Truetype;
+                case ".ttc":
+                    return FontFaceType.TruetypeCollection;
+                case ".fon":
+                case ".fnt":
+                // Sorry but we don't support these because we can't determine if a file is
+                // bitmap font or vector font.
+                default:
+                    return FontFaceType.Unknown;
+            }
         }
 
         private D2DFontPathData _fontPath;

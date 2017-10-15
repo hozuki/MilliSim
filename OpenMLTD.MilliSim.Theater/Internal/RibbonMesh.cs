@@ -130,7 +130,7 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             }
 
             var vertices = new MeshVertex[vertexCount];
-            var indices = new int[indexCount];
+            var indices = new ushort[indexCount];
 
             var vertexStart = 0;
             var indexStart = 0;
@@ -174,12 +174,12 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                     vertices[vertexStart + 2] = leftBottomVertex;
                     vertices[vertexStart + 3] = rightBottomVertex;
 
-                    indices[indexStart] = vertexStart;
-                    indices[indexStart + 1] = vertexStart + 1;
-                    indices[indexStart + 2] = vertexStart + 2;
-                    indices[indexStart + 3] = vertexStart + 3;
-                    indices[indexStart + 4] = vertexStart + 2;
-                    indices[indexStart + 5] = vertexStart + 1;
+                    indices[indexStart] = (ushort)vertexStart;
+                    indices[indexStart + 1] = (ushort)(vertexStart + 1);
+                    indices[indexStart + 2] = (ushort)(vertexStart + 2);
+                    indices[indexStart + 3] = (ushort)(vertexStart + 3);
+                    indices[indexStart + 4] = (ushort)(vertexStart + 2);
+                    indices[indexStart + 5] = (ushort)(vertexStart + 1);
 
                     vertexStart += 4;
                     indexStart += 6;
@@ -208,12 +208,12 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
                     }
 
                     for (var j = 0; j < slice; ++j) {
-                        indices[indexStart + j * 6] = vertexStart + j * 2;
-                        indices[indexStart + j * 6 + 1] = vertexStart + j * 2 + 1;
-                        indices[indexStart + j * 6 + 2] = vertexStart + j * 2 + 2;
-                        indices[indexStart + j * 6 + 3] = vertexStart + j * 2 + 3;
-                        indices[indexStart + j * 6 + 4] = vertexStart + j * 2 + 2;
-                        indices[indexStart + j * 6 + 5] = vertexStart + j * 2 + 1;
+                        indices[indexStart + j * 6] = (ushort)(vertexStart + j * 2);
+                        indices[indexStart + j * 6 + 1] = (ushort)(vertexStart + j * 2 + 1);
+                        indices[indexStart + j * 6 + 2] = (ushort)(vertexStart + j * 2 + 2);
+                        indices[indexStart + j * 6 + 3] = (ushort)(vertexStart + j * 2 + 3);
+                        indices[indexStart + j * 6 + 4] = (ushort)(vertexStart + j * 2 + 2);
+                        indices[indexStart + j * 6 + 5] = (ushort)(vertexStart + j * 2 + 1);
                     }
 
                     vertexStart += (slice + 1) * 2;
@@ -232,7 +232,7 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
         internal void Draw(DeviceContext deviceContext) {
             const int offset = 0;
             deviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_vertexBuffer, _vertexStride, offset));
-            deviceContext.InputAssembler.SetIndexBuffer(_indexBuffer, SharpDX.DXGI.Format.R32_UInt, 0);
+            deviceContext.InputAssembler.SetIndexBuffer(_indexBuffer, SharpDX.DXGI.Format.R16_UInt, 0);
             deviceContext.DrawIndexed(_faceCount * 3, 0, 0);
         }
 
@@ -253,9 +253,9 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
             _vertexDataStream = dataStream;
         }
 
-        private void SetIndices(Device device, int[] indices) {
+        private void SetIndices(Device device, ushort[] indices) {
             var ibd = new BufferDescription(
-                sizeof(int) * indices.Length,
+                sizeof(ushort) * indices.Length,
                 ResourceUsage.Immutable,
                 BindFlags.IndexBuffer,
                 CpuAccessFlags.None,
@@ -269,7 +269,7 @@ namespace OpenMLTD.MilliSim.Theater.Internal {
         }
 
         private MeshVertex[] _vertices;
-        private int[] _indices;
+        private ushort[] _indices;
         private DataStream _vertexDataStream;
         private DataStream _indexDataStream;
         private Buffer _vertexBuffer;

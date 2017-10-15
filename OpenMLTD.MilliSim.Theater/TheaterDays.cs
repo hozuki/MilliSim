@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using OpenMLTD.MilliSim.Audio;
+using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Theater.Configuration.Primitives;
@@ -14,7 +15,15 @@ using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays.Combo;
 namespace OpenMLTD.MilliSim.Theater {
     public sealed class TheaterDays : VisualGame {
 
-        public override string Title => "THE iDOLM@STER Million Live Theater Days Simulator";
+        public TheaterDays() {
+            LibraryPreloader.PreloadLibrary("D3DCompiler_47.dll");
+        }
+
+        ~TheaterDays() {
+            LibraryPreloader.UnloadAllPreloadedLibraries();
+        }
+
+        public override string Title => "THE iDOLM@STER Million Live! Theater Days Simulator";
 
         public AudioManager AudioManager => (AudioManager)BaseAudioManager;
 

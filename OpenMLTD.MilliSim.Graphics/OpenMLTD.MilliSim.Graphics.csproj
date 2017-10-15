@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Drawing\Direct2D\Advanced\D2DImageStrip2D.cs" />
     <Compile Include="Extensions\BasicModelInstanceExtensions.cs" />
     <Compile Include="Extensions\DrawableExtensions.cs" />
     <Compile Include="Extensions\Texture2DExtensions.cs" />
@@ -193,10 +194,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="D3DCompiler_47.dll">
+    <Content Include="lib\x86\D3DCompiler_47.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="D3DCompiler_47_x64.dll">
+    <Content Include="lib\x64\D3DCompiler_47.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="res\fx\helper.fx">

@@ -33,7 +33,14 @@ SamplerState samLinear {
 // Equivalent to FrequentlyUsedStates.AlphaBlend.
 BlendState AlphaBlend {
     BlendEnable[0] = true;
-    SrcBlend = SRC_ALPHA;
+    BlendEnable[1] = true;
+    BlendEnable[2] = true;
+    BlendEnable[3] = true;
+    BlendEnable[4] = true;
+    BlendEnable[5] = true;
+    BlendEnable[6] = true;
+    BlendEnable[7] = true;
+    SrcBlend = ONE;
     DestBlend = INV_SRC_ALPHA;
     BlendOp = ADD;
     SrcBlendAlpha = ONE;
@@ -56,7 +63,7 @@ RasterizerState NoCull {
     FillMode = SOLID;
     CullMode = NONE;
     FrontCounterClockwise = false;
-    DepthClipEnable = false;
+    DepthClipEnable = true;
 };
 
 struct PS_IN {
@@ -115,8 +122,8 @@ float4 PS(PS_IN pin, uniform bool gUseTexure, uniform bool gAlphaClip) : SV_Targ
 technique11 SimpleTexture {
     pass P0 {
         SetGeometryShader(NULL);
-        SetVertexShader(CompileShader(vs_4_0, VS()));
-        SetPixelShader(CompileShader(ps_4_0, PS(true, false)));
+        SetVertexShader(CompileShader(vs_4_0_level_9_1, VS()));
+        SetPixelShader(CompileShader(ps_4_0_level_9_1, PS(true, false)));
         SetBlendState(AlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff);
         SetDepthStencilState(NoDepth, 0);
         SetRasterizerState(NoCull);

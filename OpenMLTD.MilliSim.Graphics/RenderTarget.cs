@@ -32,7 +32,7 @@ namespace OpenMLTD.MilliSim.Graphics {
 
             // Create the depth buffer
             _depthBuffer = new Texture2D(context.Direct3DDevice, new Texture2DDescription {
-                Format = Format.D32_Float_S8X24_UInt,
+                Format = Format.D24_UNorm_S8_UInt,
                 ArraySize = 1,
                 MipLevels = 1,
                 Width = context.ClientSize.Width,
