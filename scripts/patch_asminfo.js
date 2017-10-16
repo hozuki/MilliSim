@@ -28,13 +28,8 @@ For custom build environments, you must set these environment variables:
 
 `;
     console.info(forCustomBuildHelp);
-
+    
     const AlienProjectPattern = /thirdparty/i;
-
-    const AssemblyVersionPattern = /AssemblyVersion\("[^"]+"\)/g;
-    const AssemblyFileVersionPattern = /AssemblyFileVersion\("[^"]+"\)/g;
-    const MilliSimCodeNamePattern = /MilliSimCodeName\((?:"[^"]+"|[^)]+)\)/g;
-    const AssemblyBuildTimePattern = /AssemblyBuildTime\((?:"[^"]+"|[^)]+)\)/g;
 
     const CiEnvironment = {
         invalid: 0,
@@ -118,6 +113,7 @@ For custom build environments, you must set these environment variables:
     }
 
     const VERSION_TO_BE_PATCHED = `${MAIN_VER}.${BUILD_NUMBER}`;
+    const SEMVER_TO_BE_PATCHED = MAIN_VER;
 
     const versionStrings = MAIN_VER.split(".");
     const versionObject = {
@@ -130,22 +126,14 @@ For custom build environments, you must set these environment variables:
 
     const BUILD_TIME_TO_BE_PATCHED = (new Date()).toUTCString();
 
-    traverseFiles(__dirname, findAssemblyInfo);
-
-    /**
-     * Traverse files in the specified source directory.
-     * @param {string} base 
-     * @param {function (err, string): void} callback 
-     */
-    function traverseFiles(base, callback) {
-        glob(path.join(base, "**/AssemblyInfo.*"), callback);
-    }
+    glob(path.join(process.cwd(), "**/AssemblyInfo.*"), findAndPatchAssemblyInfo);
+    glob(path.join(process.cwd(), "**/*.nuspec"), findAndPatchNuspec);
 
     /**
      * @param {Error} err 
      * @param {string[]} fileList
      */
-    function findAssemblyInfo(err, fileList) {
+    function findAndPatchAssemblyInfo(err, fileList) {
         if (err) {
             console.error(chalk.red(err));
             process.exit(1);
@@ -157,13 +145,12 @@ For custom build environments, you must set these environment variables:
         const filesToPatch = [];
 
         console.info(chalk.green("Finding AssemblyInfo files..."));
+        
         for (const fileName of fileList) {
             if (!AlienProjectPattern.test(fileName)) {
                 filesToPatch.push(fileName);
             }
         }
-
-        console.info(chalk.green(`Found ${filesToPatch.length} candidates.`));
 
         let patched = 0;
         for (const fileName of filesToPatch) {
@@ -179,11 +166,60 @@ For custom build environments, you must set these environment variables:
      * @param {string} fileName 
      */
     function patchAssemblyInfo(fileName) {
+        const AssemblyVersionPattern = /AssemblyVersion\("[^"]+"\)/g;
+        const AssemblyFileVersionPattern = /AssemblyFileVersion\("[^"]+"\)/g;
+        const MilliSimCodeNamePattern = /MilliSimCodeName\((?:"[^"]+"|[^)]+)\)/g;
+        const AssemblyBuildTimePattern = /AssemblyBuildTime\((?:"[^"]+"|[^)]+)\)/g;
+        
         let fileContent = fs.readFileSync(fileName, "utf-8");
         fileContent = fileContent.replace(AssemblyVersionPattern, `AssemblyVersion("${VERSION_TO_BE_PATCHED}")`);
         fileContent = fileContent.replace(AssemblyFileVersionPattern, `AssemblyFileVersion("${VERSION_TO_BE_PATCHED}")`);
         fileContent = fileContent.replace(MilliSimCodeNamePattern, `MilliSimCodeName("${CODE_NAME_TO_BE_PATCHED}")`);
         fileContent = fileContent.replace(AssemblyBuildTimePattern, `AssemblyBuildTime("${BUILD_TIME_TO_BE_PATCHED}")`);
+        fs.writeFileSync(fileName, fileContent);
+    }
+    
+    /**
+     * @param {Error} err 
+     * @param {string[]} fileList
+     */
+    function findAndPatchNuspec(err, fileList) {
+        if (err) {
+            console.error(chalk.red(err));
+            process.exit(1);
+        }
+
+        /**
+         * @type {string[]}
+         */
+        const filesToPatch = [];
+
+        console.info(chalk.green("Finding NuGet spec files..."));
+        
+        for (const fileName of fileList) {
+            if (!AlienProjectPattern.test(fileName)) {
+                filesToPatch.push(fileName);
+            }
+        }
+
+        let patched = 0;
+        for (const fileName of filesToPatch) {
+            console.info(`Patching ${chalk.magenta(fileName)} ... (${patched + 1}/${filesToPatch.length})`);
+            patchNuspec(fileName);
+            ++patched;
+        }
+
+        console.info(chalk.green(`Done. Patched ${patched} nuspec file(s).`));
+    }
+
+    /**
+     * @param {string} fileName 
+     */
+    function patchNuspec(fileName) {
+        const NuspecVersionPattern = /\<version\>[^<]+\<\/version\>/g;
+        
+        let fileContent = fs.readFileSync(fileName, "utf-8");
+        fileContent = fileContent.replace(NuspecVersionPattern, `<version>${SEMVER_TO_BE_PATCHED}</version>`);
         fs.writeFileSync(fileName, fileContent);
     }
 
