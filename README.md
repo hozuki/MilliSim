@@ -128,6 +128,8 @@ normally.
 
 MilliSim is designed to support plugins. Please read the [wiki page](https://github.com/hozuki/MilliSim/wiki/Creating-Plugins) for more information.
 
+You can find precompiled NuGet packages for plugin development [here](https://www.nuget.org/packages?q=MilliSim).
+
 ## Other
 
 ### Wiki
