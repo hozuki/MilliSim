@@ -20,7 +20,7 @@ before_build:
   - node scripts\patch_asminfo.js
 build_script:
   - 'msbuild MilliSim.sln /p:Configuration=Release /verbosity:minimal /p:nowarn="1574,1591"'
-  - node scripts\nuget_pack.js
+  - node scripts\appveyor_nuget_pack.js
 after_build:
   - marked ./README.md -o ./README.html
   - del %APPVEYOR_BUILD_FOLDER%\OpenMLTD.MilliSim.Theater\bin\%CONFIGURATION%\*.xml
