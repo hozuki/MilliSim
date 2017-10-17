@@ -51,9 +51,9 @@ function packPackages(err, fileList) {
             "-OutputDirectory", winpath(process.cwd()),
             "-Prop", `Configuration=${process.env["CONFIGURATION"]};Platform=AnyCPU;OutputPath=${winpath(getOutputPath(dir))}`
         ];
-        if (process.env["Release_Suffix"]) {
-            params.push("-Suffix", process.env["Release_Suffix"].replace("-", ""));
-        }
+        //if (process.env["Release_Suffix"]) {
+        //    params.push("-Suffix", process.env["Release_Suffix"].replace("-", ""));
+        //}
         const stdout = child_process.execFileSync("nuget", params, {
             cwd: dir,
             env: process.env
