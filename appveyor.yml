@@ -1,6 +1,6 @@
 # https://www.appveyor.com/docs/appveyor-yml/
 
-version: 0.2.2.{build}
+version: 0.2.3.{build}
 image: Visual Studio 2017
 platform:
   - Any CPU
