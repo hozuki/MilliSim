@@ -15,7 +15,7 @@ function runNuGetRestore() {
     `;
     console.info(chalk.yellow(welcomeScreen));
 
-    glob(path.join(__dirname, "**/*.sln"), restoreSolutions);
+    glob(path.join(process.cwd(), "**/*.sln"), restoreSolutions);
 
     /**
      * @param {Error} err 

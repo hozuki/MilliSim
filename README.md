@@ -83,7 +83,7 @@ git submodule update --init --recursive
 
 ```bash
 npm install glob chalk --save
-node before_script-nuget_restore.js
+node scripts/nuget_restore.js
 ```
 
 (Optional) Patch `Assembly.cs`:
@@ -92,7 +92,7 @@ node before_script-nuget_restore.js
 REM On Windows
 set MAIN_VER=0.0.0
 set BUILD_NUMBER=0
-node before_script-patch_asminfo.js
+node scripts\patch_asminfo.js
 ```
 
 ```bash

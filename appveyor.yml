@@ -3,21 +3,24 @@
 version: 0.3.0.{build}
 image: Visual Studio 2017
 platform:
-  - "Any CPU"
+  - Any CPU
 configuration:
   - Release
-build:
-  parallel: true
-  project: MilliSim.sln
 environment:
   EnableNuGetPackageRestore: true
   Release_Suffix: -alpha
+  NuGet_API_Key:
+    secure: izZ+2u3Vp3ykQNtVQqYtsmP4SoCO3vZ0gUp4zFCRsa0pBNgdkX354tc7VItMD5yh
 before_build:
+  - nuget update -self
   - git submodule update --init --recursive
   - npm install glob chalk
   - npm install -g marked
-  - node before_script-nuget_restore.js
-  - node before_script-patch_asminfo.js
+  - node scripts\nuget_restore.js
+  - node scripts\patch_asminfo.js
+build_script:
+  - msbuild MilliSim.sln /p:Configuration=Release /verbosity:minimal /p:nowarn="1574,1591"
+  - node scripts\appveyor_nuget_pack.js
 after_build:
   - marked ./README.md -o ./README.html
   - del %APPVEYOR_BUILD_FOLDER%\OpenMLTD.MilliSim.Theater\bin\%CONFIGURATION%\*.xml
@@ -31,6 +34,8 @@ artifacts:
     name: WithVersion
   - path: millisim-appveyor-latest.zip
     name: Static
+  - path: '*.nupkg'
+    name: 'NuGet Packages'
 deploy:
   - provider: GitHub
     description: MilliSim
@@ -41,3 +46,5 @@ deploy:
     prerelease: true
     on:
       appveyor_repo_tag: true
+after_deploy:
+  - node scripts\appveyor_deploy_nuget.js

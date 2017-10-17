@@ -13,10 +13,14 @@ before_install:
   - sudo npm install -g marked
 
 install:
-  - node before_script-nuget_restore.js
+  - node scripts/nuget_restore.js
 
 before_script:
-  - node before_script-patch_asminfo.js
+  - node scripts/patch_asminfo.js
+
+script:
+  # Disables "No doc for public member"
+  - msbuild MilliSim.sln /p:Configuration=Release /verbosity:minimal /p:nowarn=1591
 
 before_deploy:
   - marked ./README.md -o README.html
