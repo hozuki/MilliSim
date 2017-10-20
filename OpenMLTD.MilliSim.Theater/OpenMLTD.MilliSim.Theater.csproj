@@ -354,6 +354,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="OpenMLTD.MilliSim.Theater.exe.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="appconfig.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

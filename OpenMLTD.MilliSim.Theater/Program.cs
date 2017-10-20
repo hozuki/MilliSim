@@ -15,40 +15,44 @@ namespace OpenMLTD.MilliSim.Theater {
 
         [STAThread]
         private static void Main(string[] args) {
-            Application.EnableVisualStyles();
+            try {
+                Application.EnableVisualStyles();
 
-            if (!File.Exists(ConfigFilePath)) {
-                MessageBox.Show($"Missing config file at '{ConfigFilePath}'.", ApplicationHelper.GetTitle(), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
-
-            var b = new DeserializerBuilder()
-                .WithNamingConvention(new UnderscoredNamingConvention())
-                .IgnoreUnmatchedProperties()
-                .WithTypeConverter(new PercentOrRealValueConverter())
-                .WithTypeConverter(new ColorConverter())
-                .WithTypeConverter(new SizeFConverter())
-                .WithTypeConverter(new PointFConverter());
-            var s = b.Build();
-
-            using (var fileStream = File.Open(ConfigFilePath, FileMode.Open, FileAccess.Read, FileShare.Read)) {
-                using (var reader = new StreamReader(fileStream)) {
-                    var settings = s.Deserialize<ApplicationSettings>(reader);
-                    Settings = settings;
+                if (!File.Exists(ConfigFilePath)) {
+                    MessageBox.Show($"Missing config file at '{ConfigFilePath}'.", ApplicationHelper.GetTitle(), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
                 }
+
+                var b = new DeserializerBuilder()
+                    .WithNamingConvention(new UnderscoredNamingConvention())
+                    .IgnoreUnmatchedProperties()
+                    .WithTypeConverter(new PercentOrRealValueConverter())
+                    .WithTypeConverter(new ColorConverter())
+                    .WithTypeConverter(new SizeFConverter())
+                    .WithTypeConverter(new PointFConverter());
+                var s = b.Build();
+
+                using (var fileStream = File.Open(ConfigFilePath, FileMode.Open, FileAccess.Read, FileShare.Read)) {
+                    using (var reader = new StreamReader(fileStream)) {
+                        var settings = s.Deserialize<ApplicationSettings>(reader);
+                        Settings = settings;
+                    }
+                }
+
+                var extensionPaths = new[] {
+                    Environment.CurrentDirectory,
+                    Path.Combine(Environment.CurrentDirectory, "plugins")
+                };
+                PluginManager = new PluginManager(extensionPaths);
+
+                using (var theaterDays = new TheaterDays()) {
+                    theaterDays.Run<TheaterView>(args);
+                }
+
+                PluginManager.Dispose();
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message + Environment.NewLine + ex.StackTrace, null, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            var extensionPaths = new[] {
-                Environment.CurrentDirectory,
-                Path.Combine(Environment.CurrentDirectory, "plugins")
-            };
-            PluginManager = new PluginManager(extensionPaths);
-
-            using (var theaterDays = new TheaterDays()) {
-                theaterDays.Run<TheaterView>(args);
-            }
-
-            PluginManager.Dispose();
         }
 
         private static readonly string ConfigFilePath = "appconfig.yml";
