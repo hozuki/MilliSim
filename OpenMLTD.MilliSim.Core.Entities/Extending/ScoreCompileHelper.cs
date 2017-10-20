@@ -154,6 +154,7 @@ namespace OpenMLTD.MilliSim.Core.Entities.Extending {
             rn.FlickDirection = note.FlickDirection;
             rn.StartX = note.StartX;
             rn.EndX = note.EndX;
+            rn.Size = note.Size;
             rn.ExtraInfo = null;
 
             var followingNoteCount = note.FollowingNotes?.Length ?? 0;
@@ -172,6 +173,7 @@ namespace OpenMLTD.MilliSim.Core.Entities.Extending {
                     n.FlickDirection = following.FlickDirection;
                     n.StartX = following.StartX;
                     n.EndX = following.EndX;
+                    n.Size = following.Size;
                     n.ExtraInfo = null;
                     ret[i + 1] = n;
                 }
