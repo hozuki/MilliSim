@@ -178,13 +178,11 @@ namespace OpenMLTD.MilliSim.Theater.Forms {
                 switch (e.NewState) {
                     case MediaEngineEvent.Play:
                     case MediaEngineEvent.Playing:
-                        tapPoints.FadeIn(TimeSpan.FromSeconds(1.5));
                         break;
                     case MediaEngineEvent.Pause:
                     case MediaEngineEvent.Ended:
                     case MediaEngineEvent.Error:
                     case MediaEngineEvent.Abort:
-                        tapPoints.FadeOut(TimeSpan.FromSeconds(1.5));
                         break;
                 }
             }
