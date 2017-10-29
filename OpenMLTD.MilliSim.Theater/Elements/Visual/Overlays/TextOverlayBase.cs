@@ -1,15 +1,14 @@
 using System;
 using System.Drawing;
 using JetBrains.Annotations;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
-    public abstract class TextOverlayBase : Element2D {
+    public abstract class TextOverlayBase : Visual2D {
 
-        protected TextOverlayBase(GameBase game)
-            : base(game) {
+        protected TextOverlayBase([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         public event EventHandler<EventArgs> TextChanged;

@@ -1,8 +1,8 @@
 using System;
 using System.Drawing;
 using System.IO;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
@@ -19,8 +19,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
     /// </summary>
     public class OutlinedTextOverlay : TextOverlayBase {
 
-        public OutlinedTextOverlay(GameBase game)
-            : base(game) {
+        public OutlinedTextOverlay([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         public virtual Color StrokeColor { get; set; } = Color.Black;

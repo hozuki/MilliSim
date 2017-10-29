@@ -10,7 +10,7 @@ namespace OpenMLTD.MilliSim.Theater.Extensions {
         }
 
         [CanBeNull]
-        public static T FindSingleElement<T>(this TheaterDays days) where T : class, IElement {
+        public static T FindSingleElement<T>(this TheaterDays days) where T : class, IComponent {
             return days.Stage.FindOrNull<T>();
         }
 

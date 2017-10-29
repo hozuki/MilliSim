@@ -1,14 +1,15 @@
 using System;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Background;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
-    public sealed class SyncTimer : Element {
+    public sealed class SyncTimer : Component {
 
-        public SyncTimer(GameBase game)
-            : base(game) {
+        public SyncTimer([NotNull] IComponentContainer parent)
+            : base(parent) {
         }
 
         public TimeSpan CurrentTime { get; private set; } = TimeSpan.Zero;

@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
@@ -11,10 +11,10 @@ using OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays.Combo {
-    public class ComboAura : BufferedElement2D {
+    public class ComboAura : BufferedVisual2D {
 
-        public ComboAura(GameBase game)
-            : base(game) {
+        public ComboAura([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         public void StartAnimation() {

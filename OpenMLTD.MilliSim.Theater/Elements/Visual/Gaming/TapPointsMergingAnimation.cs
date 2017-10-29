@@ -1,6 +1,6 @@
 using System;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
@@ -9,10 +9,10 @@ using OpenMLTD.MilliSim.Theater.Elements.Logical;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
-    public class TapPointsMergingAnimation : Element2D {
+    public class TapPointsMergingAnimation : Visual2D {
 
-        public TapPointsMergingAnimation(GameBase game)
-            : base(game) {
+        public TapPointsMergingAnimation([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         public void StartAnimation() {

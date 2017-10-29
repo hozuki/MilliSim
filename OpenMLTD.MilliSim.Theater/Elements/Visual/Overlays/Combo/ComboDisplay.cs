@@ -1,20 +1,19 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Foundation.Extensions;
+using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Theater.Elements.Logical;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays.Combo {
-    public class ComboDisplay : BufferedContainerElement {
+    public class ComboDisplay : BufferedVisualContainer {
 
-        public ComboDisplay(GameBase game, [CanBeNull] [ItemNotNull] IReadOnlyList<IElement> elements)
-            : base(game, elements) {
+        public ComboDisplay([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         [NotNull]

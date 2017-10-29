@@ -1,11 +1,12 @@
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 
 namespace OpenMLTD.MilliSim.Graphics {
-    public abstract class VisualElement : Element, IDrawable {
+    public abstract class Visual : Component, IVisual {
 
-        protected VisualElement(GameBase game)
-            : base(game) {
+        protected Visual([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         public void Draw(GameTime gameTime, RenderContext context) {

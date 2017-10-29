@@ -8,10 +8,10 @@ using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
-    public sealed class ScoreLoader : Element {
+    public sealed class ScoreLoader : Component {
 
-        public ScoreLoader(GameBase game)
-            : base(game) {
+        public ScoreLoader([NotNull] IComponentContainer parent)
+            : base(parent) {
         }
 
         [CanBeNull]

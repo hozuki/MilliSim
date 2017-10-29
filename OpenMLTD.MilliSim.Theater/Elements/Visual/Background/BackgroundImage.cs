@@ -1,6 +1,5 @@
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
@@ -9,8 +8,8 @@ using OpenMLTD.MilliSim.Graphics.Extensions;
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Background {
     public sealed class BackgroundImage : BackgroundBase {
 
-        public BackgroundImage(GameBase game)
-            : base(game) {
+        public BackgroundImage([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         public void Load([NotNull] string path) {

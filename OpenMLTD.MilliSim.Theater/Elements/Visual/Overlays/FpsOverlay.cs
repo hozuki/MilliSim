@@ -1,14 +1,14 @@
 using System;
 using System.Drawing;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
     public class FpsOverlay : TextOverlay {
 
-        public FpsOverlay(GameBase game)
-            : base(game) {
+        public FpsOverlay([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         public override float FontSize { get; set; } = 15;

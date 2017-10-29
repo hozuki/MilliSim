@@ -1,12 +1,12 @@
 using System.Drawing;
-using OpenMLTD.MilliSim.Foundation;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Graphics;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
     public class HelpOverlay : OutlinedTextOverlay {
 
-        public HelpOverlay(GameBase game)
-            : base(game) {
+        public HelpOverlay([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         public override float FontSize { get; set; } = 30;

@@ -6,7 +6,6 @@ using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities;
 using OpenMLTD.MilliSim.Core.Entities.Extensions;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
@@ -19,10 +18,10 @@ using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
-    public class SlideMotion : VisualElement {
+    public class SlideMotion : Graphics.Visual {
 
-        public SlideMotion(GameBase game)
-            : base(game) {
+        public SlideMotion([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         protected override void OnDraw(GameTime gameTime, RenderContext context) {

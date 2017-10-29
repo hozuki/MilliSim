@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities;
 using OpenMLTD.MilliSim.Core.Entities.Extensions;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Extensions;
 using OpenMLTD.MilliSim.Graphics.Rendering;
@@ -22,10 +22,10 @@ using SharpDX.Direct3D11;
 using Color = System.Drawing.Color;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
-    public class RibbonsLayer : VisualElement {
+    public class RibbonsLayer : Graphics.Visual {
 
-        public RibbonsLayer(GameBase game)
-            : base(game) {
+        public RibbonsLayer([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         protected override void OnUpdate(GameTime gameTime) {

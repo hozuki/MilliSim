@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using OpenMLTD.MilliSim.Foundation;
+using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Graphics;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
     public class DebugOverlay : TextOverlay {
 
-        public DebugOverlay(GameBase game)
-            : base(game) {
+        public DebugOverlay([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         public int MaxLines {

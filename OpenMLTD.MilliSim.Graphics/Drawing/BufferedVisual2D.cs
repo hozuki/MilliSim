@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics.Extensions;
 using SharpDX.Direct2D1;
 using SharpDX.DXGI;
@@ -15,8 +15,8 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing {
     /// <remarks>
     /// <para>
     /// Buffered elements can have more kinds of effects, such as opacity, color correction and styling.
-    /// Each <see cref="BufferedElement2D"/> has an underlying <see cref="SharpDX.Direct2D1.Bitmap"/> as the buffer. So when
-    /// using <see cref="BufferedElement2D"/> class, you can only use 2D drawing functions in <see cref="RenderContext"/>, and
+    /// Each <see cref="BufferedVisual2D"/> has an underlying <see cref="SharpDX.Direct2D1.Bitmap"/> as the buffer. So when
+    /// using <see cref="BufferedVisual2D"/> class, you can only use 2D drawing functions in <see cref="RenderContext"/>, and
     /// this is why there is a "2D" in class name.
     /// </para>
     /// <para>
@@ -25,10 +25,10 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing {
     /// stuff in the future.
     /// </para>
     /// </remarks>
-    public abstract class BufferedElement2D : VisualElement, IBufferedElement2D, IElement2D {
+    public abstract class BufferedVisual2D : Visual, IBufferedVisual2D {
 
-        protected BufferedElement2D(GameBase game)
-            : base(game) {
+        protected BufferedVisual2D([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         public virtual Point Location { get; set; }
@@ -133,7 +133,7 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing {
             context.End2D();
         }
 
-        void IBufferedElement2D.OnCopyBufferedContents(GameTime gameTime, RenderContext context, Bitmap buffer) {
+        void IBufferedVisual2D.OnCopyBufferedContents(GameTime gameTime, RenderContext context, Bitmap buffer) {
             OnCopyBufferedContents(gameTime, context, buffer);
         }
 

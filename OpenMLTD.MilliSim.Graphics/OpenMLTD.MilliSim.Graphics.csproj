@@ -91,15 +91,16 @@
     <Compile Include="Extensions\RenderContextExtensions.cs" />
     <Compile Include="Extensions\RenderContextExtensions.Direct3D.cs" />
     <Compile Include="GeometryGenerator.cs" />
-    <Compile Include="IVisualContainerElement.cs" />
+    <Compile Include="IVisualContainer.cs" />
+    <Compile Include="IVisual.cs" />
     <Compile Include="MathF.cs" />
     <Compile Include="MeshData.cs" />
     <Compile Include="Rendering\BasicModel.cs" />
     <Compile Include="Rendering\BasicModelInstance.cs" />
     <Compile Include="Rendering\CameraBase.cs" />
     <Compile Include="Rendering\Direct3DHelper.cs" />
-    <Compile Include="Drawing\BufferedContainerElement.cs" />
-    <Compile Include="Drawing\BufferedElement2D.cs" />
+    <Compile Include="Drawing\BufferedVisualContainer.cs" />
+    <Compile Include="Drawing\BufferedVisual2D.cs" />
     <Compile Include="Drawing\Direct2D\Advanced\D2DFontPathData.cs" />
     <Compile Include="Drawing\Direct2DHelper.cs" />
     <Compile Include="Drawing\DirectWriteHelper.cs" />
@@ -130,7 +131,7 @@
     <Compile Include="Drawing\Direct2D\ID2DImage.cs" />
     <Compile Include="Drawing\Direct2D\ID2DPen.cs" />
     <Compile Include="Drawing\Direct2D\NativeBrushWrapper.cs" />
-    <Compile Include="Drawing\Element2D.cs" />
+    <Compile Include="Drawing\Visual2D.cs" />
     <Compile Include="Extensions\ControlExtensions.cs" />
     <Compile Include="Extensions\Direct2DDeviceContextExtensions.cs" />
     <Compile Include="Extensions\Direct2DRenderTargetExtensions.cs" />
@@ -145,8 +146,8 @@
     <Compile Include="Extensions\SizeFExtensions.cs" />
     <Compile Include="Drawing\FillMode.cs" />
     <Compile Include="Drawing\FontStyle.cs" />
-    <Compile Include="Drawing\IElement2D.cs" />
-    <Compile Include="Drawing\IBufferedElement2D.cs" />
+    <Compile Include="Drawing\IVisual2D.cs" />
+    <Compile Include="Drawing\IBufferedVisual2D.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="Extensions\Matrix3x2Extensions.cs" />
     <Compile Include="Rendering\Direct3D\D3DEffect.cs" />
@@ -169,7 +170,7 @@
     <Compile Include="RenderTarget.cs" />
     <Compile Include="Stage.cs" />
     <Compile Include="ControlStageRenderer.cs" />
-    <Compile Include="Drawing\ContainerElement.cs" />
+    <Compile Include="VisualContainer.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="VisualGame.cs" />
     <Compile Include="RenderContext.cs" />
@@ -177,7 +178,7 @@
     <Compile Include="StageRenderer.cs" />
     <Compile Include="Drawing\SweepDirection.cs" />
     <Compile Include="TargetSwitcher.cs" />
-    <Compile Include="VisualElement.cs" />
+    <Compile Include="Visual.cs" />
     <Compile Include="WicHelper.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -19,8 +19,8 @@
 // THE SOFTWARE.
 
 using System;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using SharpDX;
 using SharpDX.D3DCompiler;
@@ -36,10 +36,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual {
     /// and to observe if Z order between different rendering calls can be preserved.
     /// This class cannot be inherited.
     /// </summary>
-    public sealed class MiniCube : VisualElement {
+    public sealed class MiniCube : Graphics.Visual {
 
-        public MiniCube(GameBase game)
-            : base(game) {
+        public MiniCube([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         protected override void OnDraw(GameTime gameTime, RenderContext context) {

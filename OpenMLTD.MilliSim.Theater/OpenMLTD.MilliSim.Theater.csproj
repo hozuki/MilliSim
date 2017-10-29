@@ -171,6 +171,7 @@
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalDebug.cs" />
+    <Compile Include="Internal\ComponentFactory.cs" />
     <Compile Include="Internal\RibbonMesh.cs" />
     <Compile Include="Interop\NativeConstants.cs" />
     <Compile Include="Interop\NativeMethods.cs" />

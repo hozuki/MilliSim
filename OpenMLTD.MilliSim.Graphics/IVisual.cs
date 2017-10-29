@@ -1,6 +1,6 @@
 using OpenMLTD.MilliSim.Foundation;
 
 namespace OpenMLTD.MilliSim.Graphics {
-    internal interface IVisualContainerElement : IContainerElement, IDrawable {
+    public interface IVisual : IComponent, IDrawable {
     }
 }

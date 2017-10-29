@@ -15,7 +15,7 @@ namespace OpenMLTD.MilliSim.Graphics {
             : base(game) {
         }
 
-        internal void Draw(IVisualContainerElement root, GameTime gameTime) {
+        internal void Draw(IVisualContainer root, GameTime gameTime) {
             var context = _renderContext;
 
             using (_sizeLock.NewReadLock()) {
@@ -57,7 +57,7 @@ namespace OpenMLTD.MilliSim.Graphics {
 
         // Called by GameBase.
         protected internal override void Initialize() {
-            RecreateResources((IVisualContainerElement)Game.Root, out _renderContext);
+            RecreateResources((IVisualContainer)Game.Root, out _renderContext);
             OnAfterInitialization();
         }
 
@@ -77,7 +77,7 @@ namespace OpenMLTD.MilliSim.Graphics {
         protected virtual void OnAfterInitialization() {
         }
 
-        private void RecreateResources(IVisualContainerElement root, out RenderContext context) {
+        private void RecreateResources(IVisualContainer root, out RenderContext context) {
             _dxgiFactory?.Dispose();
             _swapChain?.Dispose();
             _direct3DDevice?.Dispose();

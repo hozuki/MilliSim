@@ -18,10 +18,10 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
     /// <summary>
     /// Reacting to note events.
     /// </summary>
-    public class NoteReactor : Element {
+    public class NoteReactor : Component {
 
-        public NoteReactor(GameBase game)
-            : base(game) {
+        public NoteReactor([NotNull] IComponentContainer parent)
+            : base(parent) {
         }
 
         protected override void OnUpdate(GameTime gameTime) {

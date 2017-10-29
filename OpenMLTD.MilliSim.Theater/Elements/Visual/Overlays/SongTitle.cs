@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Extensions;
@@ -13,10 +13,10 @@ using AlphaMode = SharpDX.Direct2D1.AlphaMode;
 using Bitmap = SharpDX.Direct2D1.Bitmap;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
-    public class SongTitle : OutlinedTextOverlay, IBufferedElement2D {
+    public class SongTitle : OutlinedTextOverlay, IBufferedVisual2D {
 
-        public SongTitle(GameBase game)
-            : base(game) {
+        public SongTitle([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         public float Opacity {
@@ -124,7 +124,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
             context.End2D();
         }
 
-        void IBufferedElement2D.OnCopyBufferedContents(GameTime gameTime, RenderContext context, Bitmap buffer) {
+        void IBufferedVisual2D.OnCopyBufferedContents(GameTime gameTime, RenderContext context, Bitmap buffer) {
             OnCopyBufferedContents(context, buffer);
         }
 

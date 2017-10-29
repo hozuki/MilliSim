@@ -1,17 +1,14 @@
-using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
 using JetBrains.Annotations;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
-using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Theater.Configuration;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
-    public class GamingArea : ContainerElement {
+    public class GamingArea : VisualContainer {
 
-        public GamingArea(GameBase game, [CanBeNull] [ItemNotNull] IReadOnlyList<IElement> elements)
-            : base(game, elements) {
+        public GamingArea([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         public ScalingClass ScaleResults { get; } = new ScalingClass();

@@ -7,7 +7,6 @@ using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities;
 using OpenMLTD.MilliSim.Core.Entities.Extensions;
 using OpenMLTD.MilliSim.Core.Entities.Runtime;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
@@ -20,10 +19,10 @@ using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
-    public class NotesLayer : BufferedElement2D {
+    public class NotesLayer : BufferedVisual2D {
 
-        public NotesLayer(GameBase game)
-            : base(game) {
+        public NotesLayer([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         /// <summary>

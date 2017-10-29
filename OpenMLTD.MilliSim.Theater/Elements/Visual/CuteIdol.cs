@@ -1,7 +1,6 @@
 using System;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D.Advanced;
@@ -11,10 +10,10 @@ using OpenMLTD.MilliSim.Theater.Extensions;
 using OpenMLTD.MilliSim.Theater.Properties;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual {
-    internal class CuteIdol : VisualElement {
+    internal class CuteIdol : Graphics.Visual {
 
-        public CuteIdol(GameBase game)
-            : base(game) {
+        public CuteIdol([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         public int PickRandomCharacter() {

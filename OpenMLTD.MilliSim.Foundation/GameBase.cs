@@ -48,9 +48,8 @@ namespace OpenMLTD.MilliSim.Foundation {
                 // Must create the control before render thread starts, or a InvalidCall exception will be thrown.
                 window.CreateControl();
 
-                var elements = CreateElements() ?? new Element[0];
-                var root = CreateRootElement(elements);
-                Root = root;
+                Root = CreateRootElement();
+                CreateElements();
 
                 using (var audioManager = CreateAudioManager()) {
                     BaseAudioManager = audioManager;
@@ -115,7 +114,7 @@ namespace OpenMLTD.MilliSim.Foundation {
         }
 
         [NotNull]
-        public IContainerElement Root { get; private set; }
+        public IComponentContainer Root { get; private set; }
 
         [NotNull]
         public GameTime Time {
@@ -163,11 +162,10 @@ namespace OpenMLTD.MilliSim.Foundation {
 
         protected abstract AudioManagerBase CreateAudioManager();
 
-        [CanBeNull, ItemNotNull]
-        protected abstract IReadOnlyList<IElement> CreateElements();
+        protected abstract void CreateElements();
 
         [NotNull]
-        protected abstract IContainerElement CreateRootElement([NotNull, ItemNotNull] IReadOnlyList<IElement> elements);
+        protected abstract IComponentContainer CreateRootElement();
 
         protected virtual void OnInitialize() {
             Root.OnInitialize();

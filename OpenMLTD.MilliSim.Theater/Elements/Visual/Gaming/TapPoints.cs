@@ -4,7 +4,6 @@ using System.Linq;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
@@ -16,10 +15,10 @@ using SharpDX.Direct2D1;
 using RectangleF = System.Drawing.RectangleF;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
-    public class TapPoints : BufferedElement2D {
+    public class TapPoints : BufferedVisual2D {
 
-        public TapPoints(GameBase game)
-            : base(game) {
+        public TapPoints([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         public int TrackCount {

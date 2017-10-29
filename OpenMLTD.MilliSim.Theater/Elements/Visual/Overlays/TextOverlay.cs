@@ -1,6 +1,6 @@
 using System.IO;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
@@ -14,8 +14,8 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
     /// </summary>
     public class TextOverlay : TextOverlayBase {
 
-        public TextOverlay(GameBase game)
-            : base(game) {
+        public TextOverlay([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         protected override void OnDraw(GameTime gameTime, RenderContext context) {

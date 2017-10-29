@@ -17,8 +17,8 @@ namespace OpenMLTD.MilliSim.Graphics {
             return new ControlStageRenderer(this, Window);
         }
 
-        protected sealed override IContainerElement CreateRootElement(IReadOnlyList<IElement> elements) {
-            return new Stage(this, elements);
+        protected sealed override IComponentContainer CreateRootElement() {
+            return new Stage(this);
         }
 
         protected override void Dispose(bool disposing) {

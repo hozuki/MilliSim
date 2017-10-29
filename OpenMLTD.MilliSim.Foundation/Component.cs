@@ -3,13 +3,25 @@ using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Foundation {
-    public abstract class Element : DisposableBase, IElement {
+    public abstract class Component : DisposableBase, IComponent {
 
-        protected Element(GameBase game) {
-            Game = game;
+        protected Component([NotNull] IComponentContainer parent) {
+            Parent = parent;
+            Game = parent != null ? parent.Game : null;
         }
 
-        public GameBase Game { get; }
+        [CanBeNull]
+        public IComponentContainer Parent {
+            get => _parent;
+            set {
+                _parent?.Components.Remove(this);
+                _parent = value;
+                value?.Components.Add(this);
+            }
+        }
+
+        [NotNull]
+        public GameBase Game { get; internal set; }
 
         [NotNull]
         public virtual string Name {
@@ -43,7 +55,7 @@ namespace OpenMLTD.MilliSim.Foundation {
             return $"{{{typeName}}}";
         }
 
-        void IElement.OnInitialize() {
+        void IComponent.OnInitialize() {
             if (_isInitialized) {
                 return;
             }
@@ -51,7 +63,7 @@ namespace OpenMLTD.MilliSim.Foundation {
             _isInitialized = true;
         }
 
-        void IElement.OnDispose() {
+        void IComponent.OnDispose() {
             if (!IsDisposed) {
                 Dispose();
             }
@@ -76,6 +88,7 @@ namespace OpenMLTD.MilliSim.Foundation {
         private bool _isNameSet;
         private string _name;
         private string _cachedTypeName;
+        private IComponentContainer _parent;
 
     }
 }

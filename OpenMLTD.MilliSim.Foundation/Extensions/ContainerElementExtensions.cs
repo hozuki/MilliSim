@@ -6,13 +6,13 @@ namespace OpenMLTD.MilliSim.Foundation.Extensions {
     public static class ContainerElementExtensions {
 
         [CanBeNull]
-        public static T FindOrNull<T>(this IContainerElement container) where T : class, IElement {
+        public static T FindOrNull<T>(this IComponentContainer container) where T : class, IComponent {
             var b = TryFind<T>(container, out var r);
             return b ? r : null;
         }
 
         [NotNull]
-        public static T Find<T>(this IContainerElement container) where T : IElement {
+        public static T Find<T>(this IComponentContainer container) where T : IComponent {
             var b = TryFind<T>(container, out var r);
             if (!b) {
                 // Similar to Enumerable.Single().
@@ -21,24 +21,24 @@ namespace OpenMLTD.MilliSim.Foundation.Extensions {
             return r;
         }
 
-        public static bool TryFind<T>(this IContainerElement container, [CanBeNull] out T result) where T : IElement {
-            var q = new Queue<IContainerElement>();
+        public static bool TryFind<T>(this IComponentContainer container, [CanBeNull] out T result) where T : IComponent {
+            var q = new Queue<IComponentContainer>();
             q.Enqueue(container);
 
             while (q.Count > 0) {
                 var c = q.Dequeue();
 
-                if (c.Elements.Count == 0) {
+                if (c.Components.Count == 0) {
                     result = default;
                     return false;
                 }
 
-                foreach (var element in c.Elements) {
+                foreach (var element in c.Components) {
                     if (element is T t) {
                         result = t;
                         return true;
                     }
-                    if (element is IContainerElement c2) {
+                    if (element is IComponentContainer c2) {
                         q.Enqueue(c2);
                     }
                 }

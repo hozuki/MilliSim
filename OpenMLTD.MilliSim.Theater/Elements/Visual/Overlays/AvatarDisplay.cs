@@ -4,7 +4,6 @@ using System.Linq;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
@@ -18,10 +17,10 @@ using Color = System.Drawing.Color;
 using SweepDirection = SharpDX.Direct2D1.SweepDirection;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays {
-    public class AvatarDisplay : BufferedElement2D {
+    public class AvatarDisplay : BufferedVisual2D {
 
-        public AvatarDisplay(GameBase game)
-            : base(game) {
+        public AvatarDisplay([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         public void PlayScorePrepareAnimation() {

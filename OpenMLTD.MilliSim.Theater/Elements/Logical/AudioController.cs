@@ -10,10 +10,10 @@ using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Logical {
-    public sealed class AudioController : Element {
+    public sealed class AudioController : Component {
 
-        public AudioController(GameBase game)
-            : base(game) {
+        public AudioController([NotNull] IComponentContainer parent)
+            : base(parent) {
         }
 
         [CanBeNull]

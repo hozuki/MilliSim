@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Drawing;
 using OpenMLTD.MilliSim.Graphics.Drawing.Direct2D;
@@ -10,10 +10,10 @@ using OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming;
 using OpenMLTD.MilliSim.Theater.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays.Combo {
-    public class ComboText : Element2D {
+    public class ComboText : Visual2D {
 
-        public ComboText(GameBase game)
-            : base(game) {
+        public ComboText([NotNull] IVisualContainer parent)
+            : base(parent) {
         }
 
         protected override void OnDraw(GameTime gameTime, RenderContext context) {

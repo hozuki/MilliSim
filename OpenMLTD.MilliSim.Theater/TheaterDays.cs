@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.IO;
 using OpenMLTD.MilliSim.Audio;
 using OpenMLTD.MilliSim.Core;
@@ -11,6 +10,7 @@ using OpenMLTD.MilliSim.Theater.Elements.Visual.Background;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays;
 using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays.Combo;
+using OpenMLTD.MilliSim.Theater.Internal;
 
 namespace OpenMLTD.MilliSim.Theater {
     public sealed class TheaterDays : VisualGame {
@@ -31,21 +31,21 @@ namespace OpenMLTD.MilliSim.Theater {
             return new AudioManager();
         }
 
-        protected override IReadOnlyList<IElement> CreateElements() {
+        protected override void CreateElements() {
             var settings = Program.Settings;
-            var elements = new List<Element>();
+            var stage = Stage;
 
             // Background elements
             // Beware the adding order. Usually these elements should be updated first.
-            elements.Add(new SyncTimer(this));
-            elements.Add(new AudioController(this));
-            elements.Add(new ScoreLoader(this));
+            ComponentFactory.CreateAndAdd<SyncTimer>(stage);
+            ComponentFactory.CreateAndAdd<AudioController>(stage);
+            ComponentFactory.CreateAndAdd<ScoreLoader>(stage);
 
             // Background
             if (!string.IsNullOrEmpty(settings.Media.BackgroundAnimation) && File.Exists(settings.Media.BackgroundAnimation)) {
-                elements.Add(new BackgroundVideo(this));
+                ComponentFactory.CreateAndAdd<BackgroundVideo>(stage);
             } else if (!string.IsNullOrEmpty(settings.Media.BackgroundImage) && File.Exists(settings.Media.BackgroundImage)) {
-                elements.Add(new BackgroundImage(this));
+                ComponentFactory.CreateAndAdd<BackgroundImage>(stage);
             }
 
 #if DEBUG
@@ -54,73 +54,59 @@ namespace OpenMLTD.MilliSim.Theater {
 
             // ** Stage ** //
             {
-                var gamingAreaElements = new List<Element>();
+                var gamingArea = ComponentFactory.CreateAndAdd<GamingArea>(stage);
 
-                gamingAreaElements.Add(new NoteReactor(this));
+                ComponentFactory.CreateAndAdd<NoteReactor>(gamingArea);
+
                 if (settings.Style.SlideMotionPosition == SlideMotionPosition.Below) {
-                    gamingAreaElements.Add(new SlideMotion(this));
+                    ComponentFactory.CreateAndAdd<SlideMotion>(gamingArea);
                 }
-                gamingAreaElements.Add(new RibbonsLayer(this));
+                ComponentFactory.CreateAndAdd<RibbonsLayer>(gamingArea);
                 if (settings.Style.SlideMotionPosition == SlideMotionPosition.Above) {
-                    gamingAreaElements.Add(new SlideMotion(this));
+                    ComponentFactory.CreateAndAdd<SlideMotion>(gamingArea);
                 }
-                gamingAreaElements.Add(new TapPointsMergingAnimation(this));
-                gamingAreaElements.Add(new NotesLayer(this) {
-                    GlobalSpeedScale = 1.3f
-                });
-                gamingAreaElements.Add(new TapPoints(this));
-                gamingAreaElements.Add(new HitRankAnimation(this));
-
-                var stage = new GamingArea(this, gamingAreaElements.ToArray());
-                elements.Add(stage);
+                ComponentFactory.CreateAndAdd<TapPointsMergingAnimation>(gamingArea);
+                var notesLayer = ComponentFactory.CreateAndAdd<NotesLayer>(gamingArea);
+                notesLayer.GlobalSpeedScale = 1.3f;
+                ComponentFactory.CreateAndAdd<TapPoints>(gamingArea);
+                ComponentFactory.CreateAndAdd<HitRankAnimation>(gamingArea);
             }
 
             // Overlays
 
             {
-                var comboDisplayElements = new List<Element>();
+                var comboDisplay = ComponentFactory.CreateAndAdd<ComboDisplay>(stage);
 
-                comboDisplayElements.Add(new ComboAura(this));
-                comboDisplayElements.Add(new ComboText(this));
-                comboDisplayElements.Add(new ComboNumbers(this));
-
-                var comboDisplay = new ComboDisplay(this, comboDisplayElements.ToArray());
-                elements.Add(comboDisplay);
+                ComponentFactory.CreateAndAdd<ComboAura>(comboDisplay);
+                ComponentFactory.CreateAndAdd<ComboText>(comboDisplay);
+                ComponentFactory.CreateAndAdd<ComboNumbers>(comboDisplay);
             }
 
-            elements.Add(new AvatarDisplay(this));
+            ComponentFactory.CreateAndAdd<AvatarDisplay>(stage);
+            ComponentFactory.CreateAndAdd<SongTitle>(stage);
+            ComponentFactory.CreateAndAdd<CuteIdol>(stage);
 
-            elements.Add(new SongTitle(this));
-
-            elements.Add(new CuteIdol(this));
-
-            elements.Add(new HelpOverlay(this) {
-                Text = settings.LocalStrings.PressSpaceToStart,
-                Visible = false
-            });
+            var helpOverlay = ComponentFactory.CreateAndAdd<HelpOverlay>(stage);
+            helpOverlay.Text = settings.LocalStrings.PressSpaceToStart;
+            helpOverlay.Visible = false;
 
             if (settings.SystemUI.FpsOverlay.Use) {
-                elements.Add(new FpsOverlay(this) {
-                    FillColor = settings.SystemUI.FpsOverlay.TextFill,
-                    FontSize = settings.SystemUI.FpsOverlay.FontSize
-                });
+                var fpsOverlay = ComponentFactory.CreateAndAdd<FpsOverlay>(stage);
+                fpsOverlay.FillColor = settings.SystemUI.FpsOverlay.TextFill;
+                fpsOverlay.FontSize = settings.SystemUI.FpsOverlay.FontSize;
             }
 
             if (settings.SystemUI.DebugOverlay.Use) {
-                elements.Add(new DebugOverlay(this) {
-                    FillColor = settings.SystemUI.DebugOverlay.TextFill,
-                    FontSize = settings.SystemUI.DebugOverlay.FontSize
-                });
+                var debugOverlay = ComponentFactory.CreateAndAdd<DebugOverlay>(stage);
+                debugOverlay.FillColor = settings.SystemUI.DebugOverlay.TextFill;
+                debugOverlay.FontSize = settings.SystemUI.DebugOverlay.FontSize;
             }
 
             if (settings.SystemUI.SyncTimerOverlay.Use) {
-                elements.Add(new SyncTimerOverlay(this) {
-                    FillColor = settings.SystemUI.SyncTimerOverlay.TextFill,
-                    FontSize = settings.SystemUI.SyncTimerOverlay.FontSize
-                });
+                var syncTimerOverlay = ComponentFactory.CreateAndAdd<SyncTimerOverlay>(stage);
+                syncTimerOverlay.FillColor = settings.SystemUI.SyncTimerOverlay.TextFill;
+                syncTimerOverlay.FontSize = settings.SystemUI.SyncTimerOverlay.FontSize;
             }
-
-            return elements.ToArray();
         }
 
     }
