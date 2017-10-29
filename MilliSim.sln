@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Theater", "OpenMLTD.MilliSim.Theater\OpenMLTD.MilliSim.Theater.csproj", "{DACE584A-867F-4625-BAD3-C50CC480A0A0}"
 EndProject
@@ -14,15 +14,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "thirdparty", "thirdparty", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MimeTypes", "thirdparty\MimeTypeMap\src\MimeTypes\MimeTypes.csproj", "{D54FB6F6-9042-4925-BFC5-947A363F0849}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".dir", ".dir", "{9D3D7DAF-5C06-4EDF-A6FA-7A22B9924F0D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9D3D7DAF-5C06-4EDF-A6FA-7A22B9924F0D}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		.gitmodules = .gitmodules
 		.travis.yml = .travis.yml
 		appveyor.yml = appveyor.yml
-		before_script-nuget_restore.js = before_script-nuget_restore.js
-		before_script-patch_asminfo.js = before_script-patch_asminfo.js
 		CONTRIBUTING.md = CONTRIBUTING.md
 		LICENSE.txt = LICENSE.txt
 		.github\PULL_REQUEST_TEMPLATE.md = .github\PULL_REQUEST_TEMPLATE.md
@@ -60,6 +58,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats", "OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats\OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats.csproj", "{001C2077-8F69-4318-9096-A52C215B4C44}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd", "OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd\OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd.csproj", "{22AEEF23-15FF-4B6C-941D-550C63F50329}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{8F987577-EE01-4390-B8B2-3353F2ACEBB9}"
+	ProjectSection(SolutionItems) = preProject
+		.github\PULL_REQUEST_TEMPLATE.md = .github\PULL_REQUEST_TEMPLATE.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -167,6 +170,7 @@ Global
 		{A2211C66-972C-4FC5-AD53-70C5B901A361} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 		{001C2077-8F69-4318-9096-A52C215B4C44} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 		{22AEEF23-15FF-4B6C-941D-550C63F50329} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
+		{8F987577-EE01-4390-B8B2-3353F2ACEBB9} = {9D3D7DAF-5C06-4EDF-A6FA-7A22B9924F0D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {27A82ED7-C1EE-4F03-B3AD-02534ACDB2B1}
