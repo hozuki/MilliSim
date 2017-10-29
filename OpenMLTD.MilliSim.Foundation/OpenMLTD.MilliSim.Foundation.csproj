@@ -56,6 +56,7 @@
     <Compile Include="ComponentCollection.Enumerator.cs" />
     <Compile Include="ComponentCollection.Operation.cs" />
     <Compile Include="ComponentCollection.PendingEntry.cs" />
+    <Compile Include="ComponentGroup.cs" />
     <Compile Include="Extensions\ContainerElementExtensions.cs" />
     <Compile Include="Extensions\UpdatableExtensions.cs" />
     <Compile Include="GameBase.cs" />

@@ -14,8 +14,8 @@ namespace OpenMLTD.MilliSim.Graphics {
 
         protected override void OnInitialize() {
             base.OnInitialize();
-            foreach (var element in Components) {
-                element.OnInitialize();
+            foreach (var component in Components) {
+                component.OnInitialize();
             }
         }
 
@@ -25,8 +25,8 @@ namespace OpenMLTD.MilliSim.Graphics {
                 Components.ExecutePendingQueue();
             }
             OnBeforeChildrenUpdate(gameTime);
-            foreach (var element in Components) {
-                element.Update(gameTime);
+            foreach (var component in Components) {
+                component.Update(gameTime);
             }
             OnAfterChildrenUpdate(gameTime);
         }
@@ -34,43 +34,43 @@ namespace OpenMLTD.MilliSim.Graphics {
         protected override void OnDraw(GameTime gameTime, RenderContext context) {
             base.OnDraw(gameTime, context);
             OnBeforeChildrenDraw(gameTime, context);
-            foreach (var element in Components) {
-                (element as IDrawable)?.Draw(gameTime, context);
+            foreach (var component in Components) {
+                (component as IDrawable)?.Draw(gameTime, context);
             }
             OnAfterChildrenDraw(gameTime, context);
         }
 
         protected override void OnGotContext(RenderContext context) {
             base.OnGotContext(context);
-            foreach (var element in Components) {
-                (element as IDrawable)?.OnGotContext(context);
+            foreach (var component in Components) {
+                (component as IDrawable)?.OnGotContext(context);
             }
         }
 
         protected override void OnLostContext(RenderContext context) {
             base.OnLostContext(context);
-            foreach (var element in Components) {
-                (element as IDrawable)?.OnLostContext(context);
+            foreach (var component in Components) {
+                (component as IDrawable)?.OnLostContext(context);
             }
         }
 
         protected override void OnStageReady(RenderContext context) {
             base.OnStageReady(context);
-            foreach (var element in Components) {
-                (element as IDrawable)?.OnStageReady(context);
+            foreach (var component in Components) {
+                (component as IDrawable)?.OnStageReady(context);
             }
         }
 
         protected override void OnLayout() {
             base.OnLayout();
-            foreach (var element in Components) {
-                (element as IDrawable)?.OnLayout();
+            foreach (var component in Components) {
+                (component as IDrawable)?.OnLayout();
             }
         }
 
         protected override void OnDispose() {
-            foreach (var element in Components) {
-                element.OnDispose();
+            foreach (var component in Components) {
+                component.OnDispose();
             }
             base.OnDispose();
         }

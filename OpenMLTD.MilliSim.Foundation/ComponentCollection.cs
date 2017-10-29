@@ -11,7 +11,7 @@ namespace OpenMLTD.MilliSim.Foundation {
             : this(container, null) {
         }
 
-        public ComponentCollection([NotNull] IComponentContainer container, [CanBeNull, ItemNotNull] IReadOnlyList<IComponent> components) {
+        internal ComponentCollection([NotNull] IComponentContainer container, [CanBeNull, ItemNotNull] IReadOnlyList<IComponent> components) {
             Container = container ?? throw new ArgumentNullException(nameof(container));
             _components = components == null ? new List<IComponent>() : new List<IComponent>(components);
         }
@@ -60,12 +60,15 @@ namespace OpenMLTD.MilliSim.Foundation {
 
         public bool Remove(IComponent item) {
             if (HasActiveEnumerators) {
-                var entry = new PendingEntry {
-                    Operation = Operation.Remove,
-                    Item = item
-                };
-                _pendingQueue.Enqueue(entry);
-                return ValidateComponentDeletion(item);
+                var canBeDeleted = ValidateComponentDeletion(item);
+                if (canBeDeleted) {
+                    var entry = new PendingEntry {
+                        Operation = Operation.Remove,
+                        Item = item
+                    };
+                    _pendingQueue.Enqueue(entry);
+                }
+                return canBeDeleted;
             } else {
                 return _components.Remove(item);
             }
@@ -109,29 +112,62 @@ namespace OpenMLTD.MilliSim.Foundation {
             set => _components[index] = value;
         }
 
+        public override string ToString() {
+            var baseString = base.ToString();
+
+            var c1 = _components.Count;
+            var c2 = _pendingQueue.Count;
+
+            return $"{baseString} (Count = {c1}, Pending = {c2})";
+        }
+
         internal bool HasPendingEntries => _pendingQueue.Count > 0;
 
-        internal void ExecutePendingQueue() {
+        public void ExecutePendingQueue() {
             if (!HasPendingEntries) {
                 return;
             }
 
-            while (HasPendingEntries) {
-                var item = _pendingQueue.Dequeue();
-                throw new NotImplementedException();
+            ExecutePendingQueue(_components, _pendingQueue);
+        }
+
+        private static IList<IComponent> ExecutePendingQueue(IList<IComponent> c, Queue<PendingEntry> q) {
+            while (q.Count > 0) {
+                var entry = q.Dequeue();
+                switch (entry.Operation) {
+                    case Operation.Add:
+                        c.Add(entry.Item);
+                        break;
+                    case Operation.Insert:
+                        c.Insert(entry.Index, entry.Item);
+                        break;
+                    case Operation.Remove:
+                        c.Remove(entry.Item);
+                        break;
+                    case Operation.RemoveAt:
+                        c.RemoveAt(entry.Index);
+                        break;
+                    case Operation.Clear:
+                        c.Clear();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
+
+            return c;
         }
 
         private bool ValidateComponentDeletion([CanBeNull] IComponent item) {
             if (!HasPendingEntries) {
-                return false;
+                return _components.Contains(item);
             }
 
-            foreach (var entry in _pendingQueue) {
-                throw new NotImplementedException();
-            }
+            IList<IComponent> c = new List<IComponent>(_components);
+            var q = new Queue<PendingEntry>(_pendingQueue);
+            c = ExecutePendingQueue(c, q);
 
-            throw new NotImplementedException();
+            return c.Contains(item);
         }
 
         private bool HasActiveEnumerators => _activeEnumeratorCount > 0;
