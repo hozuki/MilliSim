@@ -96,7 +96,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
 
             // Z value should be decreasing to achieve this effect:
             // when two ribbons cross, the one with the start note on the right is above the other.
-            var z = 0f;
+            var z = ZTop;
 
             var smallNoteMetrics = new NoteMetrics {
                 StartRadius = gamingArea.ScaleResults.VisualNoteSmall.Start,
@@ -301,7 +301,7 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
 
             _camera = new OrthoCamera(context.ClientSize.Width, context.ClientSize.Height, 0.1f, ViewFrustrumDepth);
             var centerPoint = new PointF(context.ClientSize.Width / 2f, context.ClientSize.Height / 2f);
-            _camera.Position = new Vector3(centerPoint.X, centerPoint.Y, 1);
+            _camera.Position = new Vector3(centerPoint.X, centerPoint.Y, CameraZ);
             _camera.LookAt(new Vector3(centerPoint.X, centerPoint.Y, 0), -Vector3.UnitY);
 
             _ribbonTexture = Direct3DHelper.LoadTexture2D(context, settings.Images.Ribbon.FileName);
@@ -343,7 +343,9 @@ namespace OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming {
         }
 
         private static readonly int SliceCount = 48;
+        private static readonly float ZTop = 100f;
         private static readonly float LayerDepth = 1f;
+        private static readonly float CameraZ = ZTop + LayerDepth;
         private static readonly float ViewFrustrumDepth = 100f;
 
         private OrthoCamera _camera;
