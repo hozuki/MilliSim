@@ -4,6 +4,9 @@
   "description": "More than a simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.idolmaster.jp/theaterdays/).",
   "main": "index.js",
   "dependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/fs-extra": "^4.0.3",
+    "@types/glob": "^5.0.33",
     "chalk": "^2.1.0",
     "fs-extra": "^4.0.2",
     "glob": "^7.1.2"

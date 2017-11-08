@@ -27,7 +27,7 @@ for (const from in mapping) {
     const to = mapping[from];
     console.info(`Copying ${from} to ${to}... (${copying}/${licenseFiles.length})`);
     const dir = path.dirname(to);
-    fs.mkdirsSync(to);
+    fs.mkdirsSync(dir);
     fs.copySync(from, to);
 }
 
