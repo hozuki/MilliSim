@@ -60,7 +60,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
         protected override void OnGotContext(RenderContext context) {
             base.OnGotContext(context);
             var fontPath = Path.GetFullPath(GetFontFilePath());
-            var familyName = DirectWriteHelper.GetFontFamilyName(fontPath);
+            var familyName = DirectWriteHelper.GetFontFamilyName(context, fontPath);
             _font = new D2DFont(context.DirectWriteFactory, familyName, FontSize, FontStyle.Regular, 10);
             _textFill = new D2DSolidBrush(context, FillColor);
             _textStroke = new D2DPen(context, StrokeColor, StrokeWidth);

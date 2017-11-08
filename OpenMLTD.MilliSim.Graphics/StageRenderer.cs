@@ -1,5 +1,7 @@
 using System;
 using System.Drawing;
+using System.Drawing.Text;
+using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 using SharpDX.Direct3D;
@@ -11,9 +13,13 @@ using Device = SharpDX.Direct3D11.Device;
 namespace OpenMLTD.MilliSim.Graphics {
     public abstract class StageRenderer : RendererBase {
 
-        protected StageRenderer(VisualGame game)
+        // ReSharper disable once SuggestBaseTypeForParameter
+        protected StageRenderer([NotNull] VisualGame game)
             : base(game) {
+            PrivateFontCollection = new CachedPrivateFontCollection();
         }
+
+        public CachedPrivateFontCollection PrivateFontCollection { get; }
 
         internal void Draw(IVisualContainer root, GameTime gameTime) {
             var context = _renderContext;
