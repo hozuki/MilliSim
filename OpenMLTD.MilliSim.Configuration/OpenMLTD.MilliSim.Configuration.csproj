@@ -62,6 +62,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="OpenMLTD.MilliSim.Configuration.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

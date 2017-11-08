@@ -178,6 +178,7 @@
     <Compile Include="WicHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="OpenMLTD.MilliSim.Graphics.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

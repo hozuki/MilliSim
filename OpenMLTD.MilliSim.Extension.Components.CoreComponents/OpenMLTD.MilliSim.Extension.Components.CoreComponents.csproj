@@ -162,6 +162,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="OpenMLTD.MilliSim.Extension.Components.CoreComponents.nuspec" />
     <None Include="packages.config" />
     <None Include="res\config\audio_controller.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
