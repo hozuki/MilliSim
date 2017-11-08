@@ -1,0 +1,25 @@
+{
+  "name": "millisim",
+  "version": "1.0.0",
+  "description": "More than a simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.idolmaster.jp/theaterdays/).",
+  "main": "index.js",
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "glob": "^7.1.2",
+    "mkdirp": "^0.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hozuki/MilliSim.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hozuki/MilliSim/issues"
+  },
+  "homepage": "https://github.com/hozuki/MilliSim#readme"
+}
