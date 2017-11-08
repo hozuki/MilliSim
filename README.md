@@ -1,16 +1,18 @@
 # MilliSim
 
-A simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.idolmaster.jp/theaterdays/).
+More than a simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.idolmaster.jp/theaterdays/).
 
-| Build Status | |
-|--|--|
-| Travis | [![Travis](https://img.shields.io/travis/hozuki/MilliSim.svg)](https://travis-ci.org/hozuki/MilliSim) |
-| AppVeyor | [![AppVeyor](https://img.shields.io/appveyor/ci/hozuki/MilliSim.svg)](https://ci.appveyor.com/project/hozuki/MilliSim) |
+Demo videos: [video 1](https://www.bilibili.com/video/av15612246/) (v0.2 branch) | [video 2](https://www.bilibili.com/video/av16069466/) (v0.2 branch)
 
 | Downloads| |
 |--|--|
 | GitHub Releases | [![GitHub (pre-)release](https://img.shields.io/github/release/hozuki/MilliSim/all.svg) ![Github All Releases](https://img.shields.io/github/downloads/hozuki/MilliSim/total.svg)](https://github.com/hozuki/MilliSim/releases) |
 | Latest Development Build | [AppVeyor](https://ci.appveyor.com/api/projects/hozuki/MilliSim/artifacts/millisim-appveyor-latest.zip) |
+
+| Build Status | |
+|--|--|
+| Travis | [![Travis](https://img.shields.io/travis/hozuki/MilliSim.svg)](https://travis-ci.org/hozuki/MilliSim) |
+| AppVeyor | [![AppVeyor](https://img.shields.io/appveyor/ci/hozuki/MilliSim.svg)](https://ci.appveyor.com/project/hozuki/MilliSim) |
 
 **Stage:** alpha
 
