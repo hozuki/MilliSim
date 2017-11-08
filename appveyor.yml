@@ -14,7 +14,7 @@ environment:
 before_build:
   - nuget update -self
   - git submodule update --init --recursive
-  - npm install glob chalk
+  - npm install
   - npm install -g marked
   - node scripts\nuget_restore.js
   - node scripts\patch_asminfo.js
