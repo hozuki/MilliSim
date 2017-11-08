@@ -8,7 +8,9 @@ env:
   - MAIN_VER=0.3.0 SOLUTION_NAME=MilliSim.sln CONFIGURATION=Release RELEASE_SUFFIX=-alpha
 
 before_install:
-  - sudo apt-get install -y gtk-sharp2 p7zip-full nodejs npm
+  - sudo apt-get install -y gtk-sharp2 p7zip-full
+  - sudo nvm install node --lts
+  - sudo npm install -g npm
   - sudo npm install
   - sudo npm install -g marked
 
