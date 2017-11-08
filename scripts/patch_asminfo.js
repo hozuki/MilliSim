@@ -1,5 +1,18 @@
 "use strict";
 
+/*
+    Usage:
+
+    * On Windows:
+
+    set MAIN_VER=0.0.0
+    set BUILD_NUMBER=0
+    node scripts\patch_asminfo.js
+
+    * On macOS/Linux
+    MAIN_VER=0.0.0 BUILD_NUMBER=0 node scripts\patch_asminfo.js
+*/
+
 const path = require("path");
 const fs = require("fs");
 const os = require("os");

@@ -2,12 +2,15 @@
 
 More than a simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.idolmaster.jp/theaterdays/).
 
-Demo videos: [video 1](https://www.bilibili.com/video/av15612246/) (v0.2 branch) | [video 2](https://www.bilibili.com/video/av16069466/) (v0.2 branch)
+Demo videos: 
+
+  - [video 1](https://www.bilibili.com/video/av15612246/) (v0.2 branch)
+  - [video 2](https://www.bilibili.com/video/av16069466/) (v0.2 branch)
 
 | Downloads| |
 |--|--|
-| GitHub Releases | [![GitHub (pre-)release](https://img.shields.io/github/release/hozuki/MilliSim/all.svg) ![Github All Releases](https://img.shields.io/github/downloads/hozuki/MilliSim/total.svg)](https://github.com/hozuki/MilliSim/releases) |
-| Latest Development Build | [AppVeyor](https://ci.appveyor.com/api/projects/hozuki/MilliSim/artifacts/millisim-appveyor-latest.zip) |
+| [GitHub Releases](https://github.com/hozuki/MilliSim/releases) | ![GitHub (pre-)release](https://img.shields.io/github/release/hozuki/MilliSim/all.svg) ![Github All Releases](https://img.shields.io/github/downloads/hozuki/MilliSim/total.svg) |
+| [AppVeyor](https://ci.appveyor.com/api/projects/hozuki/MilliSim/artifacts/millisim-appveyor-latest.zip) | (latest development build) |
 
 | Build Status | |
 |--|--|
@@ -65,43 +68,21 @@ supported on Windows 8 or later.
 
 **Step 1**: Clone this repo:
 
-With newer versions of Git:
-
-```bash
-git clone https://github.com/hozuki/MilliSim.git --recursive
-cd MilliSim
-```
-
-With older versions of Git:
-
 ```bash
 git clone https://github.com/hozuki/MilliSim.git
-cd MillSim
-git submodule update --init --recursive
 ```
 
-**Step 2**: Restore dependencies using NuGet CLI.
+**Step 2**: Prepare dependencies: 
 
-```bash
-npm install glob chalk --save
+```
+cd MillSim
+git submodule update --init --recursive
+npm install
+nuget update -self
 node scripts/nuget_restore.js
 ```
 
-(Optional) Patch `Assembly.cs`:
-
-```cmd
-REM On Windows
-set MAIN_VER=0.0.0
-set BUILD_NUMBER=0
-node scripts\patch_asminfo.js
-```
-
-```bash
-# On macOS/Linux
-MAIN_VER=0.0.0 BUILD_NUMBER=0 node before_script-patch_asminfo.js
-```
-
-**Step 3**: Build the solution.
+**Step 3**: Build the solution:
 
 ```bash
 msbuild MilliSim.sln /p:Configuration=Release
@@ -113,12 +94,6 @@ there will be strange compile errors:
 
 ```bash
 msbuild MilliSim.sln /p:Configuration=Release /m:1
-```
-
-To update external projects, use this command:
-
-```bash
-git submodule update --recursive
 ```
 
 Although the builds by Travis seem unable to bootstrap on Windows,
