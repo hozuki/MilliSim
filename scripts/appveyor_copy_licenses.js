@@ -1,8 +1,7 @@
 "use strict";
 
-const fs = require("fs");
 const path = require("path");
-const mkdirp = require("mkdirp");
+const fs = require("fs-extra");
 
 const licensesPath = "docs/licenses";
 
@@ -23,17 +22,13 @@ const licenseFiles = [
 
 const mapping = getMapping(licenseFiles);
 
+let copying = 1;
 for (const from in mapping) {
     const to = mapping[from];
-    console.info(`Copying ${from} to ${to}...`);
+    console.info(`Copying ${from} to ${to}... (${copying}/${licenseFiles.length})`);
     const dir = path.dirname(to);
-    mkdirp.sync(dir);
-    copyFileAsync(from, to, err => {
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
-    });
+    fs.mkdirsSync(to);
+    fs.copySync(from, to);
 }
 
 /**
@@ -51,40 +46,4 @@ function getMapping(files) {
         obj[key] = value;
     }
     return obj;
-}
-
-// https://stackoverflow.com/a/14387791
-/**
- * @param {string} source 
- * @param {string} target 
- * @param {(err: Error) => void} [cb] 
- */
-function copyFileAsync(source, target, cb) {
-    let cbCalled = false;
-
-    const rd = fs.createReadStream(source);
-    rd.on("error", function (err) {
-        done(err);
-    });
-    const wr = fs.createWriteStream(target);
-    wr.on("error", function (err) {
-        done(err);
-    });
-    wr.on("close", function (ex) {
-        done();
-    });
-    rd.pipe(wr);
-
-    function done(err) {
-        if (rd) {
-            rd.destroy();
-        }
-        if (wr) {
-            wr.destroy();
-        }
-        if (!cbCalled && cb instanceof Function) {
-            cb(err);
-            cbCalled = true;
-        }
-    }
 }
