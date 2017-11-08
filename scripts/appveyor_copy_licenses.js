@@ -29,8 +29,10 @@ for (const from in mapping) {
     const dir = path.dirname(to);
     mkdirp.sync(dir);
     copyFileAsync(from, to, err => {
-        console.error(err);
-        process.exit(1);
+        if (err) {
+            console.error(err);
+            process.exit(1);
+        }
     });
 }
 
