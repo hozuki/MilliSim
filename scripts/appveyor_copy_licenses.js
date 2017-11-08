@@ -29,6 +29,7 @@ for (const from in mapping) {
     const dir = path.dirname(to);
     fs.mkdirsSync(dir);
     fs.copySync(from, to);
+    ++i;
 }
 
 /**
