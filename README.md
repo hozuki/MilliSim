@@ -74,12 +74,18 @@ git clone https://github.com/hozuki/MilliSim.git
 
 **Step 2**: Prepare dependencies: 
 
+On Windows:
+
+```cmd
+cd MilliSim
+init
 ```
-cd MillSim
-git submodule update --init --recursive
-npm install
-nuget update -self
-node scripts/nuget_restore.js
+
+On macOS and Linux:
+
+```bash
+cd MilliSim
+./init.sh
 ```
 
 **Step 3**: Build the solution:
