@@ -29,7 +29,7 @@ namespace OpenMLTD.MilliSim.Foundation.Extensions {
                 var c = q.Dequeue();
 
                 if (c.Components.Count == 0) {
-                    result = default;
+                    result = default(T);
                     return false;
                 }
 
@@ -44,7 +44,7 @@ namespace OpenMLTD.MilliSim.Foundation.Extensions {
                 }
             }
 
-            result = default;
+            result = default(T);
             return false;
         }
 

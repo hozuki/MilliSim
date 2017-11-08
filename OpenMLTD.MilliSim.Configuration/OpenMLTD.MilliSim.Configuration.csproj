@@ -20,7 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Glob, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -54,7 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationStore.cs" />
-    <Compile Include="ConfigurationStoreOld.cs" />
     <Compile Include="DuplicateKeyException.cs" />
     <Compile Include="Entities\ConfigBase.cs" />
     <Compile Include="Entities\ConfigMetadata.cs" />
