@@ -56,8 +56,9 @@
     <Compile Include="ComponentCollection.Enumerator.cs" />
     <Compile Include="ComponentCollection.Operation.cs" />
     <Compile Include="ComponentCollection.PendingEntry.cs" />
+    <Compile Include="ComponentFactory.cs" />
     <Compile Include="ComponentGroup.cs" />
-    <Compile Include="Extensions\ContainerElementExtensions.cs" />
+    <Compile Include="Extensions\ContainerComponentExtensions.cs" />
     <Compile Include="Extensions\UpdatableExtensions.cs" />
     <Compile Include="GameBase.cs" />
     <Compile Include="GameWindow.cs">
@@ -65,6 +66,7 @@
     </Compile>
     <Compile Include="IComponentContainer.cs" />
     <Compile Include="IComponent.cs" />
+    <Compile Include="IComponentFactory.cs" />
     <Compile Include="IUpdateable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RendererBase.cs" />
@@ -73,6 +75,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Configuration\OpenMLTD.MilliSim.Configuration.csproj">
+      <Project>{88441b2f-84a8-47bc-9067-8ab9f616e7d6}</Project>
+      <Name>OpenMLTD.MilliSim.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Core\OpenMLTD.MilliSim.Core.csproj">
       <Project>{6847b3bf-8a0b-4433-a4d5-8de9961eb1f8}</Project>
       <Name>OpenMLTD.MilliSim.Core</Name>

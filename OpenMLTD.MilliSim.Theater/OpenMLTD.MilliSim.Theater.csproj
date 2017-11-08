@@ -105,65 +105,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationHelper.cs" />
-    <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="Configuration\AnimationClass.cs" />
-    <Compile Include="Configuration\GameClass.cs" />
-    <Compile Include="Configuration\ImagesClass.cs" />
-    <Compile Include="Configuration\LocalStringsClass.cs" />
-    <Compile Include="Configuration\MediaClass.cs" />
-    <Compile Include="Configuration\MetadataClass.cs" />
-    <Compile Include="Configuration\Primitives\ImageStrip.cs" />
-    <Compile Include="Configuration\Primitives\ImageWithBlankEdge.cs" />
-    <Compile Include="Configuration\Primitives\LayoutValue2D.cs" />
-    <Compile Include="Configuration\Primitives\NoteSfxGroup.cs" />
-    <Compile Include="Configuration\Primitives\SimpleRectangleF.cs" />
-    <Compile Include="Configuration\Primitives\SlideMotionIcon.cs" />
-    <Compile Include="Configuration\Primitives\SlideMotionPosition.cs" />
-    <Compile Include="Configuration\Primitives\UIElementConfig.cs" />
-    <Compile Include="Configuration\ScalingClass.cs" />
-    <Compile Include="Configuration\SfxClass.cs" />
-    <Compile Include="Configuration\StyleClass.cs" />
-    <Compile Include="Configuration\SystemUIClass.cs" />
-    <Compile Include="Configuration\UIClass.cs" />
-    <Compile Include="Configuration\Yaml\ColorConverter.cs" />
-    <Compile Include="Configuration\Yaml\PointFConverter.cs" />
-    <Compile Include="Configuration\Yaml\SizeFConverter.cs" />
-    <Compile Include="Elements\Logical\AudioController.cs" />
-    <Compile Include="Elements\Visual\Background\BackgroundBase.cs" />
-    <Compile Include="Elements\Visual\Background\BackgroundImage.cs" />
-    <Compile Include="Elements\Visual\Background\BackgroundVideo.cs" />
-    <Compile Include="Elements\Logical\NoteReactor.cs" />
-    <Compile Include="Elements\Visual\CuteIdol.cs" />
-    <Compile Include="Elements\Visual\Overlays\HitRankAnimation.cs" />
-    <Compile Include="Elements\Visual\Gaming\SlideMotion.cs" />
-    <Compile Include="Elements\Visual\Overlays\AvatarDisplay.cs" />
-    <Compile Include="Elements\Visual\Overlays\Combo\ComboAura.cs" />
-    <Compile Include="Elements\Visual\Overlays\Combo\ComboDisplay.cs" />
-    <Compile Include="Elements\Visual\Overlays\Combo\ComboNumbers.cs" />
-    <Compile Include="Elements\Visual\Overlays\Combo\ComboText.cs" />
-    <Compile Include="Elements\Visual\Overlays\SongTitle.cs" />
-    <Compile Include="Elements\Visual\Overlays\SyncTimerOverlay.cs" />
-    <Compile Include="Elements\Visual\Gaming\TapPointsMergingAnimation.cs" />
-    <Compile Include="Extensions\RenderContextExtensions.Direct3D.cs" />
-    <Compile Include="Extensions\SfxManagerExtensions.cs" />
-    <Compile Include="Elements\Logical\ScoreLoader.cs" />
-    <Compile Include="Elements\Visual\Overlays\DebugOverlay.cs" />
-    <Compile Include="Elements\Visual\Overlays\FpsOverlay.cs" />
-    <Compile Include="Elements\Visual\Overlays\HelpOverlay.cs" />
-    <Compile Include="Configuration\Primitives\PercentOrRealValue.cs" />
-    <Compile Include="Configuration\Yaml\PercentOrRealValueConverter.cs" />
-    <Compile Include="Elements\Visual\MiniCube.cs" />
-    <Compile Include="Elements\Visual\Gaming\NotesLayer.cs" />
-    <Compile Include="Elements\Visual\Gaming\RibbonsLayer.cs" />
-    <Compile Include="Elements\Logical\SyncTimer.cs" />
-    <Compile Include="Elements\Visual\Gaming\TapPoints.cs" />
-    <Compile Include="Elements\Visual\Overlays\OutlinedTextOverlay.cs" />
-    <Compile Include="Elements\Visual\Gaming\GamingArea.cs" />
-    <Compile Include="Elements\Visual\Overlays\TextOverlay.cs" />
-    <Compile Include="Elements\Visual\Overlays\TextOverlayBase.cs" />
-    <Compile Include="Elements\Logical\TimerSyncTarget.cs" />
-    <Compile Include="Elements\Visual\Background\VideoStateChangedEventArgs.cs" />
-    <Compile Include="Extensions\TheaterDaysExtensions.cs" />
+    <Compile Include="Configuration\MainAppConfig.cs" />
+    <Compile Include="Configuration\PluginsLoadingMode.cs" />
     <Compile Include="Forms\AboutWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -171,33 +114,26 @@
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalDebug.cs" />
-    <Compile Include="Internal\ComponentFactory.cs" />
-    <Compile Include="Internal\RibbonMesh.cs" />
     <Compile Include="Interop\NativeConstants.cs" />
     <Compile Include="Interop\NativeMethods.cs" />
     <Compile Include="Interop\NativeStructures.cs" />
-    <Compile Include="Internal\RibbonMeshCreateParams.cs" />
-    <Compile Include="PluginManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="res\fx\minicube.fx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Content Include="res\ex\chara_strip.png" />
-    <Content Include="res\fx\minicube.fx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Compile Include="TheaterDays.cs" />
     <Compile Include="Forms\TheaterView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Configuration\Primitives\WindowOrientation.cs" />
     <Compile Include="Forms\TheaterView.EventHandlers.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Configuration\WindowClass.cs" />
     <Content Include="res\images\avatars\1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -313,6 +249,18 @@
       <Project>{DAE9137C-8EE9-4E6F-B02C-E47916965027}</Project>
       <Name>OpenMLTD.MilliSim.Audio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Configuration.Converters\OpenMLTD.MilliSim.Configuration.Converters.csproj">
+      <Project>{8ddacd93-a485-4eba-abf5-15c9ab0157ac}</Project>
+      <Name>OpenMLTD.MilliSim.Configuration.Converters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Configuration.Primitives\OpenMLTD.MilliSim.Configuration.Primitives.csproj">
+      <Project>{d6935c49-5d4b-4301-ad5f-bfd651fa241a}</Project>
+      <Name>OpenMLTD.MilliSim.Configuration.Primitives</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Configuration\OpenMLTD.MilliSim.Configuration.csproj">
+      <Project>{88441b2f-84a8-47bc-9067-8ab9f616e7d6}</Project>
+      <Name>OpenMLTD.MilliSim.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Core.Entities\OpenMLTD.MilliSim.Core.Entities.csproj">
       <Project>{78c104e2-b11b-4574-974a-0248c2323286}</Project>
       <Name>OpenMLTD.MilliSim.Core.Entities</Name>
@@ -321,13 +269,25 @@
       <Project>{6847b3bf-8a0b-4433-a4d5-8de9961eb1f8}</Project>
       <Name>OpenMLTD.MilliSim.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Animation.StandardAnimations\OpenMLTD.MilliSim.Extension.Animation.StandardAnimations.csproj">
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.TraceCalculators.StandardTraceCalculators\OpenMLTD.MilliSim.Extension.TraceCalculators.StandardTraceCalculators.csproj">
       <Project>{a2211c66-972c-4fc5-ad53-70c5b901a361}</Project>
-      <Name>OpenMLTD.MilliSim.Extension.Animation.StandardAnimations</Name>
+      <Name>OpenMLTD.MilliSim.Extension.TraceCalculators.StandardTraceCalculators</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats\OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats.csproj">
       <Project>{001c2077-8f69-4318-9096-a52c215b4c44}</Project>
       <Name>OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Components.CoreComponents\OpenMLTD.MilliSim.Extension.Components.CoreComponents.csproj">
+      <Project>{16575a6d-f4a1-4910-a112-db1d62ef6342}</Project>
+      <Name>OpenMLTD.MilliSim.Extension.Components.CoreComponents</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Components.ExtraComponents\OpenMLTD.MilliSim.Extension.Components.ExtraComponents.csproj">
+      <Project>{358e00ca-caf9-42ae-ae0d-2af1f8913431}</Project>
+      <Name>OpenMLTD.MilliSim.Extension.Components.ExtraComponents</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Components.ScoreComponents\OpenMLTD.MilliSim.Extension.Components.ScoreComponents.csproj">
+      <Project>{b33715b5-4ea1-4088-8e9a-b6dc033d2dce}</Project>
+      <Name>OpenMLTD.MilliSim.Extension.Components.ScoreComponents</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd\OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd.csproj">
       <Project>{22aeef23-15ff-4b6c-941d-550c63f50329}</Project>
@@ -336,6 +296,10 @@
     <ProjectReference Include="..\OpenMLTD.MilliSim.Foundation\OpenMLTD.MilliSim.Foundation.csproj">
       <Project>{BF644701-DFD5-49B6-90E8-A54C1BB331AE}</Project>
       <Name>OpenMLTD.MilliSim.Foundation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.GameAbstraction\OpenMLTD.MilliSim.GameAbstraction.csproj">
+      <Project>{87a7a077-2d1b-46e4-ab54-add8f2d470e0}</Project>
+      <Name>OpenMLTD.MilliSim.GameAbstraction</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Graphics\OpenMLTD.MilliSim.Graphics.csproj">
       <Project>{8cdfb26b-8d82-4d66-a850-0a1686c29e28}</Project>

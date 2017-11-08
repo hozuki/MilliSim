@@ -1,0 +1,10 @@
+## @include audio_manager/*.yml
+metadata:
+  type: OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration.DebugOverlayConfig
+  assembly_file: OpenMLTD.MilliSim.Extension.Components.CoreComponents.dll
+  for: component.core.debug_overlay
+  version: 1 # format version
+data:
+  visible: yes
+  font_size: 15
+  text_fill: '#ffff00'

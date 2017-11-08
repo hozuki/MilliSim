@@ -23,7 +23,7 @@ using OpenMLTD.MilliSim.Core;
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
 [assembly: Guid("bd5e432c-9837-4dd8-a644-5709cd0705f1")]
 
-// 程序集的版本信息由下列四个值组成: 
+// 程序集的版本信息由下列四个值组成:
 //
 //      主版本
 //      次版本
@@ -37,6 +37,7 @@ using OpenMLTD.MilliSim.Core;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: InternalsVisibleTo("OpenMLTD.MilliSim.Theater")]
+[assembly: InternalsVisibleTo("OpenMLTD.MilliSim.Extension.Components.ScoreComponents")]
 
 [assembly: MilliSimCodeName(null)]
 [assembly: AssemblyBuildTime(null)]

@@ -1,0 +1,10 @@
+## @include audio_manager/*.yml
+metadata:
+  type: OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration.SyncTimerOverlayConfig
+  assembly_file: OpenMLTD.MilliSim.Extension.Components.CoreComponents.dll
+  for: component.core.sync_timer_overlay
+  version: 1 # format version
+data:
+  visible: yes
+  font_size: 10
+  text_fill: '#ffffff'

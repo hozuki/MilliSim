@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using JetBrains.Annotations;
+using OpenMLTD.MilliSim.GameAbstraction;
 using OpenMLTD.MilliSim.Theater.Interop;
 
 namespace OpenMLTD.MilliSim.Theater.Forms {
     public partial class AboutWindow : Form {
 
-        public AboutWindow() {
+        public AboutWindow([NotNull] TheaterDaysBase theaterDays) {
+            _theaterDays = theaterDays;
             InitializeComponent();
             RegisterEventHandlers();
         }
@@ -46,7 +49,8 @@ namespace OpenMLTD.MilliSim.Theater.Forms {
             lv.ShowGroups = true;
 
             var categories = new Dictionary<string, ListViewGroup>();
-            foreach (var plugin in Program.PluginManager.LoadedPlugins) {
+            var theaterDays = _theaterDays;
+            foreach (var plugin in theaterDays.PluginManager.LoadedPlugins) {
                 ListViewGroup cat;
                 if (categories.ContainsKey(plugin.PluginCategory)) {
                     cat = categories[plugin.PluginCategory];
@@ -81,6 +85,8 @@ namespace OpenMLTD.MilliSim.Theater.Forms {
                 }
             }
         }
+
+        private readonly TheaterDaysBase _theaterDays;
 
     }
 }

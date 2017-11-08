@@ -104,7 +104,7 @@ namespace OpenMLTD.MilliSim.Graphics {
             context = new RenderContext(this, new Size(_swapChainDescription.ModeDescription.Width, _swapChainDescription.ModeDescription.Height));
             _renderContext = context;
 
-            root.OnLayout();
+            root.OnLayout(context.ClientSize);
 
             root.OnGotContext(context);
 

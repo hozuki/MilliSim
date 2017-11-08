@@ -1,0 +1,7 @@
+metadata:
+  type: OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration.BackgroundImageConfig
+  assembly_file: OpenMLTD.MilliSim.Extension.Components.CoreComponents.dll
+  for: component.core.background_image
+  version: 1 # format version
+data:
+  bgi:

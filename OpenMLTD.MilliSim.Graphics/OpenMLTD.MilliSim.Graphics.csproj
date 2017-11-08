@@ -185,6 +185,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Configuration\OpenMLTD.MilliSim.Configuration.csproj">
+      <Project>{88441b2f-84a8-47bc-9067-8ab9f616e7d6}</Project>
+      <Name>OpenMLTD.MilliSim.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Core\OpenMLTD.MilliSim.Core.csproj">
       <Project>{6847b3bf-8a0b-4433-a4d5-8de9961eb1f8}</Project>
       <Name>OpenMLTD.MilliSim.Core</Name>

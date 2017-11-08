@@ -1,3 +1,4 @@
+using System.Drawing;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
@@ -19,22 +20,23 @@ namespace OpenMLTD.MilliSim.Graphics {
         public virtual bool Visible { get; set; } = true;
 
         public void PerformLayout() {
-            OnLayout();
+            var clientSize = Game.Window.ClientSize;
+            OnLayout(clientSize);
         }
 
-        protected virtual void OnDraw(GameTime gameTime, RenderContext context) {
+        protected virtual void OnDraw([NotNull] GameTime gameTime, [NotNull] RenderContext context) {
         }
 
-        protected virtual void OnGotContext(RenderContext context) {
+        protected virtual void OnGotContext([NotNull] RenderContext context) {
         }
 
-        protected virtual void OnLostContext(RenderContext context) {
+        protected virtual void OnLostContext([NotNull] RenderContext context) {
         }
 
-        protected virtual void OnStageReady(RenderContext context) {
+        protected virtual void OnStageReady([NotNull] RenderContext context) {
         }
 
-        protected virtual void OnLayout() {
+        protected virtual void OnLayout(Size clientSize) {
         }
 
         void IDrawable.OnGotContext(RenderContext context) {
@@ -49,8 +51,8 @@ namespace OpenMLTD.MilliSim.Graphics {
             OnStageReady(context);
         }
 
-        void IDrawable.OnLayout() {
-            OnLayout();
+        void IDrawable.OnLayout(Size clientSize) {
+            OnLayout(clientSize);
         }
 
     }

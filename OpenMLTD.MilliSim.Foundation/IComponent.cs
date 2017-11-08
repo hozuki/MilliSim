@@ -1,4 +1,5 @@
 using System;
+using OpenMLTD.MilliSim.Configuration;
 
 namespace OpenMLTD.MilliSim.Foundation {
     public interface IComponent : IDisposable, IUpdateable {
@@ -12,6 +13,8 @@ namespace OpenMLTD.MilliSim.Foundation {
         GameBase Game { get; }
 
         IComponentContainer Parent { get; set; }
+
+        ConfigurationStore ConfigurationStore { get; }
 
     }
 }

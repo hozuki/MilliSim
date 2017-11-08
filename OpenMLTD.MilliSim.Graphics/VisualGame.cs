@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
 
@@ -18,7 +17,7 @@ namespace OpenMLTD.MilliSim.Graphics {
         }
 
         protected sealed override IComponentContainer CreateRootElement() {
-            return new Stage(this);
+            return new Stage(this, ConfigurationStore);
         }
 
         protected override void Dispose(bool disposing) {

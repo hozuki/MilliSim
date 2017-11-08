@@ -1,11 +1,11 @@
 using System;
-using System.Composition;
 using JetBrains.Annotations;
 using NAudio.Wave;
 using OpenMLTD.MilliSim.Audio.Extending;
+using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats.Wave {
-    [Export(typeof(IAudioFormat))]
+    [MilliSimPlugin(typeof(IAudioFormat))]
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]
     public sealed class WaveAudioFormat : AudioFormat {
 

@@ -1,3 +1,4 @@
+using System.Drawing;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
@@ -61,10 +62,10 @@ namespace OpenMLTD.MilliSim.Graphics.Drawing {
             }
         }
 
-        protected override void OnLayout() {
-            base.OnLayout();
+        protected override void OnLayout(Size clientSize) {
+            base.OnLayout(clientSize);
             foreach (var component in Components) {
-                (component as IDrawable)?.OnLayout();
+                (component as IDrawable)?.OnLayout(clientSize);
             }
         }
 

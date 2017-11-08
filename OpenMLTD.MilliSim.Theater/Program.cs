@@ -1,21 +1,18 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
-using OpenMLTD.MilliSim.Theater.Configuration.Yaml;
+using OpenMLTD.MilliSim.GameAbstraction;
+using OpenMLTD.MilliSim.Theater.Configuration;
 using OpenMLTD.MilliSim.Theater.Forms;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 namespace OpenMLTD.MilliSim.Theater {
     internal static class Program {
 
-        internal static ApplicationSettings Settings { get; private set; }
-
-        internal static PluginManager PluginManager { get; private set; }
-
         [STAThread]
         private static void Main(string[] args) {
+#if !DEBUG
             try {
+#endif
                 Application.EnableVisualStyles();
 
                 if (!File.Exists(ConfigFilePath)) {
@@ -23,39 +20,45 @@ namespace OpenMLTD.MilliSim.Theater {
                     return;
                 }
 
-                var b = new DeserializerBuilder()
-                    .WithNamingConvention(new UnderscoredNamingConvention())
-                    .IgnoreUnmatchedProperties()
-                    .WithTypeConverter(new PercentOrRealValueConverter())
-                    .WithTypeConverter(new ColorConverter())
-                    .WithTypeConverter(new SizeFConverter())
-                    .WithTypeConverter(new PointFConverter());
-                var s = b.Build();
-
-                using (var fileStream = File.Open(ConfigFilePath, FileMode.Open, FileAccess.Read, FileShare.Read)) {
-                    using (var reader = new StreamReader(fileStream)) {
-                        var settings = s.Deserialize<ApplicationSettings>(reader);
-                        Settings = settings;
-                    }
-                }
-
                 var extensionPaths = new[] {
                     Environment.CurrentDirectory,
                     Path.Combine(Environment.CurrentDirectory, "plugins")
                 };
-                PluginManager = new PluginManager(extensionPaths);
 
                 using (var theaterDays = new TheaterDays()) {
+                    theaterDays.LoadConfigurations();
+
+                    var pluginsConfig = theaterDays.ConfigurationStore.Get<MainAppConfig>();
+                    var pluginManager = new PluginManager();
+                    theaterDays.PluginManager = pluginManager;
+
+                    var loadingMode = pluginsConfig.Data.Plugins.Loading.Mode;
+                    string[] pluginList;
+                    switch (loadingMode) {
+                        case PluginsLoadingMode.Default:
+                            pluginList = null;
+                            break;
+                        case PluginsLoadingMode.BlackList:
+                            pluginList = pluginsConfig.Data.Plugins.Loading.Lists.BlackList;
+                            break;
+                        case PluginsLoadingMode.WhiteList:
+                            pluginList = pluginsConfig.Data.Plugins.Loading.Lists.WhiteList;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    pluginManager.LoadAssemblies((PluginSearchingMode)loadingMode, pluginList, extensionPaths);
+
                     theaterDays.Run<TheaterView>(args);
                 }
-
-                PluginManager.Dispose();
+#if !DEBUG
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message + Environment.NewLine + ex.StackTrace, null, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+#endif
         }
 
-        private static readonly string ConfigFilePath = "appconfig.yml";
+        internal static readonly string ConfigFilePath = "appconfig.yml";
 
     }
 }

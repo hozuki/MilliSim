@@ -1,0 +1,23 @@
+metadata:
+  type: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration.SongTitleConfig
+  assembly_file: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.dll
+  for: component.score.song_title
+  version: 1 # format version
+data:
+  layout:
+    x: 4.5% # x position (anchor: left)
+    y: 17% # y position (anchor: top)
+  font_file: res/fonts/MSYH.TTC
+  font_size: 18
+  text_stroke_width: 5
+  animation:
+    appear:
+      enter: 8.5
+      fade_in: 0.8
+      hold: 10
+      fade_out: 0.8
+    reappear:
+      enter: 130.5
+      fade_in: 0.4
+      hold: 2
+      fade_out: 0.4

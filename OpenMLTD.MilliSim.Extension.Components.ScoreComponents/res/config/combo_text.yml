@@ -1,0 +1,11 @@
+metadata:
+  type: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration.ComboTextConfig
+  assembly_file: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.dll
+  for: component.score.combo_text
+  version: 1 # format version
+data:
+  image:
+    file: res/images/ui/combo_text.png # 296x48
+  layout:
+    x: 77% # x position (anchor: left)
+    y: 17% # y position (anchor: top)

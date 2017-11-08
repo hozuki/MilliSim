@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Composition;
 using System.Linq;
 using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Entities.Extending;
 
 namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd {
-    [Export(typeof(IScoreFormat))]
+    [MilliSimPlugin(typeof(IScoreFormat))]
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]
     public sealed class Unity3DScoreFormat : ScoreFormat {
 
@@ -53,7 +53,7 @@ namespace OpenMLTD.MilliSim.Extension.Scores.StandardScoreFormats.Mltd {
 
         public override string FormatDescription => "MLTD Unity3D Score File";
 
-        internal static string[] Unity3DReadExtensions = { ".unity3d", ".unity3d.lz4" };
+        internal static string[] Unity3DReadExtensions = {".unity3d", ".unity3d.lz4"};
 
         internal static string[] Unity3DWriteExtensions = new string[0];
 

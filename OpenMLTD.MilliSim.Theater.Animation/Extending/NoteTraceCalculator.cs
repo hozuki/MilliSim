@@ -19,7 +19,7 @@ namespace OpenMLTD.MilliSim.Theater.Animation.Extending {
 
         public abstract Version PluginVersion { get; }
 
-        public string PluginCategory => "Animation";
+        public string PluginCategory => "Trace Calculator";
 
         public abstract SizeF GetNoteRadius(RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 

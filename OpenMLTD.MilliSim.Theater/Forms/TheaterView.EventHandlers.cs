@@ -2,13 +2,15 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using OpenMLTD.MilliSim.Extension.Components.CoreComponents;
+using OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration;
+using OpenMLTD.MilliSim.Extension.Components.ExtraComponents;
+using OpenMLTD.MilliSim.Extension.Components.ScoreComponents;
+using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration;
+using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming;
+using OpenMLTD.MilliSim.GameAbstraction.Extensions;
 using OpenMLTD.MilliSim.Graphics.Extensions;
-using OpenMLTD.MilliSim.Theater.Elements.Logical;
-using OpenMLTD.MilliSim.Theater.Elements.Visual;
-using OpenMLTD.MilliSim.Theater.Elements.Visual.Background;
-using OpenMLTD.MilliSim.Theater.Elements.Visual.Gaming;
-using OpenMLTD.MilliSim.Theater.Elements.Visual.Overlays;
-using OpenMLTD.MilliSim.Theater.Extensions;
+using OpenMLTD.MilliSim.Theater.Configuration;
 using OpenMLTD.MilliSim.Theater.Properties;
 using SharpDX.MediaFoundation;
 
@@ -16,18 +18,19 @@ namespace OpenMLTD.MilliSim.Theater.Forms {
     partial class TheaterView {
 
         private void TheaterStage_Load(object sender, EventArgs e) {
-            var settings = Program.Settings;
+            var theaterDays = Game.AsTheaterDays();
 
-            Text = string.Format(TitleTemplate, ApplicationHelper.GetCodeName(), settings.Game.Title);
+            var scoreLoaderConfig = theaterDays.ConfigurationStore.Get<ScoreLoaderConfig>();
+            var mainAppConfig = theaterDays.ConfigurationStore.Get<MainAppConfig>();
+
+            Text = string.Format(TitleTemplate, ApplicationHelper.GetCodeName(), scoreLoaderConfig.Data.Title);
 
             Icon = Resources.MLTD_Icon;
 
-            ClientSize = new Size(settings.Window.Width, settings.Window.Height);
+            ClientSize = new Size(mainAppConfig.Data.Window.Width, mainAppConfig.Data.Window.Height);
             CenterToScreen();
 
             // Register element events.
-            var theaterDays = Game.AsTheaterDays();
-
             var video = theaterDays.FindSingleElement<BackgroundVideo>();
             if (video != null) {
                 video.VideoStateChanged += Video_VideoStateChanged;
@@ -35,8 +38,8 @@ namespace OpenMLTD.MilliSim.Theater.Forms {
         }
 
         private void TheaterStage_StageReady(object sender, EventArgs e) {
-            var settings = Program.Settings;
             var theaterDays = Game.AsTheaterDays();
+            var store = theaterDays.ConfigurationStore;
 
             var scoreLoader = theaterDays.FindSingleElement<ScoreLoader>();
             if (scoreLoader == null) {
@@ -55,7 +58,8 @@ namespace OpenMLTD.MilliSim.Theater.Forms {
 
             var audioController = theaterDays.FindSingleElement<AudioController>();
             if (audioController?.Music != null) {
-                var musicFileName = Path.GetFileName(settings.Media.BackgroundMusic);
+                var audioControllerConfig = store.Get<AudioControllerConfig>();
+                var musicFileName = Path.GetFileName(audioControllerConfig.Data.BackgroundMusic);
                 if (debugOverlay != null) {
                     debugOverlay.AddLine($"Background music: {musicFileName}");
                 }
@@ -63,13 +67,14 @@ namespace OpenMLTD.MilliSim.Theater.Forms {
 
             var video = theaterDays.FindSingleElement<BackgroundVideo>();
             if (video != null) {
-                var animFileName = Path.GetFileName(settings.Media.BackgroundAnimation);
+                var backgroundVideoConfig = store.Get<BackgroundVideoConfig>();
+                var animFileName = Path.GetFileName(backgroundVideoConfig.Data.BackgroundVideo);
                 if (debugOverlay != null) {
                     debugOverlay.AddLine($"Background animation: {animFileName}");
                 }
 
                 theaterDays.Invoke(() => {
-                    video.OpenFile(settings.Media.BackgroundAnimation);
+                    video.OpenFile(backgroundVideoConfig.Data.BackgroundVideo);
                     if (!video.CanPlay) {
                         if (debugOverlay != null) {
                             debugOverlay.AddLine($"ERROR: Unable to play <{animFileName}>. File type is not supported.");
@@ -91,7 +96,8 @@ namespace OpenMLTD.MilliSim.Theater.Forms {
 
             var image = theaterDays.FindSingleElement<BackgroundImage>();
             if (image != null) {
-                image.Load(settings.Media.BackgroundImage);
+                var backgroundImageConfig = store.Get<BackgroundImageConfig>();
+                image.Load(backgroundImageConfig.Data.BackgroundImage);
             }
         }
 
@@ -267,7 +273,7 @@ namespace OpenMLTD.MilliSim.Theater.Forms {
                     break;
 #endif
                 case Keys.F1:
-                    using (var form = new AboutWindow()) {
+                    using (var form = new AboutWindow(theaterDays)) {
                         form.ShowDialog(this);
                     }
                     break;
@@ -294,6 +300,7 @@ namespace OpenMLTD.MilliSim.Theater.Forms {
         }
 
         private int _easterEggIndex;
+
         private static readonly Keys[] EasterEggKeyStrokes = {
             Keys.M, Keys.I, Keys.L, Keys.L, Keys.I, Keys.O, Keys.N, Keys.L, Keys.I, Keys.V, Keys.E,
             Keys.D7, Keys.D6, Keys.D5, Keys.P, Keys.R, Keys.O

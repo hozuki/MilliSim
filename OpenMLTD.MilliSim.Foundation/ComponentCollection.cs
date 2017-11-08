@@ -35,7 +35,9 @@ namespace OpenMLTD.MilliSim.Foundation {
                 };
                 _pendingQueue.Enqueue(entry);
             } else {
-                _components.Add(item);
+                if (!_components.Contains(item)) {
+                    _components.Add(item);
+                }
             }
         }
 
@@ -91,7 +93,16 @@ namespace OpenMLTD.MilliSim.Foundation {
                 };
                 _pendingQueue.Enqueue(entry);
             } else {
-                _components.Insert(index, item);
+                var lastIndex = _components.IndexOf(item);
+                if (lastIndex < 0) {
+                    _components.Insert(index, item);
+                } else {
+                    if (lastIndex < index) {
+                        --index;
+                    }
+                    _components.RemoveAt(lastIndex);
+                    _components.Insert(index, item);
+                }
             }
         }
 
@@ -136,11 +147,25 @@ namespace OpenMLTD.MilliSim.Foundation {
                 var entry = q.Dequeue();
                 switch (entry.Operation) {
                     case Operation.Add:
-                        c.Add(entry.Item);
+                        if (!c.Contains(entry.Item)) {
+                            c.Add(entry.Item);
+                        }
                         break;
-                    case Operation.Insert:
-                        c.Insert(entry.Index, entry.Item);
-                        break;
+                    case Operation.Insert: {
+                            var index = entry.Index;
+                            var item = entry.Item;
+                            var lastIndex = c.IndexOf(item);
+                            if (lastIndex < 0) {
+                                c.Insert(index, item);
+                            } else {
+                                if (lastIndex < index) {
+                                    --index;
+                                }
+                                c.RemoveAt(lastIndex);
+                                c.Insert(index, item);
+                            }
+                            break;
+                        }
                     case Operation.Remove:
                         c.Remove(entry.Item);
                         break;

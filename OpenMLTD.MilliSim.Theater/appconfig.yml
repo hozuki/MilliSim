@@ -1,276 +1,45 @@
+# @include <res/config/**/*.yml>
+
 # Notes:
 # 1. Please save this configuration file with UTF-8 encoding without BOM, codepage 65001.
 # 2. Numeric values in 'layout' section can appear in 2 forms, integer (interpreted as pixels)
 # or percentage (calculated based on window size).
 # 3. MilliSim uses BGM time as the standard time. If BGM is not loaded, uses BGA instead. If neither is loaded, uses game time.
-
 metadata:
+  type: OpenMLTD.MilliSim.Theater.Configuration.MainAppConfig
+  assembly_file: OpenMLTD.MilliSim.Theater.exe
+  for: "@main"
   version: 1 # format version
-game:
-  score_index: 4 # for MLTD: 0=2m, 1=2m+, 2=4m, 3=6m, 4=mm
-  title: "Shooting Stars"
-  scoreobj: game/scrobj_shtstr.unity3d # .unity3d (raw format from MLTD), .json
-  offset: 0 # score offset relative to standard time, in seconds
-media:
-  bgm: game/song3_shtstr_bgm.ogg # path to background music (BGM)
-  #bga: media/bga.mp4 # path to background animation (BGA), a video
-  #bga: F:\Independent Software\JiJiDown\Download\1.偶像大师MLTD手游Shooting Stars MM难度FC-1.1(Av13332401,P1).flv-muxed.mp4
-  #bga: F:\Independent Software\JiJiDown\Download\4.【ミリシタMLTD】偶像大师百万现场Theater Days初始曲目Million Mix难度谱面-4.Blue Symphony(Av11726668,P4).mp4
-  #bgi: D:\Pictures\912721fae6cd7b8930e4d2db0e2442a7d8330efa.jpg.png # path to background image (BGI)
-  # Note: if BGA and BGI are both set, BGA will be used.
-  bgm_volume: 100% # volume of BGM (0% - 100%)
-  bga_volume: 0% # volume of BGA (0% - 100%)
-  sfx_volume: 100% # volume of sound effects (0% - 100%)
-window:
-  orientation: landscape # "landscape" or "portrait"
-  width: 960 # width of the window's client area, in pixels
-  height: 540 # height of the window's client area, in pixels
-  fonts:
-    ui: res/fonts/MSYH.TTC
-    song_title: res/fonts/MSYH.TTC
-style:
-  trace_plugin: plugin.animation.mltd
-  sync_line: yes # true, yes, y, on, 1
-  flick_ribbon: no # false, no, n, off, 0
-  slide_middle_sync_line: no
-  slide_motion_icon: tap # none, tap, slide
-  slide_motion_position: below # above, below
-animation:
-  song_title:
-    enter: 8.5
-    fade_in: 0.8
-    hold: 10
-    fade_out: 0.8
-  song_title_reappear:
-    enter: 130.5
-    fade_in: 0.4
-    hold: 2
-    fade_out: 0.4
-system_ui:
-  debug_overlay:
-    use: yes # displays debug info overlay
-    font_size: 15
-    text_fill: '#ffff00'
-    # text_stroke: # (ignored)
-  fps_overlay:
-    use: yes # displays FPS overlay
-    font_size: 15
-    text_fill: '#ffff'
-  timer_overlay:
-    use: yes # displays timer overlay
-    font_size: 10
-    text_fill: '#ffffff'
-images:
-  tap_point:
-    file: res/images/ui/tap_point.png # 128x128
-    blank_edge:
-      left: 14
-      top: 14
-      right: 14
-      bottom: 14
-  tap_bar_chain:
-    file: res/images/ui/tap_bar_chain.png # 32x32
-  tap_bar_node:
-    file: res/images/ui/tap_bar_node.png # 74x74
-  hp_gauge:
-    base:
-      file: res/images/ui/hp_gauge_base.png
-    progress:
-      file: res/images/ui/hp_gauge_progress.png
-  avatars:
-    - file: res/images/avatars/1.png
-    - file: res/images/avatars/2.png
-    - file: res/images/avatars/3.png
-    - file: res/images/avatars/4.png
-    - file: res/images/avatars/5.png
-  score_rank:
-    base:
-      file: res/images/ui/score_rank.png
-    icons:
-      file: res/images/ui/score_rank_icons.png
-  combo:
-    text:
-      file: res/images/ui/combo_text.png # 296x48
-    aura:
-      file: res/images/ui/combo_aura.png # 336x168
-    numbers:
-      file: res/images/numbers/combo.png # 0-9, 48x48 each
-      count: 10
-      orientation: horizontal
-      blank_edge:
-        left: 6
-        right: 6
-  full_combo:
-    file: res/images/ui/full_combo.png
-    count: 10
-  live_clear:
-    file: res/images/ui/live_clear.png
-    count: 10
-  score_numbers:
-    file: res/images/numbers/score.png # 0-9
-  hit_rank:
-    file: res/images/ui/hit_rank.png # perfect, great, good, fast, slow, miss; left to right, each 256x64
-    count: 6
-    orientation: horizontal
-  notes: # notes: tap (small, large), hold (small, large), flick (left, up, right), slide (start, middle, end)
-    - file: res/images/notes/default.png # style=0 (default notes set), 160x160
-      count: 10
-      orientation: horizontal
-    #- file: res/images/notes/style1.png # style=1
-    #  count: 10
-    #- file: res/images/notes/style2.png # style=2
-    #  count: 10
-  special_note:
-    file: res/images/notes/special_note.png # 384x384
-  ribbon:
-    file: res/images/ui/ribbon.png # 128x128
-    blank_edge:
-      left: 18
-      top: 12
-      right: 18
-      bottom: 12
-  sync_line:
-    file: res/images/sync_line.png
-  difficulty_badges:
-    file: res/images/difficulty_badges.png
-    count: 6
-  special_note_aura:
-    file: res/images/ui/special_note_aura.png
-  special_note_socket:
-    file: res/images/ui/special_note_socket.png
-localization:
-  press_space_to_start: Press space key to play #スペースで再生
-scaling:
-  base: 960x540
-  tap_point:
-    start: 114x114
-    end: 140x140
-  tap_bar_chain: 4x4
-  tap_bar_node: 16x16
-  note:
-    start: 60x60
-    end: 120x120
-  special_note:
-    start: 200x200
-    end: 280x280
-  sync_line: 5x0
-  # used for scaling ribbon width
-  visual_note_small:
-    start: 40x40
-    end: 80x80
-  visual_note_large:
-    start: 50x50
-    end: 100x100
-  special_note_aura:
-    start: 100x100
-    end: 280x280
-  special_note_socket: 280x280
-  hit_rank: 180x45
-  avatar_border: 3x0
-  combo_aura: 240x120
-  combo_text: 222x36
-  combo_number: 48x48 # real image size, including blank edges
-ui:
-  tap_points:
-    layout:
-      x: 50% # x position (anchor: center)
-      y: 83% # y position (anchor: middle)
-      width: 61% # width (from center of left-most point, to center of right-most point)
-    opacity: 80%
-  hp_gauge:
-    layout:
-      x: 5% # x position (anchor: left)
-      y: 5% # y position (anchor: top)
-  avatars:
-    # will try to create N circles, where N is the length of avatar image entries
-    # empty or invalid (e.g. file missing) entries count, but they will not be drawn
-    # use this feature to create "empty" avatars
-    layout:
-      x: 0.8% # x position (anchor: left)
-      y: 6% # y position (anchor: top)
-      width: 25.5%
-      height: 8.5%
-  score_rank:
-    layout:
-      x: 80% # x position (anchor: left)
-      y: 10% # y position (anchor: top)
-  combo:
-    aura:
-      layout:
-        x: 73% # x position (anchor: left)
-        y: 7% # y position (anchor: top)
-    text:
-      layout:
-        x: 77% # x position (anchor: left)
-        y: 17% # y position (anchor: top)
-    numbers:
-      layout:
-        x: 89% # x position (anchor: right)
-        y: 22% # y position (anchor: bottom)
-  notes_layer:
-    layout:
-      y: 20% # (anchor: top)
-    opacity: 80%
-  ribbons_layer:
-    opacity: 100%
-  song_title:
-    layout:
-      x: 4.5% # x position (anchor: left)
-      y: 17% # y position (anchor: top)
-    font_size: 18
-    text_stroke_width: 5
-  hit_rank:
-    layout:
-      x: 50% # x position (anchor: center)
-      y: 68% # y position (anchor: middle)
-sfx: # sound effect files; format: 44100 Hz, 16-bit integer, 2 channels
-  tap:
-    perfect: res/sfx/rhy_tap.wav
-    great: res/sfx/app_great.wav
-    nice: res/sfx/app_good.wav
-    bad: res/sfx/app_fast.wav
-    miss: res/sfx/app_miss.wav
-  hold:
-    perfect: res/sfx/rhy_tap.wav
-    great: res/sfx/app_great.wav
-    nice: res/sfx/app_good.wav
-    bad: res/sfx/app_fast.wav
-    miss: res/sfx/app_miss.wav
-  flick:
-    perfect: res/sfx/app_flick.wav
-    great: res/sfx/app_great.wav
-    nice: res/sfx/app_good.wav
-    bad: res/sfx/app_fast.wav
-    miss: res/sfx/app_miss.wav
-  slide:
-    perfect: res/sfx/rhy_tap.wav
-    great: res/sfx/app_great.wav
-    nice: res/sfx/app_good.wav
-    bad: res/sfx/app_fast.wav
-    miss: res/sfx/app_miss.wav
-  slide_hold: res/sfx/app_hold_up.wav
-  hold_hold: res/sfx/app_hold.wav
-  slide_end:
-    perfect: res/sfx/app_hold_rub.wav
-    great: res/sfx/app_great.wav
-    nice: res/sfx/app_good.wav
-    bad: res/sfx/app_fast.wav
-    miss: res/sfx/app_miss.wav
-  hold_end:
-    perfect: res/sfx/app_hold_end.wav
-    great: res/sfx/app_great.wav
-    nice: res/sfx/app_good.wav
-    bad: res/sfx/app_fast.wav
-    miss: res/sfx/app_miss.wav
-  special:
-    perfect: res/sfx/app_special.wav
-    great: res/sfx/app_great.wav
-    nice: res/sfx/app_good.wav
-    bad: res/sfx/app_fast.wav
-    miss: res/sfx/app_miss.wav
-  special_end: res/sfx/app_special_end.wav
-  special_hold: res/sfx/app_special_loop.wav
-  shouts: # around 3 seconds
-    #- res/sfx/shout01.wav
-    #- res/sfx/shout02.wav
-    - res/sfx/shout03.wav
+data:
+  window:
+    width: 960 # width of the window's client area, in pixels
+    height: 540 # height of the window's client area, in pixels
+  plugins:
+    loading:
+      mode: default # default white_list, black_list
+      lists:
+        # ONLY plugins in white list will be loaded
+        white_list: [ ]
+        # All plugins in root and "plugins" directory EXCEPT those in black list will be loaded
+        black_list: [ ]
+          # file paths
+          # - xxx.dll
+    component_factories:
+      # the latter, the closer to the top
+      # core: base
+      - plugin.component_factory.sync_timer
+      - plugin.component_factory.audio_controller
+      # core: visual backgrounds
+      - plugin.component_factory.background_video
+      - plugin.component_factory.background_image
+      # score-related
+      - plugin.component_factory.mltd_stage
+      # ???
+      - plugin.component_factory.cute_idol
+      # overlays
+      - plugin.component_factory.help_overlay
+      - plugin.component_factory.fps_overlay
+      - plugin.component_factory.debug_overlay
+      - plugin.component_factory.sync_timer_overlay
+      # ...
+      #- plugin.component_factory.mini_cube

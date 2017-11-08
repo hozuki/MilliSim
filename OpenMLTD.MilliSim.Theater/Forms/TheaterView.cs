@@ -1,8 +1,8 @@
 using System.Windows.Forms;
 using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Extension.Components.CoreComponents;
 using OpenMLTD.MilliSim.Foundation;
-using OpenMLTD.MilliSim.Theater.Elements.Visual.Background;
-using OpenMLTD.MilliSim.Theater.Extensions;
+using OpenMLTD.MilliSim.GameAbstraction.Extensions;
 
 namespace OpenMLTD.MilliSim.Theater.Forms {
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]

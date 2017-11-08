@@ -1,6 +1,7 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Theater", "OpenMLTD.MilliSim.Theater\OpenMLTD.MilliSim.Theater.csproj", "{DACE584A-867F-4625-BAD3-C50CC480A0A0}"
 EndProject
@@ -53,7 +54,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLayer", "thirdparty\NLayer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Theater.Animation", "OpenMLTD.MilliSim.Theater.Animation\OpenMLTD.MilliSim.Theater.Animation.csproj", "{BD5E432C-9837-4DD8-A644-5709CD0705F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.Animation.StandardAnimations", "OpenMLTD.MilliSim.Extension.Animation.StandardAnimations\OpenMLTD.MilliSim.Extension.Animation.StandardAnimations.csproj", "{A2211C66-972C-4FC5-AD53-70C5B901A361}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.TraceCalculators.StandardTraceCalculators", "OpenMLTD.MilliSim.Extension.TraceCalculators.StandardTraceCalculators\OpenMLTD.MilliSim.Extension.TraceCalculators.StandardTraceCalculators.csproj", "{A2211C66-972C-4FC5-AD53-70C5B901A361}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats", "OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats\OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats.csproj", "{001C2077-8F69-4318-9096-A52C215B4C44}"
 EndProject
@@ -63,6 +64,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{8F98
 	ProjectSection(SolutionItems) = preProject
 		.github\PULL_REQUEST_TEMPLATE.md = .github\PULL_REQUEST_TEMPLATE.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Configuration", "OpenMLTD.MilliSim.Configuration\OpenMLTD.MilliSim.Configuration.csproj", "{88441B2F-84A8-47BC-9067-8AB9F616E7D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.GameAbstraction", "OpenMLTD.MilliSim.GameAbstraction\OpenMLTD.MilliSim.GameAbstraction.csproj", "{87A7A077-2D1B-46E4-AB54-ADD8F2D470E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Configuration.Primitives", "OpenMLTD.MilliSim.Configuration.Primitives\OpenMLTD.MilliSim.Configuration.Primitives.csproj", "{D6935C49-5D4B-4301-AD5F-BFD651FA241A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Configuration.Converters", "OpenMLTD.MilliSim.Configuration.Converters\OpenMLTD.MilliSim.Configuration.Converters.csproj", "{8DDACD93-A485-4EBA-ABF5-15C9AB0157AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.Components.CoreComponents", "OpenMLTD.MilliSim.Extension.Components.CoreComponents\OpenMLTD.MilliSim.Extension.Components.CoreComponents.csproj", "{16575A6D-F4A1-4910-A112-DB1D62EF6342}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.Components.ExtraComponents", "OpenMLTD.MilliSim.Extension.Components.ExtraComponents\OpenMLTD.MilliSim.Extension.Components.ExtraComponents.csproj", "{358E00CA-CAF9-42AE-AE0D-2AF1F8913431}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.Components.ScoreComponents", "OpenMLTD.MilliSim.Extension.Components.ScoreComponents\OpenMLTD.MilliSim.Extension.Components.ScoreComponents.csproj", "{B33715B5-4EA1-4088-8E9A-B6DC033D2DCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -146,6 +161,34 @@ Global
 		{22AEEF23-15FF-4B6C-941D-550C63F50329}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22AEEF23-15FF-4B6C-941D-550C63F50329}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22AEEF23-15FF-4B6C-941D-550C63F50329}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88441B2F-84A8-47BC-9067-8AB9F616E7D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88441B2F-84A8-47BC-9067-8AB9F616E7D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88441B2F-84A8-47BC-9067-8AB9F616E7D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88441B2F-84A8-47BC-9067-8AB9F616E7D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87A7A077-2D1B-46E4-AB54-ADD8F2D470E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87A7A077-2D1B-46E4-AB54-ADD8F2D470E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87A7A077-2D1B-46E4-AB54-ADD8F2D470E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87A7A077-2D1B-46E4-AB54-ADD8F2D470E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6935C49-5D4B-4301-AD5F-BFD651FA241A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6935C49-5D4B-4301-AD5F-BFD651FA241A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6935C49-5D4B-4301-AD5F-BFD651FA241A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6935C49-5D4B-4301-AD5F-BFD651FA241A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DDACD93-A485-4EBA-ABF5-15C9AB0157AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DDACD93-A485-4EBA-ABF5-15C9AB0157AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DDACD93-A485-4EBA-ABF5-15C9AB0157AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DDACD93-A485-4EBA-ABF5-15C9AB0157AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16575A6D-F4A1-4910-A112-DB1D62EF6342}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16575A6D-F4A1-4910-A112-DB1D62EF6342}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16575A6D-F4A1-4910-A112-DB1D62EF6342}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16575A6D-F4A1-4910-A112-DB1D62EF6342}.Release|Any CPU.Build.0 = Release|Any CPU
+		{358E00CA-CAF9-42AE-AE0D-2AF1F8913431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{358E00CA-CAF9-42AE-AE0D-2AF1F8913431}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{358E00CA-CAF9-42AE-AE0D-2AF1F8913431}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{358E00CA-CAF9-42AE-AE0D-2AF1F8913431}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B33715B5-4EA1-4088-8E9A-B6DC033D2DCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B33715B5-4EA1-4088-8E9A-B6DC033D2DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B33715B5-4EA1-4088-8E9A-B6DC033D2DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B33715B5-4EA1-4088-8E9A-B6DC033D2DCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -171,6 +214,13 @@ Global
 		{001C2077-8F69-4318-9096-A52C215B4C44} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 		{22AEEF23-15FF-4B6C-941D-550C63F50329} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 		{8F987577-EE01-4390-B8B2-3353F2ACEBB9} = {9D3D7DAF-5C06-4EDF-A6FA-7A22B9924F0D}
+		{88441B2F-84A8-47BC-9067-8AB9F616E7D6} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
+		{87A7A077-2D1B-46E4-AB54-ADD8F2D470E0} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
+		{D6935C49-5D4B-4301-AD5F-BFD651FA241A} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
+		{8DDACD93-A485-4EBA-ABF5-15C9AB0157AC} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
+		{16575A6D-F4A1-4910-A112-DB1D62EF6342} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
+		{358E00CA-CAF9-42AE-AE0D-2AF1F8913431} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
+		{B33715B5-4EA1-4088-8E9A-B6DC033D2DCE} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {27A82ED7-C1EE-4F03-B3AD-02534ACDB2B1}

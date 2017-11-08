@@ -1,0 +1,11 @@
+metadata:
+  type: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration.ComboAuraConfig
+  assembly_file: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.dll
+  for: component.score.combo_aura
+  version: 1 # format version
+data:
+  image:
+    file: res/images/ui/combo_aura.png # 336x168
+  layout:
+    x: 73% # x position (anchor: left)
+    y: 7% # y position (anchor: top)

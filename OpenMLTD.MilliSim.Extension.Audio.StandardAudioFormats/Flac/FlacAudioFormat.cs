@@ -1,12 +1,12 @@
 using System;
-using System.Composition;
 using JetBrains.Annotations;
 using NAudio.Flac;
 using NAudio.Wave;
 using OpenMLTD.MilliSim.Audio.Extending;
+using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats.Flac {
-    [Export(typeof(IAudioFormat))]
+    [MilliSimPlugin(typeof(IAudioFormat))]
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]
     public sealed class FlacAudioFormat : AudioFormat {
 

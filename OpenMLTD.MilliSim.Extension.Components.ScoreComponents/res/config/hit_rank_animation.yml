@@ -1,0 +1,13 @@
+metadata:
+  type: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration.HitRankAnimationConfig
+  assembly_file: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.dll
+  for: component.score.hit_rank_animation
+  version: 1 # format version
+data:
+  images:
+    file: res/images/ui/hit_rank.png # perfect, great, good, fast, slow, miss; left to right, each 256x64
+    count: 6
+    orientation: horizontal
+  layout:
+    x: 50% # x position (anchor: center)
+    y: 68% # y position (anchor: middle)

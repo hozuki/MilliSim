@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
+using System.Windows.Forms;
 using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Configuration;
 using OpenMLTD.MilliSim.Core;
 using PerformanceCounter = OpenMLTD.MilliSim.Core.PerformanceCounter;
 
@@ -49,7 +51,7 @@ namespace OpenMLTD.MilliSim.Foundation {
                 window.CreateControl();
 
                 Root = CreateRootElement();
-                CreateElements();
+                CreateComponents();
 
                 using (var audioManager = CreateAudioManager()) {
                     BaseAudioManager = audioManager;
@@ -78,6 +80,13 @@ namespace OpenMLTD.MilliSim.Foundation {
                 }
             }
         }
+
+        public void LoadConfigurations() {
+            ConfigurationStore = CreateConfigurationStore();
+        }
+
+        [NotNull]
+        public ConfigurationStore ConfigurationStore { get; private set; }
 
         public void ResetTick() {
             using (_timeLock.NewWriteLock()) {
@@ -162,10 +171,13 @@ namespace OpenMLTD.MilliSim.Foundation {
 
         protected abstract AudioManagerBase CreateAudioManager();
 
-        protected abstract void CreateElements();
+        protected abstract void CreateComponents();
 
         [NotNull]
         protected abstract IComponentContainer CreateRootElement();
+
+        [NotNull]
+        protected abstract ConfigurationStore CreateConfigurationStore();
 
         protected virtual void OnInitialize() {
             Root.OnInitialize();
@@ -187,34 +199,39 @@ namespace OpenMLTD.MilliSim.Foundation {
 
         private void WorkerThreadProc(object param) {
             ResetTick();
-            while (_shouldContinue) {
-                var isSuspended = IsSuspended;
-                GameTime gameTime;
+            try {
+                while (_shouldContinue) {
+                    var isSuspended = IsSuspended;
+                    GameTime gameTime;
 
-                if (!isSuspended) {
-                    var nowTick = PerformanceCounter.GetCurrent();
-                    double delta, total;
-                    using (_timeLock.NewReadLock()) {
-                        delta = PerformanceCounter.GetDuration(_lastTick, nowTick);
-                        total = PerformanceCounter.GetDuration(_startTick, nowTick);
+                    if (!isSuspended) {
+                        var nowTick = PerformanceCounter.GetCurrent();
+                        double delta, total;
+                        using (_timeLock.NewReadLock()) {
+                            delta = PerformanceCounter.GetDuration(_lastTick, nowTick);
+                            total = PerformanceCounter.GetDuration(_startTick, nowTick);
+                        }
+                        gameTime = new GameTime(TimeSpan.FromMilliseconds(delta), TimeSpan.FromMilliseconds(total));
+                        Update(gameTime);
+                        Time = gameTime;
+
+                        _lastTick = nowTick;
+                    } else {
+                        gameTime = Time;
                     }
-                    gameTime = new GameTime(TimeSpan.FromMilliseconds(delta), TimeSpan.FromMilliseconds(total));
-                    Update(gameTime);
-                    Time = gameTime;
 
-                    _lastTick = nowTick;
-                } else {
-                    gameTime = Time;
-                }
+                    Draw(gameTime);
 
-                Draw(gameTime);
-
-                if (!isSuspended) {
-                    while (_actionQueue.Count > 0) {
-                        var item = _actionQueue.Dequeue();
-                        item.Action(item.State);
+                    if (!isSuspended) {
+                        while (_actionQueue.Count > 0) {
+                            var item = _actionQueue.Dequeue();
+                            item.Action(item.State);
+                        }
                     }
                 }
+            } catch (Exception ex) {
+                _shouldContinue = false;
+                MessageBox.Show(ex.Message + Environment.NewLine + ex.StackTrace, null, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             _exitingEvent.Set();
         }
@@ -233,6 +250,7 @@ namespace OpenMLTD.MilliSim.Foundation {
         private GameTime _gameTime = GameTime.Zero;
 
         private Thread _workerThread;
+
         // A simple action queue. Used to mimic the 'Invoke' pattern on a specific thread.
         // Enlightened from https://stackoverflow.com/questions/3481075/invoke-a-delegate-on-a-specific-thread-c-sharp.
         private readonly Queue<(Action<object> Action, object State)> _actionQueue = new Queue<(Action<object>, object)>();
