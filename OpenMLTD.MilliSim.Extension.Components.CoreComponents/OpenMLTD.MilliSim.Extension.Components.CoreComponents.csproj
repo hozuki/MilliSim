@@ -148,6 +148,10 @@
       <Project>{87a7a077-2d1b-46e4-ab54-add8f2d470e0}</Project>
       <Name>OpenMLTD.MilliSim.GameAbstraction</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Globalization\OpenMLTD.MilliSim.Globalization.csproj">
+      <Project>{059D9982-A8D7-4C1D-BFB2-B5326BF07575}</Project>
+      <Name>OpenMLTD.MilliSim.Globalization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Graphics\OpenMLTD.MilliSim.Graphics.csproj">
       <Project>{8cdfb26b-8d82-4d66-a850-0a1686c29e28}</Project>
       <Name>OpenMLTD.MilliSim.Graphics</Name>

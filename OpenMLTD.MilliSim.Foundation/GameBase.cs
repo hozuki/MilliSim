@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Configuration;
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.MilliSim.Globalization;
 using PerformanceCounter = OpenMLTD.MilliSim.Core.PerformanceCounter;
 
 namespace OpenMLTD.MilliSim.Foundation {
@@ -85,8 +86,15 @@ namespace OpenMLTD.MilliSim.Foundation {
             ConfigurationStore = CreateConfigurationStore();
         }
 
+        public void Globalize() {
+            CultureSpecificInfo = CreateCultureSpecificInfo();
+        }
+
         [NotNull]
         public ConfigurationStore ConfigurationStore { get; private set; }
+
+        [NotNull]
+        public CultureSpecificInfo CultureSpecificInfo { get; private set; }
 
         public void ResetTick() {
             using (_timeLock.NewWriteLock()) {
@@ -178,6 +186,9 @@ namespace OpenMLTD.MilliSim.Foundation {
 
         [NotNull]
         protected abstract ConfigurationStore CreateConfigurationStore();
+
+        [NotNull]
+        protected abstract CultureSpecificInfo CreateCultureSpecificInfo();
 
         protected virtual void OnInitialize() {
             Root.OnInitialize();

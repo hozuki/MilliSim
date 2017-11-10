@@ -21,9 +21,12 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
         public override IComponent CreateComponent(GameBase game, IComponentContainer parent) {
             Trace.Assert(parent is IVisualContainer);
 
+            var translationManager = game.CultureSpecificInfo.TranslationManager;
+
             var help = new HelpOverlay((IVisualContainer)parent);
             help.Visible = false;
-            help.Text = "Press space to start";
+            var helpText = translationManager.Get("system_ui.help.press_space_to_start");
+            help.Text = helpText.Length > 0 ? helpText : "Press space to start";
 
             return help;
         }

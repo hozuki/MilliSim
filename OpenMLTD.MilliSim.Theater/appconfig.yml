@@ -43,3 +43,5 @@ data:
       - plugin.component_factory.sync_timer_overlay
       # ...
       #- plugin.component_factory.mini_cube
+  translation_files:
+    - res/translations/**/*.yml

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BF644701-DFD5-49B6-90E8-A54C1BB331AE}</ProjectGuid>
+    <ProjectGuid>{059D9982-A8D7-4C1D-BFB2-B5326BF07575}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenMLTD.MilliSim.Foundation</RootNamespace>
-    <AssemblyName>OpenMLTD.MilliSim.Foundation</AssemblyName>
+    <RootNamespace>OpenMLTD.MilliSim.Globalization</RootNamespace>
+    <AssemblyName>OpenMLTD.MilliSim.Globalization</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,7 +28,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
@@ -37,57 +35,33 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="YamlDotNet, Version=4.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.4.2.2\lib\net35\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioManagerBase.cs" />
-    <Compile Include="Component.cs" />
-    <Compile Include="ComponentCollection.cs" />
-    <Compile Include="ComponentCollection.Enumerator.cs" />
-    <Compile Include="ComponentCollection.Operation.cs" />
-    <Compile Include="ComponentCollection.PendingEntry.cs" />
-    <Compile Include="ComponentFactory.cs" />
-    <Compile Include="ComponentGroup.cs" />
-    <Compile Include="Extensions\ContainerComponentExtensions.cs" />
-    <Compile Include="Extensions\UpdatableExtensions.cs" />
-    <Compile Include="GameBase.cs" />
-    <Compile Include="GameWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="IComponentContainer.cs" />
-    <Compile Include="IComponent.cs" />
-    <Compile Include="IComponentFactory.cs" />
-    <Compile Include="IUpdateable.cs" />
+    <Compile Include="CultureSpecificInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RendererBase.cs" />
+    <Compile Include="TranslationManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="OpenMLTD.MilliSim.Foundation.nuspec" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\OpenMLTD.MilliSim.Configuration\OpenMLTD.MilliSim.Configuration.csproj">
-      <Project>{88441b2f-84a8-47bc-9067-8ab9f616e7d6}</Project>
-      <Name>OpenMLTD.MilliSim.Configuration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Core\OpenMLTD.MilliSim.Core.csproj">
       <Project>{6847b3bf-8a0b-4433-a4d5-8de9961eb1f8}</Project>
       <Name>OpenMLTD.MilliSim.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenMLTD.MilliSim.Globalization\OpenMLTD.MilliSim.Globalization.csproj">
-      <Project>{059d9982-a8d7-4c1d-bfb2-b5326bf07575}</Project>
-      <Name>OpenMLTD.MilliSim.Globalization</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OpenMLTD.MilliSim.Globalization.nuspec" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

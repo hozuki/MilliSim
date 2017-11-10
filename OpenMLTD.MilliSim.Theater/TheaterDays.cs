@@ -1,15 +1,19 @@
+using System;
 using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using Glob;
 using OpenMLTD.MilliSim.Audio;
 using OpenMLTD.MilliSim.Configuration;
 using OpenMLTD.MilliSim.Configuration.Converters;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Extension.Components.CoreComponents;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.GameAbstraction;
 using OpenMLTD.MilliSim.Theater.Configuration;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using OpenMLTD.MilliSim.Globalization;
 
 namespace OpenMLTD.MilliSim.Theater {
     public sealed class TheaterDays : TheaterDaysBase {
@@ -43,6 +47,39 @@ namespace OpenMLTD.MilliSim.Theater {
             return store;
         }
 
+        protected override CultureSpecificInfo CreateCultureSpecificInfo() {
+            var cultureSpecificInfo = new CultureSpecificInfo(CultureInfo.CurrentUICulture);
+
+            // Load translation files.
+            var tm = cultureSpecificInfo.TranslationManager;
+            var config = ConfigurationStore.Get<MainAppConfig>();
+            var paths = config.Data.TranslationFiles;
+
+            foreach (var path in paths) {
+                var fullPath = Path.IsPathRooted(path) ? path : Path.Combine(Environment.CurrentDirectory, path);
+
+                var globCharIndex = fullPath.IndexOfAny(PartialGlobChars);
+
+                if (globCharIndex == 0) {
+                    throw new ArgumentException(nameof(globCharIndex));
+                }
+
+                var finalIndex = globCharIndex > 0 ? globCharIndex : fullPath.Length;
+                var lastPathSeparatorIndex = fullPath.LastIndexOfAny(PathSeparators, finalIndex);
+                // Include the last separator
+                var directoryName = fullPath.Substring(0, lastPathSeparatorIndex + 1);
+
+                var baseDirectory = new DirectoryInfo(directoryName);
+                var pattern = fullPath.Substring(directoryName.Length);
+
+                foreach (var fileInfo in baseDirectory.GlobFiles(pattern)) {
+                    tm.AddTranslationsFromFile(fileInfo.FullName);
+                }
+            }
+
+            return cultureSpecificInfo;
+        }
+
         protected override void CreateComponents() {
             var config = ConfigurationStore.Get<MainAppConfig>();
             var stage = Stage;
@@ -61,6 +98,9 @@ namespace OpenMLTD.MilliSim.Theater {
                 }
             }
         }
+
+        private static readonly char[] PartialGlobChars = { '*', '?' };
+        private static readonly char[] PathSeparators = { '\\', '/' };
 
     }
 }

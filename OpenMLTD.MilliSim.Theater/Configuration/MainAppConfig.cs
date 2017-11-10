@@ -12,6 +12,8 @@ namespace OpenMLTD.MilliSim.Theater.Configuration {
 
             public PluginsConfig Plugins { get; set; }
 
+            public string[] TranslationFiles { get; set; }
+
         }
 
         public sealed class PluginsConfig {

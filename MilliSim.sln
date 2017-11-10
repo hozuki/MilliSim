@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Theater", "OpenMLTD.MilliSim.Theater\OpenMLTD.MilliSim.Theater.csproj", "{DACE584A-867F-4625-BAD3-C50CC480A0A0}"
 EndProject
@@ -76,6 +76,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.Components.ExtraComponents", "OpenMLTD.MilliSim.Extension.Components.ExtraComponents\OpenMLTD.MilliSim.Extension.Components.ExtraComponents.csproj", "{358E00CA-CAF9-42AE-AE0D-2AF1F8913431}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.Components.ScoreComponents", "OpenMLTD.MilliSim.Extension.Components.ScoreComponents\OpenMLTD.MilliSim.Extension.Components.ScoreComponents.csproj", "{B33715B5-4EA1-4088-8E9A-B6DC033D2DCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Globalization", "OpenMLTD.MilliSim.Globalization\OpenMLTD.MilliSim.Globalization.csproj", "{059D9982-A8D7-4C1D-BFB2-B5326BF07575}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -187,6 +189,10 @@ Global
 		{B33715B5-4EA1-4088-8E9A-B6DC033D2DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B33715B5-4EA1-4088-8E9A-B6DC033D2DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B33715B5-4EA1-4088-8E9A-B6DC033D2DCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{059D9982-A8D7-4C1D-BFB2-B5326BF07575}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{059D9982-A8D7-4C1D-BFB2-B5326BF07575}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{059D9982-A8D7-4C1D-BFB2-B5326BF07575}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{059D9982-A8D7-4C1D-BFB2-B5326BF07575}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -219,6 +225,7 @@ Global
 		{16575A6D-F4A1-4910-A112-DB1D62EF6342} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 		{358E00CA-CAF9-42AE-AE0D-2AF1F8913431} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 		{B33715B5-4EA1-4088-8E9A-B6DC033D2DCE} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
+		{059D9982-A8D7-4C1D-BFB2-B5326BF07575} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {27A82ED7-C1EE-4F03-B3AD-02534ACDB2B1}
