@@ -2,6 +2,7 @@
 
 const path = require("path");
 const fs = require("fs-extra");
+const chalk = require("chalk");
 
 const licensesPath = "docs/licenses";
 
@@ -10,7 +11,6 @@ const licensesPath = "docs/licenses";
  */
 const licenseFiles = [
     { path: "LICENSE.txt", prefix: "MilliSim" },
-    { path: "thirdparty/MimeTypeMap/LICENSE", prefix: "MimeTypeMap" },
     { path: "thirdparty/UnityStudioLib/LICENSE.txt", prefix: "UnityStudioLib" },
     { path: "thirdparty/UnityStudioLib/tracking/UnityStudio/License.md", prefix: "UnityStudio" }
 ];
@@ -19,6 +19,11 @@ const mapping = getMapping(licenseFiles);
 
 let copying = 1;
 for (const from in mapping) {
+    if (!fs.existsSync(from)) {
+        console.warn(chalk.yellow(`Warning: license file '${from}' is not found. Skipping.`));
+        continue;
+    }
+
     const to = mapping[from];
     console.info(`Copying ${from} to ${to}... (${copying}/${licenseFiles.length})`);
     const dir = path.dirname(to);
