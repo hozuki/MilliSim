@@ -11,11 +11,6 @@ const licensesPath = "docs/licenses";
 const licenseFiles = [
     { path: "LICENSE.txt", prefix: "MilliSim" },
     { path: "thirdparty/MimeTypeMap/LICENSE", prefix: "MimeTypeMap" },
-    { path: "thirdparty/NAudio/license.txt", prefix: "NAudio" },
-    { path: "thirdparty/NAudio.Vorbis/LICENSE", prefix: "NAudio.Vorbis" },
-    { path: "thirdparty/NAudio.Wma/license.txt", prefix: "NAudio.Wma" },
-    { path: "thirdparty/NLayer/LICENSE", prefix: "NLayer" },
-    { path: "thirdparty/NVorbis/LICENSE", prefix: "NVorbis" },
     { path: "thirdparty/UnityStudioLib/LICENSE.txt", prefix: "UnityStudioLib" },
     { path: "thirdparty/UnityStudioLib/tracking/UnityStudio/License.md", prefix: "UnityStudio" }
 ];
