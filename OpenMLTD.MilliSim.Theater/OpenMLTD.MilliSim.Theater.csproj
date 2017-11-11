@@ -317,10 +317,6 @@
       <Project>{bd5e432c-9837-4dd8-a644-5709cd0705f1}</Project>
       <Name>OpenMLTD.MilliSim.Theater.Animation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\thirdparty\MimeTypeMap\src\MimeTypes\MimeTypes.csproj">
-      <Project>{d54fb6f6-9042-4925-bfc5-947a363f0849}</Project>
-      <Name>MimeTypes</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenMLTD.MilliSim.Theater.exe.config">

@@ -2,8 +2,8 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Threading;
+using HeyRed.Mime;
 using JetBrains.Annotations;
-using MimeTypes;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration;
 using OpenMLTD.MilliSim.Graphics;
@@ -37,7 +37,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             _mediaEngineEx.SetSourceFromByteStream(_fileDataStream, absoluteUri.AbsoluteUri);
 
             var fileExtension = Path.GetExtension(fullPath);
-            var mimeType = MimeTypeMap.GetMimeType(fileExtension);
+            var mimeType = MimeTypesMap.GetMimeType(fileExtension);
             _mediaEngine.CanPlayType(mimeType, out var answer);
             CanPlay = answer != MediaEngineCanPlay.NotSupported;
             if (!CanPlay) {
