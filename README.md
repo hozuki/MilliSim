@@ -35,6 +35,7 @@ Demo videos:
 - Direct3D 11 and Direct2D
 - For Windows 7 SP1 users:
   - [Platform Update for Windows 7](https://www.microsoft.com/en-us/download/details.aspx?id=36805)
+- [OpenAL](https://www.openal.org/downloads/)
 
 After downloading, run `OpenMLTD.MilliSim.Theater.exe` and enjoy.
 

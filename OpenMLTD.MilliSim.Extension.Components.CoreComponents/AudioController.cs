@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
@@ -17,16 +18,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
         }
 
         [CanBeNull]
-        public Music Music { get; private set; }
-
-        protected override void OnUpdate(GameTime gameTime) {
-            base.OnUpdate(gameTime);
-
-            var theaterDays = Game.AsTheaterDays();
-            theaterDays.AudioManager.Sfx.UpdateWaveQueue();
-
-            Music?.UpdateState();
-        }
+        public Sound Music { get; private set; }
 
         protected override void OnInitialize() {
             base.OnInitialize();
@@ -35,45 +27,51 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             var store = ConfigurationStore;
             var config = store.Get<AudioControllerConfig>();
 
+            var audioManager = theaterDays.AudioManager;
+
             if (config.Data.BackgroundMusic != null && File.Exists(config.Data.BackgroundMusic)) {
                 var format = GetFormatForFile(theaterDays.PluginManager, config.Data.BackgroundMusic);
                 if (format != null) {
                     var bgmVolume = config.Data.BackgroundMusicVolume.Value;
-                    var music = theaterDays.AudioManager.CreateMusic(config.Data.BackgroundMusic, format, bgmVolume);
-                    theaterDays.AudioManager.AddMusic(music);
+                    var music = audioManager.LoadSound(config.Data.BackgroundMusic, format);
+                    music.Source.Volume = bgmVolume;
                     Music = music;
                 }
             }
 
-            var sfx = theaterDays.AudioManager.Sfx;
-            PreloadAudio(sfx, config.Data.Sfx.Tap);
-            PreloadAudio(sfx, config.Data.Sfx.Hold);
-            PreloadAudio(sfx, config.Data.Sfx.Flick);
-            PreloadAudio(sfx, config.Data.Sfx.Slide);
-            PreloadAudio(sfx, config.Data.Sfx.HoldHold);
-            PreloadAudio(sfx, config.Data.Sfx.SlideHold);
-            PreloadAudio(sfx, config.Data.Sfx.HoldEnd);
-            PreloadAudio(sfx, config.Data.Sfx.SlideEnd);
-            PreloadAudio(sfx, config.Data.Sfx.Special);
-            PreloadAudio(sfx, config.Data.Sfx.SpecialHold);
-            PreloadAudio(sfx, config.Data.Sfx.SpecialEnd);
+            var sfxSounds = new List<Sound>();
+            PreloadAudio(audioManager, config.Data.Sfx.Tap, sfxSounds);
+            PreloadAudio(audioManager, config.Data.Sfx.Hold, sfxSounds);
+            PreloadAudio(audioManager, config.Data.Sfx.Flick, sfxSounds);
+            PreloadAudio(audioManager, config.Data.Sfx.Slide, sfxSounds);
+            PreloadAudio(audioManager, config.Data.Sfx.HoldHold, sfxSounds);
+            PreloadAudio(audioManager, config.Data.Sfx.SlideHold, sfxSounds);
+            PreloadAudio(audioManager, config.Data.Sfx.HoldEnd, sfxSounds);
+            PreloadAudio(audioManager, config.Data.Sfx.SlideEnd, sfxSounds);
+            PreloadAudio(audioManager, config.Data.Sfx.Special, sfxSounds);
+            PreloadAudio(audioManager, config.Data.Sfx.SpecialHold, sfxSounds);
+            PreloadAudio(audioManager, config.Data.Sfx.SpecialEnd, sfxSounds);
 
             if (config.Data.Sfx.Shouts != null) {
                 foreach (var shoutPath in config.Data.Sfx.Shouts) {
-                    PreloadAudio(sfx, shoutPath);
+                    PreloadAudio(audioManager, shoutPath, sfxSounds);
                 }
             }
 
-            theaterDays.AudioManager.Sfx.Volume = config.Data.SfxVolume.Value;
+            foreach (var sound in sfxSounds) {
+                sound.Source.Volume = config.Data.SfxVolume.Value;
+            }
         }
 
-        private void PreloadAudio(SfxManager sfx, string fileName) {
+        private void PreloadAudio(AudioManager audioManager, string fileName, List<Sound> sounds) {
             var theaterDays = Game.AsTheaterDays();
             var debugOverlay = theaterDays.FindSingleElement<DebugOverlay>();
             var pluginManager = theaterDays.PluginManager;
             var format = GetFormatForFile(pluginManager, fileName);
+
             if (format != null) {
-                sfx.PreloadSfx(fileName, format);
+                var sound = audioManager.LoadSound(fileName, format);
+                sounds.Add(sound);
             } else {
                 if (debugOverlay != null) {
                     debugOverlay.AddLine($"Audio file '{fileName}' is not supported.");
@@ -81,12 +79,12 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             }
         }
 
-        private void PreloadAudio(SfxManager sfx, AudioControllerConfig.NoteSfxGroup group) {
-            PreloadAudio(sfx, group.Perfect);
-            PreloadAudio(sfx, group.Great);
-            PreloadAudio(sfx, group.Nice);
-            PreloadAudio(sfx, group.Bad);
-            PreloadAudio(sfx, group.Miss);
+        private void PreloadAudio(AudioManager audioManager, AudioControllerConfig.NoteSfxGroup group, List<Sound> sounds) {
+            PreloadAudio(audioManager, group.Perfect, sounds);
+            PreloadAudio(audioManager, group.Great, sounds);
+            PreloadAudio(audioManager, group.Nice, sounds);
+            PreloadAudio(audioManager, group.Bad, sounds);
+            PreloadAudio(audioManager, group.Miss, sounds);
         }
 
         [CanBeNull]

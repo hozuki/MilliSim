@@ -31,7 +31,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
 
                 if (!timeFilled) {
                     if (audio?.Music != null) {
-                        CurrentTime = audio.Music.CurrentTime;
+                        CurrentTime = audio.Music.Source.CurrentTime;
                         timeFilled = true;
                     }
                 }
@@ -50,7 +50,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
                 switch (SyncTarget) {
                     case TimerSyncTarget.Audio:
                         if (audio?.Music != null) {
-                            CurrentTime = audio.Music.CurrentTime;
+                            CurrentTime = audio.Music.Source.CurrentTime;
                         }
                         break;
                     case TimerSyncTarget.Video:

@@ -38,6 +38,9 @@
     <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio, Version=1.8.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.8.3\lib\net35\NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
       <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
     </Reference>
@@ -159,10 +162,6 @@
     <ProjectReference Include="..\thirdparty\MimeTypeMap\src\MimeTypes\MimeTypes.csproj">
       <Project>{d54fb6f6-9042-4925-bfc5-947a363f0849}</Project>
       <Name>MimeTypes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\thirdparty\NAudio\NAudio\NAudio.csproj">
-      <Project>{da4f02e3-0b5e-42cd-b8d9-5583fa51d66e}</Project>
-      <Name>NAudio</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

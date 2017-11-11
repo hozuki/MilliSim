@@ -35,6 +35,12 @@
     <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio, Version=1.8.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.8.3\lib\net35\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.2.0.0\lib\net20\OpenTK.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -48,15 +54,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioBuffer.cs" />
+    <Compile Include="AudioContext.cs" />
+    <Compile Include="AudioDevice.cs" />
     <Compile Include="AudioHelper.cs" />
+    <Compile Include="AudioListener.cs" />
     <Compile Include="AudioManager.cs" />
+    <Compile Include="AudioObject.cs" />
+    <Compile Include="AudioSource.cs" />
+    <Compile Include="AudioState.cs" />
     <Compile Include="Extending\AudioFormat.cs" />
     <Compile Include="Extending\IAudioFormat.cs" />
-    <Compile Include="LoopedWaveStream.cs" />
-    <Compile Include="Music.cs" />
-    <Compile Include="InfiniteNullWaveStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SfxManager.cs" />
+    <Compile Include="Sound.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Core\OpenMLTD.MilliSim.Core.csproj">
@@ -67,13 +77,10 @@
       <Project>{bf644701-dfd5-49b6-90e8-a54c1bb331ae}</Project>
       <Name>OpenMLTD.MilliSim.Foundation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\thirdparty\NAudio\NAudio\NAudio.csproj">
-      <Project>{da4f02e3-0b5e-42cd-b8d9-5583fa51d66e}</Project>
-      <Name>NAudio</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenMLTD.MilliSim.Audio.nuspec" />
+    <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

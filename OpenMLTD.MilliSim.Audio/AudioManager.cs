@@ -1,149 +1,190 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using JetBrains.Annotations;
-using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using OpenMLTD.MilliSim.Audio.Extending;
 using OpenMLTD.MilliSim.Foundation;
-using AudioOut = NAudio.Wave.WasapiOut;
+using OpenTK.Audio.OpenAL;
 
 namespace OpenMLTD.MilliSim.Audio {
-    public class AudioManager : AudioManagerBase {
+    public sealed class AudioManager : AudioManagerBase {
 
         public AudioManager() {
-            _mixerStream = new WaveMixerStream32 {
-                AutoStop = false
-            };
+            _device = new AudioDevice();
+            _context = new AudioContext(_device);
 
-            _soundPlayer = new AudioOut(AudioClientShareMode.Shared, 60);
-            _soundPlayer.Init(_mixerStream);
-
-            Sfx = new SfxManager(this);
-
-            _soundPlayer.Play();
+            Activate();
         }
 
-        public Music CreateMusic([NotNull] string fileName, [NotNull] IAudioFormat format, float volume) {
-            var audio = format.Read(fileName);
-            return CreateMusic(audio, volume, true);
+        public void Activate() {
+            EnsureNotDisposed();
+
+            _context.SetAsCurrent();
         }
 
-        private Music CreateMusic(Stream audioData, float volume) {
-            var audio = new WaveFileReader(audioData);
-            return CreateMusic(audio, volume, true);
+        [CanBeNull]
+        public Sound FindSound([NotNull] string fileName) {
+            return _loadedSounds.FirstOrDefault(s => s.FileName == fileName).Sound;
         }
 
-        private Music CreateMusic(WaveStream audio, float volume) {
-            return CreateMusic(audio, volume, false);
+        [NotNull, ItemNotNull]
+        public Sound[] FindSounds([NotNull] string fileName) {
+            return _loadedSounds.Where(s => s.FileName == fileName).Select(s => s.Sound).ToArray();
         }
 
-        public Music CreateMusic(WaveStream audio, float volume, bool autoDisposeSource) {
-            var music = new Music(this, audio, volume, !autoDisposeSource);
-            return music;
-        }
+        /// <summary>
+        /// Load sound from file, with caching mechanism.
+        /// </summary>
+        /// <param name="fileName">Name of the sound file.</param>
+        /// <param name="format">Audio format.</param>
+        /// <returns>Loaded <see cref="Sound"/> object.</returns>
+        public Sound LoadSound([NotNull] string fileName, [NotNull] IAudioFormat format) {
+            var loadedArray = _loadedSounds.Where(t => t.FileName == fileName).Select(t => t.Sound).ToArray();
 
-        public void AddMusic([NotNull] Music music) {
-            if (music.IsPlaying) {
-                AddInputStream(music.OffsetStream, music.CachedVolume);
+            if (loadedArray.Length == 0) {
+                return LoadSoundDirect(fileName, format);
             }
-        }
 
-        public void RemoveMusic([NotNull] Music music) {
-            RemoveInputStream(music.OffsetStream);
-        }
+            // Finds the first available (not in use) audio stream.
+            Sound availableSound = null;
+            foreach (var sound in loadedArray) {
+                var source = sound.Source;
+                var state = source.State;
 
-        public SfxManager Sfx { get; }
-
-        internal TimeSpan MixerTime => _mixerStream.CurrentTime;
-
-        internal WaveChannel32 AddInputStream([NotNull] WaveStream waveStream, float volume) {
-            lock (_channelLock) {
-                if (_channels.ContainsKey(waveStream)) {
-                    return _channels[waveStream];
+                switch (state) {
+                    case AudioState.Loaded:
+                    case AudioState.Stopped:
+                        availableSound = sound;
+                        break;
+                    case AudioState.Playing:
+                    case AudioState.Paused:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
 
-                var channel = new WaveChannel32(waveStream, volume, 0f);
-                _channels.Add(waveStream, channel);
-
-                _mixerStream.AddInputStream(channel);
-
-                return channel;
-            }
-        }
-
-        internal void RemoveInputStream([NotNull] WaveStream waveStream) {
-            lock (_channelLock) {
-                if (!_channels.ContainsKey(waveStream)) {
-                    return;
+                if (availableSound != null) {
+                    break;
                 }
+            }
 
-                var ch = _channels[waveStream];
+            // If we are lucky...
+            if (availableSound != null) {
+                return availableSound;
+            }
 
-                _mixerStream.RemoveInputStream(ch);
+            // Or we have to clone and create one...
+            availableSound = loadedArray[0];
+            var newSound = LoadSoundDirect(fileName, availableSound.Buffer.Data, availableSound.Buffer.SampleRate);
+            // ... and copies its params.
+            newSound.Source.Volume = availableSound.Source.Volume;
 
-                _channels.Remove(waveStream);
+            return newSound;
+        }
+
+        public Sound LoadSoundDirect([NotNull] string fileName, [NotNull] IAudioFormat format) {
+            using (var stream = format.Read(fileName)) {
+                return LoadSoundDirect(fileName, stream);
             }
         }
 
-        internal float GetStreamVolume([NotNull] WaveStream waveStream) {
-            lock (_channelLock) {
-                return _channels[waveStream].Volume;
-            }
+        public Sound LoadSoundDirect([NotNull] string fileName, [NotNull] WaveStream stream) {
+            var buffer = new AudioBuffer(_context);
+            buffer.LoadData(stream);
+
+            var source = new AudioSource(_context);
+
+            AL.BindBufferToSource(source.NativeSource, buffer.NativeBuffer);
+
+            var sound = new Sound(source, buffer);
+            _loadedSounds.Add((fileName, sound));
+
+            return sound;
         }
 
-        internal void SetStreamVolume([NotNull] WaveStream waveStream, float volume) {
-            lock (_channelLock) {
-                if (!_channels.ContainsKey(waveStream)) {
-                    return;
+        public void UnmanageSounds([NotNull] string fileName) {
+            var count = _loadedSounds.Count;
+
+            var indices = new List<int>();
+            for (var i = 0; i < count; ++i) {
+                if (_loadedSounds[i].FileName == fileName) {
+                    indices.Add(i);
                 }
-                _channels[waveStream].Volume = volume;
+            }
+
+            var delta = 0;
+            foreach (var index in indices) {
+                _loadedSounds.RemoveAt(index - delta);
+                ++delta;
             }
         }
 
-        internal TimeSpan GetStreamCurrentTime([NotNull] WaveStream waveStream) {
-            lock (_channelLock) {
-                return _channels[waveStream].CurrentTime;
-            }
-        }
+        public void UnmanageSound([NotNull] string fileName) {
+            var count = _loadedSounds.Count;
 
-        internal void SetStreamCurrentTime([NotNull] WaveStream waveStream, TimeSpan time) {
-            lock (_channelLock) {
-                if (!_channels.ContainsKey(waveStream)) {
-                    return;
+            var index = -1;
+            for (var i = 0; i < count; ++i) {
+                if (_loadedSounds[i].FileName == fileName) {
+                    index = i;
+                    break;
                 }
-                _channels[waveStream].CurrentTime = time;
+            }
+
+            if (index >= 0) {
+                _loadedSounds.RemoveAt(index);
             }
         }
 
-        internal WaveChannel32 GetChannelOf([NotNull] WaveStream waveStream) {
-            lock (_channelLock) {
-                return _channels[waveStream];
+        public void UnmanageSound([NotNull] Sound sound) {
+            var count = _loadedSounds.Count;
+
+            var index = -1;
+            for (var i = 0; i < count; ++i) {
+                if (_loadedSounds[i].Sound == sound) {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index >= 0) {
+                _loadedSounds.RemoveAt(index);
             }
         }
 
-        private WaveFormat RequiredFormat => _mixerStream.WaveFormat;
+        public IEnumerable<Sound> GetLoadedSounds() {
+            return _loadedSounds.Select(t => t.Sound);
+        }
 
         protected override void Dispose(bool disposing) {
-            if (!disposing) {
-                return;
+            AudioContext.Reset();
+
+            foreach (var (_, sound) in _loadedSounds) {
+                sound.Dispose();
             }
 
-            _soundPlayer.Stop();
-
-            Sfx.StopAll();
-            Sfx.Dispose();
-
-            _mixerStream.Dispose();
-            _soundPlayer.Dispose();
+            _context?.Dispose();
+            _device?.Dispose();
         }
 
-        private readonly AudioOut _soundPlayer;
-        private readonly object _channelLock = new object();
+        private Sound LoadSoundDirect([NotNull] string fileName, [NotNull] byte[] data, int sampleRate) {
+            var buffer = new AudioBuffer(_context);
+            buffer.LoadData(data, sampleRate);
 
-        private readonly WaveMixerStream32 _mixerStream;
+            var source = new AudioSource(_context);
 
-        private readonly Dictionary<WaveStream, WaveChannel32> _channels = new Dictionary<WaveStream, WaveChannel32>();
+            AL.BindBufferToSource(source.NativeSource, buffer.NativeBuffer);
+
+            var sound = new Sound(source, buffer);
+            _loadedSounds.Add((fileName, sound));
+
+            return sound;
+        }
+
+        private readonly AudioDevice _device;
+        private readonly AudioContext _context;
+
+        private readonly List<(string FileName, Sound Sound)> _loadedSounds = new List<(string FileName, Sound Sound)>();
 
     }
 }

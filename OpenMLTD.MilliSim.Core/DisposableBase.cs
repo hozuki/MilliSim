@@ -53,6 +53,15 @@ namespace OpenMLTD.MilliSim.Core {
         /// otherwise (in <see cref="Finalize"/>) then <see langword="false"/>.</param>
         protected abstract void Dispose(bool disposing);
 
+        /// <summary>
+        /// Ensures that this instance is not disposed. Otherwise this method throws an <see cref="ObjectDisposedException"/>.
+        /// </summary>
+        protected void EnsureNotDisposed() {
+            if (IsDisposed) {
+                throw new ObjectDisposedException("this");
+            }
+        }
+
         protected virtual bool KeepFinalizer { get; } = false;
 
         private bool _isDisposed;

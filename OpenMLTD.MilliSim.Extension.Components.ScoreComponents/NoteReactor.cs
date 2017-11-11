@@ -53,7 +53,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents {
 
             var audioControllerConfig = ConfigurationStore.Get<AudioControllerConfig>();
             var sfxPaths = audioControllerConfig.Data.Sfx;
-            var player = theaterDays.AudioManager.Sfx;
+            var player = theaterDays.AudioManager;
 
             var now = syncTimer.CurrentTime.TotalSeconds;
             var globalSpeedScale = notesLayer.GlobalSpeedScale;

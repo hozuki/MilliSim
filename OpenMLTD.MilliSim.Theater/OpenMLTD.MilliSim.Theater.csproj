@@ -110,6 +110,7 @@
     <Compile Include="ApplicationHelper.cs" />
     <Compile Include="Configuration\MainAppConfig.cs" />
     <Compile Include="Configuration\PluginsLoadingMode.cs" />
+    <Compile Include="Extensions\AudioManagerExtensions.cs" />
     <Compile Include="Forms\AboutWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -319,10 +320,6 @@
     <ProjectReference Include="..\thirdparty\MimeTypeMap\src\MimeTypes\MimeTypes.csproj">
       <Project>{d54fb6f6-9042-4925-bfc5-947a363f0849}</Project>
       <Name>MimeTypes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\thirdparty\NAudio\NAudio\NAudio.csproj">
-      <Project>{da4f02e3-0b5e-42cd-b8d9-5583fa51d66e}</Project>
-      <Name>NAudio</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

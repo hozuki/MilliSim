@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using OpenMLTD.MilliSim.Audio;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration;
 using OpenMLTD.MilliSim.Extension.Components.ExtraComponents;
@@ -11,6 +12,7 @@ using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming;
 using OpenMLTD.MilliSim.GameAbstraction.Extensions;
 using OpenMLTD.MilliSim.Graphics.Extensions;
 using OpenMLTD.MilliSim.Theater.Configuration;
+using OpenMLTD.MilliSim.Theater.Extensions;
 using OpenMLTD.MilliSim.Theater.Properties;
 using SharpDX.MediaFoundation;
 
@@ -154,27 +156,27 @@ namespace OpenMLTD.MilliSim.Theater.Forms {
             if (music != null) {
                 switch (e.NewState) {
                     case MediaEngineEvent.Play:
-                        music.Play();
+                        music.Source.Play();
                         if (e.OldValidState == MediaEngineEvent.Pause) {
                             if (video != null) {
                                 // Force seeking to music time to avoid the lag.
                                 // The lag appears when you pause for too many times (about 5 times) during playback.
-                                video.CurrentTime = music.CurrentTime;
+                                video.CurrentTime = music.Source.CurrentTime;
                             }
                         }
                         break;
                     case MediaEngineEvent.Playing:
-                        music.Play();
+                        music.Source.Play();
                         break;
                     case MediaEngineEvent.Pause:
-                        music.Pause();
+                        music.Source.Pause();
                         break;
                     case MediaEngineEvent.CanPlay:
                     case MediaEngineEvent.Ended:
                     case MediaEngineEvent.Error:
                     case MediaEngineEvent.Abort:
-                        music.Stop();
-                        theaterDays.AudioManager.Sfx.StopAll();
+                        music.Source.Stop();
+                        theaterDays.AudioManager.StopAll();
                         break;
                 }
             }
@@ -212,13 +214,13 @@ namespace OpenMLTD.MilliSim.Theater.Forms {
                         }
                     } else {
                         if (music != null) {
-                            if (music.IsPlaying) {
-                                music.Pause();
+                            if (music.Source.State == AudioState.Playing) {
+                                music.Source.Pause();
                             } else {
-                                music.Play();
+                                music.Source.Play();
                             }
                             if (help != null) {
-                                help.Visible = !music.IsPlaying;
+                                help.Visible = music.Source.State != AudioState.Playing;
                             }
                         } else {
                             if (help != null) {
@@ -229,7 +231,7 @@ namespace OpenMLTD.MilliSim.Theater.Forms {
                     break;
                 case Keys.F2:
                     if (music != null) {
-                        music.Stop();
+                        music.Source.Stop();
                     }
 
                     if (video != null) {
@@ -240,7 +242,7 @@ namespace OpenMLTD.MilliSim.Theater.Forms {
                         }
                     }
 
-                    theaterDays.AudioManager.Sfx.StopAll();
+                    theaterDays.AudioManager.StopAll();
                     break;
                 case Keys.Right:
                 case Keys.Left: {
@@ -252,16 +254,18 @@ namespace OpenMLTD.MilliSim.Theater.Forms {
                                 video.CurrentTime = next;
                             }
                             if (music != null) {
-                                music.CurrentTime = next;
+                                music.Source.CurrentTime = next;
+                                theaterDays.AudioManager.StopAllExcept(music);
+                            } else {
+                                theaterDays.AudioManager.StopAll();
                             }
-                            theaterDays.AudioManager.Sfx.StopAll();
                         }
                     }
                     break;
                 case Keys.Q:
                     var newTime = TimeSpan.FromMinutes(2);
                     if (music != null) {
-                        music.CurrentTime = newTime;
+                        music.Source.CurrentTime = newTime;
                     }
                     if (video != null) {
                         video.CurrentTime = newTime;
