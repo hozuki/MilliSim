@@ -31,6 +31,7 @@ after_build:
   - 7z a millisim.zip -r docs\licenses\*
   - copy millisim.zip millisim-appveyor-latest.zip
   - copy millisim.zip millisim-appveyor-v%APPVEYOR_BUILD_VERSION%%RELEASE_SUFFIX%.zip
+test: off
 artifacts:
   - path: millisim-appveyor-v%APPVEYOR_BUILD_VERSION%%RELEASE_SUFFIX%.zip
     name: WithVersion
