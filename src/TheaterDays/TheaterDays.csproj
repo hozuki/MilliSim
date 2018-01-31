@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1D0434AC-993A-4C26-8359-8D3FA86DDAE7}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>OpenMLTD.TheaterDays</RootNamespace>
+    <AssemblyName>TheaterDays</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>7</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>7</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>MLTD-Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommandLine, Version=2.2.1.0, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CommandLineParser.2.2.1\lib\net45\CommandLine.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MonoGame.Framework.DesktopGL.3.6.0.1625\lib\net40\MonoGame.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Composition.AttributedModel, Version=1.0.32.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Composition.AttributedModel.1.1.0\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Convention, Version=1.0.32.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Composition.Convention.1.1.0\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Hosting, Version=1.0.32.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Composition.Hosting.1.1.0\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Runtime, Version=1.0.32.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Composition.Runtime.1.1.0\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.TypedParts, Version=1.0.32.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Composition.TypedParts.1.1.0\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="YamlDotNet, Version=4.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\YamlDotNet.4.3.0\lib\net45\YamlDotNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationHelper.cs" />
+    <Compile Include="Interactive\KeyboardStateHandler.cs" />
+    <Compile Include="Configuration\GlobalizationConfig.cs" />
+    <Compile Include="Configuration\MainAppConfig.cs" />
+    <Compile Include="Configuration\PluginsConfig.cs" />
+    <Compile Include="GuiConsole.cs" />
+    <Compile Include="Interactive\KeyEventArgs.cs" />
+    <Compile Include="Interop\NativeConstants.cs" />
+    <Compile Include="Interop\NativeMethods.cs" />
+    <Compile Include="Options.cs" />
+    <Compile Include="Subsystems\Configuration\ConfigurationHelper.cs" />
+    <Compile Include="Subsystems\Globalization\CultureSpecificInfoHelper.cs" />
+    <Compile Include="Subsystems\Plugin\PluginSearchMode.cs" />
+    <Compile Include="Subsystems\Plugin\TheaterDaysPluginManager.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Theater.cs" />
+    <Compile Include="Theater.Interaction.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\thirdparty\SharpAL\SharpAL\SharpAL.csproj">
+      <Project>{beb46d97-08c9-4868-8cac-d3ec2e954689}</Project>
+      <Name>SharpAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats\OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats.csproj">
+      <Project>{001c2077-8f69-4318-9096-a52c215b4c44}</Project>
+      <Name>OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Components.CoreComponents\OpenMLTD.MilliSim.Extension.Components.CoreComponents.csproj">
+      <Project>{16575a6d-f4a1-4910-a112-db1d62ef6342}</Project>
+      <Name>OpenMLTD.MilliSim.Extension.Components.CoreComponents</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Components.ExtraComponents\OpenMLTD.MilliSim.Extension.Components.ExtraComponents.csproj">
+      <Project>{358e00ca-caf9-42ae-ae0d-2af1f8913431}</Project>
+      <Name>OpenMLTD.MilliSim.Extension.Components.ExtraComponents</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardNoteAnimations\OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardNoteAnimations.csproj">
+      <Project>{a2211c66-972c-4fc5-ad53-70c5b901a361}</Project>
+      <Name>OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardNoteAnimations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Mltd\OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Mltd.csproj">
+      <Project>{22aeef23-15ff-4b6c-941d-550c63f50329}</Project>
+      <Name>OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Mltd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenMLTD.MilliSim.Runtime\OpenMLTD.MilliSim.Runtime.csproj">
+      <Project>{2f7ecba5-aa8b-4ab2-8f84-585352935a1b}</Project>
+      <Name>OpenMLTD.MilliSim.Runtime</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app.config" />
+    <None Include="Contents\app.config.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Contents\game\scrobj_blsymp.unity3d">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Contents\game\scrobj_shtstr.unity3d">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Contents\game\song3_blsymp_bgm.ogg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Contents\game\song3_shtstr_bgm.ogg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Contents\globalization.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Contents\res\translations\default_millisim.iv.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Contents\res\translations\default_millisim.ja-JP.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Contents\res\translations\default_millisim.zh-CN.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MonoGame.Framework.dll.config" />
+    <None Include="packages.config" />
+    <None Include="Contents\plugins.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MLTD-Icon.ico" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

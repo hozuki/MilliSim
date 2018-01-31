@@ -1,7 +1,0 @@
-metadata:
-  type: OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration.TextOverlayBaseConfig
-  assembly_file: OpenMLTD.MilliSim.Extension.Components.CoreComponents.dll
-  for: component.core.text_overlay_base
-  version: 1 # format version
-data:
-  font_path: res/fonts/MSYH.TTC

@@ -61,7 +61,7 @@ supported on Windows 8 or later.
     - macOS/Linux: 
         - [Mono](http://www.mono-project.com/download/) (≥ 5.0)
 - [Node.js](https://nodejs.org/en/download/) (≥ 5.0)
-- [NuGet CLI](https://www.nuget.org/downloads) (≥ 2.8.12)
+- [NuGet CLI](https://www.nuget.org/downloads) (≥ 4.3.0)
 
 > **Remember** to [update your Mono version](http://www.mono-project.com/download/#download-lin) and
 > [update your NuGet version](https://docs.microsoft.com/en-us/nuget/guides/install-nuget) before
