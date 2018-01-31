@@ -16,9 +16,6 @@ function runNuGetRestore() {
     console.info(chalk.yellow(welcomeScreen));
     
     const baseDir = process.cwd();
-    const packagesDir = path.join(baseDir, "packages");
-    
-    console.info(`Using packages directory '${packagesDir}'.`);
 
     glob(path.join(baseDir, "**/*.sln"), restoreSolutions);
 
@@ -41,8 +38,10 @@ function runNuGetRestore() {
 
             const projDir = path.dirname(projPath);
             const projFile = path.basename(projPath);
+            
+            console.info(`Using working directory: ${projDir}`);
 
-            child_process.execFileSync("nuget", ["restore", projFile, "-PackagesDirectory", packagesDir], {
+            child_process.execFileSync("nuget", ["restore", projFile], {
                 cwd: projDir,
                 env: process.env
             }, (proc_err) => {
