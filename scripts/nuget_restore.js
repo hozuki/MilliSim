@@ -15,7 +15,7 @@ function runNuGetRestore() {
     `;
     console.info(chalk.yellow(welcomeScreen));
 
-    glob(path.join(process.cwd(), "**/*.csproj"), restoreSolutions);
+    glob(path.join(process.cwd(), "**/*.sln"), restoreSolutions);
 
     /**
      * @param {Error} err 
@@ -37,7 +37,7 @@ function runNuGetRestore() {
             const projDir = path.dirname(projPath);
             const projFile = path.basename(projPath);
 
-            child_process.execFileSync("nuget", ["restore", projFile, "-recursive"], {
+            child_process.execFileSync("nuget", ["restore", projFile], {
                 cwd: projDir,
                 env: process.env
             }, (proc_err) => {
