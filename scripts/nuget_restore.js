@@ -17,6 +17,8 @@ function runNuGetRestore() {
     
     const baseDir = process.cwd();
     const packagesDir = path.join(baseDir, "packages");
+    
+    console.info(`Using packages directory '${packagesDir}'.`);
 
     glob(path.join(baseDir, "**/*.sln"), restoreSolutions);
 
