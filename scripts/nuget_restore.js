@@ -14,8 +14,11 @@ function runNuGetRestore() {
     |=======================================|
     `;
     console.info(chalk.yellow(welcomeScreen));
+    
+    const baseDir = process.cwd();
+    const packagesDir = path.join(baseDir, "packages");
 
-    glob(path.join(process.cwd(), "**/*.sln"), restoreSolutions);
+    glob(path.join(baseDir, "**/*.sln"), restoreSolutions);
 
     /**
      * @param {Error} err 
@@ -37,7 +40,7 @@ function runNuGetRestore() {
             const projDir = path.dirname(projPath);
             const projFile = path.basename(projPath);
 
-            child_process.execFileSync("nuget", ["restore", projFile], {
+            child_process.execFileSync("nuget", ["restore", projFile, "-PackageDirectory", packagesDir], {
                 cwd: projDir,
                 env: process.env
             }, (proc_err) => {
