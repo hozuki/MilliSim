@@ -40,7 +40,7 @@ function runNuGetRestore() {
             const projDir = path.dirname(projPath);
             const projFile = path.basename(projPath);
 
-            child_process.execFileSync("nuget", ["restore", projFile, "-PackageDirectory", packagesDir], {
+            child_process.execFileSync("nuget", ["restore", projFile, "-PackagesDirectory", packagesDir], {
                 cwd: projDir,
                 env: process.env
             }, (proc_err) => {
