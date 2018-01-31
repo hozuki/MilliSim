@@ -17,7 +17,7 @@ const AlienProjectPattern = /thirdparty/i;
 
 const appveyorRepoTag = process.env.APPVEYOR_REPO_TAG;
 
-if (appveyorRepoTag === void(0) || appveyorRepoTag.toLowerCase() === "false") {
+if (appveyorRepoTag === void(0) || appveyorRepoTag.toLowerCase() !== "true") {
     console.info(`Not a deployment, exiting. (APPVEYOR_REPO_TAG is "${appveyorRepoTag}", should be "true")`);
 } else {
     glob(path.join(process.cwd(), "**/*.nuspec"), packPackages);
