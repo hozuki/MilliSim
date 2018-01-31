@@ -91,6 +91,7 @@
     <Compile Include="DebugOverlayFactory.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="FontHelper.cs" />
+    <Compile Include="FpsCounter.cs" />
     <Compile Include="FpsOverlay.cs" />
     <Compile Include="FpsOverlayFactory.cs" />
     <Compile Include="HelpOverlay.cs" />
@@ -112,27 +113,27 @@
     <None Include="MonoGame.Framework.dll.config" />
     <None Include="OpenMLTD.MilliSim.Extension.Components.CoreComponents.nuspec" />
     <None Include="packages.config" />
-    <None Include="Contents\res\config\audio_controller.yml">
+    <None Include="Contents\config\audio_controller.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Contents\res\config\overlay\debug_overlay.yml">
+    <None Include="Contents\config\overlay\debug_overlay.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Contents\res\config\overlay\fps_overlay.yml">
+    <None Include="Contents\config\overlay\fps_overlay.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Contents\res\config\overlay\sync_timer_overlay.yml">
+    <None Include="Contents\config\overlay\sync_timer_overlay.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Contents\res\config\background_image.yml">
+    <None Include="Contents\config\background_image.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Contents\res\config\background_video.yml">
+    <None Include="Contents\config\background_video.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Contents\res\config\text_overlay_base.yml">
+    <None Include="Contents\config\text_overlay_base.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

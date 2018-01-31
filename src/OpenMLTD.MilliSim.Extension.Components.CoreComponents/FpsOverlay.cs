@@ -17,28 +17,23 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
 
         public override float FontSize { get; set; } = 15;
 
+        protected override void OnInitialize() {
+            base.OnInitialize();
+
+            _lastUpdatedTime = DateTime.UtcNow;
+        }
+
         protected override void OnUpdate(GameTime gameTime) {
             base.OnUpdate(gameTime);
 
-            var now = gameTime.TotalGameTime;
-            if (now - _lastTotalTime >= _updateInterval) {
-                var timeDiff = now - _lastTotalTime;
+            _fpsCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-                float fps;
-                var seconds = (float)timeDiff.TotalSeconds;
-                if (seconds.Equals(0f)) {
-                    fps = 0;
-                } else {
-                    fps = _frameCounter / seconds;
-                }
+            var now = DateTime.UtcNow;
+            if (now - _lastUpdatedTime >= _updateInterval) {
+                var fps = _fpsCounter.Average;
 
                 Text = "FPS: " + fps.ToString("0.##");
-
-                _lastTotalTime = now;
-                _frameCounter = 0;
             }
-
-            ++_frameCounter;
         }
 
         protected override void OnDraw(GameTime gameTime) {
@@ -54,9 +49,9 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
 
         private readonly TimeSpan _updateInterval = TimeSpan.FromSeconds(1);
 
-        private TimeSpan _lastTotalTime = TimeSpan.Zero;
+        private readonly FpsCounter _fpsCounter = new FpsCounter();
 
-        private int _frameCounter;
+        private DateTime _lastUpdatedTime;
 
     }
 }

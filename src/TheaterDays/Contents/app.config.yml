@@ -1,4 +1,4 @@
-# @include <res/config/**/*.yml>
+# @include <config/**/*.yml>
 
 # Notes:
 # 1. Please save this configuration file with UTF-8 encoding without BOM, codepage 65001.

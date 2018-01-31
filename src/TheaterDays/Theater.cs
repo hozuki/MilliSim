@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
 using OpenMLTD.MilliSim.Configuration;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;

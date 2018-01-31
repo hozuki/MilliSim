@@ -120,7 +120,7 @@ namespace OpenMLTD.MilliSim.Foundation {
                     return;
                 }
 
-                GraphicsDevice.Clear(Color.CornflowerBlue);
+                GraphicsDevice.Clear(Color.Black);
 
                 foreach (var component in Components) {
                     if (component is IDrawable d) {
