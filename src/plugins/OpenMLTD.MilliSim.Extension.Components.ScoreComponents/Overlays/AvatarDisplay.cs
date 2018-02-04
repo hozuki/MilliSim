@@ -1,0 +1,303 @@
+using System;
+using System.Diagnostics;
+using System.Linq;
+using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using OpenMLTD.MilliSim.Contributed.Scores;
+using OpenMLTD.MilliSim.Extension.Components.CoreComponents;
+using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration;
+using OpenMLTD.MilliSim.Foundation;
+using OpenMLTD.MilliSim.Foundation.Extensions;
+using OpenMLTD.MilliSim.Graphics;
+
+namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays {
+    public class AvatarDisplay : BufferedVisual {
+
+        public AvatarDisplay([NotNull] BaseGame game, [NotNull] IVisualContainer parent)
+            : base(game, parent) {
+        }
+
+        public void PlayScorePrepareAnimation() {
+            var syncTimer = Game.ToBaseGame().FindSingleElement<SyncTimer>();
+            if (syncTimer == null) {
+                throw new InvalidOperationException();
+            }
+
+            _animationStartedTime = syncTimer.CurrentTime;
+            _ongoingAnimation = OngoingAnimation.ScorePrepare;
+        }
+
+        public void PlaySpecialEndAnimation() {
+            var syncTimer = Game.ToBaseGame().FindSingleElement<SyncTimer>();
+            if (syncTimer == null) {
+                throw new InvalidOperationException();
+            }
+
+            _animationStartedTime = syncTimer.CurrentTime;
+            _ongoingAnimation = OngoingAnimation.SpecialEnd;
+        }
+
+        protected override void OnUpdate(GameTime gameTime) {
+            base.OnUpdate(gameTime);
+
+            var theaterDays = Game.ToBaseGame();
+
+            var syncTimer = theaterDays.FindSingleElement<SyncTimer>();
+            if (syncTimer == null) {
+                throw new InvalidOperationException();
+            }
+
+            var currentTime = syncTimer.CurrentTime;
+            if (currentTime < _animationStartedTime) {
+                var score = theaterDays.FindSingleElement<ScoreLoader>()?.RuntimeScore;
+                if (score == null) {
+                    throw new InvalidOperationException();
+                }
+
+                var now = currentTime.TotalSeconds;
+                var scorePrepareNote = score.Notes.Single(n => n.Type == NoteType.ScorePrepare);
+                var specialNote = score.Notes.Single(n => n.Type == NoteType.Special);
+                var specialEndNote = score.Notes.Single(n => n.Type == NoteType.SpecialEnd);
+
+                if (now < scorePrepareNote.HitTime || (specialNote.HitTime < now && now < specialEndNote.HitTime)) {
+                    Opacity = 0;
+                } else {
+                    // Automatically cancels the animation if the user steps back in UI.
+                    Opacity = 1;
+                }
+
+                _ongoingAnimation = OngoingAnimation.None;
+                // Fix suddent appearance.
+                _animationStartedTime = currentTime;
+
+                return;
+            }
+
+            if (_ongoingAnimation == OngoingAnimation.None) {
+                return;
+            }
+
+            var animationTime = (currentTime - _animationStartedTime).TotalSeconds;
+
+            switch (_ongoingAnimation) {
+                case OngoingAnimation.ScorePrepare:
+                    if (animationTime > _scorePrepareDuration) {
+                        Opacity = 1;
+                        _ongoingAnimation = OngoingAnimation.None;
+                        return;
+                    }
+
+                    break;
+                case OngoingAnimation.SpecialEnd:
+                    if (animationTime > _specialEndDuration) {
+                        Opacity = 1;
+                        _ongoingAnimation = OngoingAnimation.None;
+                        return;
+                    }
+
+                    break;
+                case OngoingAnimation.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            float perc;
+            switch (_ongoingAnimation) {
+                case OngoingAnimation.ScorePrepare:
+                    perc = (float)animationTime / (float)_scorePrepareDuration;
+                    Opacity = perc;
+                    break;
+                case OngoingAnimation.SpecialEnd:
+                    perc = (float)animationTime / (float)_specialEndDuration;
+                    Opacity = perc;
+                    break;
+                case OngoingAnimation.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+//        protected override void OnDrawBuffer(GameTime gameTime) {
+//            base.OnDrawBuffer(gameTime);
+
+//            if (Opacity <= 0) {
+//                return;
+//            }
+
+//            var avatarRectangles = _avatarRectangles;
+
+////            context.Begin2D();
+////
+////            var d2dContext = context.RenderTarget.DeviceContext2D;
+////            var d2dFactory = d2dContext.Factory;
+////            using (var geometry = new PathGeometry(d2dFactory)) {
+////                using (var sink = geometry.Open()) {
+////                    foreach (var rect in avatarRectangles) {
+////                        sink.BeginFigure(new Vector2(rect.X + rect.Width / 2, rect.Y), FigureBegin.Filled);
+////                        sink.AddArc(new ArcSegment {
+////                            ArcSize = ArcSize.Small,
+////                            Point = new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height),
+////                            Size = new Size2F(rect.Width / 2, rect.Height / 2),
+////                            SweepDirection = SweepDirection.CounterClockwise
+////                        });
+////                        sink.AddArc(new ArcSegment {
+////                            ArcSize = ArcSize.Small,
+////                            Point = new Vector2(rect.X + rect.Width / 2, rect.Y),
+////                            Size = new Size2F(rect.Width / 2, rect.Height / 2),
+////                            SweepDirection = SweepDirection.CounterClockwise
+////                        });
+////                        sink.EndFigure(FigureEnd.Closed);
+////                    }
+////
+////                    sink.Close();
+////                }
+////
+////                var originalAntiAliasMode = d2dContext.AntialiasMode;
+////
+////                // https://msdn.microsoft.com/en-us/library/windows/desktop/hh847947.aspx
+////                var layerParams = new LayerParameters {
+////                    GeometricMask = geometry,
+////                    ContentBounds = RectangleF.Infinite,
+////                    MaskTransform = Matrix3x2.Identity,
+////                    MaskAntialiasMode = AntialiasMode.PerPrimitive,
+////                    Opacity = 1,
+////                    LayerOptions = LayerOptions.None
+////                };
+////                d2dContext.AntialiasMode = AntialiasMode.PerPrimitive;
+////
+////                using (var layer = new Layer(d2dContext)) {
+////                    d2dContext.PushLayer(ref layerParams, layer);
+////
+////                    var avatarImages = _avatarImages;
+////
+////                    for (var i = 0; i < avatarImages.Length; ++i) {
+////                        var image = avatarImages[i];
+////
+////                        if (image == null) {
+////                            continue;
+////                        }
+////
+////                        var rect = avatarRectangles[i];
+////
+////                        context.DrawBitmap(image, rect.X, rect.Y, rect.Width, rect.Height);
+////                    }
+////
+////                    d2dContext.PopLayer();
+////                }
+////
+////                d2dContext.AntialiasMode = originalAntiAliasMode;
+////            }
+////
+////            context.End2D();
+////
+////            context.Begin2D();
+////            foreach (var rect in avatarRectangles) {
+////                context.DrawEllipse(_borderPen, rect.X, rect.Y, rect.Width, rect.Height);
+////            }
+////
+////            context.End2D();
+//        }
+
+        protected override void OnLoadContents() {
+            base.OnLoadContents();
+
+            var theaterDays = Game.ToBaseGame();
+
+            var config = ConfigurationStore.Get<AvatarDisplayConfig>();
+
+            var avatarCount = config.Data.Images.Length;
+            var avatarImages = new Texture2D[avatarCount];
+
+            for (var i = 0; i < avatarCount; ++i) {
+                try {
+                    var image = ContentHelper.LoadTexture(theaterDays.GraphicsDevice, config.Data.Images[i].FileName);
+                    avatarImages[i] = image;
+                } catch (Exception ex) {
+                    Debug.Print(ex.Message);
+                }
+            }
+
+            var clientSize = theaterDays.GraphicsDevice.Viewport;
+            var layout = config.Data.Layout;
+            var x = layout.X.IsPercentage ? layout.X.Value * clientSize.Width : layout.X.Value;
+            var y = layout.Y.IsPercentage ? layout.Y.Value * clientSize.Height : layout.Y.Value;
+            var w = layout.Width.IsPercentage ? layout.Width.Value * clientSize.Width : layout.Width.Value;
+            var h = layout.Height.IsPercentage ? layout.Height.Value * clientSize.Height : layout.Height.Value;
+
+            var rects = new Rectangle[avatarCount];
+            float radius;
+            if (w >= h) {
+                radius = h / 2;
+                for (var i = 0; i < avatarCount; ++i) {
+                    var cx = (w - radius * 2) / (avatarCount - 1) * i;
+                    var rect = RectHelper.RoundToRectangle(x + cx, y, radius * 2, radius * 2);
+                    rects[i] = rect;
+                }
+            } else {
+                radius = w / 2;
+                for (var i = 0; i < avatarCount; ++i) {
+                    var cy = (h - radius * 2) / (avatarCount - 1) * i;
+                    var rect = RectHelper.RoundToRectangle(x, y + cy, radius * 2, radius * 2);
+                    rects[i] = rect;
+                }
+            }
+
+            _avatarImages = avatarImages;
+            _avatarRectangles = rects;
+
+            var scalingResponder = theaterDays.FindSingleElement<MltdStageScalingResponder>();
+
+            if (scalingResponder == null) {
+                throw new InvalidOperationException();
+            }
+
+            var scalingResults = scalingResponder.ScaleResults;
+
+//            _borderPen = new D2DPen(context, Color.White, scalingResults.AvatarBorder.Width);
+        }
+
+        protected override void OnUnloadContents() {
+            foreach (var image in _avatarImages) {
+                image?.Dispose();
+            }
+
+            _avatarImages = null;
+
+//            _borderPen?.Dispose();
+//            _borderPen = null;
+
+            base.OnUnloadContents();
+        }
+
+        protected override void OnInitialize() {
+            base.OnInitialize();
+
+            Opacity = 0;
+        }
+
+//        private D2DPen _borderPen;
+
+        private Rectangle[] _avatarRectangles;
+
+        [ItemCanBeNull]
+        private Texture2D[] _avatarImages;
+
+        private OngoingAnimation _ongoingAnimation = OngoingAnimation.None;
+        private TimeSpan _animationStartedTime = TimeSpan.Zero;
+
+        private readonly double _scorePrepareDuration = 1.5;
+        private readonly double _specialEndDuration = 1.5;
+
+        private enum OngoingAnimation {
+
+            None = 0,
+            ScorePrepare = 1,
+            SpecialEnd = 2
+
+        }
+
+    }
+}

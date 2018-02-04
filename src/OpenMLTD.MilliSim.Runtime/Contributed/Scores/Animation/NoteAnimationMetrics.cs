@@ -1,21 +1,21 @@
 namespace OpenMLTD.MilliSim.Contributed.Scores.Animation {
     public struct NoteAnimationMetrics {
 
-        public float GlobalSpeedScale { get; internal set; }
+        public float GlobalSpeedScale { get; set; }
 
-        public int TrackCount { get; internal set; }
+        public int TrackCount { get; set; }
 
-        public float[] NoteStartXRatios { get; internal set; }
+        public float[] NoteStartXRatios { get; set; }
 
-        public float[] NoteEndXRatios { get; internal set; }
+        public float[] NoteEndXRatios { get; set; }
 
-        public float Width { get; internal set; }
+        public float Width { get; set; }
 
-        public float Height { get; internal set; }
+        public float Height { get; set; }
 
-        public float Top { get; internal set; }
+        public float Top { get; set; }
 
-        public float Bottom { get; internal set; }
+        public float Bottom { get; set; }
 
     }
 }

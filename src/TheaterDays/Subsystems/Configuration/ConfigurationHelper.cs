@@ -19,8 +19,7 @@ namespace OpenMLTD.TheaterDays.Subsystems.Configuration {
                 .WithTypeConverter(new AdvancedEnumConverter(new PascalCaseNamingConvention()))
                 .WithTypeConverter(new PercentOrRealValueConverter())
                 .WithTypeConverter(new ColorConverter())
-                .WithTypeConverter(new PointFConverter())
-                .WithTypeConverter(new SizeFConverter());
+                .WithTypeConverter(new Vector2Converter());
 
             // External converters
             foreach (var factory in typeConverterFactories) {

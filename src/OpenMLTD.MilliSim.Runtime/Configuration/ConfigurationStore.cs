@@ -33,7 +33,7 @@ namespace OpenMLTD.MilliSim.Configuration {
         /// <param name="entryFilePath">Path of the entry file.</param>
         /// <param name="deserializer">The deserializer to deserialize files. It must support <see cref="DeserializerBuilder.IgnoreUnmatchedProperties"/>.</param>
         /// <param name="encoding">File encoding.</param>
-        /// <returns></returns>
+        /// <returns>Created <see cref="ConfigurationStore"/>.</returns>
         public static ConfigurationStore Load([NotNull] string entryFilePath, [NotNull] Deserializer deserializer, [NotNull] Encoding encoding) {
             var configFileList = ScanConfigFiles(entryFilePath, encoding);
 

@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.Overlay;
 using OpenMLTD.MilliSim.Audio;
 using OpenMLTD.MilliSim.Configuration;
 using OpenMLTD.MilliSim.Core;
@@ -18,6 +19,8 @@ namespace OpenMLTD.MilliSim.Foundation {
         protected BaseGame([NotNull] string contentRootDirectory, [NotNull] BasePluginManager pluginManager) {
             _graphicsDeviceManager = new GraphicsDeviceManager(this);
             _audioManager = new AudioManager();
+            _effectManager = new EffectManager(this);
+            _fontManager = new FontManager();
             _pluginManager = pluginManager;
 
             Content.RootDirectory = contentRootDirectory;
@@ -31,11 +34,34 @@ namespace OpenMLTD.MilliSim.Foundation {
 
         public AudioManager AudioManager => _audioManager;
 
+        public EffectManager EffectManager => _effectManager;
+
+        public FontManager FontManager => _fontManager;
+
         public abstract Stage Stage { get; }
 
         public abstract ConfigurationStore ConfigurationStore { get; }
 
         public abstract CultureSpecificInfo CultureSpecificInfo { get; }
+
+        public static GraphicsBackend GraphicsBackend {
+            get => _graphicsBackend;
+            set {
+                if (_graphicsBackend != GraphicsBackend.Unknown) {
+                    throw new InvalidOperationException();
+                }
+
+                switch (value) {
+                    case GraphicsBackend.Direct3D11:
+                    case GraphicsBackend.OpenGL:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(value), value, null);
+                }
+
+                _graphicsBackend = value;
+            }
+        }
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -145,11 +171,15 @@ namespace OpenMLTD.MilliSim.Foundation {
                 _spriteBatch?.Dispose();
                 _graphicsDeviceManager?.Dispose();
                 _audioManager?.Dispose();
+                _effectManager?.Dispose();
+                _fontManager?.Dispose();
                 _pluginManager?.Dispose();
 
                 _spriteBatch = null;
                 _graphicsDeviceManager = null;
                 _audioManager = null;
+                _effectManager = null;
+                _fontManager = null;
                 _pluginManager = null;
             }
 
@@ -164,7 +194,11 @@ namespace OpenMLTD.MilliSim.Foundation {
         private SpriteBatch _spriteBatch;
         private GraphicsDeviceManager _graphicsDeviceManager;
         private AudioManager _audioManager;
+        private EffectManager _effectManager;
+        private FontManager _fontManager;
         private BasePluginManager _pluginManager;
+
+        private static GraphicsBackend _graphicsBackend;
 
     }
 }

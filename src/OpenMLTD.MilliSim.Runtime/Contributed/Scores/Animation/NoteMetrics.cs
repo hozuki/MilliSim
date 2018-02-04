@@ -1,11 +1,11 @@
-using System.Drawing;
+using Microsoft.Xna.Framework;
 
 namespace OpenMLTD.MilliSim.Contributed.Scores.Animation {
     public struct NoteMetrics {
 
-        public SizeF StartRadius { get; internal set; }
+        public Vector2 StartRadius { get; set; }
 
-        public SizeF EndRadius { get; internal set; }
+        public Vector2 EndRadius { get; set; }
 
     }
 }

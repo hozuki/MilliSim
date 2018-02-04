@@ -1,5 +1,5 @@
 using System;
-using System.Drawing;
+using Microsoft.Xna.Framework;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
@@ -37,7 +37,13 @@ namespace OpenMLTD.MilliSim.Configuration.Converters {
             }
 
             var val = Convert.ToInt32(str, 16);
-            var color = Color.FromArgb(val);
+
+            var a = (val >> 24) & 0xff;
+            var r = (val >> 16) & 0xff;
+            var g = (val >> 8) & 0xff;
+            var b = val & 0xff;
+
+            var color = Color.FromNonPremultiplied(r, g, b, a);
 
             parser.MoveNext();
 

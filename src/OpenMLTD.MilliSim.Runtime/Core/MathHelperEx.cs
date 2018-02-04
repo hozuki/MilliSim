@@ -1,23 +1,33 @@
 using System;
+using System.Runtime.CompilerServices;
 using OpenMLTD.MilliSim.Core.Extensions;
 
 namespace OpenMLTD.MilliSim.Core {
     public static class MathHelperEx {
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Lerp(float from, float to, float percent) {
             return from * (1 - percent) + to * percent;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Lerp(double from, double to, double percent) {
             return from * (1 - percent) + to * percent;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float LerpTo(this float from, float to, float percent) {
             return Lerp(from, to, percent);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double LerpTo(this double from, double to, double percent) {
             return Lerp(from, to, percent);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Round(float value) {
+            return (int)Math.Round(value);
         }
 
         public static (double X, double Y) CubicBezier(double x1, double y1, double cx1, double cy1, double cx2, double cy2, double x2, double y2, double t) {

@@ -1,7 +1,7 @@
 namespace OpenMLTD.MilliSim.Contributed.Scores.Animation {
     public struct NoteTimePoints {
 
-        public NoteTimePoints(double enter, double leave) {
+        public NoteTimePoints(float enter, float leave) {
             Enter = enter;
             Leave = leave;
         }
@@ -9,17 +9,17 @@ namespace OpenMLTD.MilliSim.Contributed.Scores.Animation {
         /// <summary>
         /// Gets/sets the time when this note enters the stage, in seconds.
         /// </summary>
-        public double Enter { get; private set; }
+        public float Enter { get; }
 
         /// <summary>
         /// Gets/sets the time when this note leaves the stage, in seconds.
         /// </summary>
-        public double Leave { get; private set; }
+        public float Leave { get; }
 
         /// <summary>
         /// Gets the duration of this note appearing on stage, in seconds.
         /// </summary>
-        public double Duration => Leave - Enter;
+        public float Duration => Leave - Enter;
 
     }
 }

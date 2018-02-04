@@ -15,13 +15,13 @@ namespace OpenMLTD.MilliSim.Contributed.Scores.Runtime {
         /// <summary>
         /// Absolute hit time, in seconds.
         /// </summary>
-        public double HitTime { get; set; }
+        public float HitTime { get; set; }
 
         /// <summary>
         /// The duration, starting from this note enters the stage, to this note exits the stage (reaches <see cref="HitTime"/>), in seconds.
         /// The actual value will be modified with <see cref="RelativeSpeed"/>.
         /// </summary>
-        public double LeadTime { get; set; }
+        public float LeadTime { get; set; }
 
         /// <summary>
         /// The starting X position value. This value relies on track index to calculate the absolute X position on stage.

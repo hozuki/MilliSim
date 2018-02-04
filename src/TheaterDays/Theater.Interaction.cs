@@ -17,15 +17,28 @@ namespace OpenMLTD.TheaterDays {
         private void KeyboardStateHandler_KeyUp(object sender, KeyEventArgs e) {
         }
 
+        private void BackgroundMedia_PlaybackStopped(object sender, System.EventArgs e) {
+            SetIsPlaying(false, stop: true);
+        }
+
         private void TogglePlayState() {
+            SetIsPlaying(!_isPlaying, stop: false);
+        }
+
+        private void SetIsPlaying(bool isPlaying, bool stop) {
             var bga = this.FindSingleElement<BackgroundVideo>();
             var audio = this.FindSingleElement<AudioController>();
 
-            _isPlaying = !_isPlaying;
+            _isPlaying = isPlaying;
 
-            if (!_isPlaying) {
-                bga?.Pause();
-                audio.Music?.Source.Pause();
+            if (!isPlaying) {
+                if (stop) {
+                    bga?.Stop();
+                    audio?.Music?.Source.Stop();
+                } else {
+                    bga?.Pause();
+                    audio?.Music?.Source.Pause();
+                }
             } else {
                 if (bga != null) {
                     if (bga.State == MediaState.Stopped) {
@@ -34,7 +47,7 @@ namespace OpenMLTD.TheaterDays {
                         bga.Resume();
                     }
                 }
-                audio.Music?.Source.PlayDirect();
+                audio?.Music?.Source.PlayDirect();
             }
 
             UpdateStateDisplay();

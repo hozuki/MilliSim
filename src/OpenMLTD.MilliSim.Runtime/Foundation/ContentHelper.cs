@@ -23,6 +23,12 @@ namespace OpenMLTD.MilliSim.Foundation {
             }
         }
 
+        public static SpriteSheet1D LoadSpriteSheet1D([NotNull] GraphicsDevice graphics, [NotNull] string filePath, int count, SpriteSheetOrientation orientation) {
+            var texture = LoadTexture(graphics, filePath);
+
+            return SpriteSheet1D.Wrap(texture, count, orientation);
+        }
+
         public static SpriteSheet1D LoadSpriteSheet1D([NotNull] GraphicsDevice graphics, [NotNull] Bitmap bitmap, [NotNull] ImageFormat format, int count, SpriteSheetOrientation orientation) {
             var texture = LoadTexture(graphics, bitmap, format);
 

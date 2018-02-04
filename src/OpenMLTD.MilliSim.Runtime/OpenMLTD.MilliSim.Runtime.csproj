@@ -17,7 +17,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -28,7 +28,7 @@
     <LangVersion>7</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE;LINUX</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -37,7 +37,7 @@
     <Prefer32Bit>false</Prefer32Bit>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>7</LangVersion>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>
@@ -52,6 +52,7 @@
     <Compile Include="Audio\AudioHelper.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\Sound.cs" />
+    <Compile Include="Audio\WdlResampling16Stream.cs" />
     <Compile Include="Configuration\ConfigTypeConverterFactory.cs" />
     <Compile Include="Contributed\Scores\Animation\NoteAnimationCalculator.cs" />
     <Compile Include="Contributed\Scores\Animation\NoteAnimationHelper.cs" />
@@ -72,7 +73,17 @@
     <Compile Include="Foundation\BaseGameComponentCollection.PendingEntry.cs" />
     <Compile Include="Foundation\BaseGameComponentContainer.cs" />
     <Compile Include="Foundation\BasePluginManager.cs" />
+    <Compile Include="Graphics\BufferedVisual.cs" />
+    <Compile Include="Graphics\BufferedVisualContainer.cs" />
+    <Compile Include="Graphics\EffectManager.cs" />
     <Compile Include="Graphics\Extensions\SpriteBatchExtensions.cs" />
+    <Compile Include="Graphics\Extensions\Texture2DExtensions.cs" />
+    <Compile Include="Graphics\GraphicsBackend.cs" />
+    <Compile Include="Graphics\ISupportsOpacity.cs" />
+    <Compile Include="Graphics\RectHelper.cs" />
+    <Compile Include="Graphics\IBufferedVisual.cs" />
+    <Compile Include="Graphics\IVisual2D.cs" />
+    <Compile Include="Graphics\Extensions\GraphicsDeviceExtensions.cs" />
     <Compile Include="Graphics\Stage.cs" />
     <Compile Include="Graphics\VisualContainer.cs" />
     <Compile Include="Plugin\IAudioFormat.cs" />
@@ -80,8 +91,7 @@
     <Compile Include="Configuration\Converters\AdvancedEnumConverter.cs" />
     <Compile Include="Configuration\Converters\ColorConverter.cs" />
     <Compile Include="Configuration\Converters\PercentOrRealValueConverter.cs" />
-    <Compile Include="Configuration\Converters\PointFConverter.cs" />
-    <Compile Include="Configuration\Converters\SizeFConverter.cs" />
+    <Compile Include="Configuration\Converters\Vector2Converter.cs" />
     <Compile Include="Configuration\DuplicateKeyException.cs" />
     <Compile Include="Configuration\Entities\ConfigBase.cs" />
     <Compile Include="Configuration\Entities\ConfigMetadata.cs" />
@@ -198,51 +208,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <MonoGameContentReference Include="Contents\Content.mgcb" />
-    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\SDL2.dll">
-      <Link>x86\SDL2.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\SDL2.dll">
-      <Link>x64\SDL2.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\soft_oal.dll">
-      <Link>x86\soft_oal.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\soft_oal.dll">
-      <Link>x64\soft_oal.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\libSDL2-2.0.so.0">
-      <Link>x86\libSDL2-2.0.so.0</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\libSDL2-2.0.so.0">
-      <Link>x64\libSDL2-2.0.so.0</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\libopenal.so.1">
-      <Link>x86\libopenal.so.1</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\libopenal.so.1">
-      <Link>x64\libopenal.so.1</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\libSDL2-2.0.0.dylib">
-      <Link>libSDL2-2.0.0.dylib</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\libopenal.1.dylib">
-      <Link>libopenal.1.dylib</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll.config">
-      <Link>MonoGame.Framework.dll.config</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="app.manifest" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -251,6 +216,14 @@
     <Folder Include="Contents\res\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\thirdparty\MonoGame.Extended2\Sources\MonoGame.Extended.Overlay\MonoGame.Extended.Overlay.csproj">
+      <Project>{8a716d2a-de8d-4886-bf8f-76b6b1a7bb8f}</Project>
+      <Name>MonoGame.Extended.Overlay</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\thirdparty\MonoGame.Extended2\Sources\MonoGame.Extended2\MonoGame.Extended2.csproj">
+      <Project>{c7c3d9de-41a4-4c21-98fb-336ed38a99d5}</Project>
+      <Name>MonoGame.Extended2</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\SharpAL\SharpAL\SharpAL.csproj">
       <Project>{beb46d97-08c9-4868-8cac-d3ec2e954689}</Project>
       <Name>SharpAL</Name>

@@ -52,7 +52,7 @@ namespace OpenMLTD.MilliSim.Graphics {
             base.OnUnloadContents();
         }
 
-        protected sealed override void OnDraw(GameTime gameTime) {
+        protected override void OnDraw(GameTime gameTime) {
             base.OnDraw(gameTime);
 
             OnSelfDraw(gameTime);

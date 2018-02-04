@@ -21,8 +21,8 @@ namespace OpenMLTD.MilliSim.Contributed.Scores.Runtime {
         /// <summary>
         /// Offset of the score, relative to standard time, in seconds.
         /// </summary>
-        public double Offset {
-            get => GetValue<double>(OffsetKey);
+        public float Offset {
+            get => GetValue<float>(OffsetKey);
             set => SetValue(OffsetKey, value);
         }
 

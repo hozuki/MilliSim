@@ -57,7 +57,7 @@ namespace OpenMLTD.MilliSim.Contributed.Scores.Source {
         /// The standard time from the note enters the stage to it leaves the stage.
         /// The effective value is adjusted by a global speed scale, and a local speed scale (<see cref="Speed"/>).
         /// </summary>
-        public double LeadTime { get; set; }
+        public float LeadTime { get; set; }
 
         /// <summary>
         /// Extra: group ID. Meant to be compatible with CGSS. Ignored by MLTD.

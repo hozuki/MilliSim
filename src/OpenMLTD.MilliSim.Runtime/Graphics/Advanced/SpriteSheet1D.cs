@@ -1,5 +1,5 @@
 using System;
-using System.Drawing;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using OpenMLTD.MilliSim.Core;
 
@@ -10,15 +10,15 @@ namespace OpenMLTD.MilliSim.Graphics.Advanced {
             Count = count;
             Orientation = orientation;
 
-            var size = new Size(texture.Width, texture.Height);
+            var size = new Vector2(texture.Width, texture.Height);
             switch (orientation) {
                 case SpriteSheetOrientation.Horizontal:
-                    UnitWidth = (float)size.Width / count;
-                    UnitHeight = size.Height;
+                    UnitWidth = size.X / count;
+                    UnitHeight = size.Y;
                     break;
                 case SpriteSheetOrientation.Vertical:
-                    UnitWidth = size.Width;
-                    UnitHeight = (float)size.Height / count;
+                    UnitWidth = size.X;
+                    UnitHeight = size.Y / count;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(orientation), orientation, null);

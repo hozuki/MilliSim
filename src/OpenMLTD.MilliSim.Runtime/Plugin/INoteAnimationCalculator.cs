@@ -1,5 +1,5 @@
-using System.Drawing;
 using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
 using OpenMLTD.MilliSim.Contributed.Scores.Animation;
 using OpenMLTD.MilliSim.Contributed.Scores.Runtime;
 
@@ -17,7 +17,7 @@ namespace OpenMLTD.MilliSim.Plugin {
         /// <param name="noteMetrics">Note metrics.</param>
         /// <param name="animationMetrics">Note animation metrics.</param>
         /// <returns>Calculated note radius.</returns>
-        SizeF GetNoteRadius([NotNull] RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        Vector2 GetNoteRadius([NotNull] RuntimeNote note, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
         /// <summary>
         /// Calculate selected note's X position according to given data.
@@ -27,7 +27,7 @@ namespace OpenMLTD.MilliSim.Plugin {
         /// <param name="noteMetrics">Note metrics.</param>
         /// <param name="animationMetrics">Note animation metrics.</param>
         /// <returns>The note's X position.</returns>
-        float GetNoteX([NotNull] RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        float GetNoteX([NotNull] RuntimeNote note, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
         /// <summary>
         /// Calculate selected note's Y position according to given data.
@@ -37,7 +37,7 @@ namespace OpenMLTD.MilliSim.Plugin {
         /// <param name="noteMetrics">Note metrics.</param>
         /// <param name="animationMetrics">Note animation metrics.</param>
         /// <returns>The note's Y position.</returns>
-        float GetNoteY([NotNull] RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        float GetNoteY([NotNull] RuntimeNote note, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
         /// <summary>
         /// Calculate special note's radius according to given data.
@@ -47,7 +47,7 @@ namespace OpenMLTD.MilliSim.Plugin {
         /// <param name="noteMetrics">Note metrics.</param>
         /// <param name="animationMetrics">Note animation metrics.</param>
         /// <returns>Calculated note radius.</returns>
-        SizeF GetSpecialNoteRadius([NotNull] RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        Vector2 GetSpecialNoteRadius([NotNull] RuntimeNote note, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
         /// <summary>
         /// Calculate special note's X position according to given data.
@@ -57,7 +57,7 @@ namespace OpenMLTD.MilliSim.Plugin {
         /// <param name="noteMetrics">Note metrics.</param>
         /// <param name="animationMetrics">Note animation metrics.</param>
         /// <returns>The note's X position.</returns>
-        float GetSpecialNoteX([NotNull] RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        float GetSpecialNoteX([NotNull] RuntimeNote note, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
         /// <summary>
         /// Calculate special note's Y position according to given data.
@@ -67,7 +67,7 @@ namespace OpenMLTD.MilliSim.Plugin {
         /// <param name="noteMetrics">Note metrics.</param>
         /// <param name="animationMetrics">Note animation metrics.</param>
         /// <returns>The note's Y position.</returns>
-        float GetSpecialNoteY([NotNull] RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        float GetSpecialNoteY([NotNull] RuntimeNote note, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
         /// <summary>
         /// Calculates parameters for hold ribbons.
@@ -82,7 +82,7 @@ namespace OpenMLTD.MilliSim.Plugin {
         /// So if the function should return a line, it must be indicated manually.
         /// </remarks>
         /// <returns>A <see cref="RibbonParameters"/> structure containing neccessary information.</returns>
-        RibbonParameters GetHoldRibbonParameters([NotNull] RuntimeNote startNote, [NotNull] RuntimeNote endNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        RibbonParameters GetHoldRibbonParameters([NotNull] RuntimeNote startNote, [NotNull] RuntimeNote endNote, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
         /// <summary>
         /// Calculates parameters for flick ribbons.
@@ -97,7 +97,7 @@ namespace OpenMLTD.MilliSim.Plugin {
         /// So if the function should return a line, it must be indicated manually.
         /// </remarks>
         /// <returns>A <see cref="RibbonParameters"/> structure containing neccessary information.</returns>
-        RibbonParameters GetFlickRibbonParameters([NotNull] RuntimeNote startNote, [NotNull] RuntimeNote endNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        RibbonParameters GetFlickRibbonParameters([NotNull] RuntimeNote startNote, [NotNull] RuntimeNote endNote, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
         /// <summary>
         /// Calculates parameters for slide ribbons.
@@ -112,7 +112,7 @@ namespace OpenMLTD.MilliSim.Plugin {
         /// So if the function should return a line, it must be indicated manually.
         /// </remarks>
         /// <returns>A <see cref="RibbonParameters"/> structure containing neccessary information.</returns>
-        RibbonParameters GetSlideRibbonParameters([NotNull] RuntimeNote startNote, [NotNull] RuntimeNote endNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        RibbonParameters GetSlideRibbonParameters([NotNull] RuntimeNote startNote, [NotNull] RuntimeNote endNote, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
     }
 }

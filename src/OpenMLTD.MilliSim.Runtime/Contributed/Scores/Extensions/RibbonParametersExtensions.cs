@@ -1,4 +1,5 @@
 using System.Drawing;
+using Microsoft.Xna.Framework;
 using OpenMLTD.MilliSim.Contributed.Scores.Animation;
 
 namespace OpenMLTD.MilliSim.Contributed.Scores.Extensions {
@@ -16,7 +17,7 @@ namespace OpenMLTD.MilliSim.Contributed.Scores.Extensions {
             isLine = rp.IsLine;
         }
 
-        public static PointF CalculateCubicBezier(this RibbonParameters rp, float t) {
+        public static Vector2 CalculateCubicBezier(this RibbonParameters rp, float t) {
             return RibbonMathHelper.CubicBezier(rp, t);
         }
 

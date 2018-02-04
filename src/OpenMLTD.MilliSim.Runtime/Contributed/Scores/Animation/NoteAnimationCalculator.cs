@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using Microsoft.Xna.Framework;
 using OpenMLTD.MilliSim.Contributed.Scores.Runtime;
 using OpenMLTD.MilliSim.Plugin;
 
@@ -22,23 +23,23 @@ namespace OpenMLTD.MilliSim.Contributed.Scores.Animation {
 
         public string PluginCategory => "Note Animation Calculator";
 
-        public abstract SizeF GetNoteRadius(RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        public abstract Vector2 GetNoteRadius(RuntimeNote note, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
-        public abstract float GetNoteX(RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        public abstract float GetNoteX(RuntimeNote note, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
-        public abstract float GetNoteY(RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        public abstract float GetNoteY(RuntimeNote note, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
-        public abstract SizeF GetSpecialNoteRadius(RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        public abstract Vector2 GetSpecialNoteRadius(RuntimeNote note, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
-        public abstract float GetSpecialNoteX(RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        public abstract float GetSpecialNoteX(RuntimeNote note, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
-        public abstract float GetSpecialNoteY(RuntimeNote note, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        public abstract float GetSpecialNoteY(RuntimeNote note, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
-        public abstract RibbonParameters GetHoldRibbonParameters(RuntimeNote startNote, RuntimeNote endNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        public abstract RibbonParameters GetHoldRibbonParameters(RuntimeNote startNote, RuntimeNote endNote, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
-        public abstract RibbonParameters GetFlickRibbonParameters(RuntimeNote startNote, RuntimeNote endNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        public abstract RibbonParameters GetFlickRibbonParameters(RuntimeNote startNote, RuntimeNote endNote, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
-        public abstract RibbonParameters GetSlideRibbonParameters(RuntimeNote startNote, RuntimeNote endNote, double now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
+        public abstract RibbonParameters GetSlideRibbonParameters(RuntimeNote startNote, RuntimeNote endNote, float now, NoteMetrics noteMetrics, NoteAnimationMetrics animationMetrics);
 
         public int ApiVersion => 2;
 

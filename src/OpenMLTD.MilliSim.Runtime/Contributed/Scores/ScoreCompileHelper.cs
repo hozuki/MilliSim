@@ -76,7 +76,7 @@ namespace OpenMLTD.MilliSim.Contributed.Scores {
             var scorePrepareNote = new RuntimeNote();
             scorePrepareNote.Type = NoteType.ScorePrepare;
             // This value should correspond to TapPoints' "score-prepare fade-in" animation duration.
-            scorePrepareNote.HitTime = list[0].HitTime - 1.5;
+            scorePrepareNote.HitTime = list[0].HitTime - 1.5f;
             scorePrepareNote.ID = ++currentID;
             list.Insert(0, scorePrepareNote);
 
@@ -230,7 +230,7 @@ namespace OpenMLTD.MilliSim.Contributed.Scores {
             // Just a guess.
             // This value must keep the same as tap points' "transform" animation length.
             // See NoteReactor.Update() for more information.
-            prepare.HitTime = rn.HitTime - 0.8;
+            prepare.HitTime = rn.HitTime - 0.8f;
             prepare.LeadTime = rn.LeadTime;
             prepare.RelativeSpeed = rn.RelativeSpeed;
             prepare.Type = NoteType.SpecialPrepare;
@@ -249,7 +249,7 @@ namespace OpenMLTD.MilliSim.Contributed.Scores {
                 throw new ArgumentException("Malformed score: no note after special note.");
             }
 
-            end.HitTime = TicksToSeconds(firstNoteAfterSpecial.Ticks, conductors) - 1.5;
+            end.HitTime = TicksToSeconds(firstNoteAfterSpecial.Ticks, conductors) - 1.5f;
             end.LeadTime = rn.LeadTime;
             end.RelativeSpeed = rn.RelativeSpeed;
             end.Type = NoteType.SpecialEnd;
@@ -267,14 +267,14 @@ namespace OpenMLTD.MilliSim.Contributed.Scores {
         /// <param name="currentTicks">A note's literal tick value. This value is the absolute value, counting from the start of the whole score.</param>
         /// <param name="conductors">Conductor list.</param>
         /// <returns>Seconds.</returns>
-        public static double TicksToSeconds(long currentTicks, Conductor[] conductors) {
+        public static float TicksToSeconds(long currentTicks, Conductor[] conductors) {
             var index = Array.FindLastIndex(conductors, conductor => conductor.Ticks <= currentTicks);
 
             if (index < 0) {
                 throw new IndexOutOfRangeException();
             }
 
-            double absoluteTime = 0;
+            float absoluteTime = 0;
             for (var i = 0; i <= index; ++i) {
                 var tempo = conductors[i].Tempo;
                 var thisTicks = i < index ? conductors[i + 1].Ticks : currentTicks;

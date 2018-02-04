@@ -1,4 +1,4 @@
-using System.Drawing;
+using Microsoft.Xna.Framework;
 
 namespace OpenMLTD.MilliSim.Configuration.Primitives {
     public sealed class SystemOverlayConfig {

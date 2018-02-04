@@ -1,7 +1,10 @@
 using System;
+using System.Linq;
+using System.Reflection;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using OpenMLTD.MilliSim.Configuration;
+using OpenMLTD.MilliSim.Core.Extensions;
 
 namespace OpenMLTD.MilliSim.Foundation {
     public abstract class BaseGameComponent : GameComponent, IBaseGameComponent {
@@ -85,6 +88,44 @@ namespace OpenMLTD.MilliSim.Foundation {
         }
 
         public bool AreContentsLoaded { get; private set; }
+
+        public static BaseGameComponent CreateAndAddTo([NotNull] BaseGame game, [NotNull] IBaseGameComponentContainer parent, [NotNull] Type type) {
+            if (!type.IsSubclassOf(typeof(BaseGameComponent))) {
+                throw new ArgumentException($"{type} is not a subclass of {typeof(BaseGameComponent)}");
+            }
+            var ctors = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            if (ctors.Length > 0) {
+                ctors = ctors.Where(c => {
+                    var parameters = c.GetParameters();
+                    return parameters.Length == 2 &&
+                           (parameters[0].ParameterType == typeof(BaseGame) ||
+                            parameters[0].ParameterType.IsSubclassOf(typeof(BaseGame))) &&
+                           (parameters[1].ParameterType == typeof(IBaseGameComponentContainer) ||
+                            parameters[1].ParameterType.ImplementsInterface(typeof(IBaseGameComponentContainer)));
+                }).ToArray();
+            }
+            if (ctors.Length == 0) {
+                throw new MissingMethodException("Cannot find a proper constructor.");
+            }
+
+            var parentType = parent.GetType();
+            var ctor = (from c in ctors
+                        let param = c.GetParameters()[0]
+                        where param.ParameterType == parentType
+                        select c).FirstOrDefault();
+
+            if (ctor == null) {
+                ctor = ctors[0];
+            }
+
+            return (BaseGameComponent)ctor.Invoke(new object[] { game, parent });
+        }
+
+        public static T CreateAndAddTo<T>([NotNull] BaseGame game, [NotNull] IBaseGameComponentContainer parent) where T : BaseGameComponent {
+            var t = typeof(T);
+            var c = CreateAndAddTo(game, parent, t);
+            return (T)c;
+        }
 
         void IBaseGameComponent.LoadContents() {
             if (AreContentsLoaded) {

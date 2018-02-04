@@ -8,7 +8,7 @@ namespace OpenMLTD.MilliSim.Contributed.Scores.Source {
         /// <summary>
         /// The new tempo.
         /// </summary>
-        public double Tempo { get; set; }
+        public float Tempo { get; set; }
 
         /// <summary>
         /// The numerator of new measure signature.

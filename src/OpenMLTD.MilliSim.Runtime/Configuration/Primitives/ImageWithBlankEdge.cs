@@ -1,4 +1,4 @@
-using System.Drawing;
+using Microsoft.Xna.Framework;
 using YamlDotNet.Serialization;
 
 namespace OpenMLTD.MilliSim.Configuration.Primitives {
@@ -12,7 +12,7 @@ namespace OpenMLTD.MilliSim.Configuration.Primitives {
         /// <summary>
         /// The center point, regardless of <see cref="BlankEdge"/> value.
         /// </summary>
-        public PointF Center { get; set; }
+        public Vector2 Center { get; set; }
 
     }
 }

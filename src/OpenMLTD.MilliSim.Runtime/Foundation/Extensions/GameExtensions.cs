@@ -8,6 +8,7 @@ namespace OpenMLTD.MilliSim.Foundation.Extensions {
             return (BaseGame)game;
         }
 
+        [CanBeNull]
         public static T FindSingleElement<T>([NotNull] this Game game) where T : class, IBaseGameComponent {
             foreach (var component in game.Components) {
                 if (component is T t) {

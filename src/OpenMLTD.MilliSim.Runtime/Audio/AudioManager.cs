@@ -99,8 +99,9 @@ namespace OpenMLTD.MilliSim.Audio {
             if (!AudioHelper.NeedsFormatConversionFrom(originalFormat, RequiredFormat)) {
                 audioStream = stream;
             } else {
-                // TODO: ResamplerDmoStream always works but it requires MediaFoundation.
-                audioStream = new ResamplerDmoStream(stream, RequiredFormat);
+                // ResamplerDmoStream always works but it requires MediaFoundation.
+                // So here we wrap the WdlResamplingSampleProvider to a stream, and voila!
+                audioStream = new WdlResampling16Stream(stream, RequiredFormat.SampleRate);
             }
 
             var audioData = audioStream.ReadAll();
