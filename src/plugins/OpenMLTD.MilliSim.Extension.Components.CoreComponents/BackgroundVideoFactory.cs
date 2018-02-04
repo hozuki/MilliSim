@@ -22,11 +22,11 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
         public override Version PluginVersion => MyVersion;
 
         public override IBaseGameComponent CreateComponent(BaseGame game, IBaseGameComponentContainer parent) {
-            InitializeFFmpeg();
-
             var config = game.ConfigurationStore.Get<BackgroundVideoConfig>();
             if (!string.IsNullOrEmpty(config.Data.BackgroundVideo) && File.Exists(config.Data.BackgroundVideo)) {
                 Trace.Assert(parent is IVisualContainer);
+
+                InitializeFFmpeg();
 
                 var video = new BackgroundVideo(game, (IVisualContainer)parent);
 
