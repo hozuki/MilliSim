@@ -45,7 +45,6 @@ namespace OpenMLTD.TheaterDays {
                 } else {
                     var helpText = CommandLine.Text.HelpText.AutoBuild(optionsParsingResult);
 
-                    // TODO: Does this even work?
                     GameLog.Info(helpText);
                 }
             } catch (Exception ex) {
