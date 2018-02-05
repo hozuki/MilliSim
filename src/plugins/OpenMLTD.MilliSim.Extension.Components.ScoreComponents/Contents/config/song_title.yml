@@ -7,7 +7,7 @@ data:
   layout:
     x: 4.5% # x position (anchor: left)
     y: 17% # y position (anchor: top)
-  font_file: Contents/res/fonts/SourceHanSans-Regular.otf
+  font_file: Contents/res/fonts/NotoSansSC-Regular.otf
   font_size: 24
   text_stroke_width: 5
   animation:

@@ -108,7 +108,10 @@
     <Compile Include="TimerSyncTarget.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Contents\res\fonts\SourceHanSans-Regular.otf">
+    <None Include="Contents\res\fonts\NotoSansSC-Regular.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Contents\res\fonts\README">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Contents\res\fx\compile_effects.bat" />
@@ -168,6 +171,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Contents\res\fonts\LICENSE_OFL.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Contents\res\fx\sprite_outline.fx" />
     <Content Include="Contents\res\sfx\air_tap.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

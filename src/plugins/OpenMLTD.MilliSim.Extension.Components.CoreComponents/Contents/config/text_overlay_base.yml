@@ -4,4 +4,4 @@ metadata:
   for: component.core.text_overlay_base
   version: 1 # format version
 data:
-  font_path: Contents/res/fonts/SourceHanSans-Regular.otf
+  font_path: Contents/res/fonts/NotoSansSC-Regular.otf
