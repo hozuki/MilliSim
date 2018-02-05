@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2F7ECBA5-AA8B-4AB2-8F84-585352935A1B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenMLTD.MilliSim</RootNamespace>
+    <AssemblyName>OpenMLTD.MilliSim.Runtime</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MonoGamePlatform>DesktopGL</MonoGamePlatform>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;LINUX</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.2</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Audio\AudioFormat.cs" />
+    <Compile Include="Audio\AudioHelper.cs" />
+    <Compile Include="Audio\AudioManager.cs" />
+    <Compile Include="Audio\Sound.cs" />
+    <Compile Include="Audio\WdlResampling16Stream.cs" />
+    <Compile Include="Configuration\ConfigTypeConverterFactory.cs" />
+    <Compile Include="Configuration\Converters\AdvancedEnumConverterFactory.cs" />
+    <Compile Include="Configuration\Converters\ColorConverterFactory.cs" />
+    <Compile Include="Configuration\Converters\PercentOrRealValueConverterFactory.cs" />
+    <Compile Include="Configuration\Converters\Vector2ConverterFactory.cs" />
+    <Compile Include="Core\Extensions\NumberExtensions.cs" />
+    <Compile Include="Core\Extensions\StreamExtensions.cs" />
+    <Compile Include="Core\GameLog.cs" />
+    <Compile Include="Core\GlobHelper.cs" />
+    <Compile Include="Foundation\BaseGameComponentCollection.cs" />
+    <Compile Include="Foundation\BaseGameComponentCollection.Enumerator.cs" />
+    <Compile Include="Foundation\BaseGameComponentCollection.Operation.cs" />
+    <Compile Include="Foundation\BaseGameComponentCollection.PendingEntry.cs" />
+    <Compile Include="Foundation\BaseGameComponentContainer.cs" />
+    <Compile Include="Foundation\BasePluginManager.cs" />
+    <Compile Include="Graphics\BufferedVisual.cs" />
+    <Compile Include="Graphics\BufferedVisualContainer.cs" />
+    <Compile Include="Graphics\EffectManager.cs" />
+    <Compile Include="Graphics\Extensions\SpriteBatchExtensions.cs" />
+    <Compile Include="Graphics\Extensions\Texture2DExtensions.cs" />
+    <Compile Include="Graphics\GraphicsBackend.cs" />
+    <Compile Include="Graphics\ISupportsOpacity.cs" />
+    <Compile Include="Graphics\RectHelper.cs" />
+    <Compile Include="Graphics\IBufferedVisual.cs" />
+    <Compile Include="Graphics\IVisual2D.cs" />
+    <Compile Include="Graphics\Extensions\GraphicsDeviceExtensions.cs" />
+    <Compile Include="Graphics\Stage.cs" />
+    <Compile Include="Graphics\VisualContainer.cs" />
+    <Compile Include="Audio\Extending\IAudioFormat.cs" />
+    <Compile Include="Configuration\ConfigurationStore.cs" />
+    <Compile Include="Configuration\Converters\AdvancedEnumConverter.cs" />
+    <Compile Include="Configuration\Converters\ColorConverter.cs" />
+    <Compile Include="Configuration\Converters\PercentOrRealValueConverter.cs" />
+    <Compile Include="Configuration\Converters\Vector2Converter.cs" />
+    <Compile Include="Configuration\DuplicateKeyException.cs" />
+    <Compile Include="Configuration\Entities\ConfigBase.cs" />
+    <Compile Include="Configuration\Entities\ConfigMetadata.cs" />
+    <Compile Include="Configuration\HeaderOnlyConfig.cs" />
+    <Compile Include="Configuration\Primitives\ImageStrip.cs" />
+    <Compile Include="Configuration\Primitives\ImageStripOrientation.cs" />
+    <Compile Include="Configuration\Primitives\ImageWithBlankEdge.cs" />
+    <Compile Include="Configuration\Primitives\LayoutValue2D.cs" />
+    <Compile Include="Configuration\Primitives\PercentOrRealValue.cs" />
+    <Compile Include="Configuration\Primitives\SimpleRectangleF.cs" />
+    <Compile Include="Configuration\Primitives\SimpleSize.cs" />
+    <Compile Include="Configuration\Primitives\SystemOverlayConfig.cs" />
+    <Compile Include="Core\AssemblyBuildTimeAttribute.cs" />
+    <Compile Include="Core\CallerHelper.cs" />
+    <Compile Include="Core\Disposable.cs" />
+    <Compile Include="Core\DisposableBase.cs" />
+    <Compile Include="Core\Dynamic.cs" />
+    <Compile Include="Configuration\Extending\IConfigTypeConverterFactory.cs" />
+    <Compile Include="Core\Extensions\KeyValuePairExtensions.cs" />
+    <Compile Include="Core\Extensions\TypeExtensions.cs" />
+    <Compile Include="Core\IApiVersionProvider.cs" />
+    <Compile Include="Core\ICloneable.cs" />
+    <Compile Include="Core\IDynamic.cs" />
+    <Compile Include="Core\IMilliSimPlugin.cs" />
+    <Compile Include="Core\InteropHelper.cs" />
+    <Compile Include="Core\Interop\NativeMethods.cs" />
+    <Compile Include="Core\LibraryPreloader.cs" />
+    <Compile Include="Core\MathHelperEx.cs" />
+    <Compile Include="Core\MilliSimCodeNameAttribute.cs" />
+    <Compile Include="Core\MilliSimPluginAttribute.cs" />
+    <Compile Include="Core\PerformanceCounter.cs" />
+    <Compile Include="Core\ReflectionHelper.cs" />
+    <Compile Include="Core\SimpleUsingLock.cs" />
+    <Compile Include="Foundation\BaseGameComponent.cs" />
+    <Compile Include="Foundation\BaseGameComponentFactory.cs" />
+    <Compile Include="Foundation\ContentHelper.cs" />
+    <Compile Include="Foundation\Extensions\ComponentContainerExtensions.cs" />
+    <Compile Include="Foundation\Extensions\GameExtensions.cs" />
+    <Compile Include="Foundation\BaseGame.cs" />
+    <Compile Include="Foundation\IBaseGameComponent.cs" />
+    <Compile Include="Foundation\IBaseGameComponentContainer.cs" />
+    <Compile Include="Foundation\Extending\IBaseGameComponentFactory.cs" />
+    <Compile Include="Globalization\CultureSpecificInfo.cs" />
+    <Compile Include="Globalization\TranslationManager.cs" />
+    <Compile Include="Graphics\Advanced\SpriteSheet1D.cs" />
+    <Compile Include="Graphics\Advanced\SpriteSheet2D.cs" />
+    <Compile Include="Graphics\Advanced\SpriteSheetOrientation.cs" />
+    <Compile Include="Graphics\IVisual.cs" />
+    <Compile Include="Graphics\IVisualContainer.cs" />
+    <Compile Include="Graphics\Visual.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Glob, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Glob.0.4.0\lib\net45\Glob.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MonoGame.Framework">
+      <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio, Version=1.8.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NAudio.1.8.4\lib\net35\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Composition.AttributedModel, Version=1.0.32.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Composition.AttributedModel.1.1.0\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Convention, Version=1.0.32.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Composition.Convention.1.1.0\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Hosting, Version=1.0.32.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Composition.Hosting.1.1.0\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Runtime, Version=1.0.32.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Composition.Runtime.1.1.0\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.TypedParts, Version=1.0.32.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Composition.TypedParts.1.1.0\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="YamlDotNet, Version=4.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\YamlDotNet.4.3.0\lib\net45\YamlDotNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.manifest" />
+    <None Include="OpenMLTD.MilliSim.Runtime.nuspec" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Contents\game\" />
+    <Folder Include="Contents\res\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\thirdparty\MonoGame.Extended2\Sources\MonoGame.Extended.Overlay\MonoGame.Extended.Overlay.csproj">
+      <Project>{8a716d2a-de8d-4886-bf8f-76b6b1a7bb8f}</Project>
+      <Name>MonoGame.Extended.Overlay</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\thirdparty\MonoGame.Extended2\Sources\MonoGame.Extended2\MonoGame.Extended2.csproj">
+      <Project>{c7c3d9de-41a4-4c21-98fb-336ed38a99d5}</Project>
+      <Name>MonoGame.Extended2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\thirdparty\SharpAL\SharpAL\SharpAL.csproj">
+      <Project>{beb46d97-08c9-4868-8cac-d3ec2e954689}</Project>
+      <Name>SharpAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

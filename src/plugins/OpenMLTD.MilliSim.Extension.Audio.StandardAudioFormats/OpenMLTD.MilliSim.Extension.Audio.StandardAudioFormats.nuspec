@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats</id>
+    <version>0.0.0</version>
+    <title>OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats</title>
+    <authors>headcrabbed</authors>
+    <owners>headcrabbed</owners>
+    <licenseUrl>https://github.com/hozuki/MilliSim/blob/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/hozuki/MilliSim</projectUrl>
+    <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Standard audio formats support for MilliSim.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2017-2018 OpenMLTD</copyright>
+    <tags>mltd</tags>
+  </metadata>
+</package>

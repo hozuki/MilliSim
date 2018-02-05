@@ -14,8 +14,10 @@ function runNuGetRestore() {
     |=======================================|
     `;
     console.info(chalk.yellow(welcomeScreen));
+    
+    const baseDir = process.cwd();
 
-    glob(path.join(process.cwd(), "**/*.sln"), restoreSolutions);
+    glob(path.join(baseDir, "**/*.sln"), restoreSolutions);
 
     /**
      * @param {Error} err 
@@ -31,14 +33,16 @@ function runNuGetRestore() {
 
         let i = 0;
         const total = fileList.length;
-        for (const slnPath of fileList) {
-            console.info(`Restoring ${chalk.magenta(slnPath)} ... (${i + 1}/${total})`);
+        for (const projPath of fileList) {
+            console.info(`Restoring ${chalk.magenta(projPath)} ... (${i + 1}/${total})`);
 
-            const slnDir = path.dirname(slnPath);
-            const slnFile = path.basename(slnPath);
+            const projDir = path.dirname(projPath);
+            const projFile = path.basename(projPath);
+            
+            console.info(`Using working directory: ${projDir}`);
 
-            child_process.execFileSync("nuget", ["restore", slnFile], {
-                cwd: slnDir,
+            child_process.execFileSync("nuget", ["restore", projFile], {
+                cwd: projDir,
                 env: process.env
             }, (proc_err) => {
                 if (proc_err) {

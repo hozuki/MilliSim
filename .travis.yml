@@ -8,6 +8,8 @@ env:
   - MAIN_VER=0.3.0 SOLUTION_NAME=MilliSim.sln CONFIGURATION=Release RELEASE_SUFFIX=-alpha
 
 before_install:
+  - sudo chmod 777 scripts/travis_no_monogame.sh
+  - ./scripts/travis_no_monogame.sh
   - sudo apt-get install -y gtk-sharp2 p7zip-full nodejs npm
   - sudo npm install -g n
   - sudo n lts
@@ -22,8 +24,10 @@ before_script:
   - node scripts/patch_asminfo.js
 
 script:
+  - sudo chmod 777 scripts/travis_empty_build.sh
+  - ./scripts/travis_empty_build.sh
   # Disables "No doc for public member"
-  - msbuild MilliSim.sln /p:Configuration=Release /verbosity:minimal /p:nowarn=1591
+  #- msbuild MilliSim.sln /p:Configuration=Release /verbosity:minimal /p:nowarn=1591
 
 before_deploy:
   - marked ./README.md -o README.html

@@ -1,0 +1,15 @@
+using UnityStudio.Serialization;
+using UnityStudio.Serialization.Naming;
+
+namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Mltd.Serialization {
+    [MonoBehavior(NamingConventionType = typeof(CamelCaseNamingConvention))]
+    internal sealed class PolyPointData {
+
+        [MonoBehaviorProperty(Name = "subtick")]
+        internal int SubTick { get; set; }
+
+        [MonoBehaviorProperty(Name = "posx")]
+        internal float PositionX { get; set; }
+
+    }
+}

@@ -1,0 +1,10 @@
+metadata:
+  type: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration.ScoreLoaderConfig
+  assembly_file: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.dll
+  for: component.score.score_loader
+  version: 1 # format version
+data:
+  score_index: 4 # for MLTD: 0=2m, 1=2m+, 2=4m, 3=6m, 4=mm
+  title: "Shooting Stars"
+  scoreobj: Contents/game/scrobj_shtstr.unity3d # .unity3d (raw format from MLTD), .json
+  offset: 0 # score offset relative to standard time, in seconds

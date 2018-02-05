@@ -12,25 +12,30 @@ environment:
   NuGet_API_Key:
     secure: izZ+2u3Vp3ykQNtVQqYtsmP4SoCO3vZ0gUp4zFCRsa0pBNgdkX354tc7VItMD5yh
 before_build:
-  - nuget update -self
-  - git submodule update --init --recursive
-  - npm install
-  - npm install -g marked
-  - node scripts\nuget_restore.js
-  - node scripts\patch_asminfo.js
+  - cmd: nuget update -self
+  - cmd: git submodule update --init --recursive
+  - cmd: npm install
+  - cmd: npm install -g marked
+  - cmd: node scripts\nuget_restore.js
+  - cmd: node scripts\patch_asminfo.js
+  - ps: .\scripts\install_monogame.ps1
 build_script:
-  - msbuild MilliSim.sln /p:Configuration=Release /verbosity:minimal /p:nowarn="1574,1591"
-  - node scripts\appveyor_nuget_pack.js
+  - cmd: msbuild MilliSim.sln /p:Configuration=Release /verbosity:minimal /p:nowarn="1574,1591"
+  - cmd: node scripts\appveyor_nuget_pack.js
 after_build:
-  - marked ./README.md -o ./README.html
-  - node scripts\appveyor_copy_licenses.js
-  - del %APPVEYOR_BUILD_FOLDER%\OpenMLTD.MilliSim.Theater\bin\%CONFIGURATION%\*.xml
-  - del %APPVEYOR_BUILD_FOLDER%\OpenMLTD.MilliSim.Theater\bin\%CONFIGURATION%\*.pdb
-  - 7z a millisim.zip -r %APPVEYOR_BUILD_FOLDER%\OpenMLTD.MilliSim.Theater\bin\%CONFIGURATION%\*
-  - 7z a millisim.zip %APPVEYOR_BUILD_FOLDER%\README.html
-  - 7z a millisim.zip -r docs\licenses\*
-  - copy millisim.zip millisim-appveyor-latest.zip
-  - copy millisim.zip millisim-appveyor-v%APPVEYOR_BUILD_VERSION%%RELEASE_SUFFIX%.zip
+  - cmd: marked ./README.md -o ./README.html
+  - cmd: node scripts\appveyor_copy_licenses.js
+  - cmd: del %APPVEYOR_BUILD_FOLDER%\src\TheaterDays.Direct3D11\bin\Windows\x86\%CONFIGURATION%\*.xml
+  - cmd: del %APPVEYOR_BUILD_FOLDER%\src\TheaterDays.Direct3D11\bin\Windows\x86\%CONFIGURATION%\*.pdb
+  # Remove useless SkiaSharp native libraries (we only need the one in x86 dir)
+  - cmd: del %APPVEYOR_BUILD_FOLDER%\src\TheaterDays.Direct3D11\bin\Windows\x86\%CONFIGURATION%\libSkiaSharp.*
+  # Remove useless x64 dir (Direct3D branch targets x86)
+  - cmd: rmdir /s /q %APPVEYOR_BUILD_FOLDER%\src\TheaterDays.Direct3D11\bin\Windows\x86\%CONFIGURATION%\x64
+  - cmd: 7z a millisim.zip -r %APPVEYOR_BUILD_FOLDER%\src\TheaterDays.Direct3D11\bin\Windows\x86\%CONFIGURATION%\*
+  - cmd: 7z a millisim.zip %APPVEYOR_BUILD_FOLDER%\README.html
+  - cmd: 7z a millisim.zip -r docs\licenses\*
+  - cmd: copy millisim.zip millisim-appveyor-latest.zip
+  - cmd: copy millisim.zip millisim-appveyor-v%APPVEYOR_BUILD_VERSION%%RELEASE_SUFFIX%.zip
 test: off
 artifacts:
   - path: millisim-appveyor-v%APPVEYOR_BUILD_VERSION%%RELEASE_SUFFIX%.zip
@@ -50,4 +55,4 @@ deploy:
     on:
       appveyor_repo_tag: true
 after_deploy:
-  - node scripts\appveyor_deploy_nuget.js
+  - cmd: node scripts\appveyor_deploy_nuget.js

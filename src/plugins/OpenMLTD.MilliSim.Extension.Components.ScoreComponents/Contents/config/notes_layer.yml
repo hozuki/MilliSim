@@ -1,0 +1,32 @@
+metadata:
+  type: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration.NotesLayerConfig
+  assembly_file: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.dll
+  for: component.score.notes_layer
+  version: 1 # format version
+data:
+  layout:
+      y: 20% # (anchor: top)
+  opacity: 100%
+  images:
+    notes: # notes: tap (small, large), hold (small, large), flick (left, up, right), slide (start, middle, end)
+      - file: Contents/res/images/notes/default.png # style=0 (default notes set), 160x160
+        count: 10
+        orientation: horizontal
+      #- file: Contents/res/images/notes/style1.png # style=1
+      #  count: 10
+      #- file: Contents/res/images/notes/style2.png # style=2
+      #  count: 10
+    special_note:
+      file: Contents/res/images/notes/special_note.png # 384x384
+    sync_line:
+      file: Contents/res/images/sync_line.png
+    special_note_aura:
+      file: Contents/res/images/ui/special_note_aura.png
+    special_note_socket:
+      file: Contents/res/images/ui/special_note_socket.png
+  style:
+    trace_plugin_id: plugin.scores.note_animation_calculator.mltd
+    sync_line: yes # true, yes, y, on, 1
+    slide_middle_sync_line: no
+  simulation:
+    global_speed: 130%
