@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using OpenMLTD.MilliSim.Configuration.Primitives;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
 namespace OpenMLTD.MilliSim.Configuration.Converters {
-    public sealed class PercentOrRealValueConverter : IYamlTypeConverter {
+    internal sealed class PercentOrRealValueConverter : IYamlTypeConverter {
 
         public bool Accepts(Type type) {
             return type == typeof(PercentOrRealValue);

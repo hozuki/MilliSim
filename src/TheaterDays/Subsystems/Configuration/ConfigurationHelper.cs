@@ -1,6 +1,5 @@
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Configuration;
-using OpenMLTD.MilliSim.Configuration.Converters;
 using OpenMLTD.MilliSim.Configuration.Extending;
 using OpenMLTD.MilliSim.Foundation;
 using YamlDotNet.Serialization;
@@ -14,12 +13,7 @@ namespace OpenMLTD.TheaterDays.Subsystems.Configuration {
 
             var deserializerBuilder = new DeserializerBuilder()
                 .IgnoreUnmatchedProperties()
-                .WithNamingConvention(new UnderscoredNamingConvention())
-                // Internal converters
-                .WithTypeConverter(new AdvancedEnumConverter(new PascalCaseNamingConvention()))
-                .WithTypeConverter(new PercentOrRealValueConverter())
-                .WithTypeConverter(new ColorConverter())
-                .WithTypeConverter(new Vector2Converter());
+                .WithNamingConvention(new UnderscoredNamingConvention());
 
             // External converters
             foreach (var factory in typeConverterFactories) {

@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using YamlDotNet.Core;
@@ -7,7 +6,7 @@ using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
 namespace OpenMLTD.MilliSim.Configuration.Converters {
-    public sealed class Vector2Converter : IYamlTypeConverter {
+    internal sealed class Vector2Converter : IYamlTypeConverter {
 
         public bool Accepts(Type type) {
             return type == typeof(Vector2);

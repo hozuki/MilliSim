@@ -5,9 +5,9 @@ using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
 namespace OpenMLTD.MilliSim.Configuration.Converters {
-    public sealed class AdvancedEnumConverter : IYamlTypeConverter {
+    internal sealed class AdvancedEnumConverter : IYamlTypeConverter {
 
-        public AdvancedEnumConverter([NotNull] INamingConvention namingConvention) {
+        internal AdvancedEnumConverter([NotNull] INamingConvention namingConvention) {
             _namingConvention = namingConvention;
         }
 

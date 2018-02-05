@@ -5,7 +5,7 @@ using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
 namespace OpenMLTD.MilliSim.Configuration.Converters {
-    public sealed class ColorConverter : IYamlTypeConverter {
+    internal sealed class ColorConverter : IYamlTypeConverter {
 
         public bool Accepts(Type type) {
             return type == typeof(Color);
