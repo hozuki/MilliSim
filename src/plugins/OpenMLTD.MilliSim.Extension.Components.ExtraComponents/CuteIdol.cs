@@ -11,7 +11,7 @@ using OpenMLTD.MilliSim.Graphics.Advanced;
 using OpenMLTD.MilliSim.Graphics.Extensions;
 
 namespace OpenMLTD.MilliSim.Extension.Components.ExtraComponents {
-    internal class CuteIdol : Visual {
+    public sealed class CuteIdol : Visual {
 
         public CuteIdol([NotNull] BaseGame game, [NotNull] IVisualContainer parent)
             : base(game, parent) {
@@ -33,7 +33,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.ExtraComponents {
                 upper = 52;
             } else {
                 lower = 52;
-                upper = 52;
+                upper = 53;
             }
 
             var characterIndex = MathHelperEx.Random.Next(lower, upper);
@@ -43,6 +43,8 @@ namespace OpenMLTD.MilliSim.Extension.Components.ExtraComponents {
         }
 
         protected override void OnDraw(GameTime gameTime) {
+            base.OnDraw(gameTime);
+
             var index = _selectedCharacterIndex;
             if (index < 0) {
                 return;
@@ -70,14 +72,14 @@ namespace OpenMLTD.MilliSim.Extension.Components.ExtraComponents {
 
             y += yDelta;
 
-            game.SpriteBatch.Begin();
+            game.SpriteBatch.BeginOnBufferedVisual();
             game.SpriteBatch.Draw(_characterImages, index, x, y);
             game.SpriteBatch.End();
         }
 
         protected override void OnLoadContents() {
             try {
-                _characterImages = ContentHelper.LoadSpriteSheet2D(Game.GraphicsDevice, Resources.CharacterIcons, Resources.CharacterIcons.RawFormat, CharacterWidth, CharacterHeight, TotalCharacterCount, ArrayCount, CharacterImagesOrientation);
+                _characterImages = ContentHelper.LoadSpriteSheet2D(Game.GraphicsDevice, Resources.CharacterIcons, Resources.CharacterIcons.RawFormat, CharacterWidth, CharacterHeight, Stride, TotalCharacterCount, CharacterImagesOrientation);
             } catch (Exception ex) {
                 var game = Game as BaseGame;
                 var debugOverlay = game?.FindSingleElement<DebugOverlay>();
@@ -103,7 +105,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.ExtraComponents {
         private static readonly int CharacterWidth = 162;
         private static readonly int CharacterHeight = 162;
         // 12 columns
-        private static readonly int ArrayCount = 12;
+        private static readonly int Stride = 12;
         private static readonly SpriteSheetOrientation CharacterImagesOrientation = SpriteSheetOrientation.Horizontal;
 
     }

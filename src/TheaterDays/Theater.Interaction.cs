@@ -1,6 +1,8 @@
+using System.Diagnostics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents;
+using OpenMLTD.MilliSim.Extension.Components.ExtraComponents;
 using OpenMLTD.MilliSim.Foundation.Extensions;
 
 namespace OpenMLTD.TheaterDays {
@@ -11,6 +13,29 @@ namespace OpenMLTD.TheaterDays {
                 case Keys.Space:
                     TogglePlayState();
                     break;
+            }
+
+            if (e.KeyCode == EasterEggKeyStrokes[_easterEggIndex]) {
+                ++_easterEggIndex;
+            } else {
+                _easterEggIndex = 0;
+                if (e.KeyCode == EasterEggKeyStrokes[_easterEggIndex]) {
+                    ++_easterEggIndex;
+                }
+            }
+
+#if DEBUG
+            Debug.Print("Key down: " + e.KeyCode.ToString());
+#endif
+
+            if (_easterEggIndex >= EasterEggKeyStrokes.Length) {
+                _easterEggIndex = 0;
+
+                var cuties = this.FindSingleElement<CuteIdol>();
+                if (cuties != null) {
+                    cuties.PickRandomCharacter();
+                    cuties.Visible = true;
+                }
             }
         }
 
@@ -62,6 +87,12 @@ namespace OpenMLTD.TheaterDays {
                 helpOverlay.Visible = !isPlaying;
             }
         }
+
+        private static readonly Keys[] EasterEggKeyStrokes = {
+            Keys.D7, Keys.D6, Keys.D5, Keys.P, Keys.R, Keys.O
+        };
+
+        private int _easterEggIndex;
 
         private bool _isPlaying;
 

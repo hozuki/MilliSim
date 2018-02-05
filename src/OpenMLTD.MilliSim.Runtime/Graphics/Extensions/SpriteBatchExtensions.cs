@@ -118,14 +118,14 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
                 case SpriteSheetOrientation.Horizontal:
                     w = spriteSheet.UnitWidth;
                     h = spriteSheet.UnitHeight;
-                    xIndex = index % spriteSheet.ArrayCount;
-                    yIndex = index / spriteSheet.ArrayCount;
+                    xIndex = index % spriteSheet.Stride;
+                    yIndex = index / spriteSheet.Stride;
                     break;
                 case SpriteSheetOrientation.Vertical:
                     w = spriteSheet.UnitWidth;
                     h = spriteSheet.UnitHeight;
-                    xIndex = index / spriteSheet.ArrayCount;
-                    yIndex = index % spriteSheet.ArrayCount;
+                    xIndex = index / spriteSheet.Stride;
+                    yIndex = index % spriteSheet.Stride;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
