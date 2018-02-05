@@ -168,6 +168,21 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays {
             _avatarImages = avatarImages;
             _avatarRectangles = rects;
 
+            var avatarImagesData = new byte[avatarImages.Length][];
+
+            for (var i = 0; i < avatarImages.Length; ++i) {
+                if (avatarImages[i] == null) {
+                    continue;
+                }
+
+                var data = new byte[avatarImages[i].Width * avatarImages[i].Height * sizeof(int)];
+                avatarImages[i].GetData(data);
+
+                avatarImagesData[i] = data;
+            }
+
+            _avatarImagesData = avatarImagesData;
+
             var scalingResponder = theaterDays.FindSingleElement<MltdStageScalingResponder>();
 
             if (scalingResponder == null) {
@@ -214,6 +229,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays {
             graphics.SetClipPath(clipPath, false);
 
             var avatarImages = _avatarImages;
+            var avatarImagesData = _avatarImagesData;
 
             for (var i = 0; i < avatarImages.Length; ++i) {
                 var image = avatarImages[i];
@@ -222,9 +238,13 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays {
                     continue;
                 }
 
+                var imageData = avatarImagesData[i];
+
+                Debug.Assert(imageData != null, nameof(imageData) + "!= null");
+
                 var rect = avatarRectangles[i];
 
-                graphics.DrawImage(image, rect);
+                graphics.DrawImage(imageData, image.Format, image.Width, image.Height, rect.X, rect.Y, rect.Width, rect.Height);
             }
 
             graphics.RestoreState();
@@ -240,6 +260,9 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays {
 
         [ItemCanBeNull]
         private Texture2D[] _avatarImages;
+
+        [ItemCanBeNull]
+        private byte[][] _avatarImagesData;
 
         private OngoingAnimation _ongoingAnimation = OngoingAnimation.None;
         private TimeSpan _animationStartedTime = TimeSpan.Zero;
