@@ -75,12 +75,12 @@ namespace OpenMLTD.MilliSim.Globalization {
             }
 
             // Notice the order. The latter ones will overwrite the former ones.
-            const string fileNameFormat = "{0}.{1}.{2}";
+            const string fileNameFormat = "{0}.{1}{2}";
             candidates.Add(fileInfo.FullName);
 
             var fileExtension = fileInfo.Extension;
-            // 4 = ".iv.".length
-            var fileBaseName = fileInfo.Name.Substring(0, fileInfo.Name.Length - fileExtension.Length - 4);
+            // 3 = ".iv".length
+            var fileBaseName = fileInfo.Name.Substring(0, fileInfo.Name.Length - fileExtension.Length - 3);
 
             candidates.Add(Path.Combine(dirName, string.Format(fileNameFormat, fileBaseName, culture.ThreeLetterISOLanguageName, fileExtension)));
             candidates.Add(Path.Combine(dirName, string.Format(fileNameFormat, fileBaseName, culture.TwoLetterISOLanguageName, fileExtension)));
