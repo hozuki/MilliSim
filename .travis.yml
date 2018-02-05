@@ -24,6 +24,7 @@ before_script:
   - node scripts/patch_asminfo.js
 
 script:
+  - sudo chmod 777 scripts/travis_empty_build.sh
   - ./scripts/travis_empty_build.sh
   # Disables "No doc for public member"
   #- msbuild MilliSim.sln /p:Configuration=Release /verbosity:minimal /p:nowarn=1591
