@@ -1,6 +1,8 @@
+using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using log4net.Config;
+using OpenMLTD.MilliSim.Core;
 
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
@@ -34,5 +36,10 @@ using log4net.Config;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+[assembly: MilliSimCodeName(null)]
+[assembly: AssemblyBuildTime(null)]
+
+[assembly: CLSCompliant(true)]
 
 [assembly: XmlConfigurator]

@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -38,3 +39,5 @@ using OpenMLTD.MilliSim.Core;
 
 [assembly: MilliSimCodeName(null)]
 [assembly: AssemblyBuildTime(null)]
+
+[assembly: CLSCompliant(true)]
