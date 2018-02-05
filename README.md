@@ -61,7 +61,7 @@ Please read [Building.md](docs/Building.md).
 MilliSim is designed to support plugins. Please read the [wiki page](https://github.com/hozuki/MilliSim/wiki/Creating-Plugins) for more information.
 (Note: this is mainly about version 0.2 so it may be deprecated. Proceed with caution. Help is appreciated!)
 
-You can find precompiled NuGet packages for plugin development [here](https://www.nuget.org/packages?q=MilliSim).
+<del>You can find precompiled NuGet packages for plugin development [here](https://www.nuget.org/packages?q=MilliSim).</del> (Suspended; help needed.)
 
 ## Other
 
