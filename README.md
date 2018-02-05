@@ -14,7 +14,7 @@ Demo videos:
 
 | Build Status | |
 |--|--|
-| Travis | [![Travis](https://img.shields.io/travis/hozuki/MilliSim.svg)](https://travis-ci.org/hozuki/MilliSim) |
+| <del>Travis</del> (not maintained) | [![Travis](https://img.shields.io/travis/hozuki/MilliSim.svg)](https://travis-ci.org/hozuki/MilliSim) |
 | AppVeyor | [![AppVeyor](https://img.shields.io/appveyor/ci/hozuki/MilliSim.svg)](https://ci.appveyor.com/project/hozuki/MilliSim) |
 
 **Stage:** alpha
@@ -29,87 +29,37 @@ Demo videos:
 
 **Requirements:**
 
-- Windows 7 SP1 or later <sup>1 2</sup>
-- [.NET Framework 4.5](https://www.microsoft.com/en-us/download/details.aspx?id=42642)
+- Operating System:
+  - Windows: Windows 7 SP1 or later
+    - [.NET Framework 4.5](https://www.microsoft.com/en-us/download/details.aspx?id=42642)
+  - macOS and Linux: macOS 10.8 / Ubuntu 16.04 or later
+    - and latest [Wine](https://wiki.winehq.org/Download) (will download `wine-mono` on launch)
 - [Visual C++ 2015 Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=53587)
-- Direct3D 11 and Direct2D
-- For Windows 7 SP1 users:
-  - [Platform Update for Windows 7](https://www.microsoft.com/en-us/download/details.aspx?id=36805)
 - [OpenAL](https://www.openal.org/downloads/)
 
-After downloading, run `OpenMLTD.MilliSim.Theater.exe` and enjoy.
+OpenGL builds (`TheaterDays.OpenGL.exe`) can run on all platforms, but it is problematic.
+DirectX builds (`TheaterDays.Direct3D11.exe`) can only run on Windows.
 
-<sup>1</sup> <del>Theoratically, MilliSim can also run on a UNIX-compliant machine using [Wine](https://www.winehq.org/download)
-and [Mono](http://www.mono-project.com/download/), though this is not tested.</del> Tested
-on Wine 2.0.2. Media Foundation APIs and WAS APIs are still having tons of errors. Even after
-bypassing OS version check (Wine seems to always return an OS major version less than 6),
-`MMDeviceEnumerator` still fails to initialize due to COM object creation failure. `MFCreateDxgiDeviceManager()`
-is just a stub. So up till September 2017, MilliSim is only able to run on Windows.
+### Note: Video Playback Support
 
-<sup>2</sup> Playing a background video is not yet (version: v0.2) supported on Windows 7. It is
-supported on Windows 8 or later.
+If you want to play videos as the background, you must download FFmpeg binaries (version 3.4.1 or later)
+from [here](https://ffmpeg.zeranoe.com/builds/), and place the binaries into `x64` and `x86` directories
+correspondingly. Due to license restrictions, MilliSim builds cannot include FFmpeg binaries, so you have
+to download them yourself.
+
+Without FFmpeg, you must either:
+
+1. disable background video (comment out `plugin.component_factory.background_video` in `Contents/plugins.yml`), or
+2. leave video file path as empty (`data`-`video` section in `Contents/config/background_video.yml`).
 
 ## Building
 
-**Requirements:**
-
-- OS: Windows, macOS or Linux
-- Compiler and Toolchain:
-    - Windows:
-        - Visual Studio 2017 Community
-        - .NET Framework 4.5 Toolchain
-    - macOS/Linux: 
-        - [Mono](http://www.mono-project.com/download/) (≥ 5.0)
-- [Node.js](https://nodejs.org/en/download/) (≥ 5.0)
-- [NuGet CLI](https://www.nuget.org/downloads) (≥ 4.3.0)
-
-> **Remember** to [update your Mono version](http://www.mono-project.com/download/#download-lin) and
-> [update your NuGet version](https://docs.microsoft.com/en-us/nuget/guides/install-nuget) before
-> building. Otherwise you are very likely to see errors like "Too many projects specified".
-
-**Step 1**: Clone this repo:
-
-```bash
-git clone https://github.com/hozuki/MilliSim.git
-```
-
-**Step 2**: Prepare dependencies: 
-
-On Windows:
-
-```cmd
-cd MilliSim
-init
-```
-
-On macOS and Linux:
-
-```bash
-cd MilliSim
-./init.sh
-```
-
-**Step 3**: Build the solution:
-
-```bash
-msbuild MilliSim.sln /p:Configuration=Release
-```
-
-If you are using non-Windows machines, you should
-manually specify the concurrent process count, or
-there will be strange compile errors:
-
-```bash
-msbuild MilliSim.sln /p:Configuration=Release /m:1
-```
-
-Although the builds by Travis seem unable to bootstrap on Windows,
-manual builds on an Ubuntu 16.04 machine are verified to function
-normally.
+Please read [Building.md](docs/Building.md).
 
 ## Developing Plugins
 
 MilliSim is designed to support plugins. Please read the [wiki page](https://github.com/hozuki/MilliSim/wiki/Creating-Plugins) for more information.
+(Note: this is mainly about version 0.2 so it may be deprecated. Proceed with caution. Help is appreciated!)
 
 You can find precompiled NuGet packages for plugin development [here](https://www.nuget.org/packages?q=MilliSim).
 

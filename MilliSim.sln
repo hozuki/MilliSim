@@ -57,6 +57,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Extended.Overlay",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Contributed.Scores", "src\OpenMLTD.MilliSim.Contributed.Scores\OpenMLTD.MilliSim.Contributed.Scores.csproj", "{C596B23A-77B3-430C-85C1-3D7AB6BCA658}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{A9812921-52BA-4551-91F8-BE2766E6F6B0}"
+	ProjectSection(SolutionItems) = preProject
+		docs\Building.md = docs\Building.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -210,6 +215,7 @@ Global
 		{22AEEF23-15FF-4B6C-941D-550C63F50329} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 		{B33715B5-4EA1-4088-8E9A-B6DC033D2DCE} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 		{8A716D2A-DE8D-4886-BF8F-76B6B1A7BB8F} = {700A876B-F712-44FC-9513-CC1B6096D5FF}
+		{A9812921-52BA-4551-91F8-BE2766E6F6B0} = {9D3D7DAF-5C06-4EDF-A6FA-7A22B9924F0D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {27A82ED7-C1EE-4F03-B3AD-02534ACDB2B1}
