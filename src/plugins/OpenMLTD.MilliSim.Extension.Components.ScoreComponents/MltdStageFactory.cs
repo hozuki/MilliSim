@@ -1,13 +1,14 @@
 using System;
 using System.Diagnostics;
+using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration;
 using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Extensions;
 using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming;
 using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays;
 using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays.Combo;
 using OpenMLTD.MilliSim.Foundation;
+using OpenMLTD.MilliSim.Foundation.Extending;
 using OpenMLTD.MilliSim.Graphics;
-using OpenMLTD.MilliSim.Plugin;
 
 namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents {
     [MilliSimPlugin(typeof(IBaseGameComponentFactory))]

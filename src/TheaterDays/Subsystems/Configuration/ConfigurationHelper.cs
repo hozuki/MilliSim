@@ -1,8 +1,8 @@
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Configuration;
 using OpenMLTD.MilliSim.Configuration.Converters;
+using OpenMLTD.MilliSim.Configuration.Extending;
 using OpenMLTD.MilliSim.Foundation;
-using OpenMLTD.MilliSim.Plugin;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 

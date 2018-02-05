@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheaterDays.Direct3D11", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Extended.Overlay", "thirdparty\MonoGame.Extended2\Sources\MonoGame.Extended.Overlay\MonoGame.Extended.Overlay.csproj", "{8A716D2A-DE8D-4886-BF8F-76B6B1A7BB8F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Contributed.Scores", "src\OpenMLTD.MilliSim.Contributed.Scores\OpenMLTD.MilliSim.Contributed.Scores.csproj", "{C596B23A-77B3-430C-85C1-3D7AB6BCA658}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,6 +185,14 @@ Global
 		{8A716D2A-DE8D-4886-BF8F-76B6B1A7BB8F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8A716D2A-DE8D-4886-BF8F-76B6B1A7BB8F}.Release|x86.ActiveCfg = Release|Any CPU
 		{8A716D2A-DE8D-4886-BF8F-76B6B1A7BB8F}.Release|x86.Build.0 = Release|Any CPU
+		{C596B23A-77B3-430C-85C1-3D7AB6BCA658}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C596B23A-77B3-430C-85C1-3D7AB6BCA658}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C596B23A-77B3-430C-85C1-3D7AB6BCA658}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C596B23A-77B3-430C-85C1-3D7AB6BCA658}.Debug|x86.Build.0 = Debug|Any CPU
+		{C596B23A-77B3-430C-85C1-3D7AB6BCA658}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C596B23A-77B3-430C-85C1-3D7AB6BCA658}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C596B23A-77B3-430C-85C1-3D7AB6BCA658}.Release|x86.ActiveCfg = Release|Any CPU
+		{C596B23A-77B3-430C-85C1-3D7AB6BCA658}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

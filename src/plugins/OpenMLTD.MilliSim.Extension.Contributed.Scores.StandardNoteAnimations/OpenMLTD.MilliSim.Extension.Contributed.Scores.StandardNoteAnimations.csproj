@@ -75,6 +75,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\OpenMLTD.MilliSim.Contributed.Scores\OpenMLTD.MilliSim.Contributed.Scores.csproj">
+      <Project>{c596b23a-77b3-430c-85c1-3d7ab6bca658}</Project>
+      <Name>OpenMLTD.MilliSim.Contributed.Scores</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\OpenMLTD.MilliSim.Runtime\OpenMLTD.MilliSim.Runtime.csproj">
       <Project>{2f7ecba5-aa8b-4ab2-8f84-585352935a1b}</Project>
       <Name>OpenMLTD.MilliSim.Runtime</Name>

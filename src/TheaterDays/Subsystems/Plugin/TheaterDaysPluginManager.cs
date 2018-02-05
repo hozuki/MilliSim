@@ -6,8 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
-using OpenMLTD.MilliSim.Plugin;
 using OpenMLTD.TheaterDays.Configuration;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -17,6 +17,7 @@ namespace OpenMLTD.TheaterDays.Subsystems.Plugin {
 
         internal TheaterDaysPluginManager() {
             AppDomain.CurrentDomain.AssemblyResolve += AppDomain_Resolve;
+            InstancingFactoryIDs = new string[0];
         }
 
         /// <summary>

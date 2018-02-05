@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using OpenMLTD.MilliSim.Plugin;
+using OpenMLTD.MilliSim.Contributed.Scores.Extending;
 
 namespace OpenMLTD.MilliSim.Contributed.Scores {
     /// <inheritdoc cref="IScoreFormat"/>

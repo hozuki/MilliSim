@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
+using OpenMLTD.MilliSim.Audio.Extending;
 using OpenMLTD.MilliSim.Contributed.Scores;
 using OpenMLTD.MilliSim.Contributed.Scores.Animation;
 using OpenMLTD.MilliSim.Contributed.Scores.Extensions;
@@ -17,7 +18,6 @@ using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays;
 using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays.Combo;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Foundation.Extensions;
-using OpenMLTD.MilliSim.Plugin;
 
 namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents {
     /// <summary>

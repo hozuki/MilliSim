@@ -1,8 +1,8 @@
 using System;
 using JetBrains.Annotations;
-using OpenMLTD.MilliSim.Foundation;
+using OpenMLTD.MilliSim.Core;
 
-namespace OpenMLTD.MilliSim.Plugin {
+namespace OpenMLTD.MilliSim.Foundation.Extending {
     public interface IBaseGameComponentFactory : IMilliSimPlugin, IDisposable {
 
         /// <summary>

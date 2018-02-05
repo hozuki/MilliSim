@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using OpenMLTD.MilliSim.Contributed.Scores;
 using OpenMLTD.MilliSim.Contributed.Scores.Animation;
+using OpenMLTD.MilliSim.Contributed.Scores.Extending;
 using OpenMLTD.MilliSim.Contributed.Scores.Extensions;
 using OpenMLTD.MilliSim.Contributed.Scores.Runtime;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents;
@@ -16,7 +17,6 @@ using OpenMLTD.MilliSim.Foundation.Extensions;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.MilliSim.Graphics.Advanced;
 using OpenMLTD.MilliSim.Graphics.Extensions;
-using OpenMLTD.MilliSim.Plugin;
 
 namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming {
     public class NotesLayer : BufferedVisual {

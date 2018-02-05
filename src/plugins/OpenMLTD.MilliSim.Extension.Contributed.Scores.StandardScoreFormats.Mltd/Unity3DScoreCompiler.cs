@@ -1,8 +1,8 @@
 using System;
 using OpenMLTD.MilliSim.Contributed.Scores;
+using OpenMLTD.MilliSim.Contributed.Scores.Extending;
 using OpenMLTD.MilliSim.Contributed.Scores.Runtime;
 using OpenMLTD.MilliSim.Contributed.Scores.Source;
-using OpenMLTD.MilliSim.Plugin;
 using UnityStudio;
 
 namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Mltd {

@@ -3,10 +3,10 @@ using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Audio;
+using OpenMLTD.MilliSim.Audio.Extending;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Foundation.Extensions;
-using OpenMLTD.MilliSim.Plugin;
 
 namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
     public sealed class AudioController : BaseGameComponent {

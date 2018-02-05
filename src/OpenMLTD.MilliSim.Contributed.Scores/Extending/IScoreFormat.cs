@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Contributed.Scores.Runtime;
 using OpenMLTD.MilliSim.Contributed.Scores.Source;
+using OpenMLTD.MilliSim.Core;
 
-namespace OpenMLTD.MilliSim.Plugin {
+namespace OpenMLTD.MilliSim.Contributed.Scores.Extending {
     /// <summary>
     /// Represents a score format.
     /// </summary>

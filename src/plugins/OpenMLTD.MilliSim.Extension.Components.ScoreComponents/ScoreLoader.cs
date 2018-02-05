@@ -1,13 +1,13 @@
 using System;
 using System.IO;
 using JetBrains.Annotations;
+using OpenMLTD.MilliSim.Contributed.Scores.Extending;
 using OpenMLTD.MilliSim.Contributed.Scores.Runtime;
 using OpenMLTD.MilliSim.Contributed.Scores.Source;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents;
 using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Foundation.Extensions;
-using OpenMLTD.MilliSim.Plugin;
 
 namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents {
     public sealed class ScoreLoader : BaseGameComponent {

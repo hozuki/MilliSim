@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Plugin;
 
 namespace OpenMLTD.MilliSim.Foundation {
     public abstract class BasePluginManager : DisposableBase {

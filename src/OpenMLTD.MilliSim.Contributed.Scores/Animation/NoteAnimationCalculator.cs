@@ -1,8 +1,7 @@
 using System;
-using System.Drawing;
 using Microsoft.Xna.Framework;
+using OpenMLTD.MilliSim.Contributed.Scores.Extending;
 using OpenMLTD.MilliSim.Contributed.Scores.Runtime;
-using OpenMLTD.MilliSim.Plugin;
 
 namespace OpenMLTD.MilliSim.Contributed.Scores.Animation {
     /// <inheritdoc cref="INoteAnimationCalculator"/>

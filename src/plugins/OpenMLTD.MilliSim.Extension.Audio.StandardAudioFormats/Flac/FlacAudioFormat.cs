@@ -3,7 +3,8 @@ using JetBrains.Annotations;
 using NAudio.Flac;
 using NAudio.Wave;
 using OpenMLTD.MilliSim.Audio;
-using OpenMLTD.MilliSim.Plugin;
+using OpenMLTD.MilliSim.Audio.Extending;
+using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats.Flac {
     [MilliSimPlugin(typeof(IAudioFormat))]

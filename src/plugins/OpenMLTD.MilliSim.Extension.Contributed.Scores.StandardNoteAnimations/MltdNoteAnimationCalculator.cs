@@ -2,10 +2,10 @@ using System;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using OpenMLTD.MilliSim.Contributed.Scores.Animation;
+using OpenMLTD.MilliSim.Contributed.Scores.Extending;
 using OpenMLTD.MilliSim.Contributed.Scores.Extensions;
 using OpenMLTD.MilliSim.Contributed.Scores.Runtime;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Plugin;
 
 namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardNoteAnimations {
     /// <inheritdoc cref="NoteAnimationCalculator"/>

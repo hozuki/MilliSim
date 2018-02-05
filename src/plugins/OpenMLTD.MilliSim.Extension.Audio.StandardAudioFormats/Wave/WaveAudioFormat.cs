@@ -2,7 +2,8 @@ using System;
 using JetBrains.Annotations;
 using NAudio.Wave;
 using OpenMLTD.MilliSim.Audio;
-using OpenMLTD.MilliSim.Plugin;
+using OpenMLTD.MilliSim.Audio.Extending;
+using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats.Wave {
     [MilliSimPlugin(typeof(IAudioFormat))]

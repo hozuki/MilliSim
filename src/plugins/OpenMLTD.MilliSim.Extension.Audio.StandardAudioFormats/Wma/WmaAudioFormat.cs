@@ -3,7 +3,8 @@ using JetBrains.Annotations;
 using NAudio.Wave;
 using NAudio.WindowsMediaFormat;
 using OpenMLTD.MilliSim.Audio;
-using OpenMLTD.MilliSim.Plugin;
+using OpenMLTD.MilliSim.Audio.Extending;
+using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats.Wma {
     [MilliSimPlugin(typeof(IAudioFormat))]

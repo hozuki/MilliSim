@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Audio;
-using OpenMLTD.MilliSim.Plugin;
+using OpenMLTD.MilliSim.Audio.Extending;
 
 namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Extensions {
     internal static class AudioManagerExtensions {

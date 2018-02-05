@@ -1,6 +1,6 @@
 using System;
 using NAudio.Wave;
-using OpenMLTD.MilliSim.Plugin;
+using OpenMLTD.MilliSim.Audio.Extending;
 
 namespace OpenMLTD.MilliSim.Audio {
     public abstract class AudioFormat : IAudioFormat {

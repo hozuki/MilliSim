@@ -4,7 +4,7 @@ using System.Reflection;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Core.Extensions;
-using OpenMLTD.MilliSim.Plugin;
+using OpenMLTD.MilliSim.Foundation.Extending;
 
 namespace OpenMLTD.MilliSim.Foundation {
     public abstract class BaseGameComponentFactory : DisposableBase, IBaseGameComponentFactory {

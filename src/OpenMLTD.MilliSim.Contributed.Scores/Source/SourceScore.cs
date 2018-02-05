@@ -1,5 +1,5 @@
 using JetBrains.Annotations;
-using OpenMLTD.MilliSim.Plugin;
+using OpenMLTD.MilliSim.Contributed.Scores.Extending;
 
 namespace OpenMLTD.MilliSim.Contributed.Scores.Source {
     /// <summary>

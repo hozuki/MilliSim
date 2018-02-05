@@ -3,7 +3,8 @@ using JetBrains.Annotations;
 using NAudio.Vorbis;
 using NAudio.Wave;
 using OpenMLTD.MilliSim.Audio;
-using OpenMLTD.MilliSim.Plugin;
+using OpenMLTD.MilliSim.Audio.Extending;
+using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats.Vorbis {
     [MilliSimPlugin(typeof(IAudioFormat))]

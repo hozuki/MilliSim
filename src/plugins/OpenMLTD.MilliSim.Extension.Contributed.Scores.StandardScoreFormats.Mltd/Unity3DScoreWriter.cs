@@ -1,9 +1,9 @@
 using System;
 using System.IO;
+using OpenMLTD.MilliSim.Contributed.Scores.Extending;
 using OpenMLTD.MilliSim.Contributed.Scores.Runtime;
 using OpenMLTD.MilliSim.Contributed.Scores.Source;
 using OpenMLTD.MilliSim.Core;
-using OpenMLTD.MilliSim.Plugin;
 
 namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Mltd {
     internal sealed class Unity3DScoreWriter : DisposableBase, IScoreWriter {

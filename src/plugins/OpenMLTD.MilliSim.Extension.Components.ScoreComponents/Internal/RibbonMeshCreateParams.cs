@@ -1,8 +1,8 @@
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Graphics;
 using OpenMLTD.MilliSim.Contributed.Scores.Animation;
+using OpenMLTD.MilliSim.Contributed.Scores.Extending;
 using OpenMLTD.MilliSim.Contributed.Scores.Runtime;
-using OpenMLTD.MilliSim.Plugin;
 
 namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Internal {
     internal struct RibbonMeshCreateParams {

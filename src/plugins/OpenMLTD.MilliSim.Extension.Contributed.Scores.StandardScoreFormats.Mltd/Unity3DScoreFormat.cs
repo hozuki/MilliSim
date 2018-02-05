@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Contributed.Scores;
-using OpenMLTD.MilliSim.Plugin;
+using OpenMLTD.MilliSim.Contributed.Scores.Extending;
+using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Mltd {
     [MilliSimPlugin(typeof(IScoreFormat))]

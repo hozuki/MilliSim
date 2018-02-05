@@ -1,6 +1,7 @@
 using System;
+using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Foundation;
-using OpenMLTD.MilliSim.Plugin;
+using OpenMLTD.MilliSim.Foundation.Extending;
 
 namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
     [MilliSimPlugin(typeof(IBaseGameComponentFactory))]

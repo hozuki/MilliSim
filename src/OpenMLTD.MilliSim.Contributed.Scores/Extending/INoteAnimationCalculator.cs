@@ -2,8 +2,9 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using OpenMLTD.MilliSim.Contributed.Scores.Animation;
 using OpenMLTD.MilliSim.Contributed.Scores.Runtime;
+using OpenMLTD.MilliSim.Core;
 
-namespace OpenMLTD.MilliSim.Plugin {
+namespace OpenMLTD.MilliSim.Contributed.Scores.Extending {
     /// <summary>
     /// An interface used to calculate traces of notes.
     /// </summary>

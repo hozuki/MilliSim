@@ -1,8 +1,7 @@
 using System;
 using JetBrains.Annotations;
-using OpenMLTD.MilliSim.Core;
 
-namespace OpenMLTD.MilliSim.Plugin {
+namespace OpenMLTD.MilliSim.Core {
     public interface IMilliSimPlugin : IApiVersionProvider {
 
         /// <summary>

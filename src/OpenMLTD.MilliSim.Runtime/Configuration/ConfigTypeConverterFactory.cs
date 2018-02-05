@@ -1,5 +1,5 @@
 using System;
-using OpenMLTD.MilliSim.Plugin;
+using OpenMLTD.MilliSim.Configuration.Extending;
 using YamlDotNet.Serialization;
 
 namespace OpenMLTD.MilliSim.Configuration {
