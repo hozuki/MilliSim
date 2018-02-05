@@ -9,5 +9,5 @@ then
     exit 1
 fi
 
-echo "${COLOR_RED}MonoGame builds is not supported on Travis.${COLOR_RESET}"
+echo "${COLOR_RED}Building is skipped on Travis.${COLOR_RESET}"
 exit 0
