@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.Overlay;
@@ -36,7 +35,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             base.OnLoadContents();
 
             var theaterDays = Game.ToBaseGame();
-            var fontPath = Path.GetFullPath(GetFontFilePath());
+            var fontPath = System.IO.Path.GetFullPath(GetFontFilePath());
 
             _font = theaterDays.FontManager.LoadFont(fontPath);
             _font.Size = FontSize;

@@ -172,6 +172,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\thirdparty\MonoGame.Extended2\Sources\MonoGame.Extended.Overlay\MonoGame.Extended.Overlay.csproj">
+      <Project>{8a716d2a-de8d-4886-bf8f-76b6b1a7bb8f}</Project>
+      <Name>MonoGame.Extended.Overlay</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\thirdparty\MonoGame.Extended2\Sources\MonoGame.Extended2\MonoGame.Extended2.csproj">
+      <Project>{c7c3d9de-41a4-4c21-98fb-336ed38a99d5}</Project>
+      <Name>MonoGame.Extended2</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\thirdparty\SharpAL\SharpAL\SharpAL.csproj">
       <Project>{beb46d97-08c9-4868-8cac-d3ec2e954689}</Project>
       <Name>SharpAL</Name>

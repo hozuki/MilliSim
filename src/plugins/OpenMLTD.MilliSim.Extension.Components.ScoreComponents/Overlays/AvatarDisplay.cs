@@ -4,6 +4,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Overlay;
 using OpenMLTD.MilliSim.Contributed.Scores;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents;
 using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration;
@@ -12,7 +13,7 @@ using OpenMLTD.MilliSim.Foundation.Extensions;
 using OpenMLTD.MilliSim.Graphics;
 
 namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays {
-    public class AvatarDisplay : BufferedVisual {
+    public class AvatarDisplay : OverlayBase {
 
         public AvatarDisplay([NotNull] BaseGame game, [NotNull] IVisualContainer parent)
             : base(game, parent) {
@@ -120,87 +121,6 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays {
             }
         }
 
-//        protected override void OnDrawBuffer(GameTime gameTime) {
-//            base.OnDrawBuffer(gameTime);
-
-//            if (Opacity <= 0) {
-//                return;
-//            }
-
-//            var avatarRectangles = _avatarRectangles;
-
-////            context.Begin2D();
-////
-////            var d2dContext = context.RenderTarget.DeviceContext2D;
-////            var d2dFactory = d2dContext.Factory;
-////            using (var geometry = new PathGeometry(d2dFactory)) {
-////                using (var sink = geometry.Open()) {
-////                    foreach (var rect in avatarRectangles) {
-////                        sink.BeginFigure(new Vector2(rect.X + rect.Width / 2, rect.Y), FigureBegin.Filled);
-////                        sink.AddArc(new ArcSegment {
-////                            ArcSize = ArcSize.Small,
-////                            Point = new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height),
-////                            Size = new Size2F(rect.Width / 2, rect.Height / 2),
-////                            SweepDirection = SweepDirection.CounterClockwise
-////                        });
-////                        sink.AddArc(new ArcSegment {
-////                            ArcSize = ArcSize.Small,
-////                            Point = new Vector2(rect.X + rect.Width / 2, rect.Y),
-////                            Size = new Size2F(rect.Width / 2, rect.Height / 2),
-////                            SweepDirection = SweepDirection.CounterClockwise
-////                        });
-////                        sink.EndFigure(FigureEnd.Closed);
-////                    }
-////
-////                    sink.Close();
-////                }
-////
-////                var originalAntiAliasMode = d2dContext.AntialiasMode;
-////
-////                // https://msdn.microsoft.com/en-us/library/windows/desktop/hh847947.aspx
-////                var layerParams = new LayerParameters {
-////                    GeometricMask = geometry,
-////                    ContentBounds = RectangleF.Infinite,
-////                    MaskTransform = Matrix3x2.Identity,
-////                    MaskAntialiasMode = AntialiasMode.PerPrimitive,
-////                    Opacity = 1,
-////                    LayerOptions = LayerOptions.None
-////                };
-////                d2dContext.AntialiasMode = AntialiasMode.PerPrimitive;
-////
-////                using (var layer = new Layer(d2dContext)) {
-////                    d2dContext.PushLayer(ref layerParams, layer);
-////
-////                    var avatarImages = _avatarImages;
-////
-////                    for (var i = 0; i < avatarImages.Length; ++i) {
-////                        var image = avatarImages[i];
-////
-////                        if (image == null) {
-////                            continue;
-////                        }
-////
-////                        var rect = avatarRectangles[i];
-////
-////                        context.DrawBitmap(image, rect.X, rect.Y, rect.Width, rect.Height);
-////                    }
-////
-////                    d2dContext.PopLayer();
-////                }
-////
-////                d2dContext.AntialiasMode = originalAntiAliasMode;
-////            }
-////
-////            context.End2D();
-////
-////            context.Begin2D();
-////            foreach (var rect in avatarRectangles) {
-////                context.DrawEllipse(_borderPen, rect.X, rect.Y, rect.Width, rect.Height);
-////            }
-////
-////            context.End2D();
-//        }
-
         protected override void OnLoadContents() {
             base.OnLoadContents();
 
@@ -256,20 +176,20 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays {
 
             var scalingResults = scalingResponder.ScaleResults;
 
-//            _borderPen = new D2DPen(context, Color.White, scalingResults.AvatarBorder.Width);
+            _borderColor = Color.White;
+            _borderWidth = scalingResults.AvatarBorder.X;
+
+            DrawContents();
         }
 
-        protected override void OnUnloadContents() {
+        protected override void Dispose(bool disposing) {
             foreach (var image in _avatarImages) {
                 image?.Dispose();
             }
 
             _avatarImages = null;
 
-//            _borderPen?.Dispose();
-//            _borderPen = null;
-
-            base.OnUnloadContents();
+            base.Dispose(disposing);
         }
 
         protected override void OnInitialize() {
@@ -278,7 +198,43 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays {
             Opacity = 0;
         }
 
-//        private D2DPen _borderPen;
+        // We only need to draw it once; SkiaSharp use retained graphics.
+        private void DrawContents() {
+            var avatarRectangles = _avatarRectangles;
+            var graphics = Graphics;
+
+            var clipPath = new Path();
+
+            foreach (var avatarRect in avatarRectangles) {
+                clipPath.AddEllipse(avatarRect);
+            }
+
+            graphics.SaveState();
+
+            graphics.SetClipPath(clipPath, false);
+
+            var avatarImages = _avatarImages;
+
+            for (var i = 0; i < avatarImages.Length; ++i) {
+                var image = avatarImages[i];
+
+                if (image == null) {
+                    continue;
+                }
+
+                var rect = avatarRectangles[i];
+
+                graphics.DrawImage(image, rect);
+            }
+
+            graphics.RestoreState();
+
+            using (var borderPen = new Pen(_borderColor, _borderWidth)) {
+                foreach (var rect in avatarRectangles) {
+                    graphics.DrawEllipse(borderPen, rect);
+                }
+            }
+        }
 
         private Rectangle[] _avatarRectangles;
 
@@ -287,6 +243,9 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays {
 
         private OngoingAnimation _ongoingAnimation = OngoingAnimation.None;
         private TimeSpan _animationStartedTime = TimeSpan.Zero;
+
+        private Color _borderColor;
+        private float _borderWidth;
 
         private readonly double _scorePrepareDuration = 1.5;
         private readonly double _specialEndDuration = 1.5;
