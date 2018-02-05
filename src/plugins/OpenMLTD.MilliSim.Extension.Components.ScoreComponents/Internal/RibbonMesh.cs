@@ -106,7 +106,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Internal {
                 // An empty ribbon.
 
                 SetVertices(createParams.Device, (RibbonVertex[])null);
-                SetIndices(createParams.Device, (ushort[])null);
+                SetIndices(createParams.Device, null);
             } else {
                 // Normal case.
 
@@ -277,6 +277,10 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Internal {
         }
 
         internal void Draw([NotNull] GraphicsDevice graphicsDevice) {
+            if (_vertexBuffer == null || _indexBuffer == null) {
+                return;
+            }
+
             graphicsDevice.SetVertexBuffer(_vertexBuffer);
             graphicsDevice.Indices = _indexBuffer;
             graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, _faceCount);
@@ -312,9 +316,13 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Internal {
             _faceCount = indices.Length / 3;
         }
 
+        [CanBeNull]
         private RibbonVertex[] _vertices;
+        [CanBeNull]
         private ushort[] _indices;
+        [CanBeNull]
         private VertexBuffer _vertexBuffer;
+        [CanBeNull]
         private IndexBuffer _indexBuffer;
         private int _faceCount;
         private int _vertexStride;
