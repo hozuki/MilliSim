@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using log4net.Config;
 using OpenMLTD.MilliSim.Core;
 
 // General Information about an assembly is controlled through the following 
@@ -41,3 +42,5 @@ using OpenMLTD.MilliSim.Core;
 [assembly: AssemblyBuildTime(null)]
 
 [assembly: CLSCompliant(true)]
+
+[assembly: XmlConfigurator]

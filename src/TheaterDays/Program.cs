@@ -1,4 +1,4 @@
-using OpenMLTD.MilliSim.Graphics;
+using System;
 
 namespace OpenMLTD.TheaterDays {
     internal static class Program {
@@ -7,8 +7,10 @@ namespace OpenMLTD.TheaterDays {
         /// For testing purpose only.
         /// </summary>
         /// <param name="args"></param>
-        private static void Main(string[] args) {
-            Theater.Run(args, GraphicsBackend.OpenGL);
+        [STAThread]
+        private static int Main(string[] args) {
+            throw new NotSupportedException();
+            //return Theater.Run(args, GraphicsBackend.Direct3D11);
         }
 
     }

@@ -12,18 +12,19 @@ namespace OpenMLTD.TheaterDays {
         public static int Run([NotNull, ItemNotNull] string[] args, GraphicsBackend graphicsBackend, [NotNull] string loggerName = "theater-days") {
             GraphicsBackend = graphicsBackend;
 
-#if ENABLE_GUI_CONSOLE
-            GuiConsole.Initialize();
-            GuiConsole.Error.WriteLine();
-#endif
+            GameLog.Initialize(loggerName);
+            GameLog.Enabled = true;
 
             var optionsParsingResult = Parser.Default.ParseArguments<Options>(args);
             int exitCode;
 
+#if ENABLE_GUI_CONSOLE
+            GuiConsole.Initialize();
+            GuiConsole.Error.WriteLine();
+#endif
             if (optionsParsingResult.Tag == ParserResultType.Parsed) {
                 var options = ((Parsed<Options>)optionsParsingResult).Value;
 
-                GameLog.Initialize(loggerName);
                 GameLog.Enabled = options.IsDebugEnabled;
 
                 using (var pluginManager = new TheaterDaysPluginManager()) {
@@ -35,9 +36,9 @@ namespace OpenMLTD.TheaterDays {
                     using (var game = new Theater(pluginManager, configurationStore, cultureSpecificInfo)) {
                         game.Run();
                     }
-                }
 
-                exitCode = 0;
+                    exitCode = 0;
+                }
             } else {
                 var helpText = CommandLine.Text.HelpText.AutoBuild(optionsParsingResult);
 

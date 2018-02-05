@@ -95,6 +95,13 @@ namespace OpenMLTD.MilliSim.Configuration {
             return _configurations.TryGetValue(key, out value);
         }
 
+        public bool TryGetValue<T>(out T value) where T : ConfigBase {
+            var b = TryGetValue(typeof(T), out var val);
+            value = (T)val;
+
+            return b;
+        }
+
         public ConfigBase this[Type key] => _configurations[key];
 
         public T Get<T>() where T : ConfigBase {

@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 using OpenMLTD.MilliSim.Configuration;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents;
+using OpenMLTD.MilliSim.Extension.Components.ScoreComponents;
+using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration;
+using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Foundation.Extending;
 using OpenMLTD.MilliSim.Foundation.Extensions;
@@ -115,7 +118,25 @@ namespace OpenMLTD.TheaterDays {
 
             var config = ConfigurationStore.Get<MainAppConfig>();
 
-            Window.Title = config.Data.Window.Title;
+            string songTitle;
+            if (ConfigurationStore.TryGetValue<ScoreLoaderConfig>(out var scoreLoaderConfig)) {
+                songTitle = scoreLoaderConfig.Data.Title;
+            } else {
+                songTitle = null;
+            }
+
+            var appCodeName = ApplicationHelper.CodeName;
+            var windowTitle = config.Data.Window.Title;
+
+            if (!string.IsNullOrWhiteSpace(songTitle)) {
+                windowTitle = songTitle + " - " + windowTitle;
+            }
+
+            if (!string.IsNullOrWhiteSpace(appCodeName)) {
+                windowTitle = windowTitle + " (\"" + appCodeName + "\")";
+            }
+
+            Window.Title = windowTitle;
         }
 
         private void SubscribeComponentEvents() {
