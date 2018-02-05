@@ -83,6 +83,7 @@
     <Compile Include="Wma\WmaAudioFormat.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="OpenMLTD.MilliSim.Extension.Audio.StandardAudioFormats.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

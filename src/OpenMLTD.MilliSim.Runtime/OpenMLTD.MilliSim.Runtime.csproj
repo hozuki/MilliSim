@@ -183,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />
+    <None Include="OpenMLTD.MilliSim.Runtime.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

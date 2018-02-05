@@ -83,6 +83,7 @@
     <Compile Include="Source\SourceScore.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="OpenMLTD.MilliSim.Contributed.Scores.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

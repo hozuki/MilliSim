@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>OpenMLTD.MilliSim.Extension.Components.CoreComponents</id>
+    <id>OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Mltd</id>
     <version>0.0.0</version>
-    <title>OpenMLTD.MilliSim.Extension.Components.CoreComponents</title>
+    <title>OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Mltd</title>
     <authors>headcrabbed</authors>
     <owners>headcrabbed</owners>
     <licenseUrl>https://github.com/hozuki/MilliSim/blob/master/LICENSE.txt</licenseUrl>
     <projectUrl>https://github.com/hozuki/MilliSim</projectUrl>
     <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>MilliSim core visual components.</description>
+    <description>MLTD native score format (.uniy3d) for MilliSim's MLTD simulation.</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2017-2018 OpenMLTD</copyright>
     <tags>mltd</tags>

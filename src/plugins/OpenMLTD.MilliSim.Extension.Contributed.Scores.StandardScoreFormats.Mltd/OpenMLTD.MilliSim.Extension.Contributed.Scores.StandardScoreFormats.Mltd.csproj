@@ -92,6 +92,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Mltd.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
