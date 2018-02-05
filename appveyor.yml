@@ -3,7 +3,7 @@
 version: 0.3.0.{build}
 image: Visual Studio 2017
 platform:
-  - Any CPU
+  - x86
 configuration:
   - Release
 environment:

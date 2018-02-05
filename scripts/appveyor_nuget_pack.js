@@ -55,7 +55,7 @@ function packPackages(err, fileList) {
             //"-Build",
             "-IncludeReferencedProjects",
             "-OutputDirectory", winpath(process.cwd()),
-            "-Prop", `Configuration=${process.env["CONFIGURATION"]};Platform=AnyCPU;OutputPath=${winpath(getOutputPath(dir))}`
+            "-Prop", `Configuration=${process.env["CONFIGURATION"]};Platform=${process.env["PLATFORM"]}`
         ];
         //if (process.env["Release_Suffix"]) {
         //    params.push("-Suffix", process.env["Release_Suffix"].replace("-", ""));
