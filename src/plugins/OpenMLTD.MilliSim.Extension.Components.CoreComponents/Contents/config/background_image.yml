@@ -5,3 +5,4 @@ metadata:
   version: 1 # format version
 data:
   bgi:
+  fit: stretch # none, fit, stretch, tile, center, letter_box

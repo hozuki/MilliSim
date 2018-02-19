@@ -1,7 +1,9 @@
+using System;
 using System.IO;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Foundation.Extensions;
 using OpenMLTD.MilliSim.Graphics;
@@ -52,11 +54,66 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
         protected override void OnDraw(GameTime gameTime) {
             base.OnDraw(gameTime);
 
-            if (_texture != null) {
-                var game = Game.ToBaseGame();
+            var texture = _texture;
 
-                game.SpriteBatch.Begin(blendState: BlendState.AlphaBlend);
-                game.SpriteBatch.Draw(_texture, Vector2.Zero, Color.White);
+            if (texture != null) {
+                var game = Game.ToBaseGame();
+                var config = ConfigurationStore.Get<BackgroundImageConfig>();
+
+                var samplerState = config.Data.Fit == BackgroundImageFit.Tile ? SamplerState.LinearWrap : SamplerState.LinearClamp;
+                var viewport = game.GraphicsDevice.Viewport;
+
+                game.SpriteBatch.Begin(blendState: BlendState.AlphaBlend, samplerState: samplerState);
+
+                Rectangle? destRect = null;
+
+                switch (config.Data.Fit) {
+                    case BackgroundImageFit.None:
+                        break;
+                    case BackgroundImageFit.Fit: {
+                            var viewportAspectRatio = viewport.AspectRatio;
+                            var textureAspectRatio = (float)texture.Width / texture.Height;
+
+                            if (viewportAspectRatio > textureAspectRatio) {
+                                // Width is the limitation
+                                destRect = RectHelper.RoundToRectangle(0, (float)(viewport.Height - texture.Height) / 2, viewport.Width, viewport.Width / textureAspectRatio);
+                            } else {
+                                // Height is the limitation
+                                destRect = RectHelper.RoundToRectangle((float)(viewport.Width - texture.Width) / 2, 0, viewport.Height * textureAspectRatio, viewport.Height);
+                            }
+                        }
+                        break;
+                    case BackgroundImageFit.Stretch:
+                        destRect = viewport.Bounds;
+                        break;
+                    case BackgroundImageFit.Tile:
+                        break;
+                    case BackgroundImageFit.Center:
+                        destRect = RectHelper.RoundToRectangle((float)(viewport.Width - texture.Width) / 2, (float)(viewport.Height - texture.Height) / 2, texture.Width, texture.Height);
+                        break;
+                    case BackgroundImageFit.LetterBox: {
+                            var viewportAspectRatio = viewport.AspectRatio;
+                            var textureAspectRatio = (float)texture.Width / texture.Height;
+
+                            if (viewportAspectRatio > textureAspectRatio) {
+                                // Width is the limitation
+                                destRect = RectHelper.RoundToRectangle((float)(viewport.Width - texture.Width) / 2, 0, viewport.Height * textureAspectRatio, viewport.Height);
+                            } else {
+                                // Height is the limitation
+                                destRect = RectHelper.RoundToRectangle(0, (float)(viewport.Height - texture.Height) / 2, viewport.Width, viewport.Width / textureAspectRatio);
+                            }
+                        }
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                if (destRect != null) {
+                    game.SpriteBatch.Draw(texture, destRect.Value, Color.White);
+                } else {
+                    game.SpriteBatch.Draw(texture, Vector2.Zero, Color.White);
+                }
+
                 game.SpriteBatch.End();
             }
         }

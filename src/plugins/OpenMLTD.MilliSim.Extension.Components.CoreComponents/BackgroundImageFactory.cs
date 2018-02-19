@@ -23,9 +23,15 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
 
         public override IBaseGameComponent CreateComponent(BaseGame game, IBaseGameComponentContainer parent) {
             var config = game.ConfigurationStore.Get<BackgroundImageConfig>();
+
             if (!string.IsNullOrEmpty(config.Data.BackgroundImage) && File.Exists(config.Data.BackgroundImage)) {
                 Trace.Assert(parent is IVisualContainer);
-                return new BackgroundVideo(game, (IVisualContainer)parent);
+
+                var bgi = new BackgroundImage(game, (IVisualContainer)parent);
+
+                bgi.Load(config.Data.BackgroundImage);
+
+                return bgi;
             } else {
                 return null;
             }
