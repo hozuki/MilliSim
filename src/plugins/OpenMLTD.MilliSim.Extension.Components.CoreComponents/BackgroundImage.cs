@@ -97,10 +97,12 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
 
                             if (viewportAspectRatio > textureAspectRatio) {
                                 // Width is the limitation
-                                destRect = RectHelper.RoundToRectangle((float)(viewport.Width - texture.Width) / 2, 0, viewport.Height * textureAspectRatio, viewport.Height);
+                                var newWidth = viewport.Height * textureAspectRatio;
+                                destRect = RectHelper.RoundToRectangle((viewport.Width - newWidth) / 2, 0, newWidth, viewport.Height);
                             } else {
                                 // Height is the limitation
-                                destRect = RectHelper.RoundToRectangle(0, (float)(viewport.Height - texture.Height) / 2, viewport.Width, viewport.Width / textureAspectRatio);
+                                var newHeight = viewport.Width / textureAspectRatio;
+                                destRect = RectHelper.RoundToRectangle(0, (viewport.Height - newHeight) / 2, viewport.Width, newHeight);
                             }
                         }
                         break;
