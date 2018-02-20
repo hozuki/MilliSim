@@ -13,14 +13,31 @@ namespace OpenMLTD.MilliSim.Graphics {
             _game = game;
         }
 
-        public T Register<T>([NotNull] string effectFile)
+        /// <summary>
+        /// Registers an effect instance as a singleton.
+        /// </summary>
+        /// <param name="effectInstance">The effect instance.</param>
+        /// <returns><see langword="true"/> if there was no registered effects with the same type of the effect that is to be registered, otherwise <see langword="false"/>.</returns>
+        public bool RegisterSingleton([NotNull] Effect effectInstance) {
+            var effectType = effectInstance.GetType();
+
+            if (_effects.ContainsKey(effectType)) {
+                return false;
+            }
+
+            _effects[effectType] = effectInstance;
+
+            return true;
+        }
+
+        public T RegisterSingleton<T>([NotNull] string effectFile)
             where T : Effect {
             var t = typeof(T);
 
-            return (T)Register(t, effectFile);
+            return (T)RegisterSingleton(t, effectFile);
         }
 
-        public Effect Register([NotNull] Type effectType, [NotNull] string effectFile) {
+        public Effect RegisterSingleton([NotNull] Type effectType, [NotNull] string effectFile) {
             if (_effects.ContainsKey(effectType)) {
                 return _effects[effectType];
             }

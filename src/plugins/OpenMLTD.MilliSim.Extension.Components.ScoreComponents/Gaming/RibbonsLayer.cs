@@ -309,7 +309,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming {
 
             _ribbonTexture = ContentHelper.LoadTexture(theaterDays.GraphicsDevice, config.Data.Image.FileName);
 
-            theaterDays.EffectManager.Register<RibbonEffect>(@"Contents/res/fx/ribbon.fx");
+            theaterDays.EffectManager.RegisterSingleton<RibbonEffect>(@"Contents/res/fx/ribbon.fx");
 
             var textureDesc = _ribbonTexture.Bounds;
             var textureBlankEdges = config.Data.Image.BlankEdge;
