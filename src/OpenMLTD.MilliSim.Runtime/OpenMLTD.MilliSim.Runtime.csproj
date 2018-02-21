@@ -71,6 +71,7 @@
     <Compile Include="Graphics\BufferedVisual.cs" />
     <Compile Include="Graphics\BufferedVisualContainer.cs" />
     <Compile Include="Graphics\EffectManager.cs" />
+    <Compile Include="Graphics\Extensions\RenderTarget2DExtensions.cs" />
     <Compile Include="Graphics\Extensions\SpriteBatchExtensions.cs" />
     <Compile Include="Graphics\Extensions\Texture2DExtensions.cs" />
     <Compile Include="Graphics\GraphicsBackend.cs" />

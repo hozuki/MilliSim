@@ -10,7 +10,6 @@ namespace OpenMLTD.MilliSim.Graphics {
 
         protected BufferedVisualContainer([NotNull] BaseGame game, [CanBeNull] IVisualContainer parent)
             : base(game, parent) {
-            BufferTarget = game.GraphicsDevice.CreateCompatibleRenderTarget();
         }
 
         public RenderTarget2D BufferTarget { get; private set; }
@@ -23,6 +22,16 @@ namespace OpenMLTD.MilliSim.Graphics {
         public Matrix? Transform { get; set; }
 
         public Vector2 Location { get; set; }
+
+        protected virtual RenderTarget2D CreateBufferTarget() {
+            return Game.GraphicsDevice.CreateCompatibleRenderTargetFromBackBuffer();
+        }
+
+        protected override void OnInitialize() {
+            base.OnInitialize();
+
+            BufferTarget = CreateBufferTarget();
+        }
 
         protected override void OnDraw(GameTime gameTime) {
             var game = Game.ToBaseGame();
