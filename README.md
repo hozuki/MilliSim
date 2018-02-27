@@ -52,6 +52,37 @@ Without FFmpeg, you must either:
 1. disable background video (comment out `plugin.component_factory.background_video` in `Contents/plugins.yml`), or
 2. leave video file path as empty (`data`-`video` section in `Contents/config/background_video.yml`).
 
+### Note: If MilliSim Cannot Launch
+
+To enable debug mode, use [Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe) to run MilliSim like:
+
+```cmd
+MilliSim.Direct3D11.exe --debug
+```
+
+When MilliSim encounters problems (e.g. app crash), it will write a debug log in `log-file.txt`. Please open the log and
+submit it by [opening an issue](https://github.com/hozuki/MilliSim/issues).
+
+<table style="display: flex; display: -webkit-flex; align-items: center; border: none;">
+<tbody>
+    <tr style="border: none;">
+        <td style="border: none;">
+            A common problem of MilliSim not starting may relate to error 0x80131515.
+            Since MilliSim uses a plugin architecture, it will scan and load plugin DLLs under its directory.
+            That error code means it is not authorized to access those DLLs.
+            Please make sure:
+            <ol>
+                <li>if you run MilliSim in <code>C</code> drive, it must be place somewhere inside your user directory (i.e. <code>C:\Users\YOUR_USER_NAME\SOME_DIR\</code>);</li>
+                <li>you must unblock the downloaded ZIP file before you extract the EXEs and DLLs (shown as the picture on the right). (thanks <a href="https://twitter.com/Sacno3">@Sacno3</a>)</li>
+            </ol>
+        </td>
+        <td style="border: none;">
+            <img src="docs/img/windows-unblock-zip.jpg" width="120" />
+        </td>
+    </tr>
+</tbody>
+</table>
+
 ## Building
 
 Please read [Building.md](docs/Building.md).
