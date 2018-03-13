@@ -1,6 +1,8 @@
 using System;
+using System.Diagnostics;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
+using OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Foundation.Extensions;
 
@@ -18,52 +20,117 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
         /// </summary>
         public TimerSyncTarget SyncTarget { get; set; }
 
-        protected override void OnUpdate(GameTime gameTime) {
-            base.OnUpdate(gameTime);
+        public TimerSyncMethod SyncMethod { get; set; }
+
+        [NotNull]
+        public Stopwatch Stopwatch => _stopwatch;
+
+        protected override void OnInitialize() {
+            base.OnInitialize();
+
+            var config = ConfigurationStore.Get<SyncTimerConfig>();
+
+            SyncTarget = config.Data.SyncTarget;
+            SyncMethod = config.Data.SyncMethod;
 
             var theaterDays = Game.ToBaseGame();
 
             var audio = theaterDays.FindSingleElement<AudioController>();
             var video = theaterDays.FindSingleElement<BackgroundVideo>();
 
+            _audioController = audio;
+            _backgroundVideo = video;
+        }
+
+        protected override void OnLoadContents() {
+            base.OnLoadContents();
+
+            _stopwatch.Start();
+        }
+
+        protected override void OnUnloadContents() {
+            _stopwatch.Reset();
+
+            base.OnUnloadContents();
+        }
+
+        protected override void OnUpdate(GameTime gameTime) {
+            base.OnUpdate(gameTime);
+
+            var audio = _audioController;
+            var video = _backgroundVideo;
+
+            var canCompensate = false;
+            var standardTime = TimeSpan.Zero;
+
             if (SyncTarget == TimerSyncTarget.Auto) {
                 var timeFilled = false;
 
                 if (audio?.Music != null) {
-                    CurrentTime = audio.Music.Source.CurrentTime;
+                    standardTime = audio.Music.Source.CurrentTime;
                     timeFilled = true;
+                    canCompensate = true;
                 }
 
                 if (!timeFilled) {
                     if (video != null) {
-                        CurrentTime = video.CurrentTime;
+                        standardTime = video.CurrentTime;
                         timeFilled = true;
+                        canCompensate = true;
                     }
                 }
 
                 if (!timeFilled) {
-                    CurrentTime = gameTime.TotalGameTime;
+                    standardTime = gameTime.TotalGameTime;
                 }
             } else {
                 switch (SyncTarget) {
                     case TimerSyncTarget.Audio:
                         if (audio?.Music != null) {
-                            CurrentTime = audio.Music.Source.CurrentTime;
+                            standardTime = audio.Music.Source.CurrentTime;
+                            canCompensate = true;
                         }
                         break;
                     case TimerSyncTarget.Video:
                         if (video != null) {
-                            CurrentTime = video.CurrentTime;
+                            standardTime = video.CurrentTime;
+                            canCompensate = true;
                         }
                         break;
                     case TimerSyncTarget.GameTime:
-                        CurrentTime = gameTime.TotalGameTime;
+                        standardTime = gameTime.TotalGameTime;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
             }
+
+            if (!canCompensate || SyncMethod == TimerSyncMethod.Naive) {
+                CurrentTime = standardTime;
+            } else {
+                var stopwatchTime = _stopwatch.Elapsed;
+                var estimatedTime = stopwatchTime - _lastStopwatchDifference;
+                var newDifference = estimatedTime - standardTime;
+
+                if (newDifference > MaxEstimationError || newDifference < -MaxEstimationError) {
+                    _lastStopwatchDifference += newDifference;
+                    CurrentTime = standardTime;
+                } else {
+                    CurrentTime = estimatedTime;
+                }
+            }
         }
+
+        [CanBeNull]
+        private BackgroundVideo _backgroundVideo;
+        [CanBeNull]
+        private AudioController _audioController;
+
+        private readonly Stopwatch _stopwatch = new Stopwatch();
+
+        private TimeSpan _lastStopwatchDifference;
+
+        private static readonly TimeSpan MaxEstimationError = TimeSpan.FromSeconds(0.1);
 
     }
 }

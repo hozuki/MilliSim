@@ -78,6 +78,7 @@
     <Compile Include="BackgroundVideo.cs" />
     <Compile Include="BackgroundVideoFactory.cs" />
     <Compile Include="Configuration\AudioControllerConfig.cs" />
+    <Compile Include="Configuration\SyncTimerConfig.cs" />
     <Compile Include="Configuration\SyncTimerOverlayConfig.cs" />
     <Compile Include="Configuration\FpsOverlayConfig.cs" />
     <Compile Include="Configuration\DebugOverlayConfig.cs" />
@@ -103,9 +104,13 @@
     <Compile Include="TextOverlay.cs" />
     <Compile Include="TextOverlayBase.cs" />
     <Compile Include="TextOverlayFactory.cs" />
+    <Compile Include="TimerSyncMethod.cs" />
     <Compile Include="TimerSyncTarget.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Contents\config\sync_timer.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Contents\res\fonts\NotoSansSC-Regular.otf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

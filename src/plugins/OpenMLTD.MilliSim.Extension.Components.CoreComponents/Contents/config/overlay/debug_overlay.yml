@@ -1,4 +1,3 @@
-## @include audio_manager/*.yml
 metadata:
   type: OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration.DebugOverlayConfig
   assembly_file: OpenMLTD.MilliSim.Extension.Components.CoreComponents.dll

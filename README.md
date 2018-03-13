@@ -35,7 +35,7 @@ Demo videos:
   - macOS and Linux: macOS 10.8 / Ubuntu 16.04 or later
     - and latest [Wine](https://wiki.winehq.org/Download) (will download `wine-mono` on launch)
 - [Visual C++ 2015 Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=53587)
-- [OpenAL](https://www.openal.org/downloads/)
+- [OpenAL](http://kcat.strangesoft.net/openal.html#download) (OpenAL-Soft): Unzip the ZIP file, rename `soft_oal.dll` in `Win32` to `openal32.dll`, and place it in the directory of MilliSim.
 
 OpenGL builds (`TheaterDays.OpenGL.exe`) can run on all platforms, but it is problematic.
 DirectX builds (`TheaterDays.Direct3D11.exe`) can only run on Windows.
