@@ -42,18 +42,6 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             _backgroundVideo = video;
         }
 
-        protected override void OnLoadContents() {
-            base.OnLoadContents();
-
-            _stopwatch.Start();
-        }
-
-        protected override void OnUnloadContents() {
-            _stopwatch.Reset();
-
-            base.OnUnloadContents();
-        }
-
         protected override void OnUpdate(GameTime gameTime) {
             base.OnUpdate(gameTime);
 
