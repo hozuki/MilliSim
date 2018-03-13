@@ -32,14 +32,14 @@ namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Ml
                             continue;
                         }
 
-                        var behavior = preloadData.LoadAsMonoBehavior(true);
-                        if (!behavior.Name.Contains("fumen")) {
+                        var behaviour = preloadData.LoadAsMonoBehaviour(true);
+                        if (!behaviour.Name.Contains("fumen")) {
                             continue;
                         }
 
-                        behavior = preloadData.LoadAsMonoBehavior(false);
-                        var serializer = new MonoBehaviorSerializer();
-                        scoreObject = serializer.Deserialize<ScoreObject>(behavior);
+                        behaviour = preloadData.LoadAsMonoBehaviour(false);
+                        var serializer = new MonoBehaviourSerializer();
+                        scoreObject = serializer.Deserialize<ScoreObject>(behaviour);
                         break;
                     }
                 }

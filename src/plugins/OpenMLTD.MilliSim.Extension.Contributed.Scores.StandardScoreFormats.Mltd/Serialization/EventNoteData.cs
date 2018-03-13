@@ -2,10 +2,10 @@ using UnityStudio.Serialization;
 using UnityStudio.Serialization.Naming;
 
 namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Mltd.Serialization {
-    [MonoBehavior(NamingConventionType = typeof(CamelCaseNamingConvention))]
+    [MonoBehaviour(NamingConventionType = typeof(CamelCaseNamingConvention))]
     internal sealed class EventNoteData {
 
-        [MonoBehaviorProperty(Name = "absTime", ConverterType = typeof(DoubleToSingleConverter))]
+        [MonoBehaviourProperty(Name = "absTime", ConverterType = typeof(DoubleToSingleConverter))]
         internal float AbsoluteTime { get; set; }
 
         internal bool Selected { get; set; }
@@ -20,22 +20,22 @@ namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Ml
 
         internal int Type { get; set; }
 
-        [MonoBehaviorProperty(Name = "startPosx")]
+        [MonoBehaviourProperty(Name = "startPosx")]
         internal float StartPositionX { get; set; }
 
-        [MonoBehaviorProperty(Name = "endPosx")]
+        [MonoBehaviourProperty(Name = "endPosx")]
         internal float EndPositionX { get; set; }
 
         internal float Speed { get; set; }
 
         internal int Duration { get; set; }
 
-        [MonoBehaviorProperty(Name = "poly")]
+        [MonoBehaviourProperty(Name = "poly")]
         internal PolyPointData[] Polypoints { get; set; }
 
         internal int EndType { get; set; }
 
-        [MonoBehaviorProperty(ConverterType = typeof(DoubleToSingleConverter))]
+        [MonoBehaviourProperty(ConverterType = typeof(DoubleToSingleConverter))]
         internal float LeadTime { get; set; }
 
     }
