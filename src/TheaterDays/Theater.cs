@@ -5,9 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using OpenMLTD.MilliSim.Configuration;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents;
-using OpenMLTD.MilliSim.Extension.Components.ScoreComponents;
 using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration;
-using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Foundation.Extending;
 using OpenMLTD.MilliSim.Foundation.Extensions;
@@ -141,19 +139,19 @@ namespace OpenMLTD.TheaterDays {
 
         private void SubscribeComponentEvents() {
             // Subscribe to music playback stopped event.
-            var audioController = this.FindSingleElement<AudioController>();
+            var backgroundMusic = this.FindSingleElement<BackgroundMusic>();
 
-            if (audioController?.Music != null) {
-                audioController.Music.Source.PlaybackStopped += BackgroundMedia_PlaybackStopped;
+            if (backgroundMusic?.Music != null) {
+                backgroundMusic.Music.Source.PlaybackStopped += BackgroundMedia_PlaybackStopped;
             }
         }
 
         private void UnsubscribeComponentEvents() {
             // Subscribe to music playback stopped event.
-            var audioController = this.FindSingleElement<AudioController>();
+            var backgroundMusic = this.FindSingleElement<BackgroundMusic>();
 
-            if (audioController?.Music != null) {
-                audioController.Music.Source.PlaybackStopped -= BackgroundMedia_PlaybackStopped;
+            if (backgroundMusic?.Music != null) {
+                backgroundMusic.Music.Source.PlaybackStopped -= BackgroundMedia_PlaybackStopped;
             }
         }
 

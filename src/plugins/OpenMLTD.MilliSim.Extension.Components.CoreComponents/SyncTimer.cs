@@ -35,10 +35,10 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
 
             var theaterDays = Game.ToBaseGame();
 
-            var audio = theaterDays.FindSingleElement<AudioController>();
+            var audio = theaterDays.FindSingleElement<BackgroundMusic>();
             var video = theaterDays.FindSingleElement<BackgroundVideo>();
 
-            _audioController = audio;
+            _backgroundMusic = audio;
             _backgroundVideo = video;
         }
 
@@ -57,7 +57,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
         protected override void OnUpdate(GameTime gameTime) {
             base.OnUpdate(gameTime);
 
-            var audio = _audioController;
+            var audio = _backgroundMusic;
             var video = _backgroundVideo;
 
             var canCompensate = false;
@@ -124,7 +124,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
         [CanBeNull]
         private BackgroundVideo _backgroundVideo;
         [CanBeNull]
-        private AudioController _audioController;
+        private BackgroundMusic _backgroundMusic;
 
         private readonly Stopwatch _stopwatch = new Stopwatch();
 

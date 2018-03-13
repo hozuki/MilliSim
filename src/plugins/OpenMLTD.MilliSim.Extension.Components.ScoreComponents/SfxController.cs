@@ -1,41 +1,28 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Audio;
 using OpenMLTD.MilliSim.Audio.Extending;
-using OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration;
+using OpenMLTD.MilliSim.Extension.Components.CoreComponents;
+using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Foundation.Extensions;
 
-namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
-    public sealed class AudioController : BaseGameComponent {
+namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents {
+    public sealed class SfxController : BaseGameComponent {
 
-        public AudioController([NotNull] BaseGame game, [NotNull] IBaseGameComponentContainer parent)
+        public SfxController([NotNull] BaseGame game, [NotNull] IBaseGameComponentContainer parent)
             : base(game, parent) {
         }
-
-        [CanBeNull]
-        public Sound Music { get; private set; }
 
         protected override void OnInitialize() {
             base.OnInitialize();
 
             var theaterDays = Game.ToBaseGame();
             var store = ConfigurationStore;
-            var config = store.Get<AudioControllerConfig>();
+            var config = store.Get<SfxControllerConfig>();
 
             var audioManager = theaterDays.AudioManager;
-
-            if (config.Data.BackgroundMusic != null && File.Exists(config.Data.BackgroundMusic)) {
-                var format = GetFormatForFile(theaterDays.PluginManager, config.Data.BackgroundMusic);
-                if (format != null) {
-                    var bgmVolume = config.Data.BackgroundMusicVolume.Value;
-                    var music = audioManager.LoadSound(config.Data.BackgroundMusic, format);
-                    music.Source.Volume = bgmVolume;
-                    Music = music;
-                }
-            }
 
             var sfxSounds = new List<Sound>();
             PreloadAudio(audioManager, config.Data.Sfx.Tap, sfxSounds);
@@ -61,13 +48,6 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             }
         }
 
-        protected override void Dispose(bool disposing) {
-            Music?.Dispose();
-            Music = null;
-
-            base.Dispose(disposing);
-        }
-
         private void PreloadAudio(AudioManager audioManager, string fileName, List<Sound> sounds) {
             var theaterDays = Game.ToBaseGame();
             var debugOverlay = theaterDays.FindSingleElement<DebugOverlay>();
@@ -84,7 +64,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             }
         }
 
-        private void PreloadAudio(AudioManager audioManager, AudioControllerConfig.NoteSfxGroup group, List<Sound> sounds) {
+        private void PreloadAudio(AudioManager audioManager, SfxControllerConfig.NoteSfxGroup group, List<Sound> sounds) {
             PreloadAudio(audioManager, group.Perfect, sounds);
             PreloadAudio(audioManager, group.Great, sounds);
             PreloadAudio(audioManager, group.Nice, sounds);

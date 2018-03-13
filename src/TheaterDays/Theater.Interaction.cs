@@ -52,7 +52,7 @@ namespace OpenMLTD.TheaterDays {
 
         private void SetIsPlaying(bool isPlaying, bool stop) {
             var bga = this.FindSingleElement<BackgroundVideo>();
-            var audio = this.FindSingleElement<AudioController>();
+            var bgm = this.FindSingleElement<BackgroundMusic>();
             var syncTimer = this.FindSingleElement<SyncTimer>();
 
             Debug.Assert(syncTimer != null, nameof(syncTimer) + " != null");
@@ -62,11 +62,11 @@ namespace OpenMLTD.TheaterDays {
             if (!isPlaying) {
                 if (stop) {
                     bga?.Stop();
-                    audio?.Music?.Source.Stop();
+                    bgm?.Music?.Source.Stop();
                     syncTimer.Stopwatch.Reset();
                 } else {
                     bga?.Pause();
-                    audio?.Music?.Source.Pause();
+                    bgm?.Music?.Source.Pause();
                     syncTimer.Stopwatch.Stop();
                 }
             } else {
@@ -78,7 +78,7 @@ namespace OpenMLTD.TheaterDays {
                     }
                 }
 
-                audio?.Music?.Source.PlayDirect();
+                bgm?.Music?.Source.PlayDirect();
 
                 syncTimer.Stopwatch.Start();
             }

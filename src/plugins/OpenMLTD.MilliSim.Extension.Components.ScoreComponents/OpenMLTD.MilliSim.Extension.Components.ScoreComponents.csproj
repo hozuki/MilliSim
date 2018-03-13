@@ -81,6 +81,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SfxController.cs" />
+    <Compile Include="SfxControllerFactory.cs" />
+    <Compile Include="Configuration\SfxControllerConfig.cs" />
     <Compile Include="Configuration\AvatarDisplayConfig.cs" />
     <Compile Include="Configuration\HitRankAnimationConfig.cs" />
     <Compile Include="Configuration\SongTitleConfig.cs" />
@@ -123,6 +126,9 @@
     <Compile Include="ScoreLoader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Contents\config\sfx_controller.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Contents\res\fx\compile_effects.bat" />
     <None Include="Contents\res\fx\monogame.fxh" />
     <None Include="Contents\res\fx\ribbon.fx.dx11.mgfxo">
@@ -269,6 +275,66 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Contents\res\images\ui\tap_point.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\air_tap.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\app_bomb.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\app_fast.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\app_flick.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\app_good.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\app_great.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\app_hold.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\app_hold_end.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\app_hold_rub.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\app_hold_up.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\app_miss.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\app_skill.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\app_slow.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\app_special.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\app_special_end.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\app_special_loop.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\pause.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\restart_count.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\rhy_tap.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\res\sfx\shout03.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

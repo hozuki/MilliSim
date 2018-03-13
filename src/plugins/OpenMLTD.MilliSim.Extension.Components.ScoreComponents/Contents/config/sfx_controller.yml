@@ -1,11 +1,9 @@
 metadata:
-  type: OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration.AudioControllerConfig
-  assembly_file: OpenMLTD.MilliSim.Extension.Components.CoreComponents.dll
-  for: component.core.audio_controller
+  type: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration.SfxControllerConfig
+  assembly_file: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.dll
+  for: component.score.sfx_controller
   version: 1 # format version
 data:
-  bgm: Contents/game/song3_shtstr_bgm.ogg # path to background music (BGM)
-  bgm_volume: 100% # volume of BGM (0% - 100%)
   sfx_volume: 100% # volume of sound effects (0% - 100%)
   sfx: # sound effect files; format: 44100 Hz, 16-bit integer, 2 channels
     tap:

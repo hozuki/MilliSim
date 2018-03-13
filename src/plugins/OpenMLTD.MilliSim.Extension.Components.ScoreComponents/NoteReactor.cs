@@ -11,7 +11,7 @@ using OpenMLTD.MilliSim.Contributed.Scores.Extensions;
 using OpenMLTD.MilliSim.Contributed.Scores.Runtime;
 using OpenMLTD.MilliSim.Core;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents;
-using OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration;
+using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration;
 using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Extensions;
 using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming;
 using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays;
@@ -52,7 +52,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents {
 
             var audioFormats = theaterDays.PluginManager.GetPluginsOfType<IAudioFormat>();
 
-            var audioControllerConfig = ConfigurationStore.Get<AudioControllerConfig>();
+            var audioControllerConfig = ConfigurationStore.Get<SfxControllerConfig>();
             var sfxPaths = audioControllerConfig.Data.Sfx;
             var player = theaterDays.AudioManager;
 

@@ -69,15 +69,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioController.cs" />
-    <Compile Include="AudioControllerFactory.cs" />
+    <Compile Include="BackgroundMusic.cs" />
+    <Compile Include="BackgroundMusicFactory.cs" />
     <Compile Include="BackgroundBase.cs" />
     <Compile Include="BackgroundImage.cs" />
     <Compile Include="BackgroundImageFactory.cs" />
     <Compile Include="BackgroundImageFit.cs" />
     <Compile Include="BackgroundVideo.cs" />
     <Compile Include="BackgroundVideoFactory.cs" />
-    <Compile Include="Configuration\AudioControllerConfig.cs" />
+    <Compile Include="Configuration\BackgroundMusicConfig.cs" />
     <Compile Include="Configuration\SyncTimerConfig.cs" />
     <Compile Include="Configuration\SyncTimerOverlayConfig.cs" />
     <Compile Include="Configuration\FpsOverlayConfig.cs" />
@@ -108,6 +108,9 @@
     <Compile Include="TimerSyncTarget.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Contents\config\background_music.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Contents\config\sync_timer.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -127,9 +130,6 @@
     </None>
     <None Include="OpenMLTD.MilliSim.Extension.Components.CoreComponents.nuspec" />
     <None Include="packages.config" />
-    <None Include="Contents\config\audio_controller.yml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Contents\config\overlay\debug_overlay.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -178,66 +178,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Contents\res\fx\sprite_outline.fx" />
-    <Content Include="Contents\res\sfx\air_tap.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\app_bomb.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\app_fast.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\app_flick.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\app_good.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\app_great.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\app_hold.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\app_hold_end.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\app_hold_rub.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\app_hold_up.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\app_miss.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\app_skill.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\app_slow.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\app_special.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\app_special_end.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\app_special_loop.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\pause.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\restart_count.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\rhy_tap.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Contents\res\sfx\shout03.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -1,20 +1,14 @@
-﻿using OpenMLTD.MilliSim.Configuration.Entities;
+using OpenMLTD.MilliSim.Configuration.Entities;
 using OpenMLTD.MilliSim.Configuration.Primitives;
 using YamlDotNet.Serialization;
 
-namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration {
-    public sealed class AudioControllerConfig : ConfigBase {
+namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration {
+    public sealed class SfxControllerConfig : ConfigBase {
 
         public AudioControllerConfigData Data { get; set; }
 
         public sealed class AudioControllerConfigData {
-
-            [YamlMember(Alias = "bgm")]
-            public string BackgroundMusic { get; set; }
-
-            [YamlMember(Alias = "bgm_volume")]
-            public PercentOrRealValue BackgroundMusicVolume { get; set; }
-
+            
             public SfxData Sfx { get; set; }
 
             [YamlMember(Alias = "sfx_volume")]
