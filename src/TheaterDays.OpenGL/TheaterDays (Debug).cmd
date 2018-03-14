@@ -1,0 +1,1 @@
+@TheaterDays.OpenGL.exe --debug

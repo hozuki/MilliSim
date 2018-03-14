@@ -107,6 +107,9 @@
     <None Include="App.config" />
     <None Include="app.manifest" />
     <None Include="packages.config" />
+    <None Include="TheaterDays %28Debug%29.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Runtime\OpenMLTD.MilliSim.Runtime.csproj">
