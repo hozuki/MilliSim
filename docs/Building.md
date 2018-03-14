@@ -11,6 +11,7 @@
         - [Mono](http://www.mono-project.com/download/) (≥ 5.0)
 - [Node.js](https://nodejs.org/en/download/) (≥ 5.0)
 - [NuGet CLI](https://www.nuget.org/downloads) (≥ 4.3.0)
+- [OpenAL](http://kcat.strangesoft.net/openal.html#download) (OpenAL-Soft): Unzip the ZIP file, rename `soft_oal.dll` in `Win32` to `openal32.dll`, and place it in the directory of MilliSim executable.
 
 > **Remember** to [update your Mono version](http://www.mono-project.com/download/#download-lin) and
 > [update your NuGet version](https://docs.microsoft.com/en-us/nuget/guides/install-nuget) before
