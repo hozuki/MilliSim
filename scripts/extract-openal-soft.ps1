@@ -15,5 +15,6 @@ $block = [scriptblock]::Create($7zCommand)
 Invoke-Command -ScriptBlock $block
 
 $openAlDllNewName = [System.IO.Path]::Combine($destination, "openal32.dll")
-echo 'Moving to "$openAlDllNewName"...'
-Move-Item -Path 'C:\openal-soft-install\openal-soft-' + $openAlSoftVersion + '-bin\bin\Win32\soft_oal.dll' -Destination $openAlDllNewName
+echo "Moving to $openAlDllNewName ..."
+$openAlDllOriginalPath = 'C:\openal-soft-install\openal-soft-' + $openAlSoftVersion + '-bin\bin\Win32\soft_oal.dll'
+Move-Item -Path $openAlDllOriginalPath -Destination $openAlDllNewName
