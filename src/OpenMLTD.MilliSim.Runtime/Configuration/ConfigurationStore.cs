@@ -111,7 +111,7 @@ namespace OpenMLTD.MilliSim.Configuration {
 
         public ConfigBase Get([NotNull] Type type) {
             if (!type.IsSubclassOf(typeof(ConfigBase))) {
-                throw new ArgumentException();
+                throw new ArgumentException($"Trying to get configuration whose type is '{type.FullName}' from configuration store. The type does not inherit from ConfigBase.");
             }
             return _configurations[type];
         }
@@ -137,78 +137,84 @@ namespace OpenMLTD.MilliSim.Configuration {
 
                 var globCharIndex = path.IndexOfAny(GlobHelper.PartialGlobChars);
 
-                // The path has been expanded, e.g. xxx/**/*yyy.zzz -> C:\dir\xxx\**\*.yyy.zzz,
-                // so a glob char should not appear be the first char.
-                if (globCharIndex == 0) {
-                    throw new ApplicationException("Unexpected: glob char index == 0");
-                }
-
-                if (globCharIndex > 0) {
-                    var sepIndex = path.LastIndexOfAny(GlobHelper.PathSeparatorChars, globCharIndex - 1);
-                    if (sepIndex < 0) {
-                        throw new ArgumentOutOfRangeException(nameof(sepIndex));
+                try {
+                    // The path has been expanded, e.g. xxx/**/*yyy.zzz -> C:\dir\xxx\**\*.yyy.zzz,
+                    // so a glob char should not appear be the first char.
+                    if (globCharIndex == 0) {
+                        throw new ApplicationException("Unexpected: glob char index == 0");
                     }
 
-                    basePath = path.Substring(0, sepIndex + 1);
-
-                    var dirInfo = new DirectoryInfo(basePath);
-
-                    if (dirInfo.Exists) {
-                        var subPath = path.Substring(sepIndex + 1);
-
-                        foreach (var fileInfo in dirInfo.GlobFiles(subPath)) {
-                            if (result.Contains(fileInfo.FullName)) {
-                                continue;
-                            }
-
-                            q.Enqueue((Path: fileInfo.Name, BasePath: fileInfo.DirectoryName));
+                    if (globCharIndex > 0) {
+                        var sepIndex = path.LastIndexOfAny(GlobHelper.PathSeparatorChars, globCharIndex - 1);
+                        if (sepIndex < 0) {
+                            throw new ArgumentOutOfRangeException(nameof(sepIndex));
                         }
+
+                        basePath = path.Substring(0, sepIndex + 1);
+
+                        var dirInfo = new DirectoryInfo(basePath);
+
+                        if (dirInfo.Exists) {
+                            var subPath = path.Substring(sepIndex + 1);
+
+                            foreach (var fileInfo in dirInfo.GlobFiles(subPath)) {
+                                if (result.Contains(fileInfo.FullName)) {
+                                    continue;
+                                }
+
+                                q.Enqueue((Path: fileInfo.Name, BasePath: fileInfo.DirectoryName));
+                            }
+                        } else {
+                            GameLog.Warn("{0}: Config file {1}: Cannot find directory '{2}'.", ReflectionHelper.GetCallerName(), entryFilePath, dirInfo.FullName);
+                        }
+
+                        continue;
                     } else {
-                        GameLog.Warn("{0}: Config file {1}: Cannot find directory '{2}'.", ReflectionHelper.GetCallerName(), entryFilePath, dirInfo.FullName);
-                    }
-
-                    continue;
-                } else {
-                    if (!result.Contains(path)) {
-                        result.Add(path);
-                    }
-                }
-
-                using (var fileStream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read)) {
-                    using (var streamReader = new StreamReader(fileStream, encoding)) {
-                        // Reads until the first line which:
-                        // - is not blank;
-                        // - does not start with "#", or
-                        //   the content inside the comments does not start with "@include"
-                        while (!streamReader.EndOfStream) {
-                            var line = streamReader.ReadLine();
-                            if (line == null) {
-                                break;
-                            }
-
-                            if (string.IsNullOrWhiteSpace(line)) {
-                                continue;
-                            }
-
-                            line = line.TrimStart();
-                            if (!line.StartsWith("#")) {
-                                break;
-                            }
-
-                            line = line.Substring(1).Trim();
-                            var match = IncludeRegex.Match(line);
-                            if (!match.Success) {
-                                break;
-                            }
-
-                            var includePath = match.Groups["path"].Value;
-                            if (string.IsNullOrEmpty(includePath)) {
-                                continue;
-                            }
-
-                            q.Enqueue((Path: includePath, BasePath: basePath));
+                        if (!result.Contains(path)) {
+                            result.Add(path);
                         }
                     }
+
+                    using (var fileStream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read)) {
+                        using (var streamReader = new StreamReader(fileStream, encoding)) {
+                            // Reads until the first line which:
+                            // - is not blank;
+                            // - does not start with "#", or
+                            //   the content inside the comments does not start with "@include"
+                            while (!streamReader.EndOfStream) {
+                                var line = streamReader.ReadLine();
+                                if (line == null) {
+                                    break;
+                                }
+
+                                if (string.IsNullOrWhiteSpace(line)) {
+                                    continue;
+                                }
+
+                                line = line.TrimStart();
+                                if (!line.StartsWith("#")) {
+                                    break;
+                                }
+
+                                line = line.Substring(1).Trim();
+                                var match = IncludeRegex.Match(line);
+                                if (!match.Success) {
+                                    break;
+                                }
+
+                                var includePath = match.Groups["path"].Value;
+                                if (string.IsNullOrEmpty(includePath)) {
+                                    continue;
+                                }
+
+                                q.Enqueue((Path: includePath, BasePath: basePath));
+                            }
+                        }
+                    }
+                } catch (Exception) {
+                    GameLog.Error("An exception occurred while parsing config file '{0}'.", path);
+
+                    throw;
                 }
             }
 

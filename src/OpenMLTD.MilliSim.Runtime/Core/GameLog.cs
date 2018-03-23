@@ -58,6 +58,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Debug([NotNull] string format, object arg0) {
             if (!Enabled || _instance == null) {
                 return;
@@ -74,6 +75,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Debug([NotNull] string format, object arg0, object arg1) {
             if (!Enabled || _instance == null) {
                 return;
@@ -90,6 +92,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Debug([NotNull] string format, object arg0, object arg1, object arg2) {
             if (!Enabled || _instance == null) {
                 return;
@@ -106,6 +109,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Debug([NotNull] string format, params object[] args) {
             if (!Enabled || _instance == null) {
                 return;
@@ -122,6 +126,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Debug([NotNull] IFormatProvider formatProvider, string format, params object[] args) {
             if (!Enabled || _instance == null) {
                 return;
@@ -173,6 +178,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Info([NotNull] string format, object arg0) {
             if (!Enabled || _instance == null) {
                 return;
@@ -189,6 +195,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Info([NotNull] string format, object arg0, object arg1) {
             if (!Enabled || _instance == null) {
                 return;
@@ -205,6 +212,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Info([NotNull] string format, object arg0, object arg1, object arg2) {
             if (!Enabled || _instance == null) {
                 return;
@@ -221,6 +229,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Info([NotNull] string format, params object[] args) {
             if (!Enabled || _instance == null) {
                 return;
@@ -237,6 +246,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Info([NotNull] IFormatProvider formatProvider, string format, params object[] args) {
             if (!Enabled || _instance == null) {
                 return;
@@ -287,6 +297,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Warn([NotNull] string format, object arg0) {
             if (!Enabled || _instance == null) {
                 return;
@@ -303,6 +314,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Warn([NotNull] string format, object arg0, object arg1) {
             if (!Enabled || _instance == null) {
                 return;
@@ -319,6 +331,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Warn([NotNull] string format, object arg0, object arg1, object arg2) {
             if (!Enabled || _instance == null) {
                 return;
@@ -335,6 +348,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Warn([NotNull] string format, params object[] args) {
             if (!Enabled || _instance == null) {
                 return;
@@ -351,6 +365,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Warn([NotNull] IFormatProvider formatProvider, string format, params object[] args) {
             if (!Enabled || _instance == null) {
                 return;
@@ -401,6 +416,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Error([NotNull] string format, object arg0) {
             if (!Enabled || _instance == null) {
                 return;
@@ -417,6 +433,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Error([NotNull] string format, object arg0, object arg1) {
             if (!Enabled || _instance == null) {
                 return;
@@ -433,6 +450,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Error([NotNull] string format, object arg0, object arg1, object arg2) {
             if (!Enabled || _instance == null) {
                 return;
@@ -449,6 +467,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Error([NotNull] string format, params object[] args) {
             if (!Enabled || _instance == null) {
                 return;
@@ -465,6 +484,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Error([NotNull] IFormatProvider formatProvider, string format, params object[] args) {
             if (!Enabled || _instance == null) {
                 return;
@@ -515,6 +535,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Fatal([NotNull] string format, object arg0) {
             if (!Enabled || _instance == null) {
                 return;
@@ -531,6 +552,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Fatal([NotNull] string format, object arg0, object arg1) {
             if (!Enabled || _instance == null) {
                 return;
@@ -547,6 +569,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Fatal([NotNull] string format, object arg0, object arg1, object arg2) {
             if (!Enabled || _instance == null) {
                 return;
@@ -563,6 +586,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Fatal([NotNull] string format, params object[] args) {
             if (!Enabled || _instance == null) {
                 return;
@@ -579,6 +603,7 @@ namespace OpenMLTD.MilliSim.Core {
             }
         }
 
+        [StringFormatMethod("format")]
         public static void Fatal([NotNull] IFormatProvider formatProvider, string format, params object[] args) {
             if (!Enabled || _instance == null) {
                 return;
