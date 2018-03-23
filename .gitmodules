@@ -7,3 +7,6 @@
 [submodule "thirdparty/SharpAL"]
 	path = thirdparty/SharpAL
 	url = https://github.com/OpenCGSS/SharpAL.git
+[submodule "thirdparty/piyopiyo"]
+	path = thirdparty/piyopiyo
+	url = https://github.com/hozuki/piyopiyo.git
