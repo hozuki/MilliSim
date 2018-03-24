@@ -10,6 +10,8 @@ using OpenMLTD.TheaterDays.Subsystems.Plugin;
 namespace OpenMLTD.TheaterDays {
     partial class Theater {
 
+//#define SAFE_STARTUP
+
         public static int Run([NotNull, ItemNotNull] string[] args, GraphicsBackend graphicsBackend, [NotNull] string loggerName = "theater-days") {
             GraphicsBackend = graphicsBackend;
 
@@ -24,7 +26,9 @@ namespace OpenMLTD.TheaterDays {
             GuiConsole.Initialize();
             GuiConsole.Error.WriteLine();
 #endif
+#if SAFE_STARTUP
             try {
+#endif
                 if (optionsParsingResult.Tag == ParserResultType.Parsed) {
                     var options = ((Parsed<Options>)optionsParsingResult).Value;
 
@@ -47,10 +51,12 @@ namespace OpenMLTD.TheaterDays {
 
                     GameLog.Info(helpText);
                 }
+#if SAFE_STARTUP
             } catch (Exception ex) {
                 GameLog.Error(ex.Message);
                 GameLog.Error(ex.StackTrace);
             }
+#endif
 
 #if ENABLE_GUI_CONSOLE
             GuiConsole.Uninitialize();

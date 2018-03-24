@@ -63,6 +63,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{A9812921-5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.Piyopiyo", "thirdparty\piyopiyo\src\OpenMLTD.Piyopiyo\OpenMLTD.Piyopiyo.csproj", "{84A82E83-D04F-49B4-AD55-C6F4CC800F05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.StarlightDirector", "src\plugins\OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.StarlightDirector\OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.StarlightDirector.csproj", "{C8CCFC8F-B5E6-4393-BAA7-D073D86549EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -207,6 +209,14 @@ Global
 		{84A82E83-D04F-49B4-AD55-C6F4CC800F05}.Release|Any CPU.Build.0 = Release|Any CPU
 		{84A82E83-D04F-49B4-AD55-C6F4CC800F05}.Release|x86.ActiveCfg = Release|Any CPU
 		{84A82E83-D04F-49B4-AD55-C6F4CC800F05}.Release|x86.Build.0 = Release|Any CPU
+		{C8CCFC8F-B5E6-4393-BAA7-D073D86549EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8CCFC8F-B5E6-4393-BAA7-D073D86549EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8CCFC8F-B5E6-4393-BAA7-D073D86549EE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C8CCFC8F-B5E6-4393-BAA7-D073D86549EE}.Debug|x86.Build.0 = Debug|Any CPU
+		{C8CCFC8F-B5E6-4393-BAA7-D073D86549EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8CCFC8F-B5E6-4393-BAA7-D073D86549EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8CCFC8F-B5E6-4393-BAA7-D073D86549EE}.Release|x86.ActiveCfg = Release|Any CPU
+		{C8CCFC8F-B5E6-4393-BAA7-D073D86549EE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -226,6 +236,7 @@ Global
 		{8A716D2A-DE8D-4886-BF8F-76B6B1A7BB8F} = {700A876B-F712-44FC-9513-CC1B6096D5FF}
 		{A9812921-52BA-4551-91F8-BE2766E6F6B0} = {9D3D7DAF-5C06-4EDF-A6FA-7A22B9924F0D}
 		{84A82E83-D04F-49B4-AD55-C6F4CC800F05} = {700A876B-F712-44FC-9513-CC1B6096D5FF}
+		{C8CCFC8F-B5E6-4393-BAA7-D073D86549EE} = {6F1F41CA-26AC-4D95-9D49-3D07F3200429}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {27A82ED7-C1EE-4F03-B3AD-02534ACDB2B1}

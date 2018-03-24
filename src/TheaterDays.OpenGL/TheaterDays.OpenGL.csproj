@@ -140,6 +140,10 @@
       <Project>{22aeef23-15ff-4b6c-941d-550c63f50329}</Project>
       <Name>OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Mltd</Name>
     </ProjectReference>
+    <ProjectReference Include="..\plugins\OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.StarlightDirector\OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.StarlightDirector.csproj">
+      <Project>{c8ccfc8f-b5e6-4393-baa7-d073d86549ee}</Project>
+      <Name>OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.StarlightDirector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TheaterDays\TheaterDays.csproj">
       <Project>{1d0434ac-993a-4c26-8359-8d3fa86ddae7}</Project>
       <Name>TheaterDays</Name>
