@@ -72,14 +72,22 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming {
 
                 var now = currentTime.TotalSeconds;
                 var scorePrepareNote = score.Notes.Single(n => n.Type == NoteType.ScorePrepare);
-                var specialPrepareNote = score.Notes.Single(n => n.Type == NoteType.SpecialPrepare);
-                var specialEndNote = score.Notes.Single(n => n.Type == NoteType.SpecialEnd);
+                var specialPrepareNote = score.Notes.SingleOrDefault(n => n.Type == NoteType.SpecialPrepare);
+                var specialEndNote = score.Notes.SingleOrDefault(n => n.Type == NoteType.SpecialEnd);
 
-                if (now < scorePrepareNote.HitTime || (specialPrepareNote.HitTime < now && now < specialEndNote.HitTime)) {
-                    Opacity = 0;
+                if (specialPrepareNote != null && specialEndNote != null) {
+                    if (now < scorePrepareNote.HitTime || (specialPrepareNote.HitTime < now && now < specialEndNote.HitTime)) {
+                        Opacity = 0;
+                    } else {
+                        // Automatically cancels the animation if the user steps back in UI.
+                        Opacity = 1;
+                    }
                 } else {
-                    // Automatically cancels the animation if the user steps back in UI.
-                    Opacity = 1;
+                    if (now < scorePrepareNote.HitTime) {
+                        Opacity = 0;
+                    } else {
+                        Opacity = 1;
+                    }
                 }
 
                 _ongoingAnimation = OngoingAnimation.None;

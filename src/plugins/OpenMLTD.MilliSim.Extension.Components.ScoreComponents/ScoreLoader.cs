@@ -19,11 +19,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents {
         [CanBeNull]
         public RuntimeScore RuntimeScore { get; private set; }
 
-        protected override void OnInitialize() {
-            base.OnInitialize();
-
-            var config = ConfigurationStore.Get<ScoreLoaderConfig>();
-            var scoreFilePath = config.Data.ScoreFilePath;
+        public void LoadScoreFile([NotNull] string scoreFilePath, int scoreIndex, float scoreOffset) {
             var debug = Game.ToBaseGame().FindSingleElement<DebugOverlay>();
 
             if (string.IsNullOrEmpty(scoreFilePath)) {
@@ -51,11 +47,11 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents {
             }
 
             var sourceOptions = new ReadSourceOptions {
-                ScoreIndex = config.Data.ScoreIndex
+                ScoreIndex = scoreIndex
             };
             var compileOptions = new ScoreCompileOptions {
                 GlobalSpeed = 1,
-                Offset = config.Data.ScoreOffset
+                Offset = scoreOffset
             };
 
             var successful = false;
@@ -120,6 +116,14 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents {
                     debug.AddLine($"Loaded score file: {scoreFilePath}");
                 }
             }
+        }
+
+        protected override void OnInitialize() {
+            base.OnInitialize();
+
+            var config = ConfigurationStore.Get<ScoreLoaderConfig>();
+
+            LoadScoreFile(config.Data.ScoreFilePath, config.Data.ScoreIndex, config.Data.ScoreOffset);
         }
 
         private SourceScore _score;

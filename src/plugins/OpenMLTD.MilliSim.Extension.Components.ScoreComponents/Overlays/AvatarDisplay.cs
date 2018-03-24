@@ -58,14 +58,22 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays {
 
                 var now = currentTime.TotalSeconds;
                 var scorePrepareNote = score.Notes.Single(n => n.Type == NoteType.ScorePrepare);
-                var specialNote = score.Notes.Single(n => n.Type == NoteType.Special);
-                var specialEndNote = score.Notes.Single(n => n.Type == NoteType.SpecialEnd);
+                var specialNote = score.Notes.SingleOrDefault(n => n.Type == NoteType.Special);
+                var specialEndNote = score.Notes.SingleOrDefault(n => n.Type == NoteType.SpecialEnd);
 
-                if (now < scorePrepareNote.HitTime || (specialNote.HitTime < now && now < specialEndNote.HitTime)) {
-                    Opacity = 0;
+                if (specialNote != null && specialEndNote != null) {
+                    if (now < scorePrepareNote.HitTime || (specialNote.HitTime < now && now < specialEndNote.HitTime)) {
+                        Opacity = 0;
+                    } else {
+                        // Automatically cancels the animation if the user steps back in UI.
+                        Opacity = 1;
+                    }
                 } else {
-                    // Automatically cancels the animation if the user steps back in UI.
-                    Opacity = 1;
+                    if (now < scorePrepareNote.HitTime) {
+                        Opacity = 0;
+                    } else {
+                        Opacity = 1;
+                    }
                 }
 
                 _ongoingAnimation = OngoingAnimation.None;

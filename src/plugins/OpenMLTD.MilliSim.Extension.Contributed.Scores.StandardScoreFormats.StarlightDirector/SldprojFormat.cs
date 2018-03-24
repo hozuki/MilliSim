@@ -6,16 +6,16 @@ using OpenMLTD.MilliSim.Contributed.Scores;
 using OpenMLTD.MilliSim.Contributed.Scores.Extending;
 using OpenMLTD.MilliSim.Core;
 
-namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Mltd {
+namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.StarlightDirector {
     [MilliSimPlugin(typeof(IScoreFormat))]
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]
-    public sealed class Unity3DScoreFormat : ScoreFormat {
+    public sealed class SldprojFormat : ScoreFormat {
 
-        public override string PluginID => "plugin.score.mltd.unity3d";
+        public override string PluginID => "plugin.score.starlight_director";
 
-        public override string PluginName => "MLTD Unity3D Score Format";
+        public override string PluginName => "Starlight Director project format (target: CGSS)";
 
-        public override string PluginDescription => "MLTD Unity3D score format reader and compiler factory.";
+        public override string PluginDescription => "Reader and writer factory for Starlight Director project format.";
 
         public override string PluginAuthor => "OpenMLTD";
 
@@ -32,15 +32,15 @@ namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Ml
         public override bool CanWriteCompiled => false;
 
         public override IScoreReader CreateReader() {
-            return new Unity3DScoreReader();
+            return new SldprojReader();
         }
 
         public override IScoreWriter CreateWriter() {
-            return new Unity3DScoreWriter();
+            return new SldprojWriter();
         }
 
         public override IScoreCompiler CreateCompiler() {
-            return new Unity3DScoreCompiler();
+            return new SldprojCompiler();
         }
 
         public override bool SupportsReadingFileType(string fileName) {
@@ -48,15 +48,14 @@ namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Ml
             return SupportedReadExtensions.Any(ext => fileName.EndsWith(ext));
         }
 
-        public override IReadOnlyList<string> SupportedReadExtensions => Unity3DReadExtensions;
+        public override IReadOnlyList<string> SupportedReadExtensions => SldprojFileReadExtensions;
 
-        public override IReadOnlyList<string> SupportedWriteExtensions => Unity3DWriteExtensions;
+        public override IReadOnlyList<string> SupportedWriteExtensions => SldprojFileWriteExtensions;
 
-        public override string FormatDescription => "MLTD Unity3D Score File";
+        public override string FormatDescription => "Starlight Director project";
 
-        internal static readonly string[] Unity3DReadExtensions = { ".unity3d", ".unity3d.lz4" };
-
-        internal static readonly string[] Unity3DWriteExtensions = new string[0];
+        private static readonly string[] SldprojFileReadExtensions = { ".sldproj" };
+        private static readonly string[] SldprojFileWriteExtensions = new string[0];
 
         private static readonly Version MyVersion = new Version(1, 0, 0, 0);
 
