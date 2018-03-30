@@ -116,10 +116,15 @@
     <Compile Include="Interop\NativeMethods.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Subsystems\Bvs\Models\EditReloadParams.cs" />
-    <Compile Include="Subsystems\Bvs\MSCommunication.cs" />
-    <Compile Include="Subsystems\Bvs\MSSimulatorClient.cs" />
-    <Compile Include="Subsystems\Bvs\MSSimulatorServer.cs" />
+    <Compile Include="Subsystems\Bvs\Models\EditReloadRequestParams.cs" />
+    <Compile Include="Subsystems\Bvs\Models\GeneralSimInitializeResponseResult.cs" />
+    <Compile Include="Subsystems\Bvs\Models\GeneralSimInitializeRequestParams.cs" />
+    <Compile Include="Subsystems\Bvs\Models\GeneralSimLaunchedNotificationParams.cs" />
+    <Compile Include="Subsystems\Bvs\Models\Proposals\SelectedFormatDescriptor.cs" />
+    <Compile Include="Subsystems\Bvs\Models\Proposals\SupportedFormatDescriptor.cs" />
+    <Compile Include="Subsystems\Bvs\TDCommunication.cs" />
+    <Compile Include="Subsystems\Bvs\TDSimulatorClient.cs" />
+    <Compile Include="Subsystems\Bvs\TDSimulatorServer.cs" />
     <Compile Include="Subsystems\Configuration\ConfigurationHelper.cs" />
     <Compile Include="Subsystems\Globalization\CultureSpecificInfoHelper.cs" />
     <Compile Include="Subsystems\Plugin\PluginSearchMode.cs" />
@@ -176,6 +181,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Contents\app.config.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

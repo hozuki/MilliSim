@@ -26,6 +26,21 @@ namespace OpenMLTD.MilliSim.Core {
         public static bool Enabled { get; set; }
 
         #region log:debug
+        public static void Debug([NotNull] string message) {
+            if (!Enabled || _instance == null) {
+                return;
+            }
+
+            var log = _instance._log;
+
+            if (log == null) {
+                return;
+            }
+
+            if (log.IsDebugEnabled) {
+                log.Debug(message);
+            }
+        }
         public static void Debug(object message) {
             if (!Enabled || _instance == null) {
                 return;
@@ -146,6 +161,22 @@ namespace OpenMLTD.MilliSim.Core {
         #endregion
 
         #region log:info
+        public static void Info([NotNull] string message) {
+            if (!Enabled || _instance == null) {
+                return;
+            }
+
+            var log = _instance._log;
+
+            if (log == null) {
+                return;
+            }
+
+            if (log.IsInfoEnabled) {
+                log.Info(message);
+            }
+        }
+
         public static void Info(object message) {
             if (!Enabled || _instance == null) {
                 return;
@@ -265,6 +296,22 @@ namespace OpenMLTD.MilliSim.Core {
         #endregion
 
         #region log:warn
+        public static void Warn([NotNull] string message) {
+            if (!Enabled || _instance == null) {
+                return;
+            }
+
+            var log = _instance._log;
+
+            if (log == null) {
+                return;
+            }
+
+            if (log.IsWarnEnabled) {
+                log.Warn(message);
+            }
+        }
+
         public static void Warn(object message) {
             if (!Enabled || _instance == null) {
                 return;
@@ -384,6 +431,22 @@ namespace OpenMLTD.MilliSim.Core {
         #endregion
 
         #region log:error
+        public static void Error([NotNull] string message) {
+            if (!Enabled || _instance == null) {
+                return;
+            }
+
+            var log = _instance._log;
+
+            if (log == null) {
+                return;
+            }
+
+            if (log.IsErrorEnabled) {
+                log.Error(message);
+            }
+        }
+
         public static void Error(object message) {
             if (!Enabled || _instance == null) {
                 return;
@@ -503,6 +566,22 @@ namespace OpenMLTD.MilliSim.Core {
         #endregion
 
         #region log:fatal
+        public static void Fatal([NotNull] string message) {
+            if (!Enabled || _instance == null) {
+                return;
+            }
+
+            var log = _instance._log;
+
+            if (log == null) {
+                return;
+            }
+
+            if (log.IsFatalEnabled) {
+                log.Fatal(message);
+            }
+        }
+
         public static void Fatal(object message) {
             if (!Enabled || _instance == null) {
                 return;

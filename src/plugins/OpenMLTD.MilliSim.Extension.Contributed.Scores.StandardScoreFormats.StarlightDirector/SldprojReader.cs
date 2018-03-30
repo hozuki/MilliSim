@@ -17,6 +17,8 @@ using NoteType = OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFor
 namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.StarlightDirector {
     internal sealed class SldprojReader : DisposableBase, IScoreReader {
 
+        public bool IsStreamingSupported => false;
+
         public SourceScore ReadSourceScore(Stream stream, string fileName, ReadSourceOptions sourceOptions) {
             var projectVersion = ProjectReader.CheckFormatVersion(fileName);
 
@@ -78,10 +80,9 @@ namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.St
 
             var allNotes = score.GetAllNotes();
 
-            var currentBpm = globalConductor.Tempo;
-
             foreach (var note in allNotes) {
                 SourceNote sourceNote = null;
+                Conductor conductor = null;
 
                 switch (note.Basic.Type) {
                     case NoteType.TapOrFlick:
@@ -104,8 +105,17 @@ namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.St
                         sourceNote = new SourceNote();
                         FillSlide(note, sourceNote);
                         break;
-                    case NoteType.VariantBpm:
-                        //throw new NotImplementedException();
+                    case NoteType.VariantBpm: {
+                            conductor = new Conductor();
+
+                            FillCommonProperties(note, conductor);
+
+                            Debug.Assert(note.Params != null, "note.Params != null");
+
+                            conductor.Tempo = (float)note.Params.NewBpm;
+                            conductor.SignatureNumerator = project.Settings.Signature;
+                            conductor.SignatureDenominator = beatsPerMeasure;
+                        }
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -113,6 +123,10 @@ namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.St
 
                 if (sourceNote != null) {
                     sourceNotes.Add(sourceNote);
+                }
+
+                if (conductor != null) {
+                    conductors.Add(conductor);
                 }
             }
 
@@ -128,7 +142,23 @@ namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.St
 
             return result;
 
-            void FillCommonProperties(Note note, SourceNote sourceNote) {
+            void FillCommonProperties(Note note, NoteBase sourceNote) {
+                var bar = note.Basic.Bar;
+
+                sourceNote.Measure = bar.Basic.Index;
+
+                var fraction = (float)note.Basic.IndexInGrid / bar.GetGridPerSignature() / beatsPerMeasure;
+
+                sourceNote.Beat = (int)fraction;
+
+                //sourceNote.GroupID = 0;
+
+                sourceNote.Ticks = 60 * (long)(beatsPerMeasure * (sourceNote.Measure + fraction) * NoteBase.TicksPerBeat);
+            }
+
+            void FillSourceNoteProperties(Note note, SourceNote sourceNote) {
+                FillCommonProperties(note, sourceNote);
+
                 sourceNote.Size = NoteSize.Small;
                 sourceNote.Speed = 1.0f;
 
@@ -146,23 +176,11 @@ namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.St
                     }
                 }
 
-                var bar = note.Basic.Bar;
-
-                sourceNote.Measure = bar.Basic.Index;
-
-                var fraction = (float)note.Basic.IndexInGrid / bar.GetGridPerSignature() / beatsPerMeasure;
-
-                sourceNote.Beat = (int)fraction;
-
                 sourceNote.LeadTime = (float)DefaultLeadTime.TotalSeconds;
-
-                //sourceNote.GroupID = 0;
-
-                sourceNote.Ticks = 60 * (long)(beatsPerMeasure * (sourceNote.Measure + fraction) * NoteBase.TicksPerBeat);
             }
 
             void FillTapOrFlick(Note note, SourceNote sourceNote) {
-                FillCommonProperties(note, sourceNote);
+                FillSourceNoteProperties(note, sourceNote);
 
                 switch (note.Basic.FlickType) {
                     case NoteFlickType.None:
@@ -183,7 +201,7 @@ namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.St
             }
 
             void FillHold(Note note, SourceNote sourceNote) {
-                FillCommonProperties(note, sourceNote);
+                FillSourceNoteProperties(note, sourceNote);
 
                 sourceNote.Type = MilliSim.Contributed.Scores.NoteType.Hold;
 
@@ -191,7 +209,7 @@ namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.St
 
                 Debug.Assert(note.Editor.HoldPair != null, "note.Editor.HoldPair != null");
 
-                FillCommonProperties(note.Editor.HoldPair, holdEnd);
+                FillSourceNoteProperties(note.Editor.HoldPair, holdEnd);
 
                 holdEnd.Type = MilliSim.Contributed.Scores.NoteType.Hold;
 
@@ -213,7 +231,7 @@ namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.St
             }
 
             void FillSlide(Note note, SourceNote sourceNote) {
-                FillCommonProperties(note, sourceNote);
+                FillSourceNoteProperties(note, sourceNote);
 
                 sourceNote.Type = MilliSim.Contributed.Scores.NoteType.Slide;
 
@@ -224,7 +242,7 @@ namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.St
                 while (nextSlideNode != null) {
                     var node = new SourceNote();
 
-                    FillCommonProperties(nextSlideNode, node);
+                    FillSourceNoteProperties(nextSlideNode, node);
 
                     node.Type = MilliSim.Contributed.Scores.NoteType.Slide;
 

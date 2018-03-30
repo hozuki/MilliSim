@@ -97,7 +97,19 @@ namespace OpenMLTD.TheaterDays.Subsystems.Plugin {
 
             var allAssemblies = FindAssemblies(searchMode, filters, searchPaths);
             var configuration = new ContainerConfiguration().WithAssemblies(allAssemblies);
-            var host = configuration.CreateContainer();
+            CompositionHost host;
+
+            try {
+                host = configuration.CreateContainer();
+            } catch (ReflectionTypeLoadException ex) {
+                var loaderExceptions = ex.LoaderExceptions;
+                var errorDescription = string.Join("\n", loaderExceptions.Select(le => le.Message));
+
+                GameLog.Fatal("Failed to load plugin assemblies: {0}", ex.Message);
+                GameLog.Fatal(errorDescription);
+
+                throw;
+            }
 
             var loadedPlugins = host.GetExports<IMilliSimPlugin>().ToArray();
             _allPlugins = loadedPlugins;

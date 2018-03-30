@@ -29,12 +29,16 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming {
         protected override void OnDraw(GameTime gameTime) {
             base.OnDraw(gameTime);
 
-            if (_score == null) {
+            var theaterDays = Game.ToBaseGame();
+            var scoreLoader = theaterDays.FindSingleElement<ScoreLoader>();
+
+            var score = scoreLoader?.RuntimeScore;
+
+            if (score == null) {
                 return;
             }
 
-            var notes = _score.Notes;
-            var theaterDays = Game.ToBaseGame();
+            var notes = score.Notes;
 
             var syncTimer = theaterDays.FindSingleElement<SyncTimer>();
             if (syncTimer == null) {
@@ -323,13 +327,6 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming {
             base.OnUnloadContents();
         }
 
-        protected override void OnInitialize() {
-            base.OnInitialize();
-
-            var scoreLoader = Game.ToBaseGame().FindSingleElement<ScoreLoader>();
-            _score = scoreLoader?.RuntimeScore;
-        }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool AreTwoNotesOnTheSameSide(OnStageStatus thisStatus, OnStageStatus nextStatus) {
             return (int)thisStatus * (int)nextStatus > 0;
@@ -352,8 +349,6 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming {
 
         private float _ribbonTopYRatio;
         private float _ribbonBottomYRatio;
-
-        private RuntimeScore _score;
 
     }
 }

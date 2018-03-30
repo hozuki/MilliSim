@@ -29,7 +29,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             location.Y += size.Y;
 
             using (var brush = new SolidBrush(FillColor)) {
-                Graphics.FillString(brush, Font, Text, location);
+                Graphics.FillMultilineString(brush, Font, Text, location);
             }
         }
 

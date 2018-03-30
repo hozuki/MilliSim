@@ -7,11 +7,13 @@ using OpenMLTD.MilliSim.Contributed.Scores.Source;
 namespace OpenMLTD.MilliSim.Contributed.Scores.Extending {
     public interface IScoreReader : IDisposable {
 
-        [NotNull]
-        SourceScore ReadSourceScore([NotNull] Stream stream, [NotNull] string fileName, [NotNull] ReadSourceOptions sourceOptions);
+        bool IsStreamingSupported { get; }
 
         [NotNull]
-        RuntimeScore ReadCompiledScore([NotNull] Stream stream, [NotNull] string fileName, [NotNull] ReadSourceOptions sourceOptions, [NotNull] ScoreCompileOptions compileOptions);
+        SourceScore ReadSourceScore([CanBeNull] Stream stream, [NotNull] string fileName, [NotNull] ReadSourceOptions sourceOptions);
+
+        [NotNull]
+        RuntimeScore ReadCompiledScore([CanBeNull] Stream stream, [NotNull] string fileName, [NotNull] ReadSourceOptions sourceOptions, [NotNull] ScoreCompileOptions compileOptions);
 
     }
 }

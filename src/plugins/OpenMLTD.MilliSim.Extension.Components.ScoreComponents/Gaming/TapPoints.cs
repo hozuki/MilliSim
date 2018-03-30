@@ -53,6 +53,13 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming {
             _ongoingAnimation = OngoingAnimation.SpecialEnd;
         }
 
+        internal void RecalcLayout() {
+            var viewport = Game.GraphicsDevice.Viewport;
+            var clientSize = new Vector2(viewport.Width, viewport.Height);
+
+            PerformLayout(clientSize);
+        }
+
         protected override void OnUpdate(GameTime gameTime) {
             base.OnUpdate(gameTime);
 
@@ -282,17 +289,17 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming {
         protected override void OnInitialize() {
             base.OnInitialize();
 
-            PerformLayout(Game.GraphicsDevice.Viewport);
+            RecalcLayout();
 
             Opacity = 0;
         }
 
-        private void PerformLayout(Viewport clientSize) {
+        private void PerformLayout(Vector2 clientSize) {
             var config = ConfigurationStore.Get<TapPointsConfig>();
 
             var scoreLoader = Game.ToBaseGame().FindSingleElement<ScoreLoader>();
 
-            if (scoreLoader.RuntimeScore != null) {
+            if (scoreLoader?.RuntimeScore != null) {
                 TrackCount = scoreLoader.RuntimeScore.TrackCount;
             }
 
@@ -303,7 +310,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming {
             } else {
                 var workingAreaWidth = tapPointsLayout.Width.Value;
                 // Suggested method: replace Game with Root-Parent in constructor.
-                workingAreaWidthRatio = workingAreaWidth / clientSize.Width;
+                workingAreaWidthRatio = workingAreaWidth / clientSize.X;
             }
 
             var l = (1 - workingAreaWidthRatio) / 2;

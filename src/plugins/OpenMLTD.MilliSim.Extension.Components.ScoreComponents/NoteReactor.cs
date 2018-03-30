@@ -29,6 +29,23 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents {
             : base(game, parent) {
         }
 
+        internal void RecalculateReactions() {
+            var theaterDays = Game.ToBaseGame();
+            var scoreLoader = theaterDays.FindSingleElement<ScoreLoader>();
+
+            _noteStates.Clear();
+
+            var score = scoreLoader?.RuntimeScore;
+
+            if (score != null) {
+                foreach (var note in score.Notes) {
+                    _noteStates.Add(note, OnStageStatus.Incoming);
+                }
+
+                _notes = score.Notes;
+            }
+        }
+
         protected override void OnUpdate(GameTime gameTime) {
             base.OnUpdate(gameTime);
 
@@ -276,21 +293,6 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents {
             }
 
             _lastUpdatedSeconds = now;
-        }
-
-        protected override void OnInitialize() {
-            base.OnInitialize();
-
-            var theaterDays = Game.ToBaseGame();
-            var scoreLoader = theaterDays.FindSingleElement<ScoreLoader>();
-
-            var score = scoreLoader?.RuntimeScore;
-            if (score != null) {
-                foreach (var note in score.Notes) {
-                    _noteStates.Add(note, OnStageStatus.Incoming);
-                }
-                _notes = score.Notes;
-            }
         }
 
         private static RuntimeNote FindFirstHold(RuntimeNote note) {

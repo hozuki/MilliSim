@@ -1,3 +1,5 @@
+#define SAFE_STARTUP
+
 using System;
 using CommandLine;
 using JetBrains.Annotations;
@@ -10,8 +12,6 @@ using OpenMLTD.TheaterDays.Subsystems.Plugin;
 namespace OpenMLTD.TheaterDays {
     partial class Theater {
 
-//#define SAFE_STARTUP
-
         public static int Run([NotNull, ItemNotNull] string[] args, GraphicsBackend graphicsBackend, [NotNull] string loggerName = "theater-days") {
             GraphicsBackend = graphicsBackend;
 
@@ -20,7 +20,8 @@ namespace OpenMLTD.TheaterDays {
 
             var exitCode = -1;
 
-            var optionsParsingResult = Parser.Default.ParseArguments<Options>(args);
+            var parser = new Parser(settings => { settings.IgnoreUnknownArguments = true; });
+            var optionsParsingResult = parser.ParseArguments<Options>(args);
 
 #if ENABLE_GUI_CONSOLE
             GuiConsole.Initialize();
@@ -40,7 +41,7 @@ namespace OpenMLTD.TheaterDays {
                         var configurationStore = ConfigurationHelper.CreateConfigurationStore(pluginManager);
                         var cultureSpecificInfo = CultureSpecificInfoHelper.CreateCultureSpecificInfo();
 
-                        using (var game = new Theater(pluginManager, configurationStore, cultureSpecificInfo)) {
+                        using (var game = new Theater(options, pluginManager, configurationStore, cultureSpecificInfo)) {
                             game.Run();
                         }
 

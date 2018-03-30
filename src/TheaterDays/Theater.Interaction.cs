@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents;
 using OpenMLTD.MilliSim.Extension.Components.ExtraComponents;
+using OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Overlays;
 using OpenMLTD.MilliSim.Foundation.Extensions;
 
 namespace OpenMLTD.TheaterDays {
@@ -42,57 +43,57 @@ namespace OpenMLTD.TheaterDays {
         private void KeyboardStateHandler_KeyUp(object sender, KeyEventArgs e) {
         }
 
-        private void BackgroundMedia_PlaybackStopped(object sender, System.EventArgs e) {
-            SetIsPlaying(false, stop: true);
+        private void SyncTimer_StateChanged(object sender, SyncTimerStateChangedEventArgs e) {
+            if (e.NewState == MediaState.Stopped) {
+                foreach (var sound in AudioManager.GetLoadedSounds()) {
+                    sound.Source?.Stop();
+                }
+
+                var comboDisplay = this.FindSingleElement<ComboDisplay>();
+
+                if (comboDisplay != null) {
+                    comboDisplay.Opacity = 0f;
+                }
+            }
+
+            UpdateStateDisplay();
         }
 
         private void TogglePlayState() {
-            SetIsPlaying(!_isPlaying, stop: false);
-        }
-
-        private void SetIsPlaying(bool isPlaying, bool stop) {
-            var bga = this.FindSingleElement<BackgroundVideo>();
-            var bgm = this.FindSingleElement<BackgroundMusic>();
             var syncTimer = this.FindSingleElement<SyncTimer>();
 
             Debug.Assert(syncTimer != null, nameof(syncTimer) + " != null");
 
-            _isPlaying = isPlaying;
+            SetIsPlaying(!syncTimer.IsRunning, stop: false);
+        }
+
+        private void SetIsPlaying(bool isPlaying, bool stop) {
+            var syncTimer = this.FindSingleElement<SyncTimer>();
+
+            Debug.Assert(syncTimer != null, nameof(syncTimer) + " != null");
 
             if (!isPlaying) {
                 if (stop) {
-                    bga?.Stop();
-                    bgm?.Music?.Source.Stop();
-                    syncTimer.Stopwatch.Reset();
+                    syncTimer.Stop();
                 } else {
-                    bga?.Pause();
-                    bgm?.Music?.Source.Pause();
-                    syncTimer.Stopwatch.Stop();
+                    syncTimer.Pause();
                 }
             } else {
-                if (bga != null) {
-                    if (bga.State == MediaState.Stopped) {
-                        bga.Play();
-                    } else {
-                        bga.Resume();
-                    }
-                }
-
-                bgm?.Music?.Source.PlayDirect();
-
-                syncTimer.Stopwatch.Start();
+                syncTimer.Start();
             }
 
             UpdateStateDisplay();
         }
 
         private void UpdateStateDisplay() {
-            var isPlaying = _isPlaying;
+            var syncTimer = this.FindSingleElement<SyncTimer>();
+
+            Debug.Assert(syncTimer != null, nameof(syncTimer) + " != null");
 
             var helpOverlay = this.FindSingleElement<HelpOverlay>();
 
             if (helpOverlay != null) {
-                helpOverlay.Visible = !isPlaying;
+                helpOverlay.Visible = !syncTimer.IsRunning;
             }
         }
 
@@ -101,8 +102,6 @@ namespace OpenMLTD.TheaterDays {
         };
 
         private int _easterEggIndex;
-
-        private bool _isPlaying;
 
     }
 }

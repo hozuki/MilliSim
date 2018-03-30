@@ -15,6 +15,8 @@ using UnityStudio.Serialization;
 namespace OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.Mltd {
     internal sealed class Unity3DScoreReader : DisposableBase, IScoreReader {
 
+        public bool IsStreamingSupported => true;
+
         public SourceScore ReadSourceScore(Stream stream, string fileName, ReadSourceOptions sourceOptions) {
             var extension = Path.GetExtension(fileName);
             if (extension == null) {

@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Foundation.Extensions;
@@ -13,6 +14,8 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             : base(game, parent) {
         }
 
+        public event EventHandler<SyncTimerStateChangedEventArgs> StateChanged;
+
         public TimeSpan CurrentTime { get; private set; } = TimeSpan.Zero;
 
         /// <summary>
@@ -22,8 +25,58 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
 
         public TimerSyncMethod SyncMethod { get; set; }
 
-        [NotNull]
-        public Stopwatch Stopwatch => _stopwatch;
+        public void Start() {
+            if (_backgroundVideo != null) {
+                if (_backgroundVideo.State == MediaState.Stopped) {
+                    _backgroundVideo.Play();
+                } else {
+                    _backgroundVideo.Resume();
+                }
+            }
+
+            _backgroundMusic?.Music?.Source.PlayDirect();
+            _stopwatch.Start();
+
+            StateChanged?.Invoke(this, new SyncTimerStateChangedEventArgs(MediaState.Playing));
+        }
+
+        public void Pause() {
+            _backgroundVideo?.Pause();
+            _backgroundMusic?.Music?.Source.Pause();
+            _stopwatch.Stop();
+
+            StateChanged?.Invoke(this, new SyncTimerStateChangedEventArgs(MediaState.Paused));
+        }
+
+        public void Stop() {
+            _backgroundVideo?.Stop();
+            _backgroundMusic?.Music?.Source.Stop();
+            _stopwatch.Reset();
+
+            StateChanged?.Invoke(this, new SyncTimerStateChangedEventArgs(MediaState.Stopped));
+        }
+
+        public void Seek(TimeSpan targetTime) {
+            if (_backgroundVideo != null) {
+                // TODO: Implement seeking function for BackgroundVideo
+                //_backgroundVideo.CurrentTime = targetTime;
+            }
+
+            if (_backgroundMusic?.Music != null) {
+                _backgroundMusic.Music.Source.CurrentTime = targetTime;
+            }
+
+            _soughtTime = targetTime;
+            _stopwatch.Restart();
+        }
+
+        public bool IsRunning => _stopwatch.IsRunning;
+
+        internal readonly object UpdateLock = new object();
+
+        internal void RaiseStateChanged([NotNull] object sender, [NotNull] SyncTimerStateChangedEventArgs e) {
+            StateChanged?.Invoke(sender, e);
+        }
 
         protected override void OnInitialize() {
             base.OnInitialize();
@@ -55,7 +108,14 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
                 var timeFilled = false;
 
                 if (audio?.Music != null) {
-                    standardTime = audio.Music.Source.CurrentTime;
+                    var audioSource = audio.Music.Source;
+
+                    if (audioSource == null) {
+                        standardTime = TimeSpan.Zero;
+                    } else {
+                        standardTime = audioSource.CurrentTime;
+                    }
+
                     timeFilled = true;
                     canCompensate = true;
                 }
@@ -69,13 +129,20 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
                 }
 
                 if (!timeFilled) {
-                    standardTime = gameTime.TotalGameTime;
+                    standardTime = _stopwatch.Elapsed + _soughtTime;
                 }
             } else {
                 switch (SyncTarget) {
                     case TimerSyncTarget.Audio:
                         if (audio?.Music != null) {
-                            standardTime = audio.Music.Source.CurrentTime;
+                            var audioSource = audio.Music.Source;
+
+                            if (audioSource == null) {
+                                standardTime = TimeSpan.Zero;
+                            } else {
+                                standardTime = audioSource.CurrentTime;
+                            }
+
                             canCompensate = true;
                         }
                         break;
@@ -87,6 +154,9 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
                         break;
                     case TimerSyncTarget.GameTime:
                         standardTime = gameTime.TotalGameTime;
+                        break;
+                    case TimerSyncTarget.Stopwach:
+                        standardTime = _stopwatch.Elapsed + _soughtTime;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -117,6 +187,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
         private readonly Stopwatch _stopwatch = new Stopwatch();
 
         private TimeSpan _lastStopwatchDifference;
+        private TimeSpan _soughtTime = TimeSpan.Zero;
 
         private static readonly TimeSpan MaxEstimationError = TimeSpan.FromSeconds(0.1);
 

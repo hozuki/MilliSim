@@ -33,12 +33,15 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming {
                 return;
             }
 
-            if (_score == null) {
+            var theaterDays = Game.ToBaseGame();
+
+            var score = theaterDays.FindSingleElement<ScoreLoader>()?.RuntimeScore;
+
+            if (score == null) {
                 return;
             }
 
-            var notes = _score.Notes;
-            var theaterDays = Game.ToBaseGame();
+            var notes = score.Notes;
 
             var syncTimer = theaterDays.FindSingleElement<SyncTimer>();
             if (syncTimer == null) {
@@ -198,19 +201,10 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming {
             _tapPointImage?.Dispose();
         }
 
-        protected override void OnInitialize() {
-            base.OnInitialize();
-
-            var scoreLoader = Game.ToBaseGame().FindSingleElement<ScoreLoader>();
-            _score = scoreLoader?.RuntimeScore;
-        }
-
         [CanBeNull, ItemCanBeNull]
         private SpriteSheet1D[] _noteImages;
         [CanBeNull]
         private Texture2D _tapPointImage;
-
-        private RuntimeScore _score;
 
     }
 }

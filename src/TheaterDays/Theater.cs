@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -13,13 +14,16 @@ using OpenMLTD.MilliSim.Globalization;
 using OpenMLTD.MilliSim.Graphics;
 using OpenMLTD.TheaterDays.Configuration;
 using OpenMLTD.TheaterDays.Interactive;
+using OpenMLTD.TheaterDays.Subsystems.Bvs;
 using OpenMLTD.TheaterDays.Subsystems.Plugin;
 
 namespace OpenMLTD.TheaterDays {
     public sealed partial class Theater : BaseGame {
 
-        private Theater([NotNull] BasePluginManager pluginManager, [NotNull] ConfigurationStore configurationStore, [NotNull] CultureSpecificInfo cultureSpecificInfo)
+        private Theater([NotNull] Options startupOptions, [NotNull] BasePluginManager pluginManager, [NotNull] ConfigurationStore configurationStore, [NotNull] CultureSpecificInfo cultureSpecificInfo)
             : base("Contents", pluginManager) {
+            StartupOptions = startupOptions;
+
             ConfigurationStore = configurationStore;
             CultureSpecificInfo = cultureSpecificInfo;
 
@@ -27,6 +31,9 @@ namespace OpenMLTD.TheaterDays {
             // When called in Initialize(), DesktopGL behaves fine, but Direct3D fails to resize the window.
             ApplyConfiguration();
         }
+
+        [NotNull]
+        public Options StartupOptions { get; }
 
         public override Stage Stage => _stage;
 
@@ -48,10 +55,36 @@ namespace OpenMLTD.TheaterDays {
             base.LoadContent();
 
             SubscribeComponentEvents();
+
+            var editorServerPort = StartupOptions.EditorServerPort;
+
+            if (editorServerPort > 0) {
+                _communication = new TDCommunication(this);
+
+                _communication.EditorServerUri = new Uri($"http://localhost:{editorServerPort}/");
+
+                int simulatorServerPort;
+
+#if DEBUG
+                simulatorServerPort = StartupOptions.BvspPort > 0 ? StartupOptions.BvspPort : 0;
+#else
+                simulatorServerPort = 0;
+#endif
+
+                _communication.Server.Start(simulatorServerPort);
+
+                // No await
+                _communication.Client.SendLaunchedNotification();
+            }
         }
 
         protected override void UnloadContent() {
             UnsubscribeComponentEvents();
+
+            _communication?.Client.SendExitedNotification().Wait(TimeSpan.FromSeconds(2));
+
+            _communication?.Server.Stop();
+            _communication?.Server.Dispose();
 
             base.UnloadContent();
         }
@@ -139,23 +172,25 @@ namespace OpenMLTD.TheaterDays {
 
         private void SubscribeComponentEvents() {
             // Subscribe to music playback stopped event.
-            var backgroundMusic = this.FindSingleElement<BackgroundMusic>();
+            var syncTimer = this.FindSingleElement<SyncTimer>();
 
-            if (backgroundMusic?.Music != null) {
-                backgroundMusic.Music.Source.PlaybackStopped += BackgroundMedia_PlaybackStopped;
+            if (syncTimer != null) {
+                syncTimer.StateChanged += SyncTimer_StateChanged;
             }
         }
 
         private void UnsubscribeComponentEvents() {
             // Subscribe to music playback stopped event.
-            var backgroundMusic = this.FindSingleElement<BackgroundMusic>();
+            var syncTimer = this.FindSingleElement<SyncTimer>();
 
-            if (backgroundMusic?.Music != null) {
-                backgroundMusic.Music.Source.PlaybackStopped -= BackgroundMedia_PlaybackStopped;
+            if (syncTimer != null) {
+                syncTimer.StateChanged -= SyncTimer_StateChanged;
             }
         }
 
         private Stage _stage;
+        [CanBeNull]
+        private TDCommunication _communication;
 
     }
 }

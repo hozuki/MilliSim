@@ -154,7 +154,13 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming {
         protected override void OnDrawBuffer(GameTime gameTime) {
             base.OnDrawBuffer(gameTime);
 
-            if (_score == null) {
+            var theaterDays = Game.ToBaseGame();
+
+            var scoreLoader = theaterDays.FindSingleElement<ScoreLoader>();
+
+            var score = scoreLoader?.RuntimeScore;
+
+            if (score == null) {
                 return;
             }
 
@@ -163,9 +169,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming {
             }
 
             var noteImages = _noteImages;
-            var notes = _score.Notes;
-
-            var theaterDays = Game.ToBaseGame();
+            var notes = score.Notes;
 
             var syncTimer = theaterDays.FindSingleElement<SyncTimer>();
             if (syncTimer == null) {
@@ -342,7 +346,6 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming {
             var theaterDays = Game.ToBaseGame();
 
             var scoreLoader = theaterDays.FindSingleElement<ScoreLoader>();
-            _score = scoreLoader?.RuntimeScore;
 
             var config = ConfigurationStore.Get<NotesLayerConfig>();
 
@@ -375,9 +378,6 @@ namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Gaming {
 
         [CanBeNull, ItemCanBeNull]
         private SpriteSheet1D[] _noteImages;
-
-        [CanBeNull]
-        private RuntimeScore _score;
 
         private Color _simpleSyncLinePen;
         private float _simpleSyncLinePenWidth;

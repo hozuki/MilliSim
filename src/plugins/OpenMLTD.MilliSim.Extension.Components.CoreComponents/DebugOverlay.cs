@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -72,7 +73,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
 
         protected override void OnUpdate(GameTime gameTime) {
             if (_linesChanged) {
-                Text = string.Join("\n", _lines.ToArray());
+                Text = string.Join(Environment.NewLine, _lines.ToArray());
                 _linesChanged = false;
             }
 

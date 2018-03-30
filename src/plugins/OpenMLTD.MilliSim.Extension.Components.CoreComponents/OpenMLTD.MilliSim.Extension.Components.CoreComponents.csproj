@@ -101,6 +101,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyncTimerOverlay.cs" />
     <Compile Include="SyncTimerOverlayFactory.cs" />
+    <Compile Include="SyncTimerStateChangedEventArgs.cs" />
     <Compile Include="TextOverlay.cs" />
     <Compile Include="TextOverlayBase.cs" />
     <Compile Include="TextOverlayFactory.cs" />
