@@ -43,7 +43,7 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
             return SendNotificationWithEmptyBody(CommonProtocolMethodNames.Preview_Stopped);
         }
 
-        internal Task SendExitedNotification() {
+        internal Task SendSimExitedNotification() {
             return SendNotificationWithEmptyBody(CommonProtocolMethodNames.General_SimExited);
         }
 

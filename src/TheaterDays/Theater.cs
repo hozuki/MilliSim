@@ -81,7 +81,7 @@ namespace OpenMLTD.TheaterDays {
         protected override void UnloadContent() {
             UnsubscribeComponentEvents();
 
-            _communication?.Client.SendExitedNotification().Wait(TimeSpan.FromSeconds(2));
+            _communication?.Client.SendSimExitedNotification().Wait(TimeSpan.FromSeconds(2));
 
             _communication?.Server.Stop();
             _communication?.Server.Dispose();
