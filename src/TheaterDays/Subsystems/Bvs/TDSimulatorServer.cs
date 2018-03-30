@@ -7,9 +7,10 @@ using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents;
 using OpenMLTD.MilliSim.Extension.Components.ScoreComponents;
 using OpenMLTD.MilliSim.Foundation.Extensions;
+using OpenMLTD.Piyopiyo;
 using OpenMLTD.Piyopiyo.Extensions;
-using OpenMLTD.Piyopiyo.Net;
-using OpenMLTD.Piyopiyo.Simulator;
+using OpenMLTD.Piyopiyo.Net.Contributed;
+using OpenMLTD.Piyopiyo.Net.JsonRpc;
 using OpenMLTD.TheaterDays.Subsystems.Bvs.Models;
 using OpenMLTD.TheaterDays.Subsystems.Bvs.Models.Proposals;
 
@@ -20,25 +21,12 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
             _communication = communication;
         }
 
-        protected override void OnGeneralEdExit(object sender, JsonRpcMethodEventArgs e) {
-            LogToScreen("Received request: general/edExit");
-
-            if (JsonRpcHelper.IsRequestValid(e.ParsedRequestObject, out string errorMessage)) {
-                e.Context.RpcOk();
-
-                _communication.EditorServerUri = null;
-            } else {
-                Debug.Print(errorMessage);
-                e.Context.RpcError(JsonRpcErrorCodes.InvalidRequest, errorMessage);
-            }
-        }
-
         protected override void OnGeneralSimInitialize(object sender, JsonRpcMethodEventArgs e) {
             LogToScreen("Received request: general/simInitialize");
 
             if (JsonRpcHelper.IsRequestValid(e.ParsedRequestObject, out string errorMessage)) {
                 var requestObject = JsonRpcHelper.TranslateAsRequest(e.ParsedRequestObject);
-                var @params = JsonRpcRequestWrapper.ParamArrayToObject<GeneralSimInitializeRequestParams>(requestObject.Params);
+                var @params = BvspHelper.ParamArrayToObject<GeneralSimInitializeRequestParams>(requestObject.Params);
 
                 var selectedFormat = SelectFormat(@params.Data.SupportedFormats);
 
@@ -47,30 +35,13 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
                 };
 
                 e.Context.RpcOk(responseResult);
-
-                _communication.Client.SendInitializedNotification();
             } else {
                 Debug.Print(errorMessage);
                 e.Context.RpcError(JsonRpcErrorCodes.InvalidRequest, errorMessage);
             }
         }
 
-        protected override void OnGeneralSimExit(object sender, JsonRpcMethodEventArgs e) {
-            LogToScreen("Received request: general/simExit");
-
-            if (JsonRpcHelper.IsRequestValid(e.ParsedRequestObject, out string errorMessage)) {
-                e.Context.RpcOk();
-
-                _communication.Client.SendExitedNotification();
-
-                _communication.Theater.Exit();
-            } else {
-                Debug.Print(errorMessage);
-                e.Context.RpcError(JsonRpcErrorCodes.InvalidRequest, errorMessage);
-            }
-        }
-
-        protected override void OnGeneralPreviewPlay(object sender, JsonRpcMethodEventArgs e) {
+        protected override void OnPreviewPlay(object sender, JsonRpcMethodEventArgs e) {
             LogToScreen("Received request: preview/play");
 
             if (JsonRpcHelper.IsRequestValid(e.ParsedRequestObject, out string errorMessage)) {
@@ -92,7 +63,7 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
             }
         }
 
-        protected override void OnGeneralPreviewPause(object sender, JsonRpcMethodEventArgs e) {
+        protected override void OnPreviewPause(object sender, JsonRpcMethodEventArgs e) {
             LogToScreen("Received request: preview/pause");
 
             if (JsonRpcHelper.IsRequestValid(e.ParsedRequestObject, out string errorMessage)) {
@@ -114,7 +85,7 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
             }
         }
 
-        protected override void OnGeneralPreviewStop(object sender, JsonRpcMethodEventArgs e) {
+        protected override void OnPreviewStop(object sender, JsonRpcMethodEventArgs e) {
             LogToScreen("Received request: preview/stop");
 
             if (JsonRpcHelper.IsRequestValid(e.ParsedRequestObject, out string errorMessage)) {
@@ -136,7 +107,7 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
             }
         }
 
-        protected override void OnGeneralPreviewGetPlaybackState(object sender, JsonRpcMethodEventArgs e) {
+        protected override void OnPreviewGetPlaybackState(object sender, JsonRpcMethodEventArgs e) {
             LogToScreen("Received request: preview/getPlaybackState");
 
             if (JsonRpcHelper.IsRequestValid(e.ParsedRequestObject, out string errorMessage)) {
@@ -147,8 +118,8 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
             }
         }
 
-        protected override void OnGeneralPreviewGotoTime(object sender, JsonRpcMethodEventArgs e) {
-            LogToScreen("Received request: preview/gotoTime");
+        protected override void OnPreviewSeekByTime(object sender, JsonRpcMethodEventArgs e) {
+            LogToScreen("Received request: preview/seekByTime");
 
             e.Context.RpcErrorNotImplemented();
             //if (JsonRpcHelper.IsRequestValid(e.ParsedRequestObject, out string errorMessage)) {
@@ -179,24 +150,24 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
             }
 
             var requestObject = JsonRpcHelper.TranslateAsRequest(e.ParsedRequestObject);
-            var @params = JsonRpcRequestWrapper.ParamArrayToObject<EditReloadRequestParams>(requestObject.Params);
+            var @params = BvspHelper.ParamArrayToObject<EditReloadRequestParams>(requestObject.Params);
 
-            if (!string.IsNullOrEmpty(@params.ScoreFile)) {
-                if (File.Exists(@params.ScoreFile)) {
+            if (!string.IsNullOrEmpty(@params.BeatmapFile)) {
+                if (File.Exists(@params.BeatmapFile)) {
                     var backgroundMusic = _communication.Theater.FindSingleElement<BackgroundMusic>();
 
-                    if (!string.IsNullOrEmpty(@params.BackgroundMusic)) {
+                    if (!string.IsNullOrEmpty(@params.BackgroundMusicFile)) {
                         if (backgroundMusic == null) {
                             e.Context.RpcError(JsonRpcErrorCodes.InternalError, "Cannot find the " + nameof(BackgroundMusic) + " component.", statusCode: HttpStatusCode.InternalServerError);
                             return;
                         }
 
-                        backgroundMusic.LoadMusic(@params.BackgroundMusic);
+                        backgroundMusic.LoadMusic(@params.BackgroundMusicFile);
                     }
 
-                    scoreLoader.LoadScoreFile(@params.ScoreFile, @params.ScoreIndex, @params.ScoreOffset);
+                    scoreLoader.LoadScoreFile(@params.BeatmapFile, @params.BeatmapIndex, @params.BeatmapOffset);
                 } else {
-                    LogToScreen($"Not found: {@params.ScoreFile}");
+                    LogToScreen($"Not found: {@params.BeatmapFile}");
                 }
             }
 

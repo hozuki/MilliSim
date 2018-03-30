@@ -7,14 +7,14 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs.Models {
     public sealed class EditReloadRequestParams {
 
         [CanBeNull]
-        public string ScoreFile { get; set; }
+        public string BeatmapFile { get; set; }
 
-        public int ScoreIndex { get; set; }
+        public int BeatmapIndex { get; set; }
 
-        public float ScoreOffset { get; set; }
+        public float BeatmapOffset { get; set; }
 
         [CanBeNull]
-        public string BackgroundMusic { get; set; }
+        public string BackgroundMusicFile { get; set; }
 
     }
 }

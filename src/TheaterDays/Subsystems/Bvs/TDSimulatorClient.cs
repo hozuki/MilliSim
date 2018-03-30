@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using OpenMLTD.Piyopiyo;
-using OpenMLTD.Piyopiyo.Net;
+using OpenMLTD.Piyopiyo.Net.JsonRpc;
 using OpenMLTD.TheaterDays.Subsystems.Bvs.Models;
 
 namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
@@ -9,10 +9,6 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
 
         internal TDSimulatorClient([NotNull] TDCommunication communication) {
             _communication = communication;
-        }
-
-        internal Task SendInitializedNotification() {
-            return SendNotificationWithEmptyBody(CommonProtocolMethodNames.General_SimInitialized);
         }
 
         internal Task SendLaunchedNotification() {
@@ -55,8 +51,8 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
             return SendNotificationWithEmptyBody(CommonProtocolMethodNames.Edit_Reloaded);
         }
 
-        internal Task SendSeekingCompletedNotification() {
-            return SendNotificationWithEmptyBody(CommonProtocolMethodNames.Preview_SeekingCompleted);
+        internal Task SendSoughtNotification() {
+            return SendNotificationWithEmptyBody(CommonProtocolMethodNames.Preview_Sought);
         }
 
         private Task SendNotificationWithEmptyBody([NotNull] string methodName) {
