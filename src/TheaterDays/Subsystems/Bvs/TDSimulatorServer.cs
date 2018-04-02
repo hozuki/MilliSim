@@ -26,9 +26,13 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
 
             if (JsonRpcHelper.IsRequestValid(e.ParsedRequestObject, out string errorMessage)) {
                 var requestObject = JsonRpcHelper.TranslateAsRequest(e.ParsedRequestObject);
-                var @params = BvspHelper.ParamArrayToObject<GeneralSimInitializeRequestParams>(requestObject.Params);
+                var param0 = requestObject.Params[0];
 
-                var selectedFormat = SelectFormat(@params.Data.SupportedFormats);
+                Debug.Assert(param0 != null, nameof(param0) + " != null");
+
+                var param0Object = param0.ToObject<GeneralSimInitializeRequestParams>();
+
+                var selectedFormat = SelectFormat(param0Object.SupportedFormats);
 
                 var responseResult = new GeneralSimInitializeResponseResult {
                     SelectedFormat = selectedFormat
@@ -150,24 +154,28 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
             }
 
             var requestObject = JsonRpcHelper.TranslateAsRequest(e.ParsedRequestObject);
-            var @params = BvspHelper.ParamArrayToObject<EditReloadRequestParams>(requestObject.Params);
+            var param0 = requestObject.Params[0];
 
-            if (!string.IsNullOrEmpty(@params.BeatmapFile)) {
-                if (File.Exists(@params.BeatmapFile)) {
+            Debug.Assert(param0 != null, nameof(param0) + " != null");
+
+            var param0Object = param0.ToObject<EditReloadRequestParams>();
+
+            if (!string.IsNullOrEmpty(param0Object.BeatmapFile)) {
+                if (File.Exists(param0Object.BeatmapFile)) {
                     var backgroundMusic = _communication.Theater.FindSingleElement<BackgroundMusic>();
 
-                    if (!string.IsNullOrEmpty(@params.BackgroundMusicFile)) {
+                    if (!string.IsNullOrEmpty(param0Object.BackgroundMusicFile)) {
                         if (backgroundMusic == null) {
                             e.Context.RpcError(JsonRpcErrorCodes.InternalError, "Cannot find the " + nameof(BackgroundMusic) + " component.", statusCode: HttpStatusCode.InternalServerError);
                             return;
                         }
 
-                        backgroundMusic.LoadMusic(@params.BackgroundMusicFile);
+                        backgroundMusic.LoadMusic(param0Object.BackgroundMusicFile);
                     }
 
-                    scoreLoader.LoadScoreFile(@params.BeatmapFile, @params.BeatmapIndex, @params.BeatmapOffset);
+                    scoreLoader.LoadScoreFile(param0Object.BeatmapFile, param0Object.BeatmapIndex, param0Object.BeatmapOffset);
                 } else {
-                    LogToScreen($"Not found: {@params.BeatmapFile}");
+                    LogToScreen($"Not found: {param0Object.BeatmapFile}");
                 }
             }
 

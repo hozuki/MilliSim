@@ -57,11 +57,25 @@ namespace OpenMLTD.TheaterDays {
             SubscribeComponentEvents();
 
             var editorServerPort = StartupOptions.EditorServerPort;
+            var editorServerUri = StartupOptions.EditorServerUri;
 
-            if (editorServerPort > 0) {
+            if (editorServerPort > 0 || editorServerUri != null) {
+
                 _communication = new TDCommunication(this);
 
-                _communication.EditorServerUri = new Uri($"http://localhost:{editorServerPort}/");
+                Uri edServerUri;
+
+                if (editorServerUri == null) {
+                    edServerUri = new Uri($"http://localhost:{editorServerPort}/");
+                } else {
+                    var b = Uri.TryCreate(editorServerUri, UriKind.RelativeOrAbsolute, out edServerUri);
+
+                    if (!b) {
+                        GameLog.Error("Invalid URI format (in editor_server_uri command line param): {0}", editorServerUri);
+                    }
+                }
+
+                _communication.EditorServerUri = edServerUri;
 
                 int simulatorServerPort;
 

@@ -20,11 +20,11 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
 
             var simulatorServerPort = _communication.Server.EndPoint.Port;
 
-            var @params = new GeneralSimLaunchedNotificationParams {
+            var param0Object = new GeneralSimLaunchedNotificationParams {
                 SimulatorServerUri = $"http://localhost:{simulatorServerPort}/"
             };
 
-            return CallAsync(serverUri, CommonProtocolMethodNames.General_SimLaunched, @params);
+            return SendNotificationAsync(serverUri, CommonProtocolMethodNames.General_SimLaunched, new[] { param0Object });
         }
 
         internal Task SendPlayingNotification() {
@@ -62,7 +62,7 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
                 return Task.FromResult(0);
             }
 
-            return CallAsync(serverUri, methodName);
+            return SendNotificationAsync(serverUri, methodName);
         }
 
         private readonly TDCommunication _communication;

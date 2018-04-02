@@ -11,19 +11,8 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs.Models {
         internal GeneralSimInitializeRequestParams() {
         }
 
-        public GeneralSimInitializeRequestParamsData Data { get; set; }
-
-        [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-        public class GeneralSimInitializeRequestParamsData {
-
-            [JsonConstructor]
-            internal GeneralSimInitializeRequestParamsData() {
-            }
-
-            [NotNull, ItemNotNull]
-            public SupportedFormatDescriptor[] SupportedFormats { get; set; }
-
-        }
+        [NotNull, ItemNotNull]
+        public SupportedFormatDescriptor[] SupportedFormats { get; set; }
 
     }
 }
