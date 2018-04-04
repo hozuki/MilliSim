@@ -1,13 +1,18 @@
 # MilliSim
 
-More than a simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.idolmaster.jp/theaterdays/).
+MilliSim was initially designed as a simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.idolmaster.jp/theaterdays/).
+Now it has become a general, plugin-based simulator framework. It can be extended to support other games, such as [Arcaea](https://github.com/hozuki/ArcaeaSim2).
+This repository contains the framework itself, and an example of the Theater Days simulator.
 
-Demo videos: 
+Demo videos (Theater Days): 
 
-  - [video 1](https://www.bilibili.com/video/av15612246/) (v0.2 branch)
-  - [video 2](https://www.bilibili.com/video/av16069466/) (v0.2 branch)
+| Title | Beatmap Author | Branch |
+|---|---|---|
+| [Death by Glamour](https://www.bilibili.com/video/av15612246/) | [hozuki](https://github.com/hozuki) | v0.2 |
+| [dear...](https://www.bilibili.com/video/av16069466/) | MinamiKaze | v0.2 |
+| [茜ちゃんメーカー](http://www.nicovideo.jp/watch/sm32977985) | [Sacno](https://twitter.com/Sacno3) | v0.3 |
 
-| Downloads| |
+| Downloads | Status |
 |--|--|
 | [GitHub Releases](https://github.com/hozuki/MilliSim/releases) | ![GitHub (pre-)release](https://img.shields.io/github/release/hozuki/MilliSim/all.svg) ![Github All Releases](https://img.shields.io/github/downloads/hozuki/MilliSim/total.svg) |
 | [AppVeyor](https://ci.appveyor.com/api/projects/hozuki/MilliSim/artifacts/millisim-appveyor-latest.zip) | (latest development build) |
