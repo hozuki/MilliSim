@@ -17,6 +17,7 @@ namespace OpenMLTD.MilliSim.Audio {
 
         public AudioBuffer Buffer => _buffer;
 
+        [NotNull]
         public WaveFormat Format { get; }
 
         internal byte[] Data { get; set; }
@@ -24,8 +25,7 @@ namespace OpenMLTD.MilliSim.Audio {
         protected override void Dispose(bool disposing) {
             if (_source != null) {
                 _source.Stop();
-
-                Source.Bind(null);
+                _source.Bind(null);
             }
 
             _source?.Dispose();

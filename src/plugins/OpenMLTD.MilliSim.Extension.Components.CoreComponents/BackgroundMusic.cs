@@ -34,14 +34,19 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
         }
 
         public void LoadMusic([NotNull] string filePath) {
+            var theaterDays = Game.ToBaseGame();
+
+            var audioManager = theaterDays.AudioManager;
+
             var music = Music;
 
             if (music != null) {
+                audioManager.UnmanageSound(music);
+
                 music.Source.Stop();
                 music.Dispose();
             }
 
-            var theaterDays = Game.ToBaseGame();
             var debug = theaterDays.FindSingleElement<DebugOverlay>();
 
             if (!File.Exists(filePath)) {
@@ -59,11 +64,10 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
 
             volume = MathHelper.Clamp(volume, 0, 1);
 
-            var audioManager = theaterDays.AudioManager;
             var format = GetFormatForFile(theaterDays.PluginManager, filePath);
 
             if (format != null) {
-                music = audioManager.LoadSound(filePath, format);
+                music = audioManager.LoadSound(filePath, format, false);
                 music.Source.Volume = volume;
                 Music = music;
 
