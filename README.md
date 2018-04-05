@@ -47,10 +47,24 @@ DirectX builds (`TheaterDays.Direct3D11.exe`) can only run on Windows.
 
 ### Note: Video Playback Support
 
-If you want to play videos as the background, you must download FFmpeg binaries (version 3.4.1 or later)
+If you want to play videos as the background, you must download FFmpeg binaries (version 3.4.1)
 from [here](https://ffmpeg.zeranoe.com/builds/), and place the binaries into `x64` and `x86` directories
 correspondingly. Due to license restrictions, MilliSim builds cannot include FFmpeg binaries, so you have
 to download them yourself.
+
+[File structure](https://github.com/hozuki/MonoGame.Extended2/tree/master/Sources/MonoGame.Extended.VideoPlayback#usage):
+
+```plain
+TheaterDays.*.exe
+x64/
+  avcodec-57.dll
+  avdevice-57.dll
+  ...
+x86/
+  avcodec-57.dll
+  avdevice-57.dll
+  ...
+```
 
 Without FFmpeg, you must either:
 
