@@ -59,13 +59,13 @@ namespace OpenMLTD.TheaterDays {
             var editorServerPort = StartupOptions.EditorServerPort;
             var editorServerUri = StartupOptions.EditorServerUri;
 
-            if (editorServerPort > 0 || editorServerUri != null) {
+            if (editorServerPort > 0 || !string.IsNullOrWhiteSpace(editorServerUri)) {
 
                 _communication = new TDCommunication(this);
 
                 Uri edServerUri;
 
-                if (editorServerUri == null) {
+                if (string.IsNullOrWhiteSpace(editorServerUri)) {
                     edServerUri = new Uri($"http://localhost:{editorServerPort}/");
                 } else {
                     var b = Uri.TryCreate(editorServerUri, UriKind.RelativeOrAbsolute, out edServerUri);
@@ -95,10 +95,13 @@ namespace OpenMLTD.TheaterDays {
         protected override void UnloadContent() {
             UnsubscribeComponentEvents();
 
-            _communication?.Client.SendSimExitedNotification().Wait(TimeSpan.FromSeconds(2));
+            if (_communication != null) {
+                _communication.Client.SendSimExitedNotification().Wait(TimeSpan.FromSeconds(2));
 
-            _communication?.Server.Stop();
-            _communication?.Server.Dispose();
+                _communication.Server.Stop();
+
+                _communication.Dispose();
+            }
 
             base.UnloadContent();
         }
