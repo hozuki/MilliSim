@@ -33,7 +33,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             }
         }
 
-        public void LoadMusic([NotNull] string filePath) {
+        public void LoadMusic([CanBeNull] string filePath) {
             var theaterDays = Game.ToBaseGame();
 
             var audioManager = theaterDays.AudioManager;
@@ -48,6 +48,16 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             }
 
             var debug = theaterDays.FindSingleElement<DebugOverlay>();
+
+            if (string.IsNullOrWhiteSpace(filePath)) {
+                if (debug != null) {
+                    debug.AddLine("Music file path is empty, thus no music is loaded.");
+                }
+
+                Music = null;
+
+                return;
+            }
 
             if (!File.Exists(filePath)) {
                 if (debug != null) {

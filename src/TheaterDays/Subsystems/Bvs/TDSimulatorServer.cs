@@ -171,6 +171,8 @@ namespace OpenMLTD.TheaterDays.Subsystems.Bvs {
                         }
 
                         backgroundMusic.LoadMusic(param0Object.BackgroundMusicFile);
+                    } else {
+                        backgroundMusic?.LoadMusic(null);
                     }
 
                     scoreLoader.LoadScoreFile(param0Object.BeatmapFile, param0Object.BeatmapIndex, param0Object.BeatmapOffset);
