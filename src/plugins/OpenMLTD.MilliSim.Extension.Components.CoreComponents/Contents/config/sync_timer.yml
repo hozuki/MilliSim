@@ -1,8 +1,0 @@
-metadata:
-  type: OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration.SyncTimerConfig
-  assembly_file: OpenMLTD.MilliSim.Extension.Components.CoreComponents.dll
-  for: component.core.sync_timer
-  version: 1 # format version
-data:
-  sync_target: auto # auto, audio, video, game_time
-  sync_method: estimated # naive, estimated

@@ -1,8 +1,0 @@
-metadata:
-  type: OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration.BackgroundMusicConfig
-  assembly_file: OpenMLTD.MilliSim.Extension.Components.CoreComponents.dll
-  for: component.core.background_music
-  version: 1 # format version
-data:
-  bgm: Contents/game/song3_shtstr_bgm.ogg # path to background music (BGM)
-  bgm_volume: 100% # volume of BGM (0% - 100%)

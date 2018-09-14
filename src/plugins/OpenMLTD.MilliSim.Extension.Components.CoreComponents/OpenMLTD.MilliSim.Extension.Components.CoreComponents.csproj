@@ -109,12 +109,6 @@
     <Compile Include="TimerSyncTarget.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Contents\config\background_music.yml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Contents\config\sync_timer.yml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Contents\res\fonts\NotoSansSC-Regular.otf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -131,26 +125,6 @@
     </None>
     <None Include="OpenMLTD.MilliSim.Extension.Components.CoreComponents.nuspec" />
     <None Include="packages.config" />
-    <None Include="Contents\config\overlay\debug_overlay.yml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Contents\config\overlay\fps_overlay.yml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Contents\config\overlay\sync_timer_overlay.yml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Contents\config\background_image.yml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Contents\config\background_video.yml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Contents\config\text_overlay_base.yml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\thirdparty\MonoGame.Extended2\Sources\MonoGame.Extended.Overlay\MonoGame.Extended.Overlay.csproj">

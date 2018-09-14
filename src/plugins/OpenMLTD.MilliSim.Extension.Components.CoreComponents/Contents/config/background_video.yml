@@ -1,8 +1,0 @@
-metadata:
-  type: OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration.BackgroundVideoConfig
-  assembly_file: OpenMLTD.MilliSim.Extension.Components.CoreComponents.dll
-  for: component.core.background_video
-  version: 1 # format version
-data:
-  video:
-  video_volume: 0%

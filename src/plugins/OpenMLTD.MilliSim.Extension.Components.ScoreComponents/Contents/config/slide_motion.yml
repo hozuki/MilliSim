@@ -1,8 +1,0 @@
-metadata:
-  type: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration.SlideMotionConfig
-  assembly_file: OpenMLTD.MilliSim.Extension.Components.ScoreComponents.dll
-  for: component.score.slide_motion
-  version: 1 # format version
-data:
-  icon: tap_point # none, tap_point, slide_start, slide_middle, slide_end
-  position: below # above, below
