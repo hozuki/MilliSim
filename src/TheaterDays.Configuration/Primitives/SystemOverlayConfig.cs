@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-namespace OpenMLTD.MilliSim.Configuration.Primitives {
+namespace OpenMLTD.TheaterDays.Configuration.Primitives {
     public sealed class SystemOverlayConfig {
 
         public bool Use { get; set; }

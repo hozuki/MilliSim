@@ -1,8 +1,8 @@
 using System;
-using OpenMLTD.MilliSim.Configuration.Extending;
+using OpenMLTD.TheaterDays.Configuration.Extending;
 using YamlDotNet.Serialization;
 
-namespace OpenMLTD.MilliSim.Configuration {
+namespace OpenMLTD.TheaterDays.Configuration {
     public abstract class ConfigTypeConverterFactory : IConfigTypeConverterFactory {
 
         public int ApiVersion => 1;

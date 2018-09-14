@@ -1,6 +1,6 @@
 using OpenMLTD.MilliSim.Configuration.Entities;
 
 namespace OpenMLTD.MilliSim.Configuration {
-    internal sealed class HeaderOnlyConfig : ConfigBase {
+    public sealed class HeaderOnlyConfig : ConfigBase {
     }
 }

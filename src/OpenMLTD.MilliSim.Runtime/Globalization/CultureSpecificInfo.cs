@@ -2,16 +2,15 @@ using System.Globalization;
 using JetBrains.Annotations;
 
 namespace OpenMLTD.MilliSim.Globalization {
-    public sealed class CultureSpecificInfo {
+    public abstract class CultureSpecificInfo {
 
-        public CultureSpecificInfo([NotNull] CultureInfo culture) {
+        protected CultureSpecificInfo([NotNull] CultureInfo culture) {
             Culture = culture;
-            TranslationManager = new TranslationManager(this);
         }
 
         public CultureInfo Culture { get; }
 
-        public TranslationManager TranslationManager { get; }
+        public abstract TranslationManager TranslationManager { get; }
 
     }
 }

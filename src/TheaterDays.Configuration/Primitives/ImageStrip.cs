@@ -1,6 +1,6 @@
 using YamlDotNet.Serialization;
 
-namespace OpenMLTD.MilliSim.Configuration.Primitives {
+namespace OpenMLTD.TheaterDays.Configuration.Primitives {
     public sealed class ImageStrip {
 
         public string File { get; set; }

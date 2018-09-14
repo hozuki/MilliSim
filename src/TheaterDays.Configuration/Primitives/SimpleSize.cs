@@ -1,4 +1,4 @@
-namespace OpenMLTD.MilliSim.Configuration.Primitives {
+namespace OpenMLTD.TheaterDays.Configuration.Primitives {
     public struct SimpleSize {
 
         public int Width { get; set; }

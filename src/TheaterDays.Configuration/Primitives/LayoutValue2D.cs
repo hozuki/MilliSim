@@ -1,4 +1,6 @@
-namespace OpenMLTD.MilliSim.Configuration.Primitives {
+using OpenMLTD.MilliSim.Configuration.Primitives;
+
+namespace OpenMLTD.TheaterDays.Configuration.Primitives {
     public struct LayoutValue2D {
 
         public PercentOrRealValue X { get; set; }

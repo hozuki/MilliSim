@@ -65,6 +65,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.Piyopiyo", "thirdp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.StarlightDirector", "src\plugins\OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.StarlightDirector\OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.StarlightDirector.csproj", "{C8CCFC8F-B5E6-4393-BAA7-D073D86549EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheaterDays.Configuration", "src\TheaterDays.Configuration\TheaterDays.Configuration.csproj", "{DC116C6E-0831-489F-8530-A641288695A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheaterDays.Globalization", "src\TheaterDays.Globalization\TheaterDays.Globalization.csproj", "{0DE20AD1-6DD3-4EC6-9E71-F272090D81CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -217,6 +221,22 @@ Global
 		{C8CCFC8F-B5E6-4393-BAA7-D073D86549EE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C8CCFC8F-B5E6-4393-BAA7-D073D86549EE}.Release|x86.ActiveCfg = Release|Any CPU
 		{C8CCFC8F-B5E6-4393-BAA7-D073D86549EE}.Release|x86.Build.0 = Release|Any CPU
+		{DC116C6E-0831-489F-8530-A641288695A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC116C6E-0831-489F-8530-A641288695A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC116C6E-0831-489F-8530-A641288695A3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DC116C6E-0831-489F-8530-A641288695A3}.Debug|x86.Build.0 = Debug|Any CPU
+		{DC116C6E-0831-489F-8530-A641288695A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC116C6E-0831-489F-8530-A641288695A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC116C6E-0831-489F-8530-A641288695A3}.Release|x86.ActiveCfg = Release|Any CPU
+		{DC116C6E-0831-489F-8530-A641288695A3}.Release|x86.Build.0 = Release|Any CPU
+		{0DE20AD1-6DD3-4EC6-9E71-F272090D81CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DE20AD1-6DD3-4EC6-9E71-F272090D81CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DE20AD1-6DD3-4EC6-9E71-F272090D81CF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0DE20AD1-6DD3-4EC6-9E71-F272090D81CF}.Debug|x86.Build.0 = Debug|Any CPU
+		{0DE20AD1-6DD3-4EC6-9E71-F272090D81CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DE20AD1-6DD3-4EC6-9E71-F272090D81CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DE20AD1-6DD3-4EC6-9E71-F272090D81CF}.Release|x86.ActiveCfg = Release|Any CPU
+		{0DE20AD1-6DD3-4EC6-9E71-F272090D81CF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

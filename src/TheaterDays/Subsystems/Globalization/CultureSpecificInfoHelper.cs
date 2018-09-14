@@ -4,6 +4,7 @@ using System.IO;
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Globalization;
 using OpenMLTD.TheaterDays.Configuration;
+using OpenMLTD.TheaterDays.Globalization;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -12,7 +13,7 @@ namespace OpenMLTD.TheaterDays.Subsystems.Globalization {
 
         [NotNull]
         internal static CultureSpecificInfo CreateCultureSpecificInfo() {
-            var info = new CultureSpecificInfo(CultureInfo.CurrentUICulture);
+            var info = new TheaterDaysCultureSpecificInfo(CultureInfo.CurrentUICulture);
 
             var deserializer = new DeserializerBuilder()
                 .IgnoreUnmatchedProperties()
@@ -35,7 +36,13 @@ namespace OpenMLTD.TheaterDays.Subsystems.Globalization {
             }
 
             foreach (var translationFileGlob in config.TranslationFiles) {
-                info.TranslationManager.AddTranslationsFromGlob(globalizationConfigBaseDirectory, translationFileGlob);
+                var translationManager = info.TranslationManager as TheaterDaysTranslationManager;
+
+                if (translationManager == null) {
+                    throw new InvalidCastException();
+                }
+
+                translationManager.AddTranslationsFromGlob(globalizationConfigBaseDirectory, translationFileGlob);
             }
 
             return info;

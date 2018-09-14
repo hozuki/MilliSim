@@ -9,7 +9,8 @@ namespace OpenMLTD.TheaterDays {
         /// <param name="args"></param>
         [STAThread]
         private static int Main(string[] args) {
-            throw new NotSupportedException();
+            Console.WriteLine("This executable is not supposed to be run directly.");
+            return -1;
             //return Theater.Run(args, GraphicsBackend.Direct3D11);
         }
 

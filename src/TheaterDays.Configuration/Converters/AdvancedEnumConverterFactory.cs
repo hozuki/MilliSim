@@ -1,10 +1,10 @@
 using System;
-using OpenMLTD.MilliSim.Configuration.Extending;
 using OpenMLTD.MilliSim.Core;
+using OpenMLTD.TheaterDays.Configuration.Extending;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace OpenMLTD.MilliSim.Configuration.Converters {
+namespace OpenMLTD.TheaterDays.Configuration.Converters {
     [MilliSimPlugin(typeof(IConfigTypeConverterFactory))]
     public sealed class AdvancedEnumConverterFactory : ConfigTypeConverterFactory {
 

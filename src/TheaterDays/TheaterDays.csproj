@@ -95,6 +95,9 @@
       <HintPath>..\..\packages\System.Composition.TypedParts.1.1.0\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -178,6 +181,14 @@
     <ProjectReference Include="..\plugins\OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.StarlightDirector\OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.StarlightDirector.csproj">
       <Project>{c8ccfc8f-b5e6-4393-baa7-d073d86549ee}</Project>
       <Name>OpenMLTD.MilliSim.Extension.Contributed.Scores.StandardScoreFormats.StarlightDirector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TheaterDays.Configuration\TheaterDays.Configuration.csproj">
+      <Project>{dc116c6e-0831-489f-8530-a641288695a3}</Project>
+      <Name>TheaterDays.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TheaterDays.Globalization\TheaterDays.Globalization.csproj">
+      <Project>{0de20ad1-6dd3-4ec6-9e71-f272090d81cf}</Project>
+      <Name>TheaterDays.Globalization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

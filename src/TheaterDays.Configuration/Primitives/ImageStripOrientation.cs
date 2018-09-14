@@ -1,4 +1,4 @@
-namespace OpenMLTD.MilliSim.Configuration.Primitives {
+namespace OpenMLTD.TheaterDays.Configuration.Primitives {
     public enum ImageStripOrientation {
 
         Horizontal = 0,

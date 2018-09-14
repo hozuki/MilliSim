@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using OpenMLTD.MilliSim.Core;
 
-namespace OpenMLTD.MilliSim.Configuration.Primitives {
+namespace OpenMLTD.TheaterDays.Configuration.Primitives {
     public struct SimpleRectangleF {
 
         public float Left { get; set; }

@@ -1,5 +1,6 @@
 using OpenMLTD.MilliSim.Configuration.Entities;
 using OpenMLTD.MilliSim.Configuration.Primitives;
+using OpenMLTD.TheaterDays.Configuration.Primitives;
 
 namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration {
     public sealed class ComboNumbersConfig : ConfigBase {

@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using JetBrains.Annotations;
 
-namespace OpenMLTD.MilliSim.Configuration {
+namespace OpenMLTD.TheaterDays.Configuration {
     public sealed class DuplicateKeyException : ApplicationException {
 
         public DuplicateKeyException() {

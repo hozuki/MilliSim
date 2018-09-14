@@ -4,7 +4,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace OpenMLTD.MilliSim.Configuration.Converters {
+namespace OpenMLTD.TheaterDays.Configuration.Converters {
     internal sealed class ColorConverter : IYamlTypeConverter {
 
         public bool Accepts(Type type) {

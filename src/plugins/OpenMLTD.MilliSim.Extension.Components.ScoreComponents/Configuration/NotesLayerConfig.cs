@@ -1,5 +1,6 @@
 using OpenMLTD.MilliSim.Configuration.Entities;
 using OpenMLTD.MilliSim.Configuration.Primitives;
+using OpenMLTD.TheaterDays.Configuration.Primitives;
 using YamlDotNet.Serialization;
 
 namespace OpenMLTD.MilliSim.Extension.Components.ScoreComponents.Configuration {

@@ -53,15 +53,14 @@
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\Sound.cs" />
     <Compile Include="Audio\WdlResampling16Stream.cs" />
-    <Compile Include="Configuration\ConfigTypeConverterFactory.cs" />
-    <Compile Include="Configuration\Converters\AdvancedEnumConverterFactory.cs" />
-    <Compile Include="Configuration\Converters\ColorConverterFactory.cs" />
-    <Compile Include="Configuration\Converters\PercentOrRealValueConverterFactory.cs" />
-    <Compile Include="Configuration\Converters\Vector2ConverterFactory.cs" />
+    <Compile Include="Configuration\ConfigurationStore.cs" />
+    <Compile Include="Configuration\Entities\ConfigBase.cs" />
+    <Compile Include="Configuration\Entities\ConfigMetadata.cs" />
+    <Compile Include="Configuration\HeaderOnlyConfig.cs" />
+    <Compile Include="Configuration\Primitives\PercentOrRealValue.cs" />
     <Compile Include="Core\Extensions\NumberExtensions.cs" />
     <Compile Include="Core\Extensions\StreamExtensions.cs" />
     <Compile Include="Core\GameLog.cs" />
-    <Compile Include="Core\GlobHelper.cs" />
     <Compile Include="Foundation\BaseGameComponentCollection.cs" />
     <Compile Include="Foundation\BaseGameComponentCollection.Enumerator.cs" />
     <Compile Include="Foundation\BaseGameComponentCollection.Operation.cs" />
@@ -83,29 +82,11 @@
     <Compile Include="Graphics\Stage.cs" />
     <Compile Include="Graphics\VisualContainer.cs" />
     <Compile Include="Audio\Extending\IAudioFormat.cs" />
-    <Compile Include="Configuration\ConfigurationStore.cs" />
-    <Compile Include="Configuration\Converters\AdvancedEnumConverter.cs" />
-    <Compile Include="Configuration\Converters\ColorConverter.cs" />
-    <Compile Include="Configuration\Converters\PercentOrRealValueConverter.cs" />
-    <Compile Include="Configuration\Converters\Vector2Converter.cs" />
-    <Compile Include="Configuration\DuplicateKeyException.cs" />
-    <Compile Include="Configuration\Entities\ConfigBase.cs" />
-    <Compile Include="Configuration\Entities\ConfigMetadata.cs" />
-    <Compile Include="Configuration\HeaderOnlyConfig.cs" />
-    <Compile Include="Configuration\Primitives\ImageStrip.cs" />
-    <Compile Include="Configuration\Primitives\ImageStripOrientation.cs" />
-    <Compile Include="Configuration\Primitives\ImageWithBlankEdge.cs" />
-    <Compile Include="Configuration\Primitives\LayoutValue2D.cs" />
-    <Compile Include="Configuration\Primitives\PercentOrRealValue.cs" />
-    <Compile Include="Configuration\Primitives\SimpleRectangleF.cs" />
-    <Compile Include="Configuration\Primitives\SimpleSize.cs" />
-    <Compile Include="Configuration\Primitives\SystemOverlayConfig.cs" />
     <Compile Include="Core\AssemblyBuildTimeAttribute.cs" />
     <Compile Include="Core\CallerHelper.cs" />
     <Compile Include="Core\Disposable.cs" />
     <Compile Include="Core\DisposableBase.cs" />
     <Compile Include="Core\Dynamic.cs" />
-    <Compile Include="Configuration\Extending\IConfigTypeConverterFactory.cs" />
     <Compile Include="Core\Extensions\KeyValuePairExtensions.cs" />
     <Compile Include="Core\Extensions\TypeExtensions.cs" />
     <Compile Include="Core\IApiVersionProvider.cs" />
@@ -141,9 +122,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Glob, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Glob.0.4.0\lib\net45\Glob.dll</HintPath>
-    </Reference>
     <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
@@ -178,9 +156,6 @@
       <HintPath>..\..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="YamlDotNet, Version=4.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\YamlDotNet.4.3.0\lib\net45\YamlDotNet.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />

@@ -200,6 +200,10 @@
       <Project>{2f7ecba5-aa8b-4ab2-8f84-585352935a1b}</Project>
       <Name>OpenMLTD.MilliSim.Runtime</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\TheaterDays.Configuration\TheaterDays.Configuration.csproj">
+      <Project>{dc116c6e-0831-489f-8530-a641288695a3}</Project>
+      <Name>TheaterDays.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenMLTD.MilliSim.Extension.Components.CoreComponents\OpenMLTD.MilliSim.Extension.Components.CoreComponents.csproj">
       <Project>{16575a6d-f4a1-4910-a112-db1d62ef6342}</Project>
       <Name>OpenMLTD.MilliSim.Extension.Components.CoreComponents</Name>

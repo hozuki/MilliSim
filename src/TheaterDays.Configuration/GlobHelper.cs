@@ -1,4 +1,4 @@
-namespace OpenMLTD.MilliSim.Core {
+namespace OpenMLTD.TheaterDays.Configuration {
     internal static class GlobHelper {
 
         internal static readonly char[] PartialGlobChars = { '*', '?' };

@@ -1,7 +1,8 @@
 using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Configuration;
-using OpenMLTD.MilliSim.Configuration.Extending;
 using OpenMLTD.MilliSim.Foundation;
+using OpenMLTD.TheaterDays.Configuration;
+using OpenMLTD.TheaterDays.Configuration.Extending;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -23,7 +24,7 @@ namespace OpenMLTD.TheaterDays.Subsystems.Configuration {
 
             var deserializer = deserializerBuilder.Build();
 
-            return ConfigurationStore.Load(ConfigurationEntryFile, deserializer);
+            return TheaterDaysConfigurationStore.Load(ConfigurationEntryFile, deserializer);
         }
 
         private static readonly string ConfigurationEntryFile = "Contents/app.config.yml";

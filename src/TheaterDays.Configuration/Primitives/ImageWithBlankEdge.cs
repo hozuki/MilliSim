@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using YamlDotNet.Serialization;
 
-namespace OpenMLTD.MilliSim.Configuration.Primitives {
+namespace OpenMLTD.TheaterDays.Configuration.Primitives {
     public sealed class ImageWithBlankEdge {
 
         [YamlMember(Alias = "file")]
