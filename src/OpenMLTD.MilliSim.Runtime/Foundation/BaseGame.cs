@@ -13,6 +13,7 @@ using OpenMLTD.MilliSim.Graphics;
 namespace OpenMLTD.MilliSim.Foundation {
     /// <summary>
     /// This is the main type for your game.
+    /// This class must be inherited.
     /// </summary>
     public abstract class BaseGame : Game {
 
@@ -26,24 +27,64 @@ namespace OpenMLTD.MilliSim.Foundation {
             Content.RootDirectory = contentRootDirectory;
         }
 
+        /// <summary>
+        /// Gets the plugin manager.
+        /// </summary>
+        [NotNull]
         public BasePluginManager PluginManager => _pluginManager;
 
+        /// <summary>
+        /// Gets the main sprite batch.
+        /// </summary>
+        [NotNull]
         public SpriteBatch SpriteBatch => _spriteBatch;
 
+        /// <summary>
+        /// Gets the graphics device manager.
+        /// </summary>
+        [NotNull]
         public GraphicsDeviceManager GraphicsDeviceManager => _graphicsDeviceManager;
 
+        /// <summary>
+        /// Gets the audio manager.
+        /// </summary>
+        [NotNull]
         public AudioManager AudioManager => _audioManager;
 
+        /// <summary>
+        /// Gets the effect manager.
+        /// </summary>
+        [NotNull]
         public EffectManager EffectManager => _effectManager;
 
+        /// <summary>
+        /// Gets the font manager.
+        /// </summary>
+        [NotNull]
         public FontManager FontManager => _fontManager;
 
+        /// <summary>
+        /// Gets the main stage. This property must be overridden.
+        /// </summary>
+        [NotNull]
         public abstract Stage Stage { get; }
 
-        public abstract ConfigurationStore ConfigurationStore { get; }
+        /// <summary>
+        /// Gets the configuration store. This property must be overridden.
+        /// </summary>
+        [NotNull]
+        public abstract BaseConfigurationStore ConfigurationStore { get; }
 
+        /// <summary>
+        /// Gets the culture-specific information. This property must be overridden.
+        /// </summary>
+        [NotNull]
         public abstract CultureSpecificInfo CultureSpecificInfo { get; }
 
+        /// <summary>
+        /// Gets or sets the graphics backend.
+        /// This property must be set before starting the game, and can only be set once.
+        /// </summary>
         public static GraphicsBackend GraphicsBackend {
             get => _graphicsBackend;
             set {
@@ -89,7 +130,6 @@ namespace OpenMLTD.MilliSim.Foundation {
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
             foreach (var component in Components) {
                 if (component is IBaseGameComponent c) {
                     c.LoadContents();
@@ -102,7 +142,6 @@ namespace OpenMLTD.MilliSim.Foundation {
         /// game-specific content.
         /// </summary>
         protected override void UnloadContent() {
-            // TODO: Unload any non ContentManager content here
             foreach (var component in Components) {
                 if (component is IBaseGameComponent c) {
                     c.UnloadContents();

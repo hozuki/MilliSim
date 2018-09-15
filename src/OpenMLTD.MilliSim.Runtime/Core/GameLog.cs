@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using log4net;
 
 namespace OpenMLTD.MilliSim.Core {
+    [UsedImplicitly]
     public sealed class GameLog {
 
         private GameLog([NotNull] Assembly assembly, [NotNull] string name) {

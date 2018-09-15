@@ -6,8 +6,18 @@ using OpenMLTD.MilliSim.Foundation.Extensions;
 using OpenMLTD.MilliSim.Graphics.Extensions;
 
 namespace OpenMLTD.MilliSim.Graphics {
+    /// <inheritdoc cref="VisualContainer"/>
+    /// <inheritdoc cref="IBufferedVisual"/>
+    /// <summary>
+    /// A basic implementation of buffered visual container.
+    /// </summary>
     public abstract class BufferedVisualContainer : VisualContainer, IBufferedVisual {
 
+        /// <summary>
+        /// Creates a new <see cref="BufferedVisual"/>.
+        /// </summary>
+        /// <param name="game">The base game.</param>
+        /// <param name="parent">The parent of this <see cref="BufferedVisualContainer"/>.</param>
         protected BufferedVisualContainer([NotNull] BaseGame game, [CanBeNull] IVisualContainer parent)
             : base(game, parent) {
         }

@@ -7,16 +7,44 @@ using Microsoft.Xna.Framework.Graphics;
 namespace OpenMLTD.MilliSim.Graphics.Extensions {
     public static class GraphicsDeviceExtensions {
 
+        /// <summary>
+        /// Switch the render target of specified <see cref="GraphicsDevice"/> to a new <see cref="RenderTarget2D"/>.
+        /// </summary>
+        /// <param name="graphicsDevice">The <see cref="GraphicsDevice"/>.</param>
+        /// <param name="renderTarget">The <see cref="RenderTarget2D"/> to switch to.</param>
+        /// <returns>An <see cref="IDisposable"/>. Call its <see cref="IDisposable.Dispose"/> method after rendering to the graphics device, to restore the original target.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [NotNull]
         public static IDisposable SwitchTo([NotNull] this GraphicsDevice graphicsDevice, [NotNull] RenderTarget2D renderTarget) {
-            var target = new RenderTargetSwither(graphicsDevice, renderTarget);
+            return SwitchTo(graphicsDevice, renderTarget, true);
+        }
 
-            graphicsDevice.Clear(Color.Transparent);
+        /// <summary>
+        /// Switch the render target of specified <see cref="GraphicsDevice"/> to a new <see cref="RenderTarget2D"/>.
+        /// </summary>
+        /// <param name="graphicsDevice">The <see cref="GraphicsDevice"/>.</param>
+        /// <param name="renderTarget">The <see cref="RenderTarget2D"/> to switch to.</param>
+        /// <param name="clearTarget">Whether clears the <see cref="RenderTarget2D"/> or not after switching.</param>
+        /// <returns>An <see cref="IDisposable"/>. Call its <see cref="IDisposable.Dispose"/> method after rendering to the graphics device, to restore the original target.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [NotNull]
+        public static IDisposable SwitchTo([NotNull] this GraphicsDevice graphicsDevice, [NotNull] RenderTarget2D renderTarget, bool clearTarget) {
+            var target = new RenderTargetSwitcher(graphicsDevice, renderTarget);
+
+            if (clearTarget) {
+                graphicsDevice.Clear(Color.Transparent);
+            }
 
             return target;
         }
 
+        /// <summary>
+        /// Creates a compatible <see cref="RenderTarget2D"/> from the <see cref="GraphicsDevice"/>'s parameters.
+        /// </summary>
+        /// <param name="graphicsDevice">The <see cref="GraphicsDevice"/>.</param>
+        /// <returns>Created <see cref="RenderTarget2D"/>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [NotNull]
         public static RenderTarget2D CreateCompatibleRenderTargetFromBackBuffer([NotNull] this GraphicsDevice graphicsDevice) {
             var pp = graphicsDevice.PresentationParameters;
             // TODO: Potential porting problems on smartphones and consoles (currently not our target).
@@ -28,9 +56,9 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
             return new RenderTarget2D(graphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, false, pp.BackBufferFormat, pp.DepthStencilFormat, 0, RenderTargetUsage.PreserveContents);
         }
 
-        private struct RenderTargetSwither : IDisposable {
+        private struct RenderTargetSwitcher : IDisposable {
 
-            internal RenderTargetSwither([NotNull] GraphicsDevice graphicsDevice, [NotNull] RenderTarget2D renderTarget) {
+            internal RenderTargetSwitcher([NotNull] GraphicsDevice graphicsDevice, [NotNull] RenderTarget2D renderTarget) {
                 _graphicsDevice = graphicsDevice;
                 _renderTargetBindings = graphicsDevice.GetRenderTargets();
 

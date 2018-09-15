@@ -1,7 +1,17 @@
+using JetBrains.Annotations;
+
 namespace OpenMLTD.MilliSim.Configuration.Entities {
+    /// <summary>
+    /// Entity class for configuration items.
+    /// This class must be inherited.
+    /// </summary>
     public abstract class ConfigBase {
 
-        public ConfigMetadata Metadata { get; set; }
+        /// <summary>
+        /// Gets or sets the metadata of this item.
+        /// </summary>
+        [NotNull]
+        public ConfigMetadata Metadata { get; set; } = new ConfigMetadata();
 
     }
 }

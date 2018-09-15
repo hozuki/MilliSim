@@ -125,6 +125,12 @@
     </None>
     <None Include="OpenMLTD.MilliSim.Extension.Components.CoreComponents.nuspec" />
     <None Include="packages.config" />
+    <None Include="x64\place_ffmpeg_x64_binaries_here">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="x86\place_ffmpeg_x86_binaries_here">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\thirdparty\MonoGame.Extended2\Sources\MonoGame.Extended.Overlay\MonoGame.Extended.Overlay.csproj">

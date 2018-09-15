@@ -53,12 +53,11 @@
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Audio\Sound.cs" />
     <Compile Include="Audio\WdlResampling16Stream.cs" />
-    <Compile Include="Configuration\ConfigurationStore.cs" />
+    <Compile Include="Configuration\BaseConfigurationStore.cs" />
     <Compile Include="Configuration\Entities\ConfigBase.cs" />
     <Compile Include="Configuration\Entities\ConfigMetadata.cs" />
     <Compile Include="Configuration\HeaderOnlyConfig.cs" />
     <Compile Include="Configuration\Primitives\PercentOrRealValue.cs" />
-    <Compile Include="Core\Extensions\NumberExtensions.cs" />
     <Compile Include="Core\Extensions\StreamExtensions.cs" />
     <Compile Include="Core\GameLog.cs" />
     <Compile Include="Foundation\BaseGameComponentCollection.cs" />
@@ -88,18 +87,13 @@
     <Compile Include="Core\DisposableBase.cs" />
     <Compile Include="Core\Dynamic.cs" />
     <Compile Include="Core\Extensions\KeyValuePairExtensions.cs" />
-    <Compile Include="Core\Extensions\TypeExtensions.cs" />
     <Compile Include="Core\IApiVersionProvider.cs" />
     <Compile Include="Core\ICloneable.cs" />
     <Compile Include="Core\IDynamic.cs" />
     <Compile Include="Core\IMilliSimPlugin.cs" />
-    <Compile Include="Core\InteropHelper.cs" />
-    <Compile Include="Core\Interop\NativeMethods.cs" />
-    <Compile Include="Core\LibraryPreloader.cs" />
     <Compile Include="Core\MathHelperEx.cs" />
     <Compile Include="Core\MilliSimCodeNameAttribute.cs" />
     <Compile Include="Core\MilliSimPluginAttribute.cs" />
-    <Compile Include="Core\PerformanceCounter.cs" />
     <Compile Include="Core\ReflectionHelper.cs" />
     <Compile Include="Core\SimpleUsingLock.cs" />
     <Compile Include="Foundation\BaseGameComponent.cs" />
@@ -112,7 +106,7 @@
     <Compile Include="Foundation\IBaseGameComponentContainer.cs" />
     <Compile Include="Foundation\Extending\IBaseGameComponentFactory.cs" />
     <Compile Include="Globalization\CultureSpecificInfo.cs" />
-    <Compile Include="Globalization\TranslationManager.cs" />
+    <Compile Include="Globalization\BaseTranslationManager.cs" />
     <Compile Include="Graphics\Advanced\SpriteSheet1D.cs" />
     <Compile Include="Graphics\Advanced\SpriteSheet2D.cs" />
     <Compile Include="Graphics\Advanced\SpriteSheetOrientation.cs" />
@@ -162,10 +156,7 @@
     <None Include="OpenMLTD.MilliSim.Runtime.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Contents\game\" />
-    <Folder Include="Contents\res\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\thirdparty\MonoGame.Extended2\Sources\MonoGame.Extended.Overlay\MonoGame.Extended.Overlay.csproj">
       <Project>{8a716d2a-de8d-4886-bf8f-76b6b1a7bb8f}</Project>

@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+
 namespace OpenMLTD.MilliSim.Core {
     /// <summary>
     /// An interface indicating that an object can be cloned.
@@ -9,6 +11,7 @@ namespace OpenMLTD.MilliSim.Core {
         /// Returns a exact copy of this <see cref="ICloneable{T}"/>.
         /// </summary>
         /// <returns>The exact copy.</returns>
+        [NotNull]
         T Clone();
 
     }

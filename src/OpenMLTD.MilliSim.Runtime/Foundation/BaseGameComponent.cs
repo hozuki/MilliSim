@@ -4,9 +4,14 @@ using System.Reflection;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using OpenMLTD.MilliSim.Configuration;
-using OpenMLTD.MilliSim.Core.Extensions;
+using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Foundation {
+    /// <inheritdoc cref="GameComponent"/>
+    /// <inheritdoc cref="IBaseGameComponent"/>
+    /// <summary>
+    /// Component for <see cref="BaseGame"/>. This class must be inherited.
+    /// </summary>
     public abstract class BaseGameComponent : GameComponent, IBaseGameComponent {
 
         // ReSharper disable once SuggestBaseTypeForParameter
@@ -52,7 +57,7 @@ namespace OpenMLTD.MilliSim.Foundation {
             }
         }
 
-        public ConfigurationStore ConfigurationStore { get; internal set; }
+        public BaseConfigurationStore ConfigurationStore { get; internal set; }
 
         public override string ToString() {
             var typeName = _cachedTypeName ?? (_cachedTypeName = GetType().Name);
@@ -89,6 +94,15 @@ namespace OpenMLTD.MilliSim.Foundation {
 
         public bool AreContentsLoaded { get; private set; }
 
+        /// <summary>
+        /// Creates a new <see cref="BaseGameComponent"/> and adds it to the <see cref="parent"/>.
+        /// The component must have a constructor (public or non-public) of the form <see cref="BaseGameComponent(BaseGame,IBaseGameComponentContainer)"/>.
+        /// </summary>
+        /// <param name="game">The <see cref="BaseGame"/> instance.</param>
+        /// <param name="parent">The parent of created component.</param>
+        /// <param name="type">Type of the component.</param>
+        /// <returns>Created component.</returns>
+        [NotNull]
         public static BaseGameComponent CreateAndAddTo([NotNull] BaseGame game, [NotNull] IBaseGameComponentContainer parent, [NotNull] Type type) {
             if (!type.IsSubclassOf(typeof(BaseGameComponent))) {
                 throw new ArgumentException($"{type} is not a subclass of {typeof(BaseGameComponent)}");
@@ -121,6 +135,15 @@ namespace OpenMLTD.MilliSim.Foundation {
             return (BaseGameComponent)ctor.Invoke(new object[] { game, parent });
         }
 
+        /// <summary>
+        /// Creates a new <see cref="BaseGameComponent"/> and adds it to the <see cref="parent"/>.
+        /// The component must have a constructor (public or non-public) of the form <see cref="BaseGameComponent(BaseGame,IBaseGameComponentContainer)"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of the component.</typeparam>
+        /// <param name="game">The <see cref="BaseGame"/> instance.</param>
+        /// <param name="parent">The parent of created component.</param>
+        /// <returns>Created component.</returns>
+        [NotNull]
         public static T CreateAndAddTo<T>([NotNull] BaseGame game, [NotNull] IBaseGameComponentContainer parent) where T : BaseGameComponent {
             var t = typeof(T);
             var c = CreateAndAddTo(game, parent, t);

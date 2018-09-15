@@ -2,8 +2,18 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 
 namespace OpenMLTD.MilliSim.Foundation {
+    /// <inheritdoc cref="BaseGameComponent"/>
+    /// <inheritdoc cref="IBaseGameComponentContainer"/>
+    /// <summary>
+    /// The default implementation of <see cref="T:OpenMLTD.MilliSim.Foundation.IBaseGameComponentContainer" />.
+    /// </summary>
     public class BaseGameComponentContainer : BaseGameComponent, IBaseGameComponentContainer {
 
+        /// <summary>
+        /// Creates a new <see cref="BaseGameComponentContainer"/> instance.
+        /// </summary>
+        /// <param name="game">The base game.</param>
+        /// <param name="parent">The parent of this container.</param>
         public BaseGameComponentContainer([NotNull] BaseGame game, [NotNull] IBaseGameComponentContainer parent)
             : base(game, parent) {
             Components = new BaseGameComponentCollection(this);

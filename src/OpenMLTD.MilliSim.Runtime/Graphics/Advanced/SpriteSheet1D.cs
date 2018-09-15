@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using OpenMLTD.MilliSim.Core;
@@ -27,10 +28,12 @@ namespace OpenMLTD.MilliSim.Graphics.Advanced {
             _texture = texture;
         }
 
+        [NotNull]
         public static SpriteSheet1D Wrap(Texture2D texture, int count, SpriteSheetOrientation orientation) {
             return new SpriteSheet1D(texture, count, orientation);
         }
 
+        [NotNull]
         public static implicit operator Texture2D(SpriteSheet1D spriteSheet) {
             return spriteSheet._texture;
         }

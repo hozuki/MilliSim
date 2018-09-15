@@ -11,9 +11,17 @@ namespace OpenMLTD.MilliSim.Graphics {
     // the child's draw call. The result is you will see only the content of the last IBufferedVisual drawn, and the contents
     // that only directly draw on the screen after that IBufferedVisual.
     // For more information, see GraphicsDeviceExtensions.CreateRenderTarget().
+    /// <summary>
+    /// The main stage.
+    /// </summary>
     public sealed class Stage : BufferedVisualContainer {
 
-        public Stage([NotNull] BaseGame game, [NotNull] ConfigurationStore configurationStore)
+        /// <summary>
+        /// Creates a new <see cref="Stage"/> instance.
+        /// </summary>
+        /// <param name="game">The base game.</param>
+        /// <param name="configurationStore">The <see cref="BaseConfigurationStore"/> for this <see cref="Stage"/>.</param>
+        public Stage([NotNull] BaseGame game, [NotNull] BaseConfigurationStore configurationStore)
             // ReSharper disable once AssignNullToNotNullAttribute
             : base(game, null) {
             ConfigurationStore = configurationStore;

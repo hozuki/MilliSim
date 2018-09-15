@@ -6,14 +6,33 @@ using Microsoft.Xna.Framework.Graphics;
 using OpenMLTD.MilliSim.Graphics.Advanced;
 
 namespace OpenMLTD.MilliSim.Graphics.Extensions {
+    /// <summary>
+    /// Extended functions for <see cref="SpriteBatch"/>.
+    /// </summary>
     public static class SpriteBatchExtensions {
 
+        /// <summary>
+        /// Draws a <see cref="Texture2D"/>, scaled to fit a destination rectangle, with specified opacity.
+        /// </summary>
+        /// <param name="spriteBatch">The <see cref="SpriteBatch"/> to use.</param>
+        /// <param name="texture">The <see cref="Texture2D"/> to draw.</param>
+        /// <param name="destRect">Destination rectangle.</param>
+        /// <param name="opacity">Opacity.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Draw([NotNull] this SpriteBatch spriteBatch, [NotNull] Texture2D texture, Rectangle destRect, float opacity = 1.0f) {
+            opacity = MathHelper.Clamp(opacity, 0, 1);
             spriteBatch.Draw(texture, destRect, Color.White * opacity);
         }
 
-        public static void Draw([NotNull] this SpriteBatch spriteBatch, SpriteSheet1D spriteSheet, int index, Rectangle destRect, float opacity = 1.0f) {
+        /// <summary>
+        /// Draws a sprite of <see cref="SpriteSheet1D"/> to fit a destination rectangle, with specified opacity.
+        /// </summary>
+        /// <param name="spriteBatch">The <see cref="SpriteBatch"/> to use.</param>
+        /// <param name="spriteSheet">The <see cref="SpriteSheet1D"/> to use.</param>
+        /// <param name="index">The index of the sprite in the <see cref="SpriteSheet1D"/>.</param>
+        /// <param name="destRect">Destination rectangle.</param>
+        /// <param name="opacity">Opacity.</param>
+        public static void Draw([NotNull] this SpriteBatch spriteBatch, [NotNull] SpriteSheet1D spriteSheet, int index, Rectangle destRect, float opacity = 1.0f) {
             if (index < 0 || index >= spriteSheet.Count) {
                 return;
             }
@@ -24,10 +43,20 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
 
             var srcRect = GetSourceRect(spriteSheet, index);
 
+            opacity = MathHelper.Clamp(opacity, 0, 1);
+
             spriteBatch.Draw(spriteSheet.Texture, destRect, srcRect, Color.White * opacity);
         }
 
-        public static void Draw([NotNull] this SpriteBatch spriteBatch, SpriteSheet1D spriteSheet, int index, Rectangle destRect, Rectangle blankEdge) {
+        /// <summary>
+        /// Draws a sprite of <see cref="SpriteSheet1D"/> to fit a destination rectangle.
+        /// </summary>
+        /// <param name="spriteBatch">The <see cref="SpriteBatch"/> to use.</param>
+        /// <param name="spriteSheet">The <see cref="SpriteSheet1D"/> to use.</param>
+        /// <param name="index">The index of the sprite in the <see cref="SpriteSheet1D"/>.</param>
+        /// <param name="destRect">Destination rectangle.</param>
+        /// <param name="blankEdge">Blank edge (margin) settings.</param>
+        public static void Draw([NotNull] this SpriteBatch spriteBatch, [NotNull] SpriteSheet1D spriteSheet, int index, Rectangle destRect, Rectangle blankEdge) {
             if (index < 0 || index >= spriteSheet.Count) {
                 return;
             }
@@ -37,7 +66,15 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
             spriteBatch.Draw(spriteSheet.Texture, destRect, srcRect, Color.White);
         }
 
-        public static void Draw([NotNull] this SpriteBatch spriteBatch, SpriteSheet1D spriteSheet, int index, float x, float y) {
+        /// <summary>
+        /// Draws a sprite of <see cref="SpriteSheet1D"/> unscaled to a specified location.
+        /// </summary>
+        /// <param name="spriteBatch">The <see cref="SpriteBatch"/> to use.</param>
+        /// <param name="spriteSheet">The <see cref="SpriteSheet1D"/> to use.</param>
+        /// <param name="index">The index of the sprite in the <see cref="SpriteSheet1D"/>.</param>
+        /// <param name="x">X coordinate of the location, in pixels.</param>
+        /// <param name="y">Y coordinate of the location, in pixels.</param>
+        public static void Draw([NotNull] this SpriteBatch spriteBatch, [NotNull] SpriteSheet1D spriteSheet, int index, float x, float y) {
             if (index < 0 || index >= spriteSheet.Count) {
                 return;
             }
@@ -47,7 +84,15 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
             spriteBatch.Draw(spriteSheet.Texture, new Vector2(x, y), srcRect, Color.White);
         }
 
-        public static void Draw([NotNull] this SpriteBatch spriteBatch, SpriteSheet2D spriteSheet, int index, float x, float y) {
+        /// <summary>
+        /// Draws a sprite of <see cref="SpriteSheet2D"/> unscaled to a specified location.
+        /// </summary>
+        /// <param name="spriteBatch">The <see cref="SpriteBatch"/> to use.</param>
+        /// <param name="spriteSheet">The <see cref="SpriteSheet2D"/> to use.</param>
+        /// <param name="index">The index of the sprite in the <see cref="SpriteSheet2D"/>.</param>
+        /// <param name="x">X coordinate of the location, in pixels.</param>
+        /// <param name="y">Y coordinate of the location, in pixels.</param>
+        public static void Draw([NotNull] this SpriteBatch spriteBatch, [NotNull] SpriteSheet2D spriteSheet, int index, float x, float y) {
             if (index < 0 || index >= spriteSheet.ArrayCount) {
                 return;
             }
@@ -66,7 +111,7 @@ namespace OpenMLTD.MilliSim.Graphics.Extensions {
         }
 
         /// <summary>
-        /// Used for copying <see cref="IBufferedVisual"/> contents only
+        /// Draws the contents on the <see cref="IBufferedVisual"/> onto current render target. Used for copying <see cref="IBufferedVisual"/> contents only.
         /// </summary>
         /// <param name="spriteBatch">The <see cref="SpriteBatch"/> to use.</param>
         /// <param name="visual">The <see cref="IBufferedVisual"/> to copy.</param>

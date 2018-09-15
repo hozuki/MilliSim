@@ -4,8 +4,19 @@ using Microsoft.Xna.Framework;
 using OpenMLTD.MilliSim.Foundation;
 
 namespace OpenMLTD.MilliSim.Graphics {
-    public abstract class Visual : BaseGameComponent, IDrawable {
+    /// <inheritdoc cref="BaseGameComponent"/>
+    /// <inheritdoc cref="IVisual"/>
+    /// <summary>
+    /// A basic implementation for <see cref="IVisual"/>.
+    /// </summary>
+    public abstract class Visual : BaseGameComponent, IVisual {
 
+        /// <summary>
+        /// Creates a new <see cref="Visual"/>.
+        /// </summary>
+        /// <param name="game">The base game.</param>
+        /// <param name="parent">The parent of this <see cref="Visual"/>. Note that this must be a <see cref="IVisualContainer"/>.</param>
+        // ReSharper disable once SuggestBaseTypeForParameter
         protected Visual([NotNull] BaseGame game, [CanBeNull] IVisualContainer parent)
             : base(game, parent) {
         }

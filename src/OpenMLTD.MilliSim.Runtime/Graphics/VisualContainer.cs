@@ -3,8 +3,18 @@ using Microsoft.Xna.Framework;
 using OpenMLTD.MilliSim.Foundation;
 
 namespace OpenMLTD.MilliSim.Graphics {
+    /// <inheritdoc cref="Visual"/>
+    /// <inheritdoc cref="IVisualContainer"/>
+    /// <summary>
+    /// A basic implementation for <see cref="IVisualContainer" />.
+    /// </summary>
     public class VisualContainer : Visual, IVisualContainer {
 
+        /// <summary>
+        /// Creates a new <see cref="VisualContainer"/>.
+        /// </summary>
+        /// <param name="game">The base game.</param>
+        /// <param name="parent">The parent of this <see cref="VisualContainer"/>.</param>
         public VisualContainer([NotNull] BaseGame game, [CanBeNull] IVisualContainer parent)
             : base(game, parent) {
             Components = new BaseGameComponentCollection(this);
@@ -94,21 +104,45 @@ namespace OpenMLTD.MilliSim.Graphics {
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Called when this object is being updated.
+        /// </summary>
+        /// <param name="gameTime">Current time.</param>
         protected virtual void OnSelfUpdate([NotNull] GameTime gameTime) {
         }
 
+        /// <summary>
+        /// Called before updating children.
+        /// </summary>
+        /// <param name="gameTime">Current time.</param>
         protected virtual void OnBeforeChildrenUpdate([NotNull] GameTime gameTime) {
         }
 
+        /// <summary>
+        /// Called after updating children.
+        /// </summary>
+        /// <param name="gameTime">Current time.</param>
         protected virtual void OnAfterChildrenUpdate([NotNull] GameTime gameTime) {
         }
 
+        /// <summary>
+        /// Called when this object is being drawn.
+        /// </summary>
+        /// <param name="gameTime">Current time.</param>
         protected virtual void OnSelfDraw([NotNull] GameTime gameTime) {
         }
 
+        /// <summary>
+        /// Called before drawing children.
+        /// </summary>
+        /// <param name="gameTime">Current time.</param>
         protected virtual void OnBeforeChildrenDraw([NotNull] GameTime gameTime) {
         }
 
+        /// <summary>
+        /// Called after drawing children.
+        /// </summary>
+        /// <param name="gameTime">Current time.</param>
         protected virtual void OnAfterChildrenDraw([NotNull] GameTime gameTime) {
         }
 

@@ -3,6 +3,11 @@ using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Foundation.Extending {
+    /// <inheritdoc cref="IMilliSimPlugin"/>
+    /// <inheritdoc cref="IDisposable"/>
+    /// <summary>
+    /// The interface for factories of base game components.
+    /// </summary>
     public interface IBaseGameComponentFactory : IMilliSimPlugin, IDisposable {
 
         /// <summary>

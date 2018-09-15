@@ -5,6 +5,10 @@ using System.Collections.Generic;
 namespace OpenMLTD.MilliSim.Foundation {
     partial class BaseGameComponentCollection {
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Enumerator for <see cref="BaseGameComponentCollection" />.
+        /// </summary>
         public sealed class Enumerator : IEnumerator<IBaseGameComponent> {
 
             internal Enumerator(BaseGameComponentCollection collection) {

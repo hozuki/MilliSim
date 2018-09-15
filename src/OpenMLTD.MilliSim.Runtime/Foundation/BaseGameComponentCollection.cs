@@ -5,17 +5,33 @@ using JetBrains.Annotations;
 using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Foundation {
+    /// <inheritdoc />
+    /// <summary>
+    /// An update-safe collection for base game components.
+    /// </summary>
     public sealed partial class BaseGameComponentCollection : IList<IBaseGameComponent> {
 
+        /// <summary>
+        /// Creates a new <see cref="BaseGameComponentCollection"/> for <see cref="IBaseGameComponentContainer"/>.
+        /// </summary>
+        /// <param name="container">The <see cref="IBaseGameComponentContainer"/> to create this instance for.</param>
         internal BaseGameComponentCollection([NotNull] IBaseGameComponentContainer container)
             : this(container, null) {
         }
 
+        /// <summary>
+        /// Creates a new <see cref="BaseGameComponentCollection"/> for <see cref="IBaseGameComponentContainer"/> with a list of <see cref="IBaseGameComponent"/>s.
+        /// </summary>
+        /// <param name="container">The <see cref="IBaseGameComponentContainer"/> to create this instance for.</param>
+        /// <param name="components">Initial components.</param>
         internal BaseGameComponentCollection([NotNull] IBaseGameComponentContainer container, [CanBeNull, ItemNotNull] IReadOnlyList<IBaseGameComponent> components) {
             Container = container ?? throw new ArgumentNullException(nameof(container));
             _components = components == null ? new List<IBaseGameComponent>() : new List<IBaseGameComponent>(components);
         }
 
+        /// <summary>
+        /// Gets the <see cref="IBaseGameComponentContainer"/> associated with this instance.
+        /// </summary>
         [NotNull]
         public IBaseGameComponentContainer Container { get; }
 
@@ -27,10 +43,16 @@ namespace OpenMLTD.MilliSim.Foundation {
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Suspends the update process.
+        /// </summary>
         public void SuspendUpdate() {
             _updateSuspended = true;
         }
 
+        /// <summary>
+        /// Resumes the update process.
+        /// </summary>
         public void ResumeUpdate() {
             _updateSuspended = false;
 
@@ -154,8 +176,14 @@ namespace OpenMLTD.MilliSim.Foundation {
             return $"{baseString} (Count = {c1}, Pending = {c2})";
         }
 
-        internal bool HasPendingEntries => _pendingQueue.Count > 0;
+        /// <summary>
+        /// Gets a <see cref="bool"/> indicating whether there are pending entries in the update queue.
+        /// </summary>
+        public bool HasPendingEntries => _pendingQueue.Count > 0;
 
+        /// <summary>
+        /// Executes pending queue and updates the collection.
+        /// </summary>
         public void ExecutePendingQueue() {
             if (!HasPendingEntries) {
                 return;

@@ -33,6 +33,12 @@ namespace OpenMLTD.MilliSim.Core {
             return _options.Remove(key);
         }
 
+        /// <summary>
+        /// Returns a clone of <see cref="T"/> who has the same values in this <see cref="Dynamic"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The target type, which should be <see cref="Dynamic"/> or a subclass of <see cref="Dynamic"/>.</typeparam>
+        /// <returns>Cloned instance.</returns>
+        [NotNull]
         public T Clone<T>() where T : Dynamic, new() {
             return (T)Clone(typeof(T));
         }
@@ -41,6 +47,12 @@ namespace OpenMLTD.MilliSim.Core {
             return Clone(typeof(Dynamic));
         }
 
+        /// <summary>
+        /// Returns a clone of an instance of <see cref="dynamicType"/> who has the same values in this <see cref="Dynamic"/> instance.
+        /// </summary>
+        /// <param name="dynamicType">The target type, which should be <see cref="Dynamic"/> or a subclass of <see cref="Dynamic"/>.</param>
+        /// <returns>Cloned instance.</returns>
+        [NotNull]
         public Dynamic Clone([NotNull] Type dynamicType) {
             if (dynamicType == null) {
                 throw new ArgumentNullException(nameof(dynamicType));
@@ -52,10 +64,19 @@ namespace OpenMLTD.MilliSim.Core {
             }
 
             var ctor = dynamicType.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
+
+            if (ctor == null) {
+                throw new ArgumentException("The specified type does not have a public parameterless constructor. This should not happen.");
+            }
+
             var dyn = (Dynamic)ctor.Invoke(ReflectionHelper.EmptyObjects);
 
             var gicType = typeof(ICloneable<>);
             var cloneMethod = gicType.GetMethod(nameof(ICloneable<object>.Clone), BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
+
+            if (cloneMethod == null) {
+                throw new ArgumentException("The specified type does not have a public parameterless Clone() method. This should not happen.");
+            }
 
             foreach (var (k, v) in this) {
                 if (v is ICloneable cl1) {
@@ -74,6 +95,10 @@ namespace OpenMLTD.MilliSim.Core {
             return dyn;
         }
 
+        /// <summary>
+        /// A global empty <see cref="Dynamic"/> instance. It does not support setting values.
+        /// </summary>
+        [NotNull]
         public static readonly Dynamic Empty = new EmptyDynamic();
 
         #region IDictionary<TKey, TValue>

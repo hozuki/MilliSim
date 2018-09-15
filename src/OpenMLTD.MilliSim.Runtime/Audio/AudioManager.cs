@@ -12,8 +12,20 @@ using SharpAL.Extensions;
 using SharpAL.OpenAL;
 
 namespace OpenMLTD.MilliSim.Audio {
-    public sealed class AudioManager : DisposableBase {
+    /// <inheritdoc />
+    /// <summary>
+    /// A basic audio manager.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="AudioManager"/> has a caching and disposing mechanism. Loaded sounds will be disposed when
+    /// the this class is disposed. To disable this behavior, you must call <see cref="UnmanageSound(Sound)"/>,
+    /// <see cref="UnmanageSound(string)"/> or <see cref="UnmanageSounds(string)"/> on the expected sound(s) explicitly.
+    /// </remarks>
+    public class AudioManager : DisposableBase {
 
+        /// <summary>
+        /// Creates a new <see cref="AudioManager"/> instance.
+        /// </summary>
         public AudioManager() {
             _device = new AudioDevice();
             _context = new AudioContext(_device);
@@ -21,20 +33,47 @@ namespace OpenMLTD.MilliSim.Audio {
             Activate();
         }
 
+        /// <summary>
+        /// Activates this audio manager.
+        /// </summary>
         public void Activate() {
             EnsureNotDisposed();
 
             _context.MakeCurrent();
         }
 
+        /// <summary>
+        /// Find the first <see cref="Sound"/> whose file name is the specified file name.
+        /// </summary>
+        /// <param name="fileName">File name of the sound. Case sensitive.</param>
+        /// <returns>Found <see cref="Sound"/> or <see langword="null"/> if no <see cref="Sound"/> is found.</returns>
         [CanBeNull]
         public Sound FindSound([NotNull] string fileName) {
-            return _loadedSounds.FirstOrDefault(s => s.FileName == fileName).Sound;
+            foreach (var entry in _loadedEntries) {
+                if (entry.FileName == fileName) {
+                    return entry.Sound;
+                }
+            }
+
+            return null;
         }
 
+        /// <summary>
+        /// Find <see cref="Sound"/>s whose file names are the specified file name.
+        /// </summary>
+        /// <param name="fileName">File name of the sound. Case sensitive.</param>
+        /// <returns>Found <see cref="Sound"/>s.</returns>
         [NotNull, ItemNotNull]
         public Sound[] FindSounds([NotNull] string fileName) {
-            return _loadedSounds.Where(s => s.FileName == fileName).Select(s => s.Sound).ToArray();
+            var sounds = new List<Sound>();
+
+            foreach (var entry in _loadedEntries) {
+                if (entry.FileName == fileName) {
+                    sounds.Add(entry.Sound);
+                }
+            }
+
+            return sounds.ToArray();
         }
 
         /// <summary>
@@ -65,7 +104,7 @@ namespace OpenMLTD.MilliSim.Audio {
             Sound availableSound = null;
             Sound firstSound = null;
 
-            foreach (var it in _loadedSounds) {
+            foreach (var it in _loadedEntries) {
                 if (it.FileName != fileName) {
                     continue;
                 }
@@ -112,6 +151,13 @@ namespace OpenMLTD.MilliSim.Audio {
             return newSound;
         }
 
+        /// <summary>
+        /// Loads a sound directly.
+        /// </summary>
+        /// <param name="fileName">File name of the sound.</param>
+        /// <param name="format">An <see cref="IAudioFormat"/> that provides wave data stream.</param>
+        /// <param name="manageResult">Whether the result should be managed (and cached) or not. If the sound is not managed, you must dispose it manually.</param>
+        /// <returns>Loaded <see cref="Sound"/> object.</returns>
         [NotNull]
         public Sound LoadSoundDirect([NotNull] string fileName, [NotNull] IAudioFormat format, bool manageResult) {
             using (var stream = format.Read(fileName)) {
@@ -119,6 +165,13 @@ namespace OpenMLTD.MilliSim.Audio {
             }
         }
 
+        /// <summary>
+        /// Loads a sound directly.
+        /// </summary>
+        /// <param name="fileName">File name of the sound.</param>
+        /// <param name="stream">Sound wave data stream.</param>
+        /// <param name="manageResult">Whether the result should be managed (and cached) or not. If the sound is not managed, you must dispose it manually.</param>
+        /// <returns>Loaded <see cref="Sound"/> object.</returns>
         [NotNull]
         public Sound LoadSoundDirect([NotNull] string fileName, [NotNull] WaveStream stream, bool manageResult) {
             WaveStream audioStream;
@@ -143,71 +196,91 @@ namespace OpenMLTD.MilliSim.Audio {
             return LoadSoundDirect(fileName, audioData, loadedFormat, false, manageResult);
         }
 
+        /// <summary>
+        /// Unmanage all sounds with the given file name.
+        /// </summary>
+        /// <param name="fileName">The file name of the sounds.</param>
         public void UnmanageSounds([NotNull] string fileName) {
-            var count = _loadedSounds.Count;
+            var count = _loadedEntries.Count;
 
             var indices = new List<int>();
             for (var i = 0; i < count; ++i) {
-                if (_loadedSounds[i].FileName == fileName) {
+                if (_loadedEntries[i].FileName == fileName) {
                     indices.Add(i);
                 }
             }
 
             var delta = 0;
             foreach (var index in indices) {
-                _loadedSounds.RemoveAt(index - delta);
+                _loadedEntries.RemoveAt(index - delta);
                 ++delta;
             }
         }
 
+        /// <summary>
+        /// Unmanage the first sound with the given file name.
+        /// </summary>
+        /// <param name="fileName">The file name of the sound.</param>
         public void UnmanageSound([NotNull] string fileName) {
-            var count = _loadedSounds.Count;
+            var count = _loadedEntries.Count;
 
             var index = -1;
 
             for (var i = 0; i < count; ++i) {
-                if (_loadedSounds[i].FileName == fileName) {
+                if (_loadedEntries[i].FileName == fileName) {
                     index = i;
                     break;
                 }
             }
 
             if (index >= 0) {
-                _loadedSounds.RemoveAt(index);
+                _loadedEntries.RemoveAt(index);
             }
         }
 
+        /// <summary>
+        /// Unmanage a specified <see cref="Sound"/> instance.
+        /// </summary>
+        /// <param name="sound">The <see cref="Sound"/> to unmanage.</param>
         public void UnmanageSound([NotNull] Sound sound) {
-            var count = _loadedSounds.Count;
+            var count = _loadedEntries.Count;
 
             var index = -1;
 
             for (var i = 0; i < count; ++i) {
-                if (_loadedSounds[i].Sound == sound) {
+                if (_loadedEntries[i].Sound == sound) {
                     index = i;
                     break;
                 }
             }
 
             if (index >= 0) {
-                _loadedSounds.RemoveAt(index);
+                _loadedEntries.RemoveAt(index);
             }
         }
 
+        /// <summary>
+        /// Gets all loaded sounds.
+        /// </summary>
+        /// <returns>All loaded sounds.</returns>
         [NotNull, ItemNotNull]
         public IEnumerable<Sound> GetLoadedSounds() {
-            return _loadedSounds.Select(t => t.Sound);
+            return _loadedEntries.Select(t => t.Sound);
         }
 
+        /// <summary>
+        /// Gets all loaded entries.
+        /// </summary>
+        /// <returns>All loaded entries (tuple of <see cref="string"/> and <see cref="Sound"/>).</returns>
         [NotNull]
         public IEnumerable<(string FileName, Sound sound)> GetLoadedEntries() {
-            return _loadedSounds;
+            return _loadedEntries;
         }
 
         protected override void Dispose(bool disposing) {
             AudioContext.Reset();
 
-            foreach (var (_, sound) in _loadedSounds) {
+            foreach (var (_, sound) in _loadedEntries) {
                 sound.Dispose();
             }
 
@@ -216,7 +289,7 @@ namespace OpenMLTD.MilliSim.Audio {
         }
 
         private bool HasLoadedFile([NotNull] string fileName) {
-            foreach (var it in _loadedSounds) {
+            foreach (var it in _loadedEntries) {
                 if (it.FileName == fileName) {
                     return true;
                 }
@@ -244,12 +317,13 @@ namespace OpenMLTD.MilliSim.Audio {
                     sound.Data = data;
                 }
 
-                _loadedSounds.Add((fileName, sound));
+                _loadedEntries.Add((fileName, sound));
             }
 
             return sound;
         }
 
+        // Required format: PCM 44.1 kHz stereo 16-bit signed integer
         private static readonly WaveFormat RequiredFormat = new WaveFormat();
 
         [NotNull]
@@ -258,7 +332,7 @@ namespace OpenMLTD.MilliSim.Audio {
         private readonly AudioContext _context;
 
         [NotNull]
-        private readonly List<(string FileName, Sound Sound)> _loadedSounds = new List<(string FileName, Sound Sound)>();
+        private readonly List<(string FileName, Sound Sound)> _loadedEntries = new List<(string FileName, Sound Sound)>();
 
     }
 }

@@ -2,12 +2,16 @@ using System;
 using JetBrains.Annotations;
 
 namespace OpenMLTD.MilliSim.Core {
+    /// <inheritdoc />
+    /// <summary>
+    /// Core interface for MilliSim plugins.
+    /// </summary>
     public interface IMilliSimPlugin : IApiVersionProvider {
 
         /// <summary>
         /// Gets the plugin ID.
-        /// <remarks>You can use <see cref="Guid.NewGuid"/> for a unique ID.</remarks>
         /// </summary>
+        /// <remarks>You can use <see cref="Guid.NewGuid"/> for a unique ID.</remarks>
         [NotNull]
         string PluginID { get; }
 

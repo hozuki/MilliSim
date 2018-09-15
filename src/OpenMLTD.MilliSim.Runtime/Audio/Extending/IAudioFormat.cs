@@ -3,6 +3,10 @@ using NAudio.Wave;
 using OpenMLTD.MilliSim.Core;
 
 namespace OpenMLTD.MilliSim.Audio.Extending {
+    /// <inheritdoc />
+    /// <summary>
+    /// An interface for audio format plugins.
+    /// </summary>
     public interface IAudioFormat : IMilliSimPlugin {
 
         /// <summary>

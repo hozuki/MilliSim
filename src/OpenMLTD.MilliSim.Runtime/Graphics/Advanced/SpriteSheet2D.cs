@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Graphics;
 using OpenMLTD.MilliSim.Core;
 
@@ -13,10 +14,12 @@ namespace OpenMLTD.MilliSim.Graphics.Advanced {
             _texture = texture;
         }
 
+        [NotNull]
         public static SpriteSheet2D Wrap(Texture2D texture, float unitWidth, float unitHeight, int stride, int arrayCount, SpriteSheetOrientation orientation) {
             return new SpriteSheet2D(texture, unitWidth, unitHeight, stride, arrayCount, orientation);
         }
 
+        [NotNull]
         public static implicit operator Texture2D(SpriteSheet2D spriteSheet) {
             return spriteSheet._texture;
         }

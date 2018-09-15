@@ -1,8 +1,16 @@
-﻿using System.Globalization;
+using System.Globalization;
 
 namespace OpenMLTD.MilliSim.Configuration.Primitives {
+    /// <summary>
+    /// Represents a percentage or a literal floating point value.
+    /// </summary>
     public struct PercentOrRealValue {
 
+        /// <summary>
+        /// Creates a new <see cref="PercentOrRealValue"/>.
+        /// </summary>
+        /// <param name="rawValue">The raw value.</param>
+        /// <param name="isPercentage">Whether the raw value is a percentage. If not, it is a literal.</param>
         public PercentOrRealValue(float rawValue, bool isPercentage) {
             RawValue = rawValue;
             IsPercentage = isPercentage;
@@ -31,6 +39,10 @@ namespace OpenMLTD.MilliSim.Configuration.Primitives {
             }
         }
 
+        /// <summary>
+        /// Converts <see cref="PercentOrRealValue"/> to <see cref="float"/>.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
         public static explicit operator float(PercentOrRealValue value) {
             return value.Value;
         }
