@@ -1,30 +1,53 @@
 using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Media;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration;
 using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Foundation.Extensions;
+using SharpAL;
 
 namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
+    /// <inheritdoc />
+    /// <summary>
+    /// The synchronization timer.
+    /// </summary>
     public sealed class SyncTimer : BaseGameComponent {
 
+        /// <summary>
+        /// Creates a new <see cref="SyncTimer"/> instance.
+        /// </summary>
+        /// <param name="game">The base game.</param>
+        /// <param name="parent">The parent of the <see cref="SyncTimer"/>.</param>
         public SyncTimer([NotNull] BaseGame game, [NotNull] IBaseGameComponentContainer parent)
             : base(game, parent) {
         }
 
+        /// <summary>
+        /// Triggered when the <see cref="SyncTimer"/>'s state is changed.
+        /// </summary>
         public event EventHandler<SyncTimerStateChangedEventArgs> StateChanged;
 
+        /// <summary>
+        /// Gets current time.
+        /// </summary>
         public TimeSpan CurrentTime { get; private set; } = TimeSpan.Zero;
 
         /// <summary>
-        /// Gets/sets current time synchorization target.
+        /// Gets or sets current time synchronization target.
         /// </summary>
         public TimerSyncTarget SyncTarget { get; set; }
 
+        /// <summary>
+        /// Gets or sets current time synchronization method.
+        /// </summary>
         public TimerSyncMethod SyncMethod { get; set; }
 
+        /// <summary>
+        /// Starts timing.
+        /// </summary>
         public void Start() {
             if (_backgroundVideo != null) {
                 if (_backgroundVideo.State == MediaState.Stopped) {
@@ -34,42 +57,60 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
                 }
             }
 
-            _backgroundMusic?.Music?.Source.PlayDirect();
+            var source = GetMusicSource();
+            source?.PlayDirect();
             _stopwatch.Start();
 
             StateChanged?.Invoke(this, new SyncTimerStateChangedEventArgs(MediaState.Playing));
         }
 
+        /// <summary>
+        /// Pauses timing.
+        /// </summary>
         public void Pause() {
             _backgroundVideo?.Pause();
-            _backgroundMusic?.Music?.Source.Pause();
+            var source = GetMusicSource();
+            source?.Pause();
             _stopwatch.Stop();
 
             StateChanged?.Invoke(this, new SyncTimerStateChangedEventArgs(MediaState.Paused));
         }
 
+        /// <summary>
+        /// Stops timing.
+        /// </summary>
         public void Stop() {
             _backgroundVideo?.Stop();
-            _backgroundMusic?.Music?.Source.Stop();
+            var source = GetMusicSource();
+            source?.Stop();
             _stopwatch.Reset();
 
             StateChanged?.Invoke(this, new SyncTimerStateChangedEventArgs(MediaState.Stopped));
         }
 
+        /// <summary>
+        /// Seeks to a specified time.
+        /// </summary>
+        /// <param name="targetTime">The time to seek to.</param>
         public void Seek(TimeSpan targetTime) {
             if (_backgroundVideo != null) {
                 // TODO: Implement seeking function for BackgroundVideo
                 //_backgroundVideo.CurrentTime = targetTime;
             }
 
-            if (_backgroundMusic?.Music != null) {
-                _backgroundMusic.Music.Source.CurrentTime = targetTime;
+            var source = GetMusicSource();
+
+            if (source != null) {
+                source.CurrentTime = targetTime;
             }
 
             _soughtTime = targetTime;
             _stopwatch.Restart();
         }
 
+        /// <summary>
+        /// Gets a <see cref="bool"/> indicating if the timer is running.
+        /// </summary>
         public bool IsRunning => _stopwatch.IsRunning;
 
         internal readonly object UpdateLock = new object();
@@ -88,8 +129,8 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
 
             var theaterDays = Game.ToBaseGame();
 
-            var audio = theaterDays.FindSingleElement<BackgroundMusic>();
-            var video = theaterDays.FindSingleElement<BackgroundVideo>();
+            var audio = theaterDays.FindFirstElementOrDefault<BackgroundMusic>();
+            var video = theaterDays.FindFirstElementOrDefault<BackgroundVideo>();
 
             _backgroundMusic = audio;
             _backgroundVideo = video;
@@ -177,6 +218,12 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
                     CurrentTime = estimatedTime;
                 }
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [CanBeNull]
+        private AudioSource GetMusicSource() {
+            return _backgroundMusic?.Music?.Source;
         }
 
         [CanBeNull]

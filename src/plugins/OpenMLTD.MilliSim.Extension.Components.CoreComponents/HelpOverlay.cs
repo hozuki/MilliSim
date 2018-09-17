@@ -5,6 +5,10 @@ using OpenMLTD.MilliSim.Foundation.Extensions;
 using OpenMLTD.MilliSim.Graphics;
 
 namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
+    /// <inheritdoc />
+    /// <summary>
+    /// Displays a line of help text in the middle of the screen.
+    /// </summary>
     public class HelpOverlay : OutlinedTextOverlay {
 
         public HelpOverlay([NotNull] BaseGame game, [NotNull] IVisualContainer parent)
@@ -14,8 +18,14 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
         public override float FontSize { get; set; } = 30;
 
         protected override Vector2? MeasureText(GameTime gameTime) {
+            var graphics = Graphics;
+
+            if (graphics == null) {
+                return null;
+            }
+
             var viewport = Game.ToBaseGame().GraphicsDevice.Viewport;
-            var textSize = Graphics.MeasureString(Font, Text);
+            var textSize = graphics.MeasureString(Font, Text);
 
             var left = (viewport.Width - textSize.X) / 2;
             var top = viewport.Height * 0.75f - textSize.Y / 2;

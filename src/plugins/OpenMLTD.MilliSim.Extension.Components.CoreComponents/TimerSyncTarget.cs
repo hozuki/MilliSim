@@ -1,6 +1,10 @@
 using System.Diagnostics;
+using OpenMLTD.MilliSim.Audio;
 
 namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
+    /// <summary>
+    /// The target that <see cref="SyncTimer"/> synchronize to.
+    /// </summary>
     public enum TimerSyncTarget {
 
         /// <summary>
@@ -8,7 +12,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
         /// </summary>
         Auto = 0,
         /// <summary>
-        /// Force using <see cref="OpenMLTD.MilliSim.Audio.Sound"/> provided by <see cref="BackgroundMusic.Music"/>.
+        /// Force using <see cref="Sound"/> provided by <see cref="BackgroundMusic.Music"/>.
         /// </summary>
         Audio = 1,
         /// <summary>

@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Media;
 using OpenMLTD.MilliSim.Audio;
 using OpenMLTD.MilliSim.Audio.Extending;
 using OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration;
@@ -17,6 +16,9 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             : base(game, parent) {
         }
 
+        /// <summary>
+        /// Gets a <see cref="Sound"/> that represents current music.
+        /// </summary>
         [CanBeNull]
         public Sound Music {
             get => _music;
@@ -33,21 +35,16 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             }
         }
 
-        public void LoadMusic([CanBeNull] string filePath) {
+        /// <summary>
+        /// Loads a music file by its path.
+        /// </summary>
+        /// <param name="filePath"></param>
+        public void Load([CanBeNull] string filePath) {
             var theaterDays = Game.ToBaseGame();
 
-            var audioManager = theaterDays.AudioManager;
+            Unload();
 
-            var music = Music;
-
-            if (music != null) {
-                audioManager.UnmanageSound(music);
-
-                music.Source.Stop();
-                music.Dispose();
-            }
-
-            var debug = theaterDays.FindSingleElement<DebugOverlay>();
+            var debug = theaterDays.FindFirstElementOrDefault<DebugOverlay>();
 
             if (string.IsNullOrWhiteSpace(filePath)) {
                 if (debug != null) {
@@ -75,10 +72,15 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             volume = MathHelper.Clamp(volume, 0, 1);
 
             var format = GetFormatForFile(theaterDays.PluginManager, filePath);
+            var audioManager = theaterDays.AudioManager;
 
             if (format != null) {
-                music = audioManager.LoadSound(filePath, format, false);
-                music.Source.Volume = volume;
+                var music = audioManager.LoadSound(filePath, format, false);
+
+                if (music.Source != null) {
+                    music.Source.Volume = volume;
+                }
+
                 Music = music;
 
                 if (debug != null) {
@@ -93,6 +95,29 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             }
         }
 
+        /// <summary>
+        /// Unloads current music.
+        /// </summary>
+        public void Unload() {
+            var theaterDays = Game.ToBaseGame();
+            var audioManager = theaterDays.AudioManager;
+
+            var music = Music;
+
+            if (music != null) {
+                audioManager.UnmanageSound(music);
+
+                if (music?.Source != null) {
+                    music.Source.PlaybackStopped -= OnMusicStopped;
+                    music.Source.Stop();
+                }
+
+                music.Dispose();
+            }
+
+            _music = null;
+        }
+
         protected override void OnInitialize() {
             base.OnInitialize();
 
@@ -100,7 +125,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             var config = store.Get<BackgroundMusicConfig>();
 
             if (config.Data.BackgroundMusic != null) {
-                LoadMusic(config.Data.BackgroundMusic);
+                Load(config.Data.BackgroundMusic);
             }
         }
 
@@ -127,7 +152,7 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
 
         private void OnMusicStopped(object sender, EventArgs e) {
             var theaterDays = Game.ToBaseGame();
-            var syncTimer = theaterDays.FindSingleElement<SyncTimer>();
+            var syncTimer = theaterDays.FindFirstElementOrDefault<SyncTimer>();
 
             if (syncTimer != null) {
                 // There will be a duplicate call of Music.Source.Stop(), but it doesn't matter.

@@ -1,4 +1,7 @@
 namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
+    /// <summary>
+    /// An enum indicating how to fit an image to a <see cref="BackgroundImage"/>.
+    /// </summary>
     public enum BackgroundImageFit {
 
         /// <summary>

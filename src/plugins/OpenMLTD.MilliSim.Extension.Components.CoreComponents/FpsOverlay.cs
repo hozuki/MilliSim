@@ -6,6 +6,10 @@ using OpenMLTD.MilliSim.Foundation.Extensions;
 using OpenMLTD.MilliSim.Graphics;
 
 namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
+    /// <inheritdoc />
+    /// <summary>
+    /// Displays current frame rate on the top-right corner of the screen.
+    /// </summary>
     public class FpsOverlay : TextOverlay {
 
         public FpsOverlay([NotNull] BaseGame game, [NotNull] IVisualContainer parent)
@@ -35,8 +39,14 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
         }
 
         protected override Vector2? MeasureText(GameTime gameTime) {
+            var graphics = Graphics;
+
+            if (graphics == null) {
+                return null;
+            }
+
             var viewport = Game.ToBaseGame().GraphicsDevice.Viewport;
-            var textSize = Graphics.MeasureString(Font, Text);
+            var textSize = graphics.MeasureString(Font, Text);
             var left = viewport.Width - textSize.X - 4;
             const int top = 0;
 

@@ -13,11 +13,12 @@ namespace OpenMLTD.MilliSim.Graphics {
     /// </summary>
     public abstract class BufferedVisual : Visual, IBufferedVisual {
 
+        /// <inheritdoc />
         /// <summary>
-        /// Creates a new <see cref="BufferedVisual"/>.
+        /// Creates a new <see cref="T:OpenMLTD.MilliSim.Graphics.BufferedVisual" />.
         /// </summary>
         /// <param name="game">The base game.</param>
-        /// <param name="parent">The parent of this <see cref="BufferedVisual"/>.</param>
+        /// <param name="parent">The parent of this <see cref="T:OpenMLTD.MilliSim.Graphics.BufferedVisual" />.</param>
         protected BufferedVisual([NotNull] BaseGame game, [CanBeNull] IVisualContainer parent)
             : base(game, parent) {
         }

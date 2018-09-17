@@ -7,6 +7,10 @@ using OpenMLTD.MilliSim.Foundation.Extending;
 using OpenMLTD.MilliSim.Graphics;
 
 namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
+    /// <inheritdoc />
+    /// <summary>
+    /// A <see cref="BaseGameComponentFactory"/> that creates <see cref="DebugOverlay"/>.
+    /// </summary>
     [MilliSimPlugin(typeof(IBaseGameComponentFactory))]
     public sealed class DebugOverlayFactory : BaseGameComponentFactory {
 

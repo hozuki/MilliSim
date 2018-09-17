@@ -4,6 +4,10 @@ using OpenMLTD.MilliSim.Foundation;
 using OpenMLTD.MilliSim.Foundation.Extending;
 
 namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
+    /// <inheritdoc />
+    /// <summary>
+    /// A <see cref="BaseGameComponentFactory"/> that creates <see cref="SyncTimer"/>.
+    /// </summary>
     [MilliSimPlugin(typeof(IBaseGameComponentFactory))]
     public sealed class SyncTimerFactory : BaseGameComponentFactory {
 

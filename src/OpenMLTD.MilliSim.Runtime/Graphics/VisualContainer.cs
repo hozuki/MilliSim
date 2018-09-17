@@ -10,11 +10,12 @@ namespace OpenMLTD.MilliSim.Graphics {
     /// </summary>
     public class VisualContainer : Visual, IVisualContainer {
 
+        /// <inheritdoc />
         /// <summary>
-        /// Creates a new <see cref="VisualContainer"/>.
+        /// Creates a new <see cref="T:OpenMLTD.MilliSim.Graphics.VisualContainer" />.
         /// </summary>
         /// <param name="game">The base game.</param>
-        /// <param name="parent">The parent of this <see cref="VisualContainer"/>.</param>
+        /// <param name="parent">The parent of this <see cref="T:OpenMLTD.MilliSim.Graphics.VisualContainer" />.</param>
         public VisualContainer([NotNull] BaseGame game, [CanBeNull] IVisualContainer parent)
             : base(game, parent) {
             Components = new BaseGameComponentCollection(this);

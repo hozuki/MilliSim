@@ -9,12 +9,27 @@ using OpenMLTD.MilliSim.Foundation.Extensions;
 using OpenMLTD.MilliSim.Graphics;
 
 namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
+    /// <inheritdoc />
+    /// <summary>
+    /// A background visual element displaying a static image.
+    /// </summary>
     public sealed class BackgroundImage : BackgroundBase {
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Creates a new <see cref="BackgroundImage"/> instance.
+        /// </summary>
+        /// <param name="game">The base game.</param>
+        /// <param name="parent">The parent of the <see cref="BackgroundImage"/>.</param>
         public BackgroundImage([NotNull] BaseGame game, [NotNull] IVisualContainer parent)
             : base(game, parent) {
         }
 
+        /// <summary>
+        /// Loads an image file by its path asynchronously. After calling the function the image will be tried to load
+        /// in the next <see cref="BaseGameComponent.Update(GameTime)"/> call.
+        /// </summary>
+        /// <param name="path">The path to the image file.</param>
         public void Load([CanBeNull] string path) {
             if (path == _filePath) {
                 return;
@@ -31,6 +46,9 @@ namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents {
             _filePath = path;
         }
 
+        /// <summary>
+        /// Unloads the current loaded image. The image will be unloaded in the next <see cref="BaseGameComponent.Update(GameTime)"/> call.
+        /// </summary>
         public void Unload() {
             _filePath = null;
         }
