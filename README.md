@@ -1,8 +1,12 @@
 # MilliSim
 
 MilliSim was initially designed as a simulator for [THE iDOLM@STER Million Live! Theater Days](https://millionlive.idolmaster.jp/theaterdays/).
-Now it has become a general, plugin-based simulator framework. It can be extended to support other games, such as [Arcaea](https://github.com/hozuki/ArcaeaSim2).
-This repository contains the framework itself, and an example of the Theater Days simulator.
+It has become a general, plugin-based simulator framework.
+
+**This repository now only contains the framework itself. For the Theater Days simulator, an example for using this framework, check out
+[TheaterDaysSim](https://github.com/hozuki/TheaterDaysSim).** Older binaries and assets in this repository are still kept for archiving.
+
+It can be extended to support other games, such as [Arcaea](https://arcaea.lowiro.com) ([ArcaeaSim](https://github.com/hozuki/ArcaeaSim2)).
 
 Demo videos (Theater Days): 
 
@@ -71,12 +75,12 @@ Without FFmpeg, you must either:
 1. disable background video (comment out `plugin.component_factory.background_video` in `Contents/plugins.yml`), or
 2. leave video file path as empty (`data`-`video` section in `Contents/config/background_video.yml`).
 
-### Note: If MilliSim Cannot Launch
+### Note: If MilliSim Applications Cannot Launch
 
 To enable debug mode, use [Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe) to run MilliSim like:
 
 ```cmd
-MilliSim.Direct3D11.exe --debug
+MilliSimApp.exe --debug
 ```
 
 When MilliSim encounters problems (e.g. app crash), it will write a debug log in `log-file.txt`. Please open the log and
