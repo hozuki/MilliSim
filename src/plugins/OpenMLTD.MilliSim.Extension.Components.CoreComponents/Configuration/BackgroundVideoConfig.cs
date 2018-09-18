@@ -1,18 +1,21 @@
+using System.Runtime.Serialization;
 using OpenMLTD.MilliSim.Configuration.Entities;
 using OpenMLTD.MilliSim.Configuration.Primitives;
-using YamlDotNet.Serialization;
 
 namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration {
+    [DataContract]
     public sealed class BackgroundVideoConfig : ConfigBase {
 
+        [DataMember]
         public BackgroundVideoConfigData Data { get; set; }
 
+        [DataContract]
         public sealed class BackgroundVideoConfigData {
 
-            [YamlMember(Alias = "video")]
+            [DataMember(Name = "video")]
             public string BackgroundVideo { get; set; }
 
-            [YamlMember(Alias = "video_volume")]
+            [DataMember(Name = "video_volume")]
             public PercentOrRealValue BackgroundVideoVolume { get; set; }
 
         }

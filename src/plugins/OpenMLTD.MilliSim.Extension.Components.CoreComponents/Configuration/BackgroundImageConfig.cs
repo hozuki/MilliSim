@@ -1,17 +1,20 @@
+using System.Runtime.Serialization;
 using OpenMLTD.MilliSim.Configuration.Entities;
-using YamlDotNet.Serialization;
 
 namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration {
+    [DataContract]
     public sealed class BackgroundImageConfig : ConfigBase {
 
+        [DataMember]
         public BackgroundImageConfigData Data { get; set; }
 
+        [DataContract]
         public sealed class BackgroundImageConfigData {
 
-            [YamlMember(Alias = "bgi")]
+            [DataMember(Name = "bgi")]
             public string BackgroundImage { get; set; }
 
-            [YamlMember]
+            [DataMember]
             public BackgroundImageFit Fit { get; set; }
 
         }

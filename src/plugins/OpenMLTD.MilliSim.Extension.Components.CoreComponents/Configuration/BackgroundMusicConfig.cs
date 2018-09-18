@@ -1,18 +1,21 @@
+using System.Runtime.Serialization;
 using OpenMLTD.MilliSim.Configuration.Entities;
 using OpenMLTD.MilliSim.Configuration.Primitives;
-using YamlDotNet.Serialization;
 
 namespace OpenMLTD.MilliSim.Extension.Components.CoreComponents.Configuration {
+    [DataContract]
     public sealed class BackgroundMusicConfig : ConfigBase {
 
+        [DataMember]
         public BackgroundMusicConfigData Data { get; set; }
 
+        [DataContract]
         public sealed class BackgroundMusicConfigData {
 
-            [YamlMember(Alias = "bgm")]
+            [DataMember(Name = "bgm")]
             public string BackgroundMusic { get; set; }
 
-            [YamlMember(Alias = "bgm_volume")]
+            [DataMember(Name = "bgm_volume")]
             public PercentOrRealValue BackgroundMusicVolume { get; set; }
 
         }
